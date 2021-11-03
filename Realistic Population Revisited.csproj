@@ -112,9 +112,12 @@
     <Content Include="Images\Screen_PloppableRICO.jpg" />
     <Content Include="Translations\de.xml" />
     <Content Include="Translations\en.xml" />
+    <Content Include="Translations\es.xml" />
     <Content Include="Translations\ja.xml" />
+    <Content Include="Translations\nl.xml" />
     <Content Include="Translations\pt-br.xml" />
     <Content Include="Translations\ru.xml" />
+    <Content Include="Translations\zh-tw.xml" />
     <Content Include="Translations\zh.xml" />
   </ItemGroup>
   <ItemGroup>

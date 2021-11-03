@@ -267,13 +267,13 @@
     <Translation ID="RPR_DEF_VMU" String="Kundenzahl-Multiplikator" />
     <Translation ID="RPR_DEF_VMU_TIP" String="Die berechnete Kundenkapazität wird mit diesem Betrag multipliziert" />
     <Translation ID="RPR_DEF_CGM" String="Umsatzmultiplikator" />
-    <Translation ID="RPR_DEF_CGM_TIP" String="Die Menge der von diesem Gebäude verkauften Waren je Kunde wird multipliziert um diesen Betrag; reduzierte Sätze bedeuten, dass weniger Waren benötigt werden, aber die Steuerneinnahmen werden dadurch reduziert" />
+    <Translation ID="RPR_DEF_CGM_TIP" String="Die Menge der von diesem Gebäude verkauften Waren je Kunde wird um diesen Betrag multipliziert; reduzierte Sätze bedeuten, dass weniger Waren benötigt werden, aber die Steuerneinnahmen werden dadurch reduziert" />
     <Translation ID="RPR_DEF_IDC" String="Lagerbedarfsobergrenze" />
     <Translation ID="RPR_DEF_IDC_TIP" String="Auslösebeträge für Inventaraufträge werden auf dieses Maximum begrenzt (betrifft nicht Gebäude mit berechneten Auslösebeträgen für Inventaraufträge die bereits unter dieser Obergrenze liegen)." />
     <Translation ID="RPR_DEF_PMD" String="Berechnungsmodus" />
     <Translation ID="RPR_DEF_PMD_TIP" String="Die Grundlage für die Berechnung der Produktionsrate dieses Gebäudes. Die alte Methode bestand darin, die Größe des Grundstücks des Gebäudes zu verwenden, die neue Methode besteht darin, die Anzahl der Arbeitsplätze im Gebäude nutzen." />
     <Translation ID="RPR_DEF_PRD" String="Produktionsmultiplikator" />
-    <Translation ID="RPR_DEF_PRD_TIP" String="Die Menge der von diesem Gebäude produzierten Güter wird mit diefem Faktor multipliziert" />
+    <Translation ID="RPR_DEF_PRD_TIP" String="Die Menge der von diesem Gebäude produzierten Güter wird mit diesem Faktor multipliziert." />
     <Translation ID="TRN_CHOICE" String="Sprache einstellen" />
     <Translation ID="TRN_SYS" String="Systemsprache verwenden" />
     <Translation ID="MES_CLS" String="Schließen" />
@@ -281,7 +281,7 @@
     <Translation ID="MES_PAGE" String="Weitere Informationen befinden sich auf der Steam-Workshop-Seite der Mod." />
     <Translation ID="RPR_OLD_0" String="Dieser Speicherstand wurde nicht mit Realistic Population 2 gespeichert." />
     <Translation ID="RPR_OLD_1" String="Bitte beachte, dass die Anwendung unterschiedlicher Berechnungen auf eine bestehende Stadt kann das Stadtgleichgewicht vorübergehend stören kann." />
-    <Translation ID="RPR_OLD_2" String="Wenn du eine Stadt lädst, die mit einer früheren Version dieses Mods erstellt wurde, wirst du möchte möglicherweise weiterhin die alten Mod-Berechnungen für diese Stadt verwenden wollen. Dies sollte das bestehende Stadtgleichgewicht erhalten. Alternativ kann du auf das neue (genauere und flexiblere) Berechnungsmodell umsteigen, musst aber beachten, dass die Stadt möglicherweise eine Neuausrichtung erfordert." />
+    <Translation ID="RPR_OLD_2" String="Wenn du eine Stadt lädst, die mit einer früheren Version dieses Mods erstellt wurde, wirst du möglicherweise weiterhin die alten Mod-Berechnungen für diese Stadt verwenden wollen. Dies sollte das bestehende Stadtgleichgewicht erhalten. Alternativ kannst du auf das neue (genauere und flexiblere) Berechnungsmodell umsteigen, musst aber beachten, dass die Stadt möglicherweise eine Neuausrichtung erfordert." />
     <Translation ID="RPR_OLD_3" String="Beachte, dass bestehende Wohngebäude in beiden Fällen die vorhandene Kapazitäten und Haushalte NICHT betroffen sind und Arbeitnehmer mit bestehenden Jobs werden NICHT sofort aus diesen Jobs gekündigt. Es wird also keine unmittelbaren Auswirkungen auf die Bevölkerung der Stadt geben." />
     <Translation ID="RPR_OLD_LEG" String="Alte Berechnungen verwenden" />
     <Translation ID="RPR_OLD_NEW" String="Neue Berechnungen verwenden" />
@@ -300,8 +300,8 @@
     <Translation ID="RPR_200_2" String="WICHTIGE NEUE FUNKTION: Separate Berechnungsvoreinstellungen für Gebäudegrundfläche und Bevölkerung, zusammen mit optionalen manuellen Überschreibungen für eines oder beides" />
     <Translation ID="RPR_200_3" String="WICHTIGE NEUE FUNKTION: Wählbare Konfigurationsvoreinstellungen für jede Gebäudedienstart" />
     <Translation ID="RPR_200_4" String="WICHTIGE NEUE FUNKTION: Optionale realistische Berechnungen der Schülerkapazität für Grund- und weiterführende Schulen, mit konfigurierbarem Multiplikator wenn Schulgebäude in realistischer Größe nicht verfügbar sind" />
-    <Translation ID="RPR_200_5" String="WICHTIGES NEUES FUNKTION: Einstellbare Kriminalitätsrate" />
-    <Translation ID="RPR_200_6" String="Upgrade auf Harmony 2 (Boformer's Harmony 2 Mod erforderlich)" />
+    <Translation ID="RPR_200_5" String="WICHTIGE NEUE FUNKTION: Einstellbare Kriminalitätsrate" />
+    <Translation ID="RPR_200_6" String="Upgrade auf Harmony 2 (Boformers Harmony 2 Mod erforderlich)" />
     <Translation ID="RPR_200_7" String="Verschiedene Verbesserungen an der Gebäudedetailseite" />
     <Translation ID="RPR_200_8" String="Verbesserte Mod-Konflikterkennung und -Benachrichtigung" />
     <Translation ID="RPR_200_9" String="Erhebliche Überarbeitung, Bereinigung und Neustrukturierung der Codebasis der Mod" />

@@ -10,7 +10,7 @@
     <Translation ID="RPR_PCK_LEG_NAM" String="Cálculos legados de WG" />
     <Translation ID="RPR_PCK_LEG_DES" String="A método de cálculo antigo usava a versão anterior deste mod e do mod original &quot;Realistic Population and Consumption&quot; de Whitefang Greytail" />
     <Translation ID="RPR_PCK_RLS_NAM" String="Habitações individuais" />
-    <Translation ID="RPR_PCK_RLS_DES" String="Uma residências por prédio." />
+    <Translation ID="RPR_PCK_RLS_DES" String="Uma residência por prédio." />
     <Translation ID="RPR_PCK_RLD_NAM" String="Duplex" />
     <Translation ID="RPR_PCK_RLD_DES" String="Duas residências por prédio." />
     <Translation ID="RPR_PCK_RUH_NAM" String="Arranha-céu americano" />
