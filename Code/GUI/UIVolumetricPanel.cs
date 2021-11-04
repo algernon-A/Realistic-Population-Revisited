@@ -38,9 +38,21 @@ namespace RealPop2
         private UILabel emptyAreaLabel, emptyPercentLabel, perLabel, unitsLabel;
         private UILabel totalHomesLabel, totalJobsLabel, totalStudentsLabel;
         private UILabel schoolWorkerLabel, costLabel;
+        private UILabel overrideFloorsLabel, overridePopLabel;
         private UILabel messageLabel;
         private UICheckBox fixedPopCheckBox, multiFloorCheckBox, ignoreFirstCheckBox;
 
+
+        private UILabel OverrideLabel(UIComponent parentLabel)
+        {
+            UILabel thisLabel = UIControls.AddLabel(this, 0f - Margin, 0f, Translations.Translate("RPR_CAL_OVR"), textScale: 0.6f);
+            
+            thisLabel.relativePosition = new Vector2(parentLabel.relativePosition.x - thisLabel.width - Margin, parentLabel.relativePosition.y + ((parentLabel.height - thisLabel.height) / 2f));
+
+            thisLabel.Hide();
+
+            return thisLabel;
+        }
 
         /// <summary>
         /// Create the panel; we no longer use Start() as that's not sufficiently reliable (race conditions), and is no longer needed, with the new create/destroy process.
@@ -76,6 +88,9 @@ namespace RealPop2
             perLabel = AddVolumetricLabel(this, "RPR_CAL_VOL_APU", LeftColumn, Row4, "RPR_CAL_VOL_APU_TIP");
             schoolWorkerLabel = AddVolumetricLabel(this, "RPR_CAL_SCH_WKR", LeftColumn, Row7, "RPR_CAL_SCH_WKR_TIP");
             costLabel = AddVolumetricLabel(this, "RPR_CAL_SCH_CST", LeftColumn, Row8, "RPR_CAL_SCH_CST_TIP");
+
+            overridePopLabel = OverrideLabel(totalHomesLabel);
+            overrideFloorsLabel = OverrideLabel(numFloorsLabel);
 
             // Intially hidden (just to avoid ugliness if no building is selected).
             totalHomesLabel.Hide();
@@ -339,21 +354,34 @@ namespace RealPop2
                 productionLabel.Hide();
             }
 
+            // Show override lavels if floors are being overridden.
+            if (FloorData.instance.HasOverride(building.name) != null)
+            {
+                overrideFloorsLabel.Show();
+                messageLabel.text = Translations.Translate("RPR_CAL_OVM");
+            }
+            else
+            {
+                overrideFloorsLabel.Hide();
+            }
 
-            // Append 'overriden' label to total label and display explanatory message if pop value is overriden.
+            // Show override labels if population is being overriden (population message text will clobber any previous floor override message, which is by design).
             if (ModUtils.CheckRICOPopControl(building))
             {
                 // Overridden by Ploppable RICO Revisited.
-                totalHomesLabel.text += " " + Translations.Translate("RPR_CAL_OVR");
-                totalJobsLabel.text += " " + Translations.Translate("RPR_CAL_OVR");
+                overridePopLabel.Show();
                 messageLabel.text = Translations.Translate("RPR_CAL_RICO");
             }
             else if (PopData.instance.GetOverride(building.name) > 0)
             {
                 // Overriden by manual population override.
-                totalHomesLabel.text += " " + Translations.Translate("RPR_CAL_OVR");
-                totalJobsLabel.text += " " + Translations.Translate("RPR_CAL_OVR");
+                overridePopLabel.Show();
                 messageLabel.text = Translations.Translate("RPR_CAL_OVM");
+            }
+            else
+            {
+                // No pop override - hide 'override' label.
+                overridePopLabel.Hide();
             }
         }
 

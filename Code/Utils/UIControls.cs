@@ -321,7 +321,7 @@ namespace RealPop2
 
 
         /// <summary>
-        /// Adds a plain text label to the specified UI panel.
+        /// Adds a plain text label to the specified UI component.
         /// </summary>
         /// <param name="parent">Parent component</param>
         /// <param name="xPos">Relative x position)</param>
