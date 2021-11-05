@@ -80,12 +80,12 @@ namespace RealPop2
             homeJobLabel = homeJobsCount.label;
 
             // Save button.
-            saveButton = UIControls.AddButton(this, MarginPadding, SaveY, Translations.Translate("RPR_CUS_ADD"), this.width - (MarginPadding * 2));
+            saveButton = UIControls.AddButton(this, MarginPadding, SaveY, Translations.Translate("RPR_CUS_ADD"), this.width - (MarginPadding * 2), scale: 0.8f);
             saveButton.tooltip = Translations.Translate("RPR_CUS_ADD_TIP");
             saveButton.Disable();
 
             // Delete button.
-            deleteButton = UIControls.AddButton(this, MarginPadding, DeleteY, Translations.Translate("RPR_CUS_DEL"), this.width - (MarginPadding * 2));
+            deleteButton = UIControls.AddButton(this, MarginPadding, DeleteY, Translations.Translate("RPR_CUS_DEL"), this.width - (MarginPadding * 2), scale: 0.8f);
             deleteButton.tooltip = Translations.Translate("RPR_CUS_DEL_TIP");
             deleteButton.Disable();
 

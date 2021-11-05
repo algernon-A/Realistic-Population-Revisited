@@ -194,7 +194,7 @@ namespace RealPop2
             }
 
             // 'All categories' button.
-            allCategories = UIControls.AddButton(this, 445f, 5f, Translations.Translate("RPR_CAT_ALL"), 200f);
+            allCategories = UIControls.AddButton(this, 445f, 0f, Translations.Translate("RPR_CAT_ALL"), 200f);
 
             // All categories event handler.
             allCategories.eventClick += (c, p) =>
