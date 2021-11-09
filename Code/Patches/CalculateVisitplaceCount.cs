@@ -381,7 +381,7 @@ namespace RealPop2
                 case ItemClass.SubService.CommercialEco:
                     return (int)SubServiceIndex.CommercialEco;
                 default:
-                    Logging.Error("invalid subservice ", subService.ToString(), " passed to RealisticVisitplaceCount.GetIndex");
+                    Logging.Error("invalid subservice ", subService, " passed to RealisticVisitplaceCount.GetIndex");
                     return (int)SubServiceIndex.CommercialLow;
             }
         }

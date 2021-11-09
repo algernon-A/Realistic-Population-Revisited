@@ -57,7 +57,7 @@ namespace RealPop2
             {
                 // Perform initial setup.
                 isSetup = true;
-                Logging.Message("setting up ", this.GetType().ToString());
+                Logging.Message("setting up ", this.GetType());
 
                 // Add title.
                 float currentY = PanelUtils.TitleLabel(panel, TitleKey);

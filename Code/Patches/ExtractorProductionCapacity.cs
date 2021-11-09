@@ -244,7 +244,7 @@ namespace RealPop2
                 case ItemClass.SubService.IndustrialGeneric:
                     return (int)SubServiceIndex.IndustrialGeneric;
                 default:
-                    Logging.Error("invalid subservice ", subService.ToString(), " passed to RealisticExtractorProduction.GetIndex");
+                    Logging.Error("invalid subservice ", subService, " passed to RealisticExtractorProduction.GetIndex");
                     return (int)SubServiceIndex.IndustrialFarming;
             }
         }

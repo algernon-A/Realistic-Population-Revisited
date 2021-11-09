@@ -133,7 +133,7 @@ namespace RealPop2
             {
                 // Perform initial setup.
                 isSetup = true;
-                Logging.Message("setting up ", this.GetType().ToString());
+                Logging.Message("setting up ", this.GetType());
                 // Initialise arrays.
                 AvailablePopPacks = new PopDataPack[SubServiceNames.Length][];
                 AvailableFloorPacks = FloorData.instance.Packs;

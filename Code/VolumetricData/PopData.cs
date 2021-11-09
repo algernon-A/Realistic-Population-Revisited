@@ -60,7 +60,7 @@ namespace RealPop2
                 int thisLevel = level;
                 if (thisLevel > 4)
                 {
-                    Logging.Error("invalid residential builidng level ", (level + 1).ToString(), " passed for prefab ", info.name, "; setting to level 5");
+                    Logging.Error("invalid residential builidng level ", level + 1, " passed for prefab ", info.name, "; setting to level 5");
                     thisLevel = 4;
                 }
 
@@ -88,7 +88,7 @@ namespace RealPop2
                 // Check if key is already in cache.
                 if (!workplaceCache.ContainsKey(info))
                 {
-                    Logging.Message("caching workplaces for ", info.name, ", level ", (level + 1).ToString());
+                    Logging.Message("caching workplaces for ", info.name, ", level ", level + 1);
 
                     // No - create new record with three building levels.
                     workplaceCache.Add(info, new int[3][]);
@@ -103,7 +103,7 @@ namespace RealPop2
                 int thisLevel = level;
                 if (thisLevel > 2)
                 {
-                    Logging.Error("invalid workplace builidng level ", (level + 1).ToString(), " passed for prefab ", info.name, "; setting to level 3");
+                    Logging.Error("invalid workplace builidng level ", level + 1, " passed for prefab ", info.name, "; setting to level 3");
                     thisLevel = 2;
                 }
 
@@ -912,7 +912,7 @@ namespace RealPop2
             }
             else
             {
-                Logging.Error("invalid pop override '", popOverride.ToString(), "' for prefab ", prefabName);
+                Logging.Error("invalid pop override '", popOverride, "' for prefab ", prefabName);
             }
         }
 
@@ -945,7 +945,7 @@ namespace RealPop2
             }
             else
             {
-                Logging.Error("invalid pop override '", popOverride.ToString(), "' for prefab ", prefab.name);
+                Logging.Error("invalid pop override '", popOverride, "' for prefab ", prefab.name);
             }
         }
 

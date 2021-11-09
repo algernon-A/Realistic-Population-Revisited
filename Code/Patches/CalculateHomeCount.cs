@@ -32,7 +32,7 @@ namespace RealPop2
             // Always set at least one.
             if (__result < 1)
             {
-                Logging.Error("invalid homecount result ", __result.ToString(), " for ", __instance.m_info.name, "; setting to 1");
+                Logging.Error("invalid homecount result ", __result, " for ", __instance.m_info.name, "; setting to 1");
                 __result = 1;
             }
 

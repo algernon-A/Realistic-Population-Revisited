@@ -161,7 +161,7 @@ namespace RealPop2
             OptionsPanel.OptionsEventHook();
 
             // Check and record CitizenUnits count.
-            Logging.KeyMessage("citizen unit count is currently ", ColossalFramework.Singleton<CitizenManager>.instance.m_unitCount.ToString());
+            Logging.KeyMessage("citizen unit count is currently ", ColossalFramework.Singleton<CitizenManager>.instance.m_unitCount);
         }
     }
 }

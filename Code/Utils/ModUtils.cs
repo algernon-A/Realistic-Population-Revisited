@@ -148,7 +148,7 @@ namespace RealPop2
                 {
                     if (assembly.GetName().Name.Equals(assemblyName))
                     {
-                        Logging.Message("found mod assembly ", assemblyName, ", version ", assembly.GetName().Version.ToString());
+                        Logging.Message("found mod assembly ", assemblyName, ", version ", assembly.GetName().Version);
                         if (enabledOnly)
                         {
                             return plugin.isEnabled;

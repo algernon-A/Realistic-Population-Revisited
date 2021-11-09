@@ -37,7 +37,7 @@ namespace RealPop2
                 // Write to savegame.
                 serializableDataManager.SaveData(dataID, stream.ToArray());
 
-                Logging.Message("wrote ", stream.Length.ToString());
+                Logging.Message("wrote ", stream.Length);
             }
         }
 
@@ -127,7 +127,7 @@ namespace RealPop2
             {
                 // Read data version.
                 int dataVersion = serializer.ReadInt32();
-                Logging.Message("read data version ", dataVersion.ToString());
+                Logging.Message("read data version ", dataVersion);
 
                 // Make sure we have a matching data version.
                 if (dataVersion == 3 || dataVersion == 5)

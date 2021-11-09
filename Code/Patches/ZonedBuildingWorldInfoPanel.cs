@@ -93,7 +93,7 @@ namespace RealPop2
         public static void GetVisitBehaviour(object instance, ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
         {
             string message = "GetVisitBehaviour reverse Harmony patch wasn't applied";
-            Logging.Error(message, instance.ToString(), buildingID.ToString(), buildingData.ToString(), behaviour.ToString(), aliveCount.ToString(), totalCount.ToString());
+            Logging.Error(message, instance, buildingID, buildingData, behaviour, aliveCount, totalCount);
             throw new NotImplementedException(message);
         }
     }

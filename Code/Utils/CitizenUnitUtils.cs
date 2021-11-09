@@ -37,7 +37,7 @@ namespace RealPop2
         public static void EnsureCitizenUnits(object instance, ushort buildingID, ref Building data, int homeCount, int workCount, int visitCount, int studentCount)
         {
             string message = "EnsureCitizenUnits reverse Harmony patch wasn't applied";
-            Logging.Error(message, instance.ToString(), buildingID.ToString(), data.ToString(), homeCount.ToString(), workCount.ToString(), visitCount.ToString(), studentCount.ToString());
+            Logging.Error(message, instance, buildingID.ToString(), data, homeCount, workCount, visitCount, studentCount);
             throw new NotImplementedException(message);
         }
 
@@ -54,7 +54,7 @@ namespace RealPop2
         public static void ReleaseUnitImplementation(object instance, uint unit, ref CitizenUnit data)
         {
             string message = "ReleaseUnitImplementation reverse Harmony patch wasn't applied";
-            Logging.Error(message, instance.ToString(), unit.ToString(), data.ToString());
+            Logging.Error(message, instance, unit, data);
             throw new NotImplementedException(message);
         }
 
@@ -109,12 +109,12 @@ namespace RealPop2
                         Singleton<SimulationManager>.instance.AddAction(delegate { RemoveCitizenUnits(ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], homeCount, workCount, visitCount, localPreserve); });
 
                         // Log changes.
-                        Logging.Message("Reset CitizenUnits for building ", i.ToString(), " (", thisBuilding.Info.name, "); CitizenUnit count is now ", citizenManager.m_unitCount.ToString());
+                        Logging.Message("Reset CitizenUnits for building ", i, " (", thisBuilding.Info.name, "); CitizenUnit count is now ", citizenManager.m_unitCount);
                     }
                 }
             }
 
-            Logging.Message("CitizenUnit count is now ", citizenManager.m_unitCount.ToString());
+            Logging.Message("CitizenUnit count is now ", citizenManager.m_unitCount);
         }
 
 

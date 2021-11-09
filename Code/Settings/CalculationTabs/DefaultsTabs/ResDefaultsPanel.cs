@@ -178,7 +178,7 @@ namespace RealPop2
 
                 // Update existing CitizenUnits.
                 ItemClass.SubService subService = subServices[subServiceIndex];
-                Logging.Message("new defaults applied; updating populations of all existing buildings with subservice ", subService.ToString());
+                Logging.Message("new defaults applied; updating populations of all existing buildings with subservice ", subService);
 
                 // Update CitizenUnits for existing building instances of this subservice.
                 CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.None, subService, false);

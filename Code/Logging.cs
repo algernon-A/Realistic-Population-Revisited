@@ -18,21 +18,21 @@ namespace RealPop2
         /// Prints a single-line debugging message to the Unity output log with an "ERROR: " prefix, regardless of the 'detailed logging' setting.
         /// </summary>
         /// <param name="messages">Message to log (individual strings will be concatenated)</param>
-        internal static void Error(params string[] messages) => WriteMessage("ERROR: ", messages);
+        internal static void Error(params object[] messages) => WriteMessage("ERROR: ", messages);
 
 
         /// <summary>
         /// Prints a single-line debugging message to the Unity output log, regardless of the 'detailed logging' setting.
         /// </summary>
         /// <param name="messages">Message to log (individual strings will be concatenated)</param>
-        internal static void KeyMessage(params string[] messages) => WriteMessage(String.Empty, messages);
+        internal static void KeyMessage(params object[] messages) => WriteMessage(String.Empty, messages);
 
 
         /// <summary>
         /// Prints a single-line debugging message to the Unity output log if the 'detailed logging' option is set (otherwise does nothing).
         /// </summary>
         /// <param name="messages">Message to log (individual strings will be concatenated)</param>
-        internal static void Message(params string[] messages)
+        internal static void Message(params object[] messages)
         {
             if (detailLogging)
             {
@@ -46,7 +46,7 @@ namespace RealPop2
         /// </summary>
         /// <param name="exception">Exception</param>
         /// <param name="messages">Message to log (individual strings will be concatenated)</param>
-        internal static void LogException(Exception exception, params string[] messages)
+        internal static void LogException(Exception exception, params object[] messages)
         {
             // Use StringBuilder for efficiency since we're doing a lot of manipulation here.
             // Start with mod name (to easily identify relevant messages), followed by colon to indicate start of actual message.
@@ -85,7 +85,7 @@ namespace RealPop2
         /// </summary>
         /// <param name="prefix">Prefix for message, if any</param>
         /// <param name="messages">Message to log (individual strings will be concatenated)</param>
-        private static void WriteMessage(string prefix, params string[] messages)
+        private static void WriteMessage(string prefix, params object[] messages)
         {
             // Use StringBuilder for efficiency since we're doing a lot of manipulation here.
             // Start with mod name (to easily identify relevant messages), followed by colon to indicate start of actual message.

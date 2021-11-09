@@ -207,7 +207,7 @@ namespace RealPop2
 
             if (checkedLevel > maxLevel)
             {
-                Logging.Error("invalid building level ", level.ToString(), " for workplace with maximum level ", maxLevel.ToString());
+                Logging.Error("invalid building level ", level, " for workplace with maximum level ", maxLevel);
                 checkedLevel = maxLevel;
             }
 

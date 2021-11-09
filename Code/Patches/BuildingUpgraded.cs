@@ -26,7 +26,7 @@ namespace RealPop2
 				// Recalculate homecount.
 				int homeCount = (__instance.CalculateHomeCount((ItemClass.Level)data.m_level, new Randomizer(buildingID), data.Width, data.Length));
 
-				Logging.Message("residential building ", buildingID.ToString(), " (", data.Info.name, ") upgraded to level ", (data.m_level + 1).ToString(), "; calculated homecount is ", homeCount.ToString());
+				Logging.Message("residential building ", buildingID, " (", data.Info.name, ") upgraded to level ", (data.m_level + 1), "; calculated homecount is ", homeCount);
 
 				// Remove any extra households.
 				CitizenUnitUtils.RemoveCitizenUnits(ref data, homeCount, 0, 0, false);

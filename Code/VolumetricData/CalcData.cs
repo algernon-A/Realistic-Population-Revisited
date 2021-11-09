@@ -265,7 +265,7 @@ namespace RealPop2
                 DataPack calcPack = calcPacks?.Find(pack => (pack?.name != null && pack.name.Equals(defaultPack.pack)));
                 if (calcPack?.name == null)
                 {
-                    Logging.Error("Couldn't find pop calculation pack ", defaultPack.pack, " for sub-service ", defaultPack.subService.ToString());
+                    Logging.Error("Couldn't find pop calculation pack ", defaultPack.pack, " for sub-service ", defaultPack.subService);
                     continue;
                 }
 

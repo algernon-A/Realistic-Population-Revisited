@@ -79,7 +79,7 @@ namespace RealPop2
                 case ItemClass.SubService.OfficeHightech:
                     return highTechOfficeProdMult;
                 default:
-                    Logging.Error("invalid subservice ", subService.ToString(), " passed to office GetProdMult");
+                    Logging.Error("invalid subservice ", subService, " passed to office GetProdMult");
                     return 0;
             }
         }
@@ -104,7 +104,7 @@ namespace RealPop2
                     highTechOfficeProdMult = cleanValue;
                     break;
                 default:
-                    Logging.Error("invalid subservice ", subService.ToString(), " passed to office SetProdMult");
+                    Logging.Error("invalid subservice ", subService, " passed to office SetProdMult");
                     break;
             }
         }

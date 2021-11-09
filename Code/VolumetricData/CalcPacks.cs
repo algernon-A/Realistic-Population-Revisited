@@ -132,7 +132,7 @@
             int thisLevel = level;
             if (thisLevel >= levels.Length)
             {
-                Logging.Error("Building level out of range: ", level.ToString());
+                Logging.Error("Building level out of range: ", level);
                 
                 // Set level to maximum (zero-based, so subtract one from levels.Length).
                 thisLevel = levels.Length - 1;
