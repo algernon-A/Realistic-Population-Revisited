@@ -311,7 +311,7 @@ namespace RealPop2
         /// <param name="control">Calling component (unused)</param>
         /// <param name="mouseEvent">Mouse event (unused)</param>
         protected override void ResetSaved(UIComponent control, UIMouseEventParameter mouseEvent) => UpdateControls();
-        
+
 
         /// <summary>
         /// Population pack menu changed event handler.

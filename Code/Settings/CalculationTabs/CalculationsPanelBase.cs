@@ -16,6 +16,9 @@ namespace RealPop2
         protected float RowHeight = 25f;
         protected const float LeftColumn = 200f;
         protected const float ButtonWidth = 240f;
+        protected const float Button1X = Margin;
+        protected const float Button2X = Button1X + ButtonWidth + Margin;
+        protected const float Button3X = Button2X + ButtonWidth + Margin;
 
 
         // Instance references.
@@ -56,22 +59,6 @@ namespace RealPop2
 
 
         /// <summary>
-        /// Adds footer buttons to the panel.
-        /// </summary>
-        /// <param name="yPos">Relative Y position for buttons</param>
-        protected virtual void FooterButtons(float yPos)
-        {
-            // Reset button.
-            UIButton resetButton = UIControls.AddButton(panel, Margin, yPos, Translations.Translate("RPR_OPT_RTD"), ButtonWidth);
-            resetButton.eventClicked += ResetDefaults;
-
-            // Revert button.
-            UIButton revertToSaveButton = UIControls.AddButton(panel, (Margin * 2) + ButtonWidth, yPos, Translations.Translate("RPR_OPT_RTS"), ButtonWidth);
-            revertToSaveButton.eventClicked += ResetSaved;
-        }
-
-
-        /// <summary>
         /// 'Revert to defaults' button event handler.
         /// </summary>
         /// <param name="control">Calling component (unused)</param>
@@ -85,6 +72,31 @@ namespace RealPop2
         /// <param name="control">Calling component (unused)</param>
         /// <param name="mouseEvent">Mouse event (unused)</param>
         protected abstract void ResetSaved(UIComponent control, UIMouseEventParameter mouseEvent);
+
+
+        /// <summary>
+        /// Adds footer buttons to the panel.
+        /// </summary>
+        /// <param name="yPos">Relative Y position for buttons</param>
+        protected virtual void FooterButtons(float yPos)
+        {
+            // Reset button.
+            UIButton resetButton = UIControls.AddButton(panel, Button1X, yPos, Translations.Translate("RPR_OPT_RTD"), ButtonWidth);
+            resetButton.eventClicked += ResetDefaults;
+
+            // Revert button.
+            UIButton revertToSaveButton = UIControls.AddButton(panel, Button2X, yPos, Translations.Translate("RPR_OPT_RTS"), ButtonWidth);
+            revertToSaveButton.eventClicked += ResetSaved;
+        }
+
+
+        /// <summary>
+        /// 'Save and apply' button.
+        /// </summary>
+        /// <param name="parent">Parent UIComponent</param>
+        /// <param name="yPos">Relative Y position</param>
+        /// <returns></returns>
+        protected UIButton AddSaveButton(UIComponent parent, float yPos) => UIControls.AddButton(parent, Button3X, yPos, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
 
 
         /// <summary>
