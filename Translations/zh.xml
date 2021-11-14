@@ -253,6 +253,7 @@
     <Translation ID="RPR_OPT_NEW" String="新增配置" />
     <Translation ID="RPR_OPT_DEL" String="删除配置" />
     <Translation ID="RPR_OPT_NPK" String="新配置" />
+    <Translation ID="RPR_OPT_LDT" String="启用调试文件输出" />
     <Translation ID="RPR_DEF_LGR" String="针对住宅建筑默认使用传统计算(原版WG和 Realistic Population Revisited 早期版本):" />
     <Translation ID="RPR_DEF_LGC" String="针对商业建筑默认使用传统计算(原版WG和 Realistic Population Revisited 早期版本):" />
     <Translation ID="RPR_DEF_LGI" String="针对工业建筑默认使用传统计算(原版WG和 Realistic Population Revisited 早期版本):" />
