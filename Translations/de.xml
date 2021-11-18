@@ -225,8 +225,8 @@
     <Translation ID="RPR_OPT_MAI" String="Post" />
     <Translation ID="RPR_OPT_PRO" String="Produktion" />
     <Translation ID="RPR_OPT_WEA" String="Vermögen" />
-    <Translation ID="RPR_OPT_RTD" String="Auf Standardeinstellung zurücksetzen" />
-    <Translation ID="RPR_OPT_RTS" String="Auf gespeicherte Einstellungen setzen" />
+    <Translation ID="RPR_OPT_RTD" String="Standard laden" />
+    <Translation ID="RPR_OPT_RTS" String="Gespeichertes laden" />
     <Translation ID="RPR_OPT_SAA" String="Speichern und anwenden" />
     <Translation ID="RPR_OPT_SCH" String="Schulen" />
     <Translation ID="RPR_OPT_SEN" String="Realistische Schülerkapazitäten aktivieren" />
