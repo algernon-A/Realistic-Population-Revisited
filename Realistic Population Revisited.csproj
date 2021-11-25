@@ -110,6 +110,7 @@
     <Content Include="Images\Screen_LRes.jpg" />
     <Content Include="Images\Screen_Office.jpg" />
     <Content Include="Images\Screen_PloppableRICO.jpg" />
+    <Content Include="Translations\da.xml" />
     <Content Include="Translations\de.xml" />
     <Content Include="Translations\en.xml" />
     <Content Include="Translations\es.xml" />
