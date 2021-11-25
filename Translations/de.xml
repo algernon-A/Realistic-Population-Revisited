@@ -207,7 +207,7 @@
     <Translation ID="RPR_TIT_IGO" String="Einstellungen für die industrielle Produktion" />
     <Translation ID="RPR_TIT_EGO" String="Einstellungen für Extraktoren" />
     <Translation ID="RPR_TIT_OGO" String="Einstellungen für die Büroproduktion" />
-    <Translation ID="RPR_OPT_MOD" String="Mod-Einstellungen" />
+    <Translation ID="RPR_OPT_MOD" String="Einstellungen" />
     <Translation ID="RPR_OPT_KEY" String="Tastaturkürzel für den Bildschirm mit den Bauoptionen" />
     <Translation ID="RPR_OPT_PRS" String="Drücke irgendeine Taste" />
     <Translation ID="RPR_OPT_LEG" String="Alte Werte" />
