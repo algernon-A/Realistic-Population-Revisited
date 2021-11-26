@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Language UniqueName="da" ReadableName="Dansk">
+  <Translations>
+    <Translation ID="RPR_NAME" String="Realistisk Befolkning 2" />
+    <Translation ID="RPR_DESC" String="Mere realistiske indbyggertal i bygninger. (baseret på størrelse og brugsbehov)" />
+    <Translation ID="RPR_REALPOP" String="Realistisk Befolkning" />
+    <Translation ID="RPR_INF_VIS" String="besøgende" />
+    <Translation ID="RPR_PCK_DEF" String="Standard" />
+    <Translation ID="RPR_PCK_NAM" String="Udregninger" />
+    <Translation ID="RPR_PCK_LEG_NAM" String="Gamle lejlighedsandelsberegninger" />
+    <Translation ID="RPR_PCK_LEG_DES" String="Gamle udregninger brugt af versionerne 1.x af dette mod og Whitefang Greytail's oprindelige Realistisk Befolknings og Forbrugs mod." />
+    <Translation ID="RPR_PCK_RLS_NAM" String="Enkeltboliger" />
+    <Translation ID="RPR_PCK_RLS_DES" String="Én husstand per bolig" />
+    <Translation ID="RPR_PCK_RLD_NAM" String="Duplexboliger" />
+    <Translation ID="RPR_PCK_RLD_DES" String="To husstande per bolig" />
+    <Translation ID="RPR_PCK_RUH_NAM" String="Amerikansk højhus" />
+    <Translation ID="RPR_PCK_RUH_DES" String="Gennemsnitlige amerikanske lejligheder" />
+    <Translation ID="RPR_PCK_REM_NAM" String="Europæiske lejligheder (moderne)" />
+    <Translation ID="RPR_PCK_REM_DES" String="Europæiske mellem- og væg-til-væg lejligheder (medium tæthed; moderne bygninger)" />
+    <Translation ID="RPR_PCK_REO_NAM" String="Europæiske lejligheder (ældre)" />
+    <Translation ID="RPR_PCK_REO_DES" String="Europæiske mellem- og væg-til-væg lejligheder (høj tæthed; ældre bygninger)" />
+    <Translation ID="RPR_PCK_CUS_NAM" String="Amerikansk detailhandel" />
+    <Translation ID="RPR_PCK_CUS_DES" String="Generel kommerciel detailtæthed typisk for USA" />
+    <Translation ID="RPR_PCK_CUK_NAM" String="Britisk detailhandel" />
+    <Translation ID="RPR_PCK_CUK_DES" String="Generel kommerciel detailtæthed typisk for storbritannien." />
+    <Translation ID="RPR_PCK_CRW_NAM" String="Superbutik" />
+    <Translation ID="RPR_PCK_CRW_DES" String="Nonfood-superbutikker og detaillagre" />
+    <Translation ID="RPR_PCK_THT_NAM" String="Hoteller" />
+    <Translation ID="RPR_PCK_THT_DES" String="Hoteller og moteller" />
+    <Translation ID="RPR_PCK_LFD_NAM" String="Mad service" />
+    <Translation ID="RPR_PCK_LFD_DES" String="Restauranter og caféer" />
+    <Translation ID="RPR_PCK_LEN_NAM" String="Underholdning" />
+    <Translation ID="RPR_PCK_LEN_DES" String="Fornøjelser, Fitness og underholdningscentre." />
+    <Translation ID="RPR_PCK_LCN_NAM" String="Biografer" />
+    <Translation ID="RPR_PCK_LCN_DES" String="Biografer og teatre" />
+    <Translation ID="RPR_PCK_ILG_NAM" String="Let industri" />
+    <Translation ID="RPR_PCK_ILG_DES" String="Let industri og handelsparker" />
+    <Translation ID="RPR_PCK_IMN_NAM" String="Produktion" />
+    <Translation ID="RPR_PCK_IMN_DES" String="Industriel produktion" />
+    <Translation ID="RPR_PCK_IWL_NAM" String="Lille varehus" />
+    <Translation ID="RPR_PCK_IWL_DES" String="Varehus for lokal distribution - massere plads, lav beskæftigelses tæthed." />
+    <Translation ID="RPR_PCK_IWN_NAM" String="Stort varehus" />
+    <Translation ID="RPR_PCK_IWN_DES" String="Varehus for national distribution - massere plads, meget lav beskæftigelses tæthed." />
+    <Translation ID="RPR_PCK_OCP_NAM" String="Virksomhedskontorer" />
+    <Translation ID="RPR_PCK_OCP_DES" String="Virksomheder, professionelle tjenester og offentlige kontorer." />
+    <Translation ID="RPR_PCK_OFN_NAM" String="Finanskontorer" />
+    <Translation ID="RPR_PCK_OFN_DES" String="Finansielle kontorer; højere tæthed end typiske virksomhedskontorer" />
+    <Translation ID="RPR_PCK_OCS_NAM" String="Callcentre" />
+    <Translation ID="RPR_PCK_OCS_DES" String="Callcentre og andre tætpakkede kontorer" />
+    <Translation ID="RPR_PCK_ODT_NAM" String="Datacentre" />
+    <Translation ID="RPR_PCK_ODT_DES" String="Datacentre med samlokaliseringsfaciliteter" />
+    <Translation ID="RPR_PCK_SSB_NAM" String="Forstadsskole" />
+    <Translation ID="RPR_PCK_SSB_DES" String="Forstadsskoler" />
+    <Translation ID="RPR_PCK_SML_NAM" String="MN lav" />
+    <Translation ID="RPR_PCK_SML_DES" String="Minnesota Dept of Education guide - laveste tæthed" />
+    <Translation ID="RPR_PCK_SMM_NAM" String="MN medium" />
+    <Translation ID="RPR_PCK_SMM_DES" String="Minnesota Dept of Education guide - medium tæthed" />
+    <Translation ID="RPR_PCK_SMH_NAM" String="MN høj" />
+    <Translation ID="RPR_PCK_SMH_DES" String="Minnesota Dept of Education guide - højeste tæthed" />
+    <Translation ID="RPR_PCK_SUK_NAM" String="Storbritannisk standard" />
+    <Translation ID="RPR_PCK_SUK_DES" String="Standard planlægningstætheder for Storbritannien." />
+    <Translation ID="RPR_PCK_FDF_NAM" String="Generisk" />
+    <Translation ID="RPR_PCK_FDF_DES" String="Standard 3m gulvhøjde." />
+    <Translation ID="RPR_PCK_FHO_NAM" String="Enkeltstående huse" />
+    <Translation ID="RPR_PCK_FHO_DES" String="Fritliggende beboelsesboliger." />
+    <Translation ID="RPR_PCK_FDL_NAM" String="Lobbyer" />
+    <Translation ID="RPR_PCK_FDL_DES" String="Bygninger med lobbyer og/eller forhøjede første sal." />
+    <Translation ID="RPR_PCK_FCM_NAM" String="Kommerciel" />
+    <Translation ID="RPR_PCK_FCM_DES" String="Erhvervs-, kontor-, uddannelses- og industribygninger med højere etagehøjder." />
+    <Translation ID="RPR_PCK_FWH_NAM" String="Varehus/lager" />
+    <Translation ID="RPR_PCK_FWH_DES" String="Detail-, handels- og industrilagre." />
+    <Translation ID="RPR_PCK_FHB_NAM" String="Højlager" />
+    <Translation ID="RPR_PCK_FHB_DES" String="Højtliggende industrielle og kommercielle lagre." />
+    <Translation ID="RPR_PCK_FEX_NAM" String="Primær industri" />
+    <Translation ID="RPR_PCK_FEX_DES" String="Industrielle ekstraktorer og processorer" />
+    <Translation ID="RPR_PCK_SVE_NAM" String="Vanilla folkeskole" />
+    <Translation ID="RPR_PCK_SVE_DES" String="Skalering i henhold til Vanilla folkeskolen" />
+    <Translation ID="RPR_PCK_SVH_NAM" String="Vanilla Gymnasium" />
+    <Translation ID="RPR_PCK_SVH_DES" String="Skalering i henhold til Vanilla Gymnasiet" />
+    <Translation ID="RPR_PCK_SVC_NAM" String="Vanilla fællesskole" />
+    <Translation ID="RPR_PCK_SVC_DES" String="Skalering i henhold til Vanilla fælleskollen" />
+    <Translation ID="RPR_PCK_SVA_NAM" String="Vanilla Kunst Skole" />
+    <Translation ID="RPR_PCK_SVA_DES" String="Skalering i henhold til Vanilla Kunst skolen." />
+    <Translation ID="RPR_CAT_ALL" String="Alle kategorier" />
+    <Translation ID="RPR_CAT_RES" String="Beboelse" />
+    <Translation ID="RPR_CAT_RLO" String="Beboelse lav" />
+    <Translation ID="RPR_CAT_RHI" String="Beboelse høj" />
+    <Translation ID="RPR_CAT_COM" String="Kommercielt" />
+    <Translation ID="RPR_CAT_CLO" String="Kommercielt lav" />
+    <Translation ID="RPR_CAT_CHI" String="Kommercient høj" />
+    <Translation ID="RPR_CAT_OFF" String="Kontor" />
+    <Translation ID="RPR_CAT_GEN" String="Generisk" />
+    <Translation ID="RPR_CAT_ITC" String="IT-klynge" />
+    <Translation ID="RPR_CAT_IND" String="Industrielt" />
+    <Translation ID="RPR_CAT_FAR" String="Landbrug" />
+    <Translation ID="RPR_CAT_FOR" String="Skovbrug" />
+    <Translation ID="RPR_CAT_OIL" String="Olie" />
+    <Translation ID="RPR_CAT_ORE" String="Malm" />
+    <Translation ID="RPR_CAT_EXT" String="Udvindingsanlæg" />
+    <Translation ID="RPR_CAT_PRO" String="Bearbejdelsesanlæg" />
+    <Translation ID="RPR_CAT_TOU" String="Turisme" />
+    <Translation ID="RPR_CAT_LEI" String="Fritid" />
+    <Translation ID="RPR_CAT_ORG" String="Økologiske og lokale råvarer" />
+    <Translation ID="RPR_CAT_ECO" String="Økologiske butikker" />
+    <Translation ID="RPR_CAT_SSH" String="Selvforsynende boliger" />
+    <Translation ID="RPR_CAT_ERL" String="Øko bolig lav" />
+    <Translation ID="RPR_CAT_ERH" String="Øko bolig høj" />
+    <Translation ID="RPR_CAT_SIN" String="Specialiseret industri" />
+    <Translation ID="RPR_CAT_SCH" String="Skoler" />
+    <Translation ID="RPR_FIL_NAME" String="Navn:" />
+    <Translation ID="RPR_FIL_SET" String="Filtrer efter indstillinger (se værktøjstip)" />
+    <Translation ID="RPR_EDT_POP" String="Tilsidesæt befolkningstal" />
+    <Translation ID="RPR_EDT_FLR" String="Tilsidesæt etager" />
+    <Translation ID="RPR_FTR_ANY" String="Har tilpasset tilsidesættelse og/eller ikke-standard beregningspakke" />
+    <Translation ID="RPR_FTR_OVR" String="Har befolknings- og/eller etage- tilsidesættelse" />
+    <Translation ID="RPR_FTR_NDC" String="Har en ikke-standard beregningspakke og/eller tilpasset befolknings multiplikator" />
+    <Translation ID="RPR_CUS_TITLE" String="Brugerdefinerede indstillinger" />
+    <Translation ID="RPR_CUS_ADD" String="Tilføj brugerdefinerede indstillinger" />
+    <Translation ID="RPR_CUS_ADD_TIP" String="Tilføjer (eller opdaterer) en brugerdefineret indstilling for den valgte bygning" />
+    <Translation ID="RPR_CUS_DEL" String="Slet brugerdefinerede indstillinger" />
+    <Translation ID="RPR_CUS_DEL_TIP" String="Fjerner den brugerdefinerede indstilling fra den valgte bygning" />
+    <Translation ID="RPR_CUS_UPD" String="Opdater brugerdefinerede indstillinger" />
+    <Translation ID="RPR_ERR_ZERO" String="FEJL: Værdien skal være større end nul" />
+    <Translation ID="RPR_ERR_INV" String="FEJL: ugyldig værdi" />
+    <Translation ID="RPR_LBL_HOM" String="Hjem:" />
+    <Translation ID="RPR_LBL_JOB" String="Jobs:" />
+    <Translation ID="RPR_LBL_STU" String="Studerende:" />
+    <Translation ID="RPR_LBL_OFF" String="Første sals højde" />
+    <Translation ID="RPR_LBL_OFH" String="Anden etagehøjde" />
+    <Translation ID="RPR_PRV_SFL" String="Vis beregnede etager" />
+    <Translation ID="RPR_CAL_MOD" String="Mod beregninger" />
+    <Translation ID="RPR_CAL_DEN" String="Befolkningstæthed" />
+    <Translation ID="RPR_CAL_BFL" String="Etager i bygningen" />
+    <Translation ID="RPR_CAL_FOV" String="Bruger tilpasset tilsidesættelse" />
+    <Translation ID="RPR_CAL_FLG" String="Valg af etageberegning er ikke tilgængeligt, når du bruger legacy beregninger" />
+    <Translation ID="RPR_CAL_SAT" String="Gem og anvend til:" />
+    <Translation ID="RPR_CAL_NBD" String="Kun nye bygninger" />
+    <Translation ID="RPR_CAL_ABD" String="Alle bygninger" />
+    <Translation ID="RPR_CAL_VOL_FLR" String="Etager" />
+    <Translation ID="RPR_CAL_VOL_FLR_TIP" String="Antallet af etager for denne bygning er beregnet ved hjælp af ovenstående indstillinger." />
+    <Translation ID="RPR_CAL_VOL_TFA" String="Samlet etageareal" />
+    <Translation ID="RPR_CAL_VOL_TFA_TIP" String="Det samlede gulvareal for denne bygning er beregnet ved hjælp af ovenstående indstillinger." />
+    <Translation ID="RPR_CAL_VOL_UTS" String="Samlede enheder" />
+    <Translation ID="RPR_CAL_VOL_UTS_TIP" String="Den samlede befolkning (husstande eller arbejdspladser) for denne bygning er beregnet ved hjælp af ovenstående indstillinger." />
+    <Translation ID="RPR_CAL_VOL_VIS" String="Besøgstal" />
+    <Translation ID="RPR_CAL_VOL_VIS_TIP" String="Det maksimale antal samtidige kunder, der understøttes af denne bygning." />
+    <Translation ID="RPR_CAL_VOL_PRD" String="Produktionshastighed" />
+    <Translation ID="RPR_CAL_VOL_PRD_TIP" String="Denne bygnings maksimale produktionshastighed." />
+    <Translation ID="RPR_CAL_VOL_FLH" String="Etagehøjde" />
+    <Translation ID="RPR_CAL_VOL_FLH_TIP" String="Den typiske gulv-til-gulv højde, i meter, for hver etage i denne bygning (første sal har yderligere muligheder nedenfor)." />
+    <Translation ID="RPR_CAL_VOL_FMN" String="Første sals minimumshøjde" />
+    <Translation ID="RPR_CAL_VOL_FMN_TIP" String="Den mindste bygningshøjde, der kræves for, at et område af bygningen tæller som at have mindst én etage." />
+    <Translation ID="RPR_CAL_VOL_FMX" String="Første sal ekstra højde" />
+    <Translation ID="RPR_CAL_VOL_FMX_TIP" String="Første sals højde vil blive udvidet opad med så mange meter (ovenfor den typiske etagehøjde ovenover), før der tilføjes yderligere etager ovenfor." />
+    <Translation ID="RPR_CAL_VOL_IGF" String="Ignorer første sal" />
+    <Translation ID="RPR_CAL_VOL_IGF_TIP" String="Hvis dette er indstillet, behandles bygningens første sal som et tomt rum (f.eks. en lobby eller foyerområde) uden husstande eller arbejdere." />
+    <Translation ID="RPR_CAL_VOL_EPC" String="Tomt område (%)" />
+    <Translation ID="RPR_CAL_VOL_EPC_TIP" String="Denne procentdel af hvert etageareal vil blive behandlet som tomt areal og vil ikke blive inkluderet ved beregning af husstande eller arbejderantal." />
+    <Translation ID="RPR_CAL_VOL_EMP" String="Tomt område (fast)" />
+    <Translation ID="RPR_CAL_VOL_EMP_TIP" String="En fast mængde plads, der vil blive trukket fra hvert etageareal, før husstande eller arbejdere beregnes (behandles som tomt areal)." />
+    <Translation ID="RPR_CAL_VOL_FXP" String="Fast befolkning?" />
+    <Translation ID="RPR_CAL_VOL_FXP_TIP" String="Hvis dette er indstillet, anvendes et fast tal for husstands- eller arbejderantal, uanset bygningsstørrelse (f.eks. én husstand pr. bygning)." />
+    <Translation ID="RPR_CAL_VOL_UNI" String="Enheder" />
+    <Translation ID="RPR_CAL_VOL_HOU" String="Husstande" />
+    <Translation ID="RPR_CAL_VOL_WOR" String="Arbejdspladser" />
+    <Translation ID="RPR_CAL_VOL_STU" String="Studerende" />
+    <Translation ID="RPR_CAL_VOL_UNI_TIP" String="Fast antal husstande eller arbejdere pr. bygning." />
+    <Translation ID="RPR_CAL_VOL_APU" String="Areal pr. enhed" />
+    <Translation ID="RPR_CAL_VOL_APU_TIP" String="Det krævede areal (i kvadratmeter) for hver husstand eller arbejder (efter at tomt areal er fratrukket)." />
+    <Translation ID="RPR_CAL_VOL_MFU" String="Enheder i flere etager" />
+    <Translation ID="RPR_CAL_VOL_MFU_TIP" String="Hvis dette ikke er indstillet, beregnes husstands- eller arbejdertal for hver enkelt etage i bygningen. Hvis dette er indstillet, kun bygningens total vil blive brugt til at beregne husstands- eller arbejderantal." />
+    <Translation ID="RPR_CAL_VOL_ARA" String="areal" />
+    <Translation ID="RPR_CAL_UNI_HOU" String="hjem" />
+    <Translation ID="RPR_CAL_UNI_WOR" String="arbejdere" />
+    <Translation ID="RPR_CAL_UNI_STU" String="studerende" />
+    <Translation ID="RPR_CAL_HOM_CALC" String="Beregnede boliger:" />
+    <Translation ID="RPR_CAL_HOM_CUST" String="Tilpassede boliger:" />
+    <Translation ID="RPR_CAL_HOM_APPL" String="Anvendte boliger:" />
+    <Translation ID="RPR_CAL_JOB_CALC" String="Beregnede jobs:" />
+    <Translation ID="RPR_CAL_JOB_CUST" String="Skræddersyede job:" />
+    <Translation ID="RPR_CAL_JOB_APPL" String="Anvendte job:" />
+    <Translation ID="RPR_CAL_BLD_X" String="Bygningsbredde (m):" />
+    <Translation ID="RPR_CAL_BLD_Z" String="Bygningslængde (m):" />
+    <Translation ID="RPR_CAL_BLD_Y" String="Stilladshøjde (m):" />
+    <Translation ID="RPR_CAL_BLD_M2" String="kvadratmeter pr person:" />
+    <Translation ID="RPR_CAL_FLR_Y" String="Etagehøjde (m):" />
+    <Translation ID="RPR_CAL_FLR_M" String="Gulv mod" />
+    <Translation ID="RPR_CAL_FLR" String="Beregnet etager:" />
+    <Translation ID="RPR_CAL_M2" String="Beregnet areal:" />
+    <Translation ID="RPR_CAL_OVR" String="(Tilsidesat)" />
+    <Translation ID="RPR_CAL_OVM" String="Befolkningsberegning tilsidesættes af manuel indstilling" />
+    <Translation ID="RPR_CAL_RICO" String="Ploppable RICO Revisited kontrollerer tallene for denne bygning." />
+    <Translation ID="RPR_CAL_CAP_OVR" String="Brugerdefineret kapacitetsmultiplikator" />
+    <Translation ID="RPR_CAL_CAP_DEF" String="Standard multiplikator:" />
+    <Translation ID="RPR_CAL_SCH_PRO" String="Personale- og omkostningsskalering" />
+    <Translation ID="RPR_CAL_SCH_WKR" String="Skolearbejdere" />
+    <Translation ID="RPR_CAL_SCH_WKR_TIP" String="Antallet og niveauet af ledige arbejdspladser på denne skole beregnet ved hjælp af ovenstående indstillinger" />
+    <Translation ID="RPR_CAL_SCH_CST" String="Omkostninger/vedligeholdelse" />
+    <Translation ID="RPR_CAL_SCH_CST_TIP" String="Skolens byggeomkostninger og ugentlige vedligeholdelsesomkostninger er beregnet ved hjælp af ovenstående indstillinger" />
+    <Translation ID="RPR_TIT_RDF" String="Standarder for udregninger i boliger" />
+    <Translation ID="RPR_TIT_CDF" String="Standarder for udregninger i kommercielle bygninger" />
+    <Translation ID="RPR_TIT_IDF" String="Standarder for udregninger i industrien" />
+    <Translation ID="RPR_TIT_EDF" String="Standarder for udregninger i Udvindingsanlæg" />
+    <Translation ID="RPR_TIT_ODF" String="Standarder for udregninger i kontorer" />
+    <Translation ID="RPR_TIT_SDF" String="Standarder for udregninger i skoler" />
+    <Translation ID="RPR_TIT_CGO" String="Indstillinger for kommercielle varer" />
+    <Translation ID="RPR_TIT_IGO" String="Industrielle produktionsindstillinger" />
+    <Translation ID="RPR_TIT_EGO" String="Udvindingsanlægs produktionsindstillinger" />
+    <Translation ID="RPR_TIT_OGO" String="Indstillinger for kontorproduktion" />
+    <Translation ID="RPR_OPT_MOD" String="Mod Indstillinger" />
+    <Translation ID="RPR_OPT_KEY" String="Genvejstast til skærmbilledet med byggemuligheder" />
+    <Translation ID="RPR_OPT_PRS" String="Tryk på en vilkårlig tast" />
+    <Translation ID="RPR_OPT_LEG" String="Legacy" />
+    <Translation ID="RPR_OPT_CON" String="Forbrug" />
+    <Translation ID="RPR_OPT_LVL" String="Niveau" />
+    <Translation ID="RPR_OPT_APH" String="Areal pr. husstand (m2)" />
+    <Translation ID="RPR_OPT_APW" String="Areal pr. arbejder (m2)" />
+    <Translation ID="RPR_OPT_FLR" String="Etagehøjde (m)" />
+    <Translation ID="RPR_OPT_POW" String="Strøm" />
+    <Translation ID="RPR_OPT_WAT" String="Vand" />
+    <Translation ID="RPR_OPT_SEW" String="Kloak" />
+    <Translation ID="RPR_OPT_GAR" String="Affald" />
+    <Translation ID="RPR_OPT_POL" String="Forurening" />
+    <Translation ID="RPR_OPT_NOI" String="Støj" />
+    <Translation ID="RPR_OPT_MAI" String="Post" />
+    <Translation ID="RPR_OPT_PRO" String="Produktion" />
+    <Translation ID="RPR_OPT_WEA" String="Rigdom" />
+    <Translation ID="RPR_OPT_RTD" String="Nulstil til standardindstillinger" />
+    <Translation ID="RPR_OPT_RTS" String="Nilstil til gemte indstillinger" />
+    <Translation ID="RPR_OPT_SAA" String="Gem og anvend" />
+    <Translation ID="RPR_OPT_SCH" String="Skoler" />
+    <Translation ID="RPR_OPT_SEN" String="Aktiver realistiske skoleelevkapaciteter" />
+    <Translation ID="RPR_OPT_SEJ" String="Aktiver realistiske skoleejendomme (job, omkostninger) - kræver genstart" />
+    <Translation ID="RPR_OPT_SDM" String="Standard multiplikator for skolekapacitet" />
+    <Translation ID="RPR_OPT_JB0" String="Uuddannede job" />
+    <Translation ID="RPR_OPT_JB1" String="Udannede job" />
+    <Translation ID="RPR_OPT_JB2" String="Veluddannede job" />
+    <Translation ID="RPR_OPT_JB3" String="Højt uddannede job" />
+    <Translation ID="RPR_OPT_SHE" String="Folkeskoler" />
+    <Translation ID="RPR_OPT_SHH" String="Gymnasier" />
+    <Translation ID="RPR_OPT_SJB" String="Basisjob" />
+    <Translation ID="RPR_OPT_SJX" String="Ekstra job pr. # studerende" />
+    <Translation ID="RPR_OPT_CRI" String="Kriminalitet" />
+    <Translation ID="RPR_OPT_CML" String="Forbrydelsesmultiplikator" />
+    <Translation ID="RPR_OPT_CML_TIP" String="Den grundlæggende kriminalitetsophobning for byen vil blive ganget med dette beløb" />
+    <Translation ID="RPR_OPT_POP" String="Befolkningsberegningspakker" />
+    <Translation ID="RPR_OPT_STO" String="Etageberegningspakker" />
+    <Translation ID="RPR_OPT_DEF" String="Standard beregningspakker" />
+    <Translation ID="RPR_OPT_PSI" String="Indstillinger for produktion, salg og lager" />
+    <Translation ID="RPR_OPT_EDT_NAM" String="Pakkenavn" />
+    <Translation ID="RPR_OPT_SVC" String="Service" />
+    <Translation ID="RPR_OPT_CPK" String="Beregningspakke" />
+    <Translation ID="RPR_OPT_NEW" String="Tilføj ny" />
+    <Translation ID="RPR_OPT_DEL" String="Slet pakke" />
+    <Translation ID="RPR_OPT_NPK" String="Ny pakke" />
+    <Translation ID="RPR_OPT_LDT" String="Aktiver detaljeret debugging-logning" />
+    <Translation ID="RPR_DEF_LGR" String="Brug Legacy beregninger (WG original og Realistic Population Revisited version 1) som standard for beboelsesbygninger:" />
+    <Translation ID="RPR_DEF_LGC" String="Brug Legacy beregninger (WG original og Realistic Population Revisited version 1) som standard for kommercielle bygninger:" />
+    <Translation ID="RPR_DEF_LGI" String="Brug Legacy beregninger (WG original og Realistic Population Revisited version 1) som standard for industrielle bygninger:" />
+    <Translation ID="RPR_DEF_LGO" String="Brug Legacy beregninger (WG original og Realistic Population Revisited version 1) som standard for kontor bygninger:" />
+    <Translation ID="RPR_DEF_LTS" String="Dette gem" />
+    <Translation ID="RPR_DEF_LAS" String="Nye gem" />
+    <Translation ID="RPR_DEF_VIS" String="Kunde (besøgende) kapacitet" />
+    <Translation ID="RPR_DEF_VIS_TIP" String="Grundlaget for at beregne antallet af kunder denne bygning kan håndtere på én gang. Den gamle metode var at bruge størrelsen på bygningens grund, og den nye metode er at bruge antallet af arbejdspladser i bygningen." />
+    <Translation ID="RPR_DEF_VNE" String="Ny metode (indbyggertal)" />
+    <Translation ID="RPR_DEF_VOL" String="Gammel metode (grund størrelse)" />
+    <Translation ID="RPR_DEF_VMU" String="Kundeantal multiplikator" />
+    <Translation ID="RPR_DEF_VMU_TIP" String="Den beregnede kundekapacitet vil blive ganget med dette beløb" />
+    <Translation ID="RPR_DEF_CGM" String="Salgsmultiplikator" />
+    <Translation ID="RPR_DEF_CGM_TIP" String="Mængden af varer solgt af denne bygning pr. kunde vil blive ganget med dette beløb; reducerede satser vil betyde, at der kræves færre varer, men skatteindtægterne vil også blive reduceret" />
+    <Translation ID="RPR_DEF_IDC" String="Beholdningsefterspørgselsloft" />
+    <Translation ID="RPR_DEF_IDC_TIP" String="Indstiller det maksimale bygningsbeholdningsniveau, der vil udløse bestilling af flere varer (påvirker ikke bygninger med beregnede beholdningsordreudløserniveauer, der allerede er lavere end dette loft)." />
+    <Translation ID="RPR_DEF_PMD" String="Beregningstilstand" />
+    <Translation ID="RPR_DEF_PMD_TIP" String="Grundlaget for beregning af produktionshastigheden for denne bygning. Den gamle metode var at bruge størrelsen på bygningens grund, og den nye metode er at bruge antallet af arbejdspladser i bygningen." />
+    <Translation ID="RPR_DEF_PRD" String="Produktionsmultiplikator" />
+    <Translation ID="RPR_DEF_PRD_TIP" String="Mængden af varer produceret af denne bygning vil blive ganget med denne mængde" />
+    <Translation ID="TRN_CHOICE" String="Indstil sprog" />
+    <Translation ID="TRN_SYS" String="Brug systemsprog" />
+    <Translation ID="MES_CLS" String="Luk" />
+    <Translation ID="MES_DSA" String="Vis ikke igen" />
+    <Translation ID="MES_PAGE" String="Se venligst moddens Steam Workshop-side for yderligere information." />
+    <Translation ID="RPR_OLD_0" String="Dette gem er ikke blevet gemt med Realistisk Befolkning 2" />
+    <Translation ID="RPR_OLD_1" String="Vær opmærksom på, at anvendelse af forskellige befolkningsberegninger på en eksisterende by midlertidigt kan forstyrre bybalancen." />
+    <Translation ID="RPR_OLD_2" String="Hvis du indlæser en by, der er oprettet med en tidligere version af denne mod, vil du måske fortsætte med at bruge de gamle mod-beregninger for denne by; dette bør bevare din eksisterende bybalance. Alternativt kan du vælge at skifte til den nye (mere præcise og fleksible) beregningsmodel. Notér venligst at din by måske skal bruge ekstra tid til at rebalancere." />
+    <Translation ID="RPR_OLD_3" String="Bemærk, at i begge tilfælde vil eksisterende boligbyggerier bevare deres eksisterende kapacitet og husstande og dermed IKKE blive påvirket. Arbejdere med eksisterende job vil IKKE øjeblikkeligt blive opsagt fra disse job, så der vil ikke være nogen umiddelbar indvirkning på din bys befolkning." />
+    <Translation ID="RPR_OLD_LEG" String="Brug legacy beregniniger" />
+    <Translation ID="RPR_OLD_NEW" String="Brug nye beregninger" />
+    <Translation ID="RPR_ERR_FAT" String="Det betyder, at Realistisk Befolkning 2 ikke er i stand til at fungere ordentligt og har lukket ned." />
+    <Translation ID="RPR_ERR_HAR" String="Realistic Population 2 var ikke i stand til at fuldføre sine påkrævede Harmony-patches." />
+    <Translation ID="ERR_HAR0" String="Harmony patching fejl!" />
+    <Translation ID="ERR_HAR1" String="Mulige årsager til dette problem omfatter:" />
+    <Translation ID="ERR_HAR2" String="Den påkrævede mod: Harmony 2 er ikke installeret" />
+    <Translation ID="ERR_HAR3" String="Et gammel og/eller ødelagt mod forhindrer Harmony 2 i at fungere korrekt" />
+    <Translation ID="ERR_CON0" String="Mod-konflikt registreret!" />
+    <Translation ID="ERR_CON1" String="De inkompatible mods er:" />
+    <Translation ID="RPR_ERR_CON0" String="Realistisk Befolkning 2 opdagede en konflikt med mindst én anden mod." />
+    <Translation ID="RPR_ERR_CON1" String="Disse mods skal fjernes, før Realistisk Befolkning 2 kan fungere." />
+    <Translation ID="RPR_200_0" String="Omdøbning fra 'Realistic Population Revisited' til 'Realistic Population 2' (Realistisk Befolkning) for at afspejle omfanget af ændringerne" />
+    <Translation ID="RPR_200_1" String="NY FUNKTION: nye bygningsberegninger baseret på faktiske bygningsformer og størrelser med realistisk beregnet gulvareal, med mulighed for at vælge mellem de nye eller gamle ('legacy') beregninger" />
+    <Translation ID="RPR_200_2" String="NY FUNKTION: separate beregningsforudindstillinger for bygningens gulvareal og befolkning, sammen med valgfri manuelle tilsidesættelser for den ene eller begge" />
+    <Translation ID="RPR_200_3" String="NY FUNKTION: valgbare konfigurationsforudindstillinger for hver bygningsservicetype" />
+    <Translation ID="RPR_200_4" String="NY FUNKTION: valgfri realistiske elevkapacitetsberegninger for folkeskoler og gymnasier med en konfigurerbar multiplikator for når realistiske skolebygningsstørrelser ikke er tilgængelige" />
+    <Translation ID="RPR_200_5" String="NY FUNKTION: justerbar kriminalitet" />
+    <Translation ID="RPR_200_6" String="Opgrader til Harmony 2 (boformer's Harmony 2-mod påkrævet)" />
+    <Translation ID="RPR_200_7" String="Forskellige forbedringer af panelet med bygningsdetaljer" />
+    <Translation ID="RPR_200_8" String="Forbedret mod konfliktdetektion og -advarsler" />
+    <Translation ID="RPR_200_9" String="Betydelig eftersyn, oprydning og omstrukturering af modens kodebase" />
+  </Translations>
+</Language>

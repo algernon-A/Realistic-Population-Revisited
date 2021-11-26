@@ -321,6 +321,28 @@ namespace RealPop2
 
 
         /// <summary>
+        /// Creates a plain checkbox using the game's option panel checkbox template.
+        /// </summary>
+        /// <param name="parent">Parent component</param>
+        /// <param name="text">Descriptive label text</param>
+        /// <param name="xPos">Relative x position)</param>
+        /// <param name="yPos">Relative y position</param>
+        /// <returns>New checkbox using the game's option panel template</returns>
+        public static UICheckBox AddPlainCheckBox(UIComponent parent,float xPos, float yPos, string text)
+        {
+            UICheckBox checkBox = parent.AttachUIComponent(UITemplateManager.GetAsGameObject("OptionsCheckBoxTemplate")) as UICheckBox;
+
+            // Set text.
+            checkBox.text = text;
+
+            // Set relative position.
+            checkBox.relativePosition = new Vector2(xPos, yPos);
+
+            return checkBox;
+        }
+
+
+        /// <summary>
         /// Adds a plain text label to the specified UI component.
         /// </summary>
         /// <param name="parent">Parent component</param>
