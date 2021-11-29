@@ -145,7 +145,7 @@ namespace RealPop2
         private static void Close()
         {
             // Save settings first.
-            SettingsUtils.SaveSettings();
+            XMLSettingsFile.Save();
 
             // We're no longer visible - destroy our game object.
             if (optionsGameObject != null)

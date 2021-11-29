@@ -52,7 +52,7 @@ namespace RealPop2
             HarmonyHelper.DoOnHarmonyReady(() => Patcher.PatchAll());
 
             // Load settings file.
-            SettingsUtils.LoadSettings();
+            XMLSettingsFile.Load();
 
             // Populate (legacy) Datastore from configuration file.
             // Make sure this happens before loading the new configuration file, which will overwrite any settings here.

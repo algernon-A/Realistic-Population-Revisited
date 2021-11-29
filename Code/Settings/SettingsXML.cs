@@ -14,6 +14,12 @@ namespace RealPop2
     [XmlRoot("SettingsFile")]
     public class XMLSettingsFile
     {
+        // Settings file.
+        [XmlIgnore]
+        private static readonly string SettingsFileName = "RealisticPopulation.xml";
+        private static readonly string SettingsFile = Path.Combine(ColossalFramework.IO.DataLocation.localApplicationData, SettingsFileName);
+
+
         [XmlElement("WhatsNewVersion")]
         public string WhatsNewVersion { get => ModSettings.whatsNewVersion; set => ModSettings.whatsNewVersion = value; }
 
@@ -41,15 +47,15 @@ namespace RealPop2
 
         [XmlElement("ctrl")]
         [DefaultValue(false)]
-        public bool Ctrl { get => false;  set => UIThreading.hotCtrl = value; }
+        public bool Ctrl { get => false; set => UIThreading.hotCtrl = value; }
 
         [XmlElement("alt")]
         [DefaultValue(false)]
-        public bool Alt { get => false;  set => UIThreading.hotAlt = value; }
+        public bool Alt { get => false; set => UIThreading.hotAlt = value; }
 
         [XmlElement("shift")]
         [DefaultValue(false)]
-        public bool Shift { get => false;  set => UIThreading.hotShift = value; }
+        public bool Shift { get => false; set => UIThreading.hotShift = value; }
 
         // New building details panel hotkey element.
         [XmlElement("PanelKey")]
@@ -138,47 +144,33 @@ namespace RealPop2
         // Logging detail.
         [XmlElement("DetailedLogging")]
         public bool DetailLogging { get => Logging.detailLogging; set => Logging.detailLogging = value; }
-    }
-
-
-    /// <summary>
-    /// Basic keybinding class - code and modifiers.
-    /// </summary>
-    public class KeyBinding
-    {
-        [XmlAttribute("KeyCode")]
-        public int keyCode;
-
-        [XmlAttribute("Control")]
-        public bool control;
-
-        [XmlAttribute("Shift")]
-        public bool shift;
-
-        [XmlAttribute("Alt")]
-        public bool alt;
-    }
-
-
-    /// XML serialization/deserialization utilities class.
-    /// </summary>
-    internal static class SettingsUtils
-    {
-        internal static readonly string SettingsFileName = "RealisticPopulation.xml";
 
 
         /// <summary>
         /// Load settings from XML file - Beta legacy.
         /// </summary>
-        internal static void LoadSettings()
+        internal static void Load()
         {
             try
             {
-                // Check to see if configuration file exists.
-                if (File.Exists(SettingsFileName))
+                string fileName = null;
+
+                // See if a userdir settings file exists.
+                if (File.Exists(SettingsFile))
+                {
+                    fileName = SettingsFile;
+                }
+                else if (File.Exists(SettingsFileName))
+                {
+                    // Otherwise, if an application settings file exists, use that one.
+                    fileName = SettingsFileName;
+                }
+
+                // Check to see if we found an existing configuration file.
+                if (fileName != null)
                 {
                     // Read it.
-                    using (StreamReader reader = new StreamReader(SettingsFileName))
+                    using (StreamReader reader = new StreamReader(fileName))
                     {
                         XmlSerializer xmlSerializer = new XmlSerializer(typeof(XMLSettingsFile));
                         if (!(xmlSerializer.Deserialize(reader) is XMLSettingsFile xmlSettingsFile))
@@ -216,12 +208,12 @@ namespace RealPop2
         /// <summary>
         /// Save settings to XML file.
         /// </summary>
-        internal static void SaveSettings()
+        internal static void Save()
         {
             try
             {
                 // Pretty straightforward.  Serialisation is within settings file class.
-                using (StreamWriter writer = new StreamWriter(SettingsFileName))
+                using (StreamWriter writer = new StreamWriter(SettingsFile))
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(XMLSettingsFile));
                     XMLSettingsFile settingsFile = new XMLSettingsFile();
@@ -229,11 +221,36 @@ namespace RealPop2
                     // Save to file.
                     xmlSerializer.Serialize(writer, settingsFile);
                 }
+
+                // Delete any old settings in app directory.
+                if (File.Exists(SettingsFileName))
+                {
+                    File.Delete(SettingsFileName);
+                }
             }
             catch (Exception e)
             {
                 Logging.LogException(e, "exception saving XML settings file");
             }
         }
+    }
+
+
+    /// <summary>
+    /// Basic keybinding class - code and modifiers.
+    /// </summary>
+    public class KeyBinding
+    {
+        [XmlAttribute("KeyCode")]
+        public int keyCode;
+
+        [XmlAttribute("Control")]
+        public bool control;
+
+        [XmlAttribute("Shift")]
+        public bool shift;
+
+        [XmlAttribute("Alt")]
+        public bool alt;
     }
 }

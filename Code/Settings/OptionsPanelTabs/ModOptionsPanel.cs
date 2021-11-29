@@ -25,7 +25,7 @@ namespace RealPop2
             languageDrop.eventSelectedIndexChanged += (control, index) =>
             {
                 Translations.Index = index;
-                SettingsUtils.SaveSettings();
+                XMLSettingsFile.Save();
             };
 
             // Hotkey control.
@@ -40,7 +40,7 @@ namespace RealPop2
                 Logging.detailLogging = isChecked;
 
                 // Update configuration file.
-                SettingsUtils.SaveSettings();
+                XMLSettingsFile.Save();
 
                 Logging.KeyMessage("detailed logging ", Logging.detailLogging ? "enabled" : "disabled");
             };
