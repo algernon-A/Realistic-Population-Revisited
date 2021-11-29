@@ -16,7 +16,7 @@ namespace RealPop2
         internal ModOptionsPanel(UITabstrip tabStrip, int tabIndex)
         {
             // Add tab and helper.
-            UIPanel panel = PanelUtils.AddTextTab(tabStrip, Translations.Translate("RPR_OPT_MOD"), tabIndex, out UIButton _);
+            UIPanel panel = PanelUtils.AddTextTab(tabStrip, Translations.Translate("RPR_OPT_MOD"), tabIndex, out UIButton _, 210f);
             UIHelper helper = new UIHelper(panel);
             panel.autoLayout = true;
 

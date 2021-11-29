@@ -9,7 +9,7 @@ namespace RealPop2
     internal abstract class ConsumptionPanelBase : TextfieldPanelBase
     {
         // Constants.
-        protected const float PowerX = 180f;
+        protected const float PowerX = 275f;
         protected const float ColumnWidth = 45f;
         protected const float WideColumnWidth = 60f;
         protected const float WaterX = PowerX + ColumnWidth + Margin;
@@ -140,15 +140,15 @@ namespace RealPop2
             currentY += Margin;
 
             // Reset button.
-            UIButton resetButton = UIControls.AddButton(panel, Margin, currentY, Translations.Translate("RPR_OPT_RTD"), ButtonWidth);
+            UIButton resetButton = UIControls.AddButton(panel, Button1X, currentY, Translations.Translate("RPR_OPT_RTD"), ButtonWidth);
             resetButton.eventClicked += (component, clickEvent) => ResetToDefaults();
 
             // Revert button.
-            UIButton revertToSaveButton = UIControls.AddButton(panel, (Margin * 2) + ButtonWidth, currentY, Translations.Translate("RPR_OPT_RTS"), ButtonWidth);
+            UIButton revertToSaveButton = UIControls.AddButton(panel, Button2X, currentY, Translations.Translate("RPR_OPT_RTS"), ButtonWidth);
             revertToSaveButton.eventClicked += (component, clickEvent) => { ConfigUtils.LoadSettings(); PopulateFields(); };
 
             // Save button.
-            UIButton saveButton = UIControls.AddButton(panel, (Margin * 3) + (ButtonWidth * 2f), currentY, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
+            UIButton saveButton = UIControls.AddButton(panel, Button3X, currentY, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
             saveButton.eventClicked += (component, clickEvent) => ApplyFields();
         }
 

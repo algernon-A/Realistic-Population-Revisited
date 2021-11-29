@@ -58,7 +58,7 @@ namespace RealPop2
                 currentY -= 30f;
 
                 // Create residential per-person area textfields and labels.
-                PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate("RPR_CAT_RLO"), "ZoningResidentialLow", "Thumbnails");
+                PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate("RPR_CAT_RLO"), "ZoningResidentialLow", "Thumbnails", PowerX);
                 AddSubService(panel, true, LowRes);
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate("RPR_CAT_RHI"), "ZoningResidentialHigh", "Thumbnails");
                 AddSubService(panel, true, HighRes);

@@ -130,13 +130,13 @@ namespace RealPop2
             currentY += Margin;
 
             // Reset button.
-            UIButton resetButton = UIControls.AddButton(panel, Margin, currentY, Translations.Translate("RPR_OPT_RTD"), ButtonWidth);
+            UIButton resetButton = UIControls.AddButton(panel, Button1X, currentY, Translations.Translate("RPR_OPT_RTD"), ButtonWidth);
             resetButton.eventClicked += (component, clickEvent) => ResetToDefaults();
 
-            UIButton revertToSaveButton = UIControls.AddButton(panel, (Margin * 2) + ButtonWidth, currentY, Translations.Translate("RPR_OPT_RTS"), ButtonWidth);
+            UIButton revertToSaveButton = UIControls.AddButton(panel, Button2X, currentY, Translations.Translate("RPR_OPT_RTS"), ButtonWidth);
             revertToSaveButton.eventClicked += (component, clickEvent) => { XMLUtilsWG.ReadFromXML(); PopulateFields(); };
 
-            UIButton saveButton = UIControls.AddButton(panel, (Margin * 3) + (ButtonWidth * 2f), currentY, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
+            UIButton saveButton = UIControls.AddButton(panel, Button3X, currentY, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
             saveButton.eventClicked += (component, clickEvent) => ApplyFields();
         }
 
