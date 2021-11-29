@@ -55,7 +55,6 @@ namespace RealPop2
             {
                 ThisLegacyCategory = isChecked;
                 UpdateControls();
-                XMLSettingsFile.Save();
             };
 
             // Use legacy by default for new saves check.
@@ -70,7 +69,6 @@ namespace RealPop2
             {
                 NewLegacyCategory = isChecked;
                 UpdateControls();
-                XMLSettingsFile.Save();
             };
 
             // Spacer bar.

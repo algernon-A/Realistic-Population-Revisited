@@ -25,7 +25,6 @@ namespace RealPop2
             languageDrop.eventSelectedIndexChanged += (control, index) =>
             {
                 Translations.Index = index;
-                XMLSettingsFile.Save();
             };
 
             // Hotkey control.
@@ -38,10 +37,6 @@ namespace RealPop2
             {
                 // Update mod settings.
                 Logging.detailLogging = isChecked;
-
-                // Update configuration file.
-                XMLSettingsFile.Save();
-
                 Logging.KeyMessage("detailed logging ", Logging.detailLogging ? "enabled" : "disabled");
             };
         }
