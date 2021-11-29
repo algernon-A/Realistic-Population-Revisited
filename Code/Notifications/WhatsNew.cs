@@ -49,7 +49,7 @@ namespace RealPop2
         {
             // Save current version to settings file.
             ModSettings.whatsNewVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            SettingsUtils.SaveSettings();
+            XMLSettingsFile.Save();
 
             return true;
         }

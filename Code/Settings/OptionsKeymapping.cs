@@ -162,7 +162,7 @@ namespace RealPop2
         {
             // Apply key to current settings and save.
             CurrentHotkey = key;
-            SettingsUtils.SaveSettings();
+            XMLSettingsFile.Save();
 
             // Set the label for the new hotkey.
             button.text = SavedInputKey.ToLocalizedString("KEYNAME", key);

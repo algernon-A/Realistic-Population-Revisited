@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-
-
-namespace RealPop2
+﻿namespace RealPop2
 {
     /// <summary>
     /// Static class to hold global mod settings.
