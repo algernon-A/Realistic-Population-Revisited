@@ -81,7 +81,7 @@ namespace RealPop2
         /// <param name="width">Tab width</param>
         /// <param name="autoLayout">Default autoLayout setting</param>
         /// <returns>UIHelper instance for the new tab panel</returns>
-        internal static UIPanel AddTextTab(UITabstrip tabStrip, string tabName, int tabIndex, out UIButton button, float width = 120f, bool autoLayout = false)
+        internal static UIPanel AddTextTab(UITabstrip tabStrip, string tabName, int tabIndex, out UIButton button, float width = 170f, bool autoLayout = false)
         {
             // Create tab.
             UIButton tabButton = tabStrip.AddTab(tabName);
@@ -164,40 +164,46 @@ namespace RealPop2
         /// <param name="yPos">Reference Y positions</param>
         /// <param name="text">Tooltip text</param>
         /// <param name="icon">Icon name</param>
-        /// <param name="maxWidth">Maximum label width (scale text down to fit); 0 (default) to ignore</param>
-        internal static void RowHeaderIcon(UIPanel panel, ref float yPos, string text, string icon, string atlas, float maxWidth = 0f)
+        /// <param name="maX">Maximum label X-position (wrap text to fit); 0 (default) to ignore</param>
+        internal static void RowHeaderIcon(UIPanel panel, ref float yPos, string text, string icon, string atlas, float maxX = 0f)
         {
             // UI layout constants.
             const float Margin = 5f;
+            const float SpriteSize = 35f;
             const float LeftTitle = 50f;
 
 
             // Actual icon.
             UISprite thumbSprite = panel.AddUIComponent<UISprite>();
             thumbSprite.relativePosition = new Vector3(Margin, yPos - 2.5f);
-            thumbSprite.width = 35f;
-            thumbSprite.height = 35f;
+            thumbSprite.width = SpriteSize;
+            thumbSprite.height = SpriteSize;
             thumbSprite.atlas = TextureUtils.GetTextureAtlas(atlas);
             thumbSprite.spriteName = icon;
 
             // Text label.
             UILabel lineLabel = panel.AddUIComponent<UILabel>();
             lineLabel.textScale = 1.0f;
-            lineLabel.text = text;
-            lineLabel.relativePosition = new Vector3(LeftTitle, yPos + 7);
             lineLabel.verticalAlignment = UIVerticalAlignment.Middle;
 
-            // If a maximum width has been provided, iteratively reduce text scale as required to fit within that limit.
-            if (maxWidth > 0)
+            // If a maximum X position has been provided, fix the label width and wrap text accordingly.
+            if (maxX > 0)
+            {
+                lineLabel.autoSize = false;
+                lineLabel.autoHeight = true;
+                lineLabel.wordWrap = true;
+                lineLabel.width = maxX - LeftTitle - Margin;
+            }
+            else
             {
                 lineLabel.autoSize = true;
-                lineLabel.PerformLayout();
-                while (lineLabel.width > maxWidth)
-                {
-                    lineLabel.textScale -= 0.05f;
-                    lineLabel.PerformLayout();
-                }
             }
+
+            // Set text.
+            lineLabel.text = text;
+
+            // Set poistion.
+            lineLabel.relativePosition = new Vector3(LeftTitle, yPos - 2.5f + ((SpriteSize - lineLabel.height) / 2f));
 
             // Increment our current height.
             yPos += 30f;

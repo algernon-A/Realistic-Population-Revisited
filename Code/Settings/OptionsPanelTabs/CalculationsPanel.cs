@@ -87,10 +87,6 @@ namespace RealPop2
                 new FloorPanel(childTabStrip, tab++);
                 new LegacyPanel(childTabStrip, tab);
 
-                // Perform setup of residential tab (default selection).
-                resTab.Setup();
-                childTabStrip.selectedIndex = 0;
-
                 // Event handler for tab index change; setup the selected tab.
                 childTabStrip.eventSelectedIndexChanged += (control, index) =>
                 {
@@ -99,6 +95,11 @@ namespace RealPop2
                         childTab.Setup();
                     }
                 };
+
+                // Perform setup of residential tab (default selection) and make sure first one is selected (doing a 'quickstep' via the second tab to ensure proper events are triggered).
+                childTabStrip.selectedIndex = 1;
+                childTabStrip.selectedIndex = 0;
+
             }
         }
     }
