@@ -280,7 +280,7 @@ namespace RealPop2
             checkBox.width = size;
             checkBox.height = size;
             checkBox.clipChildren = false;
-            checkBox.relativePosition = new Vector3(xPos, yPos);
+            checkBox.relativePosition = new Vector2(xPos, yPos);
 
             // Sprites.
             UISprite sprite = checkBox.AddUIComponent<UISprite>();
@@ -458,7 +458,7 @@ namespace RealPop2
             dropDown.textFieldPadding = new RectOffset(8, 0, itemVertPadding, 0);
             dropDown.itemPadding = new RectOffset(14, 0, itemVertPadding, 0);
 
-            dropDown.relativePosition = new Vector3(xPos, yPos);
+            dropDown.relativePosition = new Vector2(xPos, yPos);
 
             // Dropdown size parameters.
             dropDown.size = new Vector2(width, height);
@@ -686,9 +686,9 @@ namespace RealPop2
         /// <param name="margin">Margin between components (default 8)</param>
         /// <param name="verticalOffset">Vertical offset from first to second component (default 0)</param>
         /// <returns>Offset position (to right of original)</returns>
-        public static Vector3 PositionRightOf(UIComponent uIComponent, float margin = 8f, float verticalOffset = 0f)
+        public static Vector2 PositionRightOf(UIComponent uIComponent, float margin = 8f, float verticalOffset = 0f)
         {
-            return new Vector3(uIComponent.relativePosition.x + uIComponent.width + margin, uIComponent.relativePosition.y + verticalOffset);
+            return new Vector2(uIComponent.relativePosition.x + uIComponent.width + margin, uIComponent.relativePosition.y + verticalOffset);
         }
 
 
@@ -699,9 +699,9 @@ namespace RealPop2
         /// <param name="margin">Margin between components (default 8)</param>
         /// <param name="horizontalOffset">Horizontal offset from first to second component (default 0)</param>
         /// <returns>Offset position (below original)</returns>
-        public static Vector3 PositionUnder(UIComponent uIComponent, float margin = 8f, float horizontalOffset = 0f)
+        public static Vector2 PositionUnder(UIComponent uIComponent, float margin = 8f, float horizontalOffset = 0f)
         {
-            return new Vector3(uIComponent.relativePosition.x + horizontalOffset, uIComponent.relativePosition.y + uIComponent.height + margin);
+            return new Vector2(uIComponent.relativePosition.x + horizontalOffset, uIComponent.relativePosition.y + uIComponent.height + margin);
         }
     }
 }
