@@ -63,6 +63,9 @@ namespace RealPop2
 
             // Save legacy data using WG serialization.
             XMLUtilsWG.WriteToXML();
+
+            // Save new configuration file with updated consumption info.
+            ConfigUtils.SaveSettings();
         }
 
 

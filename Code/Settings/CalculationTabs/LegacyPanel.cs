@@ -72,8 +72,8 @@ namespace RealPop2
                     }
                 };
 
-                // Perform setup of residential tab (default selection).
-                resPanel.Setup();
+                // Perform setup of residential tab (default selection) and make sure first one is selected (doing a 'quickstep' via the second tab to ensure proper events are triggered).
+                childTabStrip.selectedIndex = 1;
                 childTabStrip.selectedIndex = 0;
             }
         }
