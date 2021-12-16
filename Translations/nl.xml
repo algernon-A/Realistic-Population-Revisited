@@ -1,309 +1,309 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Language UniqueName="nl" ReadableName="Nederlands">
-  <Translations>
-    <Translation ID="RPR_NAME" String="Realistic Population 2" />
-    <Translation ID="RPR_DESC" String="Meer realistische bewoning (gebaseerd op grootte van gebouw) en nutsbehoeften." />
-    <Translation ID="RPR_REALPOP" String="Realistische bevolking" />
-    <Translation ID="RPR_INF_VIS" String="bezoekers" />
-    <Translation ID="RPR_PCK_DEF" String="(standaard)" />
-    <Translation ID="RPR_PCK_NAM" String="Berekeningen" />
-    <Translation ID="RPR_PCK_LEG_NAM" String="Oorspronkelijke WG berekeningen" />
-    <Translation ID="RPR_PCK_LEG_DES" String="Oorspronkelijk gebruikte berekeningen door versie 1.x van deze mod en Whitefang Greytail's originele Realistic Popoulation and Consumption mod. " />
-    <Translation ID="RPR_PCK_RLS_NAM" String="Eensgezinswoning" />
-    <Translation ID="RPR_PCK_RLS_DES" String="Eén huishouden per gebouw" />
-    <Translation ID="RPR_PCK_RLD_NAM" String="Twee-onder-een-kap woning" />
-    <Translation ID="RPR_PCK_RLD_DES" String="Twee huishoudens per gebouw" />
-    <Translation ID="RPR_PCK_RUH_NAM" String="VS hoogbouw" />
-    <Translation ID="RPR_PCK_RUH_DES" String="Gemiddelde appartementen en condominiums uit de VS" />
-    <Translation ID="RPR_PCK_REM_NAM" String="Europese appartementen (modern)" />
-    <Translation ID="RPR_PCK_REM_DES" String="Europese middel hoogbouw en kamerbrede appartementen (gemiddelde dichtheid; moderne gebouwen)" />
-    <Translation ID="RPR_PCK_REO_NAM" String="Europese appartementen (ouder)" />
-    <Translation ID="RPR_PCK_REO_DES" String="Europese middel hoogbouw en kamerbrede appartementen (hoge dichtheid; oude gebouwen)" />
-    <Translation ID="RPR_PCK_CUS_NAM" String="VS detailhandel" />
-    <Translation ID="RPR_PCK_CUS_DES" String="Dichtheid voor algemene detailhandel, typisch voor de VS" />
-    <Translation ID="RPR_PCK_CUK_NAM" String="VK detailhandel" />
-    <Translation ID="RPR_PCK_CUK_DES" String="Dichtheid voor algemene detailhandel, typisch voor het VK" />
-    <Translation ID="RPR_PCK_CRW_NAM" String="Warenhuizen" />
-    <Translation ID="RPR_PCK_CRW_DES" String="Grote supermarkten en warenhuizen " />
-    <Translation ID="RPR_PCK_THT_NAM" String="Hotels" />
-    <Translation ID="RPR_PCK_THT_DES" String="Hotels en motels" />
-    <Translation ID="RPR_PCK_LFD_NAM" String="Horeca" />
-    <Translation ID="RPR_PCK_LFD_DES" String="Restaurants en cafés" />
-    <Translation ID="RPR_PCK_LEN_NAM" String="Amusement" />
-    <Translation ID="RPR_PCK_LEN_DES" String="Vermaak, fitness en andere amusementsgelegenheden" />
-    <Translation ID="RPR_PCK_LCN_NAM" String="Bioscopen" />
-    <Translation ID="RPR_PCK_LCN_DES" String="Bioscopen en theaters" />
-    <Translation ID="RPR_PCK_ILG_NAM" String="Kleine industrie" />
-    <Translation ID="RPR_PCK_ILG_DES" String="Kleine industrie en bedrijventerreinen" />
-    <Translation ID="RPR_PCK_IMN_NAM" String="Productie" />
-    <Translation ID="RPR_PCK_IMN_DES" String="Industriële productie" />
-    <Translation ID="RPR_PCK_IWL_NAM" String="Kleine distributiecentra" />
-    <Translation ID="RPR_PCK_IWL_DES" String="Lokale distributiecentra - veel opslag en lage werkgelegenheid" />
-    <Translation ID="RPR_PCK_IWN_NAM" String="Grote distributiecentra" />
-    <Translation ID="RPR_PCK_IWN_DES" String="Distributiecentra voor nationale distributie - veel opslag en zeer lage werkgelegenheid" />
-    <Translation ID="RPR_PCK_OCP_NAM" String="Hoofdkantoren" />
-    <Translation ID="RPR_PCK_OCP_DES" String="Kantoren voor zakelijk gebruik, dienstverlening en publieke sector" />
-    <Translation ID="RPR_PCK_OFN_NAM" String="Kantoren financiële sector" />
-    <Translation ID="RPR_PCK_OFN_DES" String="Financiële kantoren; hogere dichtheid dan gewone hoofdkantoren" />
-    <Translation ID="RPR_PCK_OCS_NAM" String="Call centers" />
-    <Translation ID="RPR_PCK_OCS_DES" String="Call centers en andere dichtopeengebouwde kantoorruimten" />
-    <Translation ID="RPR_PCK_ODT_NAM" String="Datacenters" />
-    <Translation ID="RPR_PCK_ODT_DES" String="Co-locatie datacenters" />
-    <Translation ID="RPR_PCK_SSB_NAM" String="Buitenstedelijke school" />
-    <Translation ID="RPR_PCK_SSB_DES" String="Buitenstedelijke scholen" />
-    <Translation ID="RPR_PCK_SML_NAM" String="MN laag" />
-    <Translation ID="RPR_PCK_SML_DES" String="Minnesota Dep van Onderwijs gids - laagste dichtheid" />
-    <Translation ID="RPR_PCK_SMM_NAM" String="MN gemiddeld" />
-    <Translation ID="RPR_PCK_SMM_DES" String="Minnesota Dep van Onderwijs gids - gemiddelde dichtheid" />
-    <Translation ID="RPR_PCK_SMH_NAM" String="MN hoog" />
-    <Translation ID="RPR_PCK_SMH_DES" String="Minnesota Dep van Onderwijs gids - hoogste dichtheid" />
-    <Translation ID="RPR_PCK_SUK_NAM" String="VK standaard" />
-    <Translation ID="RPR_PCK_SUK_DES" String="Standaard stedenbouwkundige dichtheden voor het VK" />
-    <Translation ID="RPR_PCK_FDF_NAM" String="Algemeen" />
-    <Translation ID="RPR_PCK_FDF_DES" String="Standaard 3m vloerhoogte" />
-    <Translation ID="RPR_PCK_FHO_NAM" String="Vrijstaande huizen" />
-    <Translation ID="RPR_PCK_FHO_DES" String="Vrijstaande huizen" />
-    <Translation ID="RPR_PCK_FDL_NAM" String="Appartementencomplexen" />
-    <Translation ID="RPR_PCK_FDL_DES" String="Gebouwen met lobby's en/ of verhoogde begane grond" />
-    <Translation ID="RPR_PCK_FCM_NAM" String="Commercieel" />
-    <Translation ID="RPR_PCK_FCM_DES" String="Commerciele, kantoor-, onderwijs- en industriële gebouwen met verhoogd plafond" />
-    <Translation ID="RPR_PCK_FWH_NAM" String="Magazijn" />
-    <Translation ID="RPR_PCK_FWH_DES" String="Winkel, commerciële en industriële opslagplaatsen" />
-    <Translation ID="RPR_PCK_FHB_NAM" String="Hoogbouwmagazijn" />
-    <Translation ID="RPR_PCK_FHB_DES" String="Hoogbouw industriële en commerciële magazijnen" />
-    <Translation ID="RPR_PCK_FEX_NAM" String="Primaire industrie" />
-    <Translation ID="RPR_PCK_FEX_DES" String="Industriële mijners en verwerkers" />
-    <Translation ID="RPR_PCK_SVE_NAM" String="Vanilla basisschool" />
-    <Translation ID="RPR_PCK_SVE_DES" String="Groeit op dezelfde manier als de vanilla basisschool" />
-    <Translation ID="RPR_PCK_SVH_NAM" String="Vanilla middelbare school" />
-    <Translation ID="RPR_PCK_SVH_DES" String="Groeit op dezelfde manier als de vanilla middelbare school" />
-    <Translation ID="RPR_PCK_SVC_NAM" String="Vanilla middelbaar beroepsonderwijs" />
-    <Translation ID="RPR_PCK_SVC_DES" String="Groeit op dezelfde manier als de vanilla versie" />
-    <Translation ID="RPR_PCK_SVA_NAM" String="Vanilla kunstacademie" />
-    <Translation ID="RPR_PCK_SVA_DES" String="Groeit op dezelfde manier als de vanilla kunstacademie" />
-    <Translation ID="RPR_CAT_ALL" String="Alle categorieën" />
-    <Translation ID="RPR_CAT_RES" String="Woonwijk" />
-    <Translation ID="RPR_CAT_RLO" String="Woonwijk laag" />
-    <Translation ID="RPR_CAT_RHI" String="Woonwijk hoog" />
-    <Translation ID="RPR_CAT_COM" String="Commercieel" />
-    <Translation ID="RPR_CAT_CLO" String="Commercieel laag" />
-    <Translation ID="RPR_CAT_CHI" String="Commercieel hoog" />
-    <Translation ID="RPR_CAT_OFF" String="Kantoor" />
-    <Translation ID="RPR_CAT_GEN" String="Algemeen" />
-    <Translation ID="RPR_CAT_ITC" String="IT bedrijventerrein" />
-    <Translation ID="RPR_CAT_IND" String="Industrieel" />
-    <Translation ID="RPR_CAT_FAR" String="Landbouw" />
-    <Translation ID="RPR_CAT_FOR" String="Bosbouw" />
-    <Translation ID="RPR_CAT_OIL" String="Olie" />
-    <Translation ID="RPR_CAT_ORE" String="Erts" />
-    <Translation ID="RPR_CAT_EXT" String="Mijner" />
-    <Translation ID="RPR_CAT_PRO" String="Verwerker" />
-    <Translation ID="RPR_CAT_TOU" String="Toerisme" />
-    <Translation ID="RPR_CAT_LEI" String="Vrije tijd" />
-    <Translation ID="RPR_CAT_ORG" String="Biologische en lokale producten" />
-    <Translation ID="RPR_CAT_ECO" String="Duurzame winkels" />
-    <Translation ID="RPR_CAT_SSH" String="Zelfvoorzienende woningen" />
-    <Translation ID="RPR_CAT_ERL" String="Duurzame woonwijk laag" />
-    <Translation ID="RPR_CAT_ERH" String="Duurzame woonwijk hoog" />
-    <Translation ID="RPR_CAT_SIN" String="Gespecialiseerde industrie" />
-    <Translation ID="RPR_CAT_SCH" String="Scholen" />
-    <Translation ID="RPR_FIL_NAME" String="Naam:" />
-    <Translation ID="RPR_FIL_SET" String="Filter op basis van instellingen (zie tooltip)" />
-    <Translation ID="RPR_EDT_POP" String="Overschrijf bewoners" />
-    <Translation ID="RPR_EDT_FLR" String="Overschrijf verdiepingen" />
-    <Translation ID="RPR_FTR_ANY" String="Heeft een aangepaste overschrijving en/of niet-standaard berekeningspakket" />
-    <Translation ID="RPR_FTR_OVR" String="Heeft overschrijving voor bewoners en/of verdieping" />
-    <Translation ID="RPR_FTR_NDC" String="Heeft niet standaard berekeningspakket en/of aangepaste vermenigvuldigingsfactor voor bewoners" />
-    <Translation ID="RPR_CUS_TITLE" String="Aangepaste instellingen" />
-    <Translation ID="RPR_CUS_ADD" String="Voeg aangepaste instellingen toe" />
-    <Translation ID="RPR_CUS_ADD_TIP" String="Voegt een aangepaste instelling toe (of werkt deze bij) voor het geselecteerde gebouw" />
-    <Translation ID="RPR_CUS_DEL" String="Verwijderd aangepaste instellingen" />
-    <Translation ID="RPR_CUS_DEL_TIP" String="Verwijderd de aangepaste instelling van het geselecteerde gebouw" />
-    <Translation ID="RPR_CUS_UPD" String="Werkt aangepaste instellingen bij" />
-    <Translation ID="RPR_ERR_ZERO" String="ERROR: waarde moet groter zijn dan nul" />
-    <Translation ID="RPR_ERR_INV" String="ERROR: ongeldige waarde" />
-    <Translation ID="RPR_LBL_HOM" String="Woningen:" />
-    <Translation ID="RPR_LBL_JOB" String="Banen:" />
-    <Translation ID="RPR_LBL_STU" String="Studenten:" />
-    <Translation ID="RPR_LBL_OFF" String="Hoogte begane grond" />
-    <Translation ID="RPR_LBL_OFH" String="Hoogte andere verdiepingen" />
-    <Translation ID="RPR_PRV_SFL" String="Toon berekende verdiepingen" />
-    <Translation ID="RPR_CAL_MOD" String="Mod berekeningen" />
-    <Translation ID="RPR_CAL_DEN" String="Bevolkingsdichtheid" />
-    <Translation ID="RPR_CAL_BFL" String="Verdiepingen gebouw" />
-    <Translation ID="RPR_CAL_FOV" String="Gebruikt aangepaste overschrijving" />
-    <Translation ID="RPR_CAL_FLG" String="Selectie voor het berekenen van verdiepingen is niet beschikbaar wanneer oorspronkelijke berekeningen worden gebruikt" />
-    <Translation ID="RPR_CAL_SAT" String="Bewaar en pas toe op:" />
-    <Translation ID="RPR_CAL_NBD" String="Alleen nieuwe gebouwen" />
-    <Translation ID="RPR_CAL_ABD" String="Alle gebouwen" />
-    <Translation ID="RPR_CAL_VOL_FLR" String="Verdiepingen" />
-    <Translation ID="RPR_CAL_VOL_FLR_TIP" String="Het aantal verdiepingen voor dit gebouw, berekend met de bovenstaande instellingen." />
-    <Translation ID="RPR_CAL_VOL_TFA" String="Totale vloeroppervlak" />
-    <Translation ID="RPR_CAL_VOL_TFA_TIP" String="Het totale vloeropppervlak voor dit gebouw, berekend met de bovenstaande instellingen." />
-    <Translation ID="RPR_CAL_VOL_UTS" String="Totaal eenheden" />
-    <Translation ID="RPR_CAL_VOL_UTS_TIP" String="De totale populatie (huishoudens of werkplekken) voor dit gebouw, berekend met bovenstaande instellingen." />
-    <Translation ID="RPR_CAL_VOL_VIS" String="Bezoekersaantal" />
-    <Translation ID="RPR_CAL_VOL_VIS_TIP" String="Maximum aantal gelijktijdige klanten ondersteund door dit gebouw." />
-    <Translation ID="RPR_CAL_VOL_PRD" String="Productiesnelheid" />
-    <Translation ID="RPR_CAL_VOL_PRD_TIP" String="Maximum productiesnelheid van dit gebouw." />
-    <Translation ID="RPR_CAL_VOL_FLH" String="Hoogte verdieping" />
-    <Translation ID="RPR_CAL_VOL_FLH_TIP" String="Standaard plafondhoogte, in meters, van elke verdieping in dit gebouw (aanvullende opties voor de begane grond hieronder)" />
-    <Translation ID="RPR_CAL_VOL_FMN" String="Hoogte begane grond min" />
-    <Translation ID="RPR_CAL_VOL_FMN_TIP" String="De minimale bouwhoogte in een deel van het gebouw om te tellen als minstens één verdieping" />
-    <Translation ID="RPR_CAL_VOL_FMX" String="Begane grond extra hoogte" />
-    <Translation ID="RPR_CAL_VOL_FMX_TIP" String="De hoogte van de begane grond zal met dit aantal meters worden verhoogd (bovenop de standaard plafondhoogte hierboven) voordat extra verdiepingen worden toegevoegd." />
-    <Translation ID="RPR_CAL_VOL_IGF" String="Negeer begane grond" />
-    <Translation ID="RPR_CAL_VOL_IGF_TIP" String="Wanneer dit is ingesteld zal de begane grond worden gezien als &quot;lege ruimte&quot; (bijv een lobby of foyer) zonder huishoudens of werkplekken. " />
-    <Translation ID="RPR_CAL_VOL_EPC" String="Lege ruimte (%)" />
-    <Translation ID="RPR_CAL_VOL_EPC_TIP" String="Dit percentage van elke vloeroppervlak zal worden behandeld als lege ruimte and wordt niet gebruikt bij het berekenen van huishoudens of aantal werknemers. " />
-    <Translation ID="RPR_CAL_VOL_EMP" String="Lege ruimte (absoluut)" />
-    <Translation ID="RPR_CAL_VOL_EMP_TIP" String="Een vastgestelde hoeveelheid ruimte dat zal worden afgetrokken van elk vloeroppervlak voordat huishoudens of werknemers worden berekend (behandeld als lege ruimte)." />
-    <Translation ID="RPR_CAL_VOL_FXP" String="Vastgestelde populatie?" />
-    <Translation ID="RPR_CAL_VOL_FXP_TIP" String="Wanneer dit is ingesteld zal een van tevoren ingevoerde waarde gebruikt worden om huishoudens en werknemers te berekenen, ongeacht de grootte van het gebouw (bijv. één huishouden per gebouw)" />
-    <Translation ID="RPR_CAL_VOL_UNI" String="Eenheden" />
-    <Translation ID="RPR_CAL_VOL_HOU" String="Huishoudens" />
-    <Translation ID="RPR_CAL_VOL_WOR" String="Werkplekken" />
-    <Translation ID="RPR_CAL_VOL_STU" String="Studenten:" />
-    <Translation ID="RPR_CAL_VOL_UNI_TIP" String="Vastgesteld aantal huishoudens of werknemers per gebouw." />
-    <Translation ID="RPR_CAL_VOL_APU" String="Oppervlakte per eenheid" />
-    <Translation ID="RPR_CAL_VOL_APU_TIP" String="De benodigde oppervlakte (in vierkante meters) voor elk huishouden of werknemers (na aftrek van lege ruimte)." />
-    <Translation ID="RPR_CAL_VOL_MFU" String="Eenheden met meerdere verdiepingen" />
-    <Translation ID="RPR_CAL_VOL_MFU_TIP" String="Wanneer dit niet wordt ingesteld zal het aantal huishoudens of werknemers worden berekend voor elke verdieping in het gebouw. Wanneer dit wel wordt ingesteld zal alleen de totale oppervlakte van het gebouw worden gebruikt om het aantal huishoudens of werknemers te berekenen. " />
-    <Translation ID="RPR_CAL_VOL_ARA" String="oppervlakte" />
-    <Translation ID="RPR_CAL_UNI_HOU" String="huishoudens" />
-    <Translation ID="RPR_CAL_UNI_WOR" String="werknemers" />
-    <Translation ID="RPR_CAL_UNI_STU" String="studenten" />
-    <Translation ID="RPR_CAL_HOM_CALC" String="Berekende huishoudens:" />
-    <Translation ID="RPR_CAL_HOM_CUST" String="Aangepaste huishoudens:" />
-    <Translation ID="RPR_CAL_HOM_APPL" String="Toegepaste huishoudens:" />
-    <Translation ID="RPR_CAL_JOB_CALC" String="Berekende banen:" />
-    <Translation ID="RPR_CAL_JOB_CUST" String="Aangepaste banen:" />
-    <Translation ID="RPR_CAL_JOB_APPL" String="Toegepaste banen:" />
-    <Translation ID="RPR_CAL_BLD_X" String="Breedte gebouw (m):" />
-    <Translation ID="RPR_CAL_BLD_Z" String="Lengte gebouw (m):" />
-    <Translation ID="RPR_CAL_BLD_Y" String="Steigerhoogte (m):" />
-    <Translation ID="RPR_CAL_BLD_M2" String="m2 per persoon:" />
-    <Translation ID="RPR_CAL_FLR_Y" String="Hoogte verdieping (m):" />
-    <Translation ID="RPR_CAL_FLR_M" String="Verdieping mod" />
-    <Translation ID="RPR_CAL_FLR" String="Berekend aantal verdiepingen:" />
-    <Translation ID="RPR_CAL_M2" String="Berekende oppervlakte:" />
-    <Translation ID="RPR_CAL_OVR" String="(Overschreven)" />
-    <Translation ID="RPR_CAL_OVM" String="Populatie berekening is overschreven door handmatige instelling" />
-    <Translation ID="RPR_CAL_RICO" String="Ploppable RICO Revisited beheert de getallen voor dit gebouw." />
-    <Translation ID="RPR_CAL_CAP_OVR" String="Aangepaste vermenigvuldiger capaciteit" />
-    <Translation ID="RPR_CAL_CAP_DEF" String="Standaard vermenigvuldiger:" />
-    <Translation ID="RPR_CAL_SCH_PRO" String="Personeel- en kostenschaling" />
-    <Translation ID="RPR_CAL_SCH_WKR" String="Schoolpersoneel" />
-    <Translation ID="RPR_CAL_SCH_WKR_TIP" String="Het aantal en level van de beschikbare werkplekken op deze school, berekenend met bovenstaande instellingen" />
-    <Translation ID="RPR_CAL_SCH_CST" String="Kosten/onderhoud" />
-    <Translation ID="RPR_CAL_SCH_CST_TIP" String="De, kosten voor bouw en wekelijks onderhoud van deze school, berekend met bovenstaande instellingen" />
-    <Translation ID="RPR_TIT_RDF" String="Berekeningsstandaarden woonwijk" />
-    <Translation ID="RPR_TIT_CDF" String="Berekeningsstandaarden comcercieel" />
-    <Translation ID="RPR_TIT_IDF" String="Berekeningsstandaarden industrieel" />
-    <Translation ID="RPR_TIT_EDF" String="Berekeningsstandaarden mijner" />
-    <Translation ID="RPR_TIT_ODF" String="Berekeningsstandaarden kantoor" />
-    <Translation ID="RPR_TIT_SDF" String="Berekeningsstandaarden school" />
-    <Translation ID="RPR_TIT_CGO" String="Instellingen voor commerciële goederen" />
-    <Translation ID="RPR_TIT_IGO" String="Instellingen voor industriële productie" />
-    <Translation ID="RPR_TIT_EGO" String="Instellingen voor mijnerproductie" />
-    <Translation ID="RPR_TIT_OGO" String="Instellingen voor kantoorproductie" />
-    <Translation ID="RPR_OPT_MOD" String="Mod instellingen" />
-    <Translation ID="RPR_OPT_KEY" String="Snelkoppeling voor scherm met gebouwopties" />
-    <Translation ID="RPR_OPT_PRS" String="Druk op een willekeurige toets" />
-    <Translation ID="RPR_OPT_LEG" String="Oorspronkelijk" />
-    <Translation ID="RPR_OPT_CON" String="Consumptie" />
-    <Translation ID="RPR_OPT_LVL" String="Level" />
-    <Translation ID="RPR_OPT_APH" String="Oppervlakte per huishouden (m2)" />
-    <Translation ID="RPR_OPT_APW" String="Oppervlakte per werknemer (m2)" />
-    <Translation ID="RPR_OPT_FLR" String="Hoogte verdieping (m)" />
-    <Translation ID="RPR_OPT_POW" String="Elektriciteit" />
-    <Translation ID="RPR_OPT_WAT" String="Water" />
-    <Translation ID="RPR_OPT_SEW" String="Riool" />
-    <Translation ID="RPR_OPT_GAR" String="Afval" />
-    <Translation ID="RPR_OPT_POL" String="Vervuiling" />
-    <Translation ID="RPR_OPT_NOI" String="Geluid" />
-    <Translation ID="RPR_OPT_MAI" String="Post" />
-    <Translation ID="RPR_OPT_PRO" String="Productie" />
-    <Translation ID="RPR_OPT_WEA" String="Welstand" />
-    <Translation ID="RPR_OPT_RTD" String="Terugezetten naar standaardwaarden" />
-    <Translation ID="RPR_OPT_RTS" String="Terugkeren naar opgeslagen waarden" />
-    <Translation ID="RPR_OPT_SAA" String="Opslaan en toepassen" />
-    <Translation ID="RPR_OPT_SCH" String="Scholen" />
-    <Translation ID="RPR_OPT_SEN" String="Schakel realistische studentcapaciteit in voor scholen" />
-    <Translation ID="RPR_OPT_SEJ" String="Schakel realistische eigenschappen voor scholen in (banen, kosten) - herstart nodig" />
-    <Translation ID="RPR_OPT_SDM" String="Standaard school vermenigvuldiger" />
-    <Translation ID="RPR_OPT_JB0" String="Ongeschoold werk" />
-    <Translation ID="RPR_OPT_JB1" String="Geschoold werk" />
-    <Translation ID="RPR_OPT_JB2" String="Goedopgeleid werk" />
-    <Translation ID="RPR_OPT_JB3" String="Hoogopgeleid werk" />
-    <Translation ID="RPR_OPT_SHE" String="Basisscholen" />
-    <Translation ID="RPR_OPT_SHH" String="Middelbare scholen" />
-    <Translation ID="RPR_OPT_SJB" String="Minimum aantal banen" />
-    <Translation ID="RPR_OPT_SJX" String="Extra banen per # studenten" />
-    <Translation ID="RPR_OPT_CRI" String="Criminaliteit" />
-    <Translation ID="RPR_OPT_CML" String="Vermenigvuldiger criminaliteit" />
-    <Translation ID="RPR_OPT_CML_TIP" String="De minimum criminaliteitsopbouw voor de stad wordt vermenigvuldigd met dit aantal" />
-    <Translation ID="RPR_OPT_POP" String="Berekeningsbundels voor populatie" />
-    <Translation ID="RPR_OPT_STO" String="Berekeningsbundels voor verdiepingen" />
-    <Translation ID="RPR_OPT_DEF" String="Standaard berekeningsbundels" />
-    <Translation ID="RPR_OPT_PSI" String="Instellingen voor productie, verkoop en voorraad" />
-    <Translation ID="RPR_OPT_EDT_NAM" String="Naam bundel" />
-    <Translation ID="RPR_OPT_SVC" String="Dienst" />
-    <Translation ID="RPR_OPT_CPK" String="Berekeningsbundel" />
-    <Translation ID="RPR_OPT_NEW" String="Voeg nieuwe toe" />
-    <Translation ID="RPR_OPT_DEL" String="Verwijder bundel" />
-    <Translation ID="RPR_OPT_NPK" String="Nieuwe bundel" />
-    <Translation ID="RPR_OPT_LDT" String="Schakel gedetailleerd loggen in voor debugging" />
-    <Translation ID="RPR_DEF_LGR" String="Gebruik standaard oorspronkelijke berekeningen (WG original and Realistic Population Revisited version 1) voor woningen:" />
-    <Translation ID="RPR_DEF_LGC" String="Gebruik standaard oorspronkelijke berekeningen (WG original and Realistic Population Revisited version 1) voor commerciële gebouwen:" />
-    <Translation ID="RPR_DEF_LGI" String="Gebruik standaard oorspronkelijke berekeningen (WG original and Realistic Population Revisited version 1) voor industriële gebouwen:" />
-    <Translation ID="RPR_DEF_LGO" String="Gebruik standaard oorspronkelijke berekeningen (WG original and Realistic Population Revisited version 1) voor kantoorgebouwen:" />
-    <Translation ID="RPR_DEF_LTS" String="Deze save" />
-    <Translation ID="RPR_DEF_LAS" String="Nieuwe saves" />
-    <Translation ID="RPR_DEF_VIS" String="Klanten (bezoekers) capaciteit" />
-    <Translation ID="RPR_DEF_VIS_TIP" String="De basis om het aantal klanten te berekenen dat dit gebouw tegelijk aankan. De oude methode gebruikte de oppervlakte van het perceel, de nieuwe methode gebruikt het aantal werkplekken in het gebouw. " />
-    <Translation ID="RPR_DEF_VNE" String="Nieuwe methode (populatie)" />
-    <Translation ID="RPR_DEF_VOL" String="Oude methode (perceeloppervlak)" />
-    <Translation ID="RPR_DEF_VMU" String="Vermenigvuldigingsfactor aantal klanten" />
-    <Translation ID="RPR_DEF_VMU_TIP" String="De berekende klantencapaciteit zal worden vermenigvuldigd met deze factor" />
-    <Translation ID="RPR_DEF_CGM" String="Vermenigvuligingsfactor verkoop" />
-    <Translation ID="RPR_DEF_CGM_TIP" String="Het aantal goederen dat per klant verkocht wordt zal worden vermenigvuldigd met deze factor; kleinere waarden betekent dat er minder goederen nodig zijn maar ook dat belastingopbrengsten minder worden" />
-    <Translation ID="RPR_DEF_IDC" String="Voorraadbeheer grens" />
-    <Translation ID="RPR_DEF_IDC_TIP" String="Stelt de maximum hoeveelheid voorraad in waarbij bestellingen worden geactiveerd voor meer goederen (heeft geen effect op gebouwen met een reeds lagere activatiedrempel)." />
-    <Translation ID="RPR_DEF_PMD" String="Berekeningsmethode" />
-    <Translation ID="RPR_DEF_PMD_TIP" String="De manier waarop de productiesnelheid van dit gebouw wordt berekenend. De oude methode gebruikte de oppervlakte van het perceel, de nieuwe methode gebruikt het aantal werkplekken in het gebouw." />
-    <Translation ID="RPR_DEF_PRD" String="Vermenigvuldigingsfactor productie" />
-    <Translation ID="RPR_DEF_PRD_TIP" String="Het aantal geproduceerde goederen door dit gebouw zal worden vermenigvuldigd met deze factor" />
-    <Translation ID="TRN_CHOICE" String="Stel taal in" />
-    <Translation ID="TRN_SYS" String="Gebruik systeemtaal" />
-    <Translation ID="MES_CLS" String="Sluit" />
-    <Translation ID="MES_DSA" String="Laat niet opnieuw zien" />
-    <Translation ID="MES_PAGE" String="Zie voor meer informatie de Steam Workshop pagina van deze mod." />
-    <Translation ID="RPR_OLD_0" String="Dit savebestand is niet opgeslagen met Realistic Population 2." />
-    <Translation ID="RPR_OLD_1" String="Wees ervan bewust dat het toepassen van verschillende populatieberekeningen op een bestaande stad de balans in de stad tijdelijk fors kan verstoren. " />
-    <Translation ID="RPR_OLD_2" String="Als je een stad laad die is gecreëerd met een eerdere versie van deze mod kan je kiezen om verder te gaan met de oorspronkelijke mod berekeningen; dit zou de balans in je stad moeten kunnen bewaren. Je kan er ook voor kiezen om te wisselen naar het nieuwe (meer accuraat en flexibele) berekeningsmodel, let wel dat je stad dan enige herbalancering nodig heeft. " />
-    <Translation ID="RPR_OLD_3" String="In beide gevallen zullen reeds gebouwde woningen de bestaande capaciteiten en huishoudens behouden en worden NIET beïnvloed. Werknemers met bestaande banen zullen NIET onmiddelijk ontslagen worden, er is dus geen onmiddelijke impact op de bevolking van je stad. " />
-    <Translation ID="RPR_OLD_LEG" String="Gebruik oorspronkelijke berekeningen" />
-    <Translation ID="RPR_OLD_NEW" String="Gebruik nieuwe berekeningen" />
-    <Translation ID="RPR_ERR_FAT" String="Dit betekent dat Realistic Population 2 niet naar behoren kan functioneren en is afgesloten. " />
-    <Translation ID="RPR_ERR_HAR" String="Realistic Population 2 kon de benodigde Harmony patches niet voltooien." />
-    <Translation ID="ERR_HAR0" String="Harmony patching error!" />
-    <Translation ID="ERR_HAR1" String="Mogelijke oorzaken van dit probleem zijn:" />
-    <Translation ID="ERR_HAR2" String="De benodigde Harmony 2 mod afhankelijkheid is niet geïnstalleerd" />
-    <Translation ID="ERR_HAR3" String="Een oude en/of beschadigde mod voorkomt dat Harmony 2 naar behoren kan functioneren" />
-    <Translation ID="ERR_CON0" String="Conflict met mod gedetecteerd!" />
-    <Translation ID="ERR_CON1" String="De mods waarmee conflicten zijn:" />
-    <Translation ID="RPR_ERR_CON0" String="Realistic Population 2 heeft een conflict met minstens één andere mod gedetecteerd." />
-    <Translation ID="RPR_ERR_CON1" String="Deze mods moeten worden verwijderd voor Realistic Population 2 kan functioneren." />
-    <Translation ID="RPR_200_0" String="Naamswijziging van &quot;Realistic Population Revisited&quot; naar &quot;Realistic Population 2&quot; om de omvang van de veranderingen weer te geven. " />
-    <Translation ID="RPR_200_1" String="BELANGRIJKE NIEUWE FUNCTIE: nieuwe berekeningen voor gebouwpopulatie gebaseerd op de daadwerkelijke vormen en afmetingen met realistisch berekende vloeroppervlakte. Mogelijkheid om te kiezen tussen nieuwe en oude (&quot;oorspronkelijke&quot;) berekeningen. " />
-    <Translation ID="RPR_200_2" String="BELANGRIJKE NIEUWE FUNCTIE: verschillende voorafingestelde berekeningen voor vloeroppervlak van gebouw en populatie, alsmede optionele manuele overschrijvingen for elk of beide" />
-    <Translation ID="RPR_200_3" String="BELANGRIJKE NIEUWE FUNCTIE: selecteerbare voorinstellingen voor gebouwen in elk zonetype" />
-    <Translation ID="RPR_200_4" String="BELANGRIJKE NIEUWE FUNCTIE: optionele, realistische capaciteitsberekenignen voor studenten op basisscholen en middelbare scholen. Met configureerbare vermenigvuldiger wanneer schoolgebouwen met een realistisch formaat niet beschikbaar zijn. " />
-    <Translation ID="RPR_200_5" String="BELANGRIJKE NIEUWE FUNCTIE: aanpasbaar misdaadcijfer" />
-    <Translation ID="RPR_200_6" String="Upgrade naar Harmony 2 (bofomer's Harmony 2 mod noodzakelijk)" />
-    <Translation ID="RPR_200_7" String="Verschillende verbeteringen aan het gebouwdetailvenster" />
-    <Translation ID="RPR_200_8" String="Verbeterde mod conflict detectie en notificatie" />
-    <Translation ID="RPR_200_9" String="Aanzienlijke herziening, opschoning en restructurering van de basiscode van de mod" />
-  </Translations>
+	<Translations>
+		<Translation ID="RPR_NAME" String="Realistic Population 2" />
+		<Translation ID="RPR_DESC" String="Meer realistische bewoning (gebaseerd op grootte van gebouw) en nutsbehoeften." />
+		<Translation ID="RPR_REALPOP" String="Realistische bevolking" />
+		<Translation ID="RPR_INF_VIS" String="bezoekers" />
+		<Translation ID="RPR_PCK_DEF" String="(standaard)" />
+		<Translation ID="RPR_PCK_NAM" String="Berekeningen" />
+		<Translation ID="RPR_PCK_LEG_NAM" String="Oorspronkelijke WG berekeningen" />
+		<Translation ID="RPR_PCK_LEG_DES" String="Oorspronkelijk gebruikte berekeningen door versie 1.x van deze mod en Whitefang Greytail's originele Realistic Popoulation and Consumption mod. " />
+		<Translation ID="RPR_PCK_RLS_NAM" String="Eensgezinswoning" />
+		<Translation ID="RPR_PCK_RLS_DES" String="Eén huishouden per gebouw" />
+		<Translation ID="RPR_PCK_RLD_NAM" String="Twee-onder-een-kap woning" />
+		<Translation ID="RPR_PCK_RLD_DES" String="Twee huishoudens per gebouw" />
+		<Translation ID="RPR_PCK_RUH_NAM" String="VS hoogbouw" />
+		<Translation ID="RPR_PCK_RUH_DES" String="Gemiddelde appartementen en condominiums uit de VS" />
+		<Translation ID="RPR_PCK_REM_NAM" String="Europese appartementen (modern)" />
+		<Translation ID="RPR_PCK_REM_DES" String="Europese middel hoogbouw en kamerbrede appartementen (gemiddelde dichtheid; moderne gebouwen)" />
+		<Translation ID="RPR_PCK_REO_NAM" String="Europese appartementen (ouder)" />
+		<Translation ID="RPR_PCK_REO_DES" String="Europese middel hoogbouw en kamerbrede appartementen (hoge dichtheid; oude gebouwen)" />
+		<Translation ID="RPR_PCK_CUS_NAM" String="VS detailhandel" />
+		<Translation ID="RPR_PCK_CUS_DES" String="Dichtheid voor algemene detailhandel, typisch voor de VS" />
+		<Translation ID="RPR_PCK_CUK_NAM" String="VK detailhandel" />
+		<Translation ID="RPR_PCK_CUK_DES" String="Dichtheid voor algemene detailhandel, typisch voor het VK" />
+		<Translation ID="RPR_PCK_CRW_NAM" String="Warenhuizen" />
+		<Translation ID="RPR_PCK_CRW_DES" String="Grote supermarkten en warenhuizen " />
+		<Translation ID="RPR_PCK_THT_NAM" String="Hotels" />
+		<Translation ID="RPR_PCK_THT_DES" String="Hotels en motels" />
+		<Translation ID="RPR_PCK_LFD_NAM" String="Horeca" />
+		<Translation ID="RPR_PCK_LFD_DES" String="Restaurants en cafés" />
+		<Translation ID="RPR_PCK_LEN_NAM" String="Amusement" />
+		<Translation ID="RPR_PCK_LEN_DES" String="Vermaak, fitness en andere amusementsgelegenheden" />
+		<Translation ID="RPR_PCK_LCN_NAM" String="Bioscopen" />
+		<Translation ID="RPR_PCK_LCN_DES" String="Bioscopen en theaters" />
+		<Translation ID="RPR_PCK_ILG_NAM" String="Kleine industrie" />
+		<Translation ID="RPR_PCK_ILG_DES" String="Kleine industrie en bedrijventerreinen" />
+		<Translation ID="RPR_PCK_IMN_NAM" String="Productie" />
+		<Translation ID="RPR_PCK_IMN_DES" String="Industriële productie" />
+		<Translation ID="RPR_PCK_IWL_NAM" String="Kleine distributiecentra" />
+		<Translation ID="RPR_PCK_IWL_DES" String="Lokale distributiecentra - veel opslag en lage werkgelegenheid" />
+		<Translation ID="RPR_PCK_IWN_NAM" String="Grote distributiecentra" />
+		<Translation ID="RPR_PCK_IWN_DES" String="Distributiecentra voor nationale distributie - veel opslag en zeer lage werkgelegenheid" />
+		<Translation ID="RPR_PCK_OCP_NAM" String="Hoofdkantoren" />
+		<Translation ID="RPR_PCK_OCP_DES" String="Kantoren voor zakelijk gebruik, dienstverlening en publieke sector" />
+		<Translation ID="RPR_PCK_OFN_NAM" String="Kantoren financiële sector" />
+		<Translation ID="RPR_PCK_OFN_DES" String="Financiële kantoren; hogere dichtheid dan gewone hoofdkantoren" />
+		<Translation ID="RPR_PCK_OCS_NAM" String="Call centers" />
+		<Translation ID="RPR_PCK_OCS_DES" String="Call centers en andere dichtopeengebouwde kantoorruimten" />
+		<Translation ID="RPR_PCK_ODT_NAM" String="Datacenters" />
+		<Translation ID="RPR_PCK_ODT_DES" String="Co-locatie datacenters" />
+		<Translation ID="RPR_PCK_SSB_NAM" String="Buitenstedelijke school" />
+		<Translation ID="RPR_PCK_SSB_DES" String="Buitenstedelijke scholen" />
+		<Translation ID="RPR_PCK_SML_NAM" String="MN laag" />
+		<Translation ID="RPR_PCK_SML_DES" String="Minnesota Dep van Onderwijs gids - laagste dichtheid" />
+		<Translation ID="RPR_PCK_SMM_NAM" String="MN gemiddeld" />
+		<Translation ID="RPR_PCK_SMM_DES" String="Minnesota Dep van Onderwijs gids - gemiddelde dichtheid" />
+		<Translation ID="RPR_PCK_SMH_NAM" String="MN hoog" />
+		<Translation ID="RPR_PCK_SMH_DES" String="Minnesota Dep van Onderwijs gids - hoogste dichtheid" />
+		<Translation ID="RPR_PCK_SUK_NAM" String="VK standaard" />
+		<Translation ID="RPR_PCK_SUK_DES" String="Standaard stedenbouwkundige dichtheden voor het VK" />
+		<Translation ID="RPR_PCK_FDF_NAM" String="Algemeen" />
+		<Translation ID="RPR_PCK_FDF_DES" String="Standaard 3m vloerhoogte" />
+		<Translation ID="RPR_PCK_FHO_NAM" String="Vrijstaande huizen" />
+		<Translation ID="RPR_PCK_FHO_DES" String="Vrijstaande huizen" />
+		<Translation ID="RPR_PCK_FDL_NAM" String="Appartementencomplexen" />
+		<Translation ID="RPR_PCK_FDL_DES" String="Gebouwen met lobby's en/ of verhoogde begane grond" />
+		<Translation ID="RPR_PCK_FCM_NAM" String="Commercieel" />
+		<Translation ID="RPR_PCK_FCM_DES" String="Commerciele, kantoor-, onderwijs- en industriële gebouwen met verhoogd plafond" />
+		<Translation ID="RPR_PCK_FWH_NAM" String="Magazijn" />
+		<Translation ID="RPR_PCK_FWH_DES" String="Winkel, commerciële en industriële opslagplaatsen" />
+		<Translation ID="RPR_PCK_FHB_NAM" String="Hoogbouwmagazijn" />
+		<Translation ID="RPR_PCK_FHB_DES" String="Hoogbouw industriële en commerciële magazijnen" />
+		<Translation ID="RPR_PCK_FEX_NAM" String="Primaire industrie" />
+		<Translation ID="RPR_PCK_FEX_DES" String="Industriële mijners en verwerkers" />
+		<Translation ID="RPR_PCK_SVE_NAM" String="Vanilla basisschool" />
+		<Translation ID="RPR_PCK_SVE_DES" String="Groeit op dezelfde manier als de vanilla basisschool" />
+		<Translation ID="RPR_PCK_SVH_NAM" String="Vanilla middelbare school" />
+		<Translation ID="RPR_PCK_SVH_DES" String="Groeit op dezelfde manier als de vanilla middelbare school" />
+		<Translation ID="RPR_PCK_SVC_NAM" String="Vanilla middelbaar beroepsonderwijs" />
+		<Translation ID="RPR_PCK_SVC_DES" String="Groeit op dezelfde manier als de vanilla versie" />
+		<Translation ID="RPR_PCK_SVA_NAM" String="Vanilla kunstacademie" />
+		<Translation ID="RPR_PCK_SVA_DES" String="Groeit op dezelfde manier als de vanilla kunstacademie" />
+		<Translation ID="RPR_CAT_ALL" String="Alle categorieën" />
+		<Translation ID="RPR_CAT_RES" String="Woonwijk" />
+		<Translation ID="RPR_CAT_RLO" String="Woonwijk laag" />
+		<Translation ID="RPR_CAT_RHI" String="Woonwijk hoog" />
+		<Translation ID="RPR_CAT_COM" String="Commercieel" />
+		<Translation ID="RPR_CAT_CLO" String="Commercieel laag" />
+		<Translation ID="RPR_CAT_CHI" String="Commercieel hoog" />
+		<Translation ID="RPR_CAT_OFF" String="Kantoor" />
+		<Translation ID="RPR_CAT_GEN" String="Algemeen" />
+		<Translation ID="RPR_CAT_ITC" String="IT bedrijventerrein" />
+		<Translation ID="RPR_CAT_IND" String="Industrieel" />
+		<Translation ID="RPR_CAT_FAR" String="Landbouw" />
+		<Translation ID="RPR_CAT_FOR" String="Bosbouw" />
+		<Translation ID="RPR_CAT_OIL" String="Olie" />
+		<Translation ID="RPR_CAT_ORE" String="Erts" />
+		<Translation ID="RPR_CAT_EXT" String="Mijner" />
+		<Translation ID="RPR_CAT_PRO" String="Verwerker" />
+		<Translation ID="RPR_CAT_TOU" String="Toerisme" />
+		<Translation ID="RPR_CAT_LEI" String="Vrije tijd" />
+		<Translation ID="RPR_CAT_ORG" String="Biologische en lokale producten" />
+		<Translation ID="RPR_CAT_ECO" String="Duurzame winkels" />
+		<Translation ID="RPR_CAT_SSH" String="Zelfvoorzienende woningen" />
+		<Translation ID="RPR_CAT_ERL" String="Duurzame woonwijk laag" />
+		<Translation ID="RPR_CAT_ERH" String="Duurzame woonwijk hoog" />
+		<Translation ID="RPR_CAT_SIN" String="Gespecialiseerde industrie" />
+		<Translation ID="RPR_CAT_SCH" String="Scholen" />
+		<Translation ID="RPR_FIL_NAME" String="Naam:" />
+		<Translation ID="RPR_FIL_SET" String="Filter op basis van instellingen (zie tooltip)" />
+		<Translation ID="RPR_EDT_POP" String="Overschrijf bewoners" />
+		<Translation ID="RPR_EDT_FLR" String="Overschrijf verdiepingen" />
+		<Translation ID="RPR_FTR_ANY" String="Heeft een aangepaste overschrijving en/of niet-standaard berekeningspakket" />
+		<Translation ID="RPR_FTR_OVR" String="Heeft overschrijving voor bewoners en/of verdieping" />
+		<Translation ID="RPR_FTR_NDC" String="Heeft niet standaard berekeningspakket en/of aangepaste vermenigvuldigingsfactor voor bewoners" />
+		<Translation ID="RPR_CUS_TITLE" String="Aangepaste instellingen" />
+		<Translation ID="RPR_CUS_ADD" String="Voeg aangepaste instellingen toe" />
+		<Translation ID="RPR_CUS_ADD_TIP" String="Voegt een aangepaste instelling toe (of werkt deze bij) voor het geselecteerde gebouw" />
+		<Translation ID="RPR_CUS_DEL" String="Verwijderd aangepaste instellingen" />
+		<Translation ID="RPR_CUS_DEL_TIP" String="Verwijderd de aangepaste instelling van het geselecteerde gebouw" />
+		<Translation ID="RPR_CUS_UPD" String="Werkt aangepaste instellingen bij" />
+		<Translation ID="RPR_ERR_ZERO" String="ERROR: waarde moet groter zijn dan nul" />
+		<Translation ID="RPR_ERR_INV" String="ERROR: ongeldige waarde" />
+		<Translation ID="RPR_LBL_HOM" String="Woningen:" />
+		<Translation ID="RPR_LBL_JOB" String="Banen:" />
+		<Translation ID="RPR_LBL_STU" String="Studenten:" />
+		<Translation ID="RPR_LBL_OFF" String="Hoogte begane grond" />
+		<Translation ID="RPR_LBL_OFH" String="Hoogte andere verdiepingen" />
+		<Translation ID="RPR_PRV_SFL" String="Toon berekende verdiepingen" />
+		<Translation ID="RPR_CAL_MOD" String="Mod berekeningen" />
+		<Translation ID="RPR_CAL_DEN" String="Bevolkingsdichtheid" />
+		<Translation ID="RPR_CAL_BFL" String="Verdiepingen gebouw" />
+		<Translation ID="RPR_CAL_FOV" String="Gebruikt aangepaste overschrijving" />
+		<Translation ID="RPR_CAL_FLG" String="Selectie voor het berekenen van verdiepingen is niet beschikbaar wanneer oorspronkelijke berekeningen worden gebruikt" />
+		<Translation ID="RPR_CAL_SAT" String="Bewaar en pas toe op:" />
+		<Translation ID="RPR_CAL_NBD" String="Alleen nieuwe gebouwen" />
+		<Translation ID="RPR_CAL_ABD" String="Alle gebouwen" />
+		<Translation ID="RPR_CAL_VOL_FLR" String="Verdiepingen" />
+		<Translation ID="RPR_CAL_VOL_FLR_TIP" String="Het aantal verdiepingen voor dit gebouw, berekend met de bovenstaande instellingen." />
+		<Translation ID="RPR_CAL_VOL_TFA" String="Totale vloeroppervlak" />
+		<Translation ID="RPR_CAL_VOL_TFA_TIP" String="Het totale vloeropppervlak voor dit gebouw, berekend met de bovenstaande instellingen." />
+		<Translation ID="RPR_CAL_VOL_UTS" String="Totaal eenheden" />
+		<Translation ID="RPR_CAL_VOL_UTS_TIP" String="De totale populatie (huishoudens of werkplekken) voor dit gebouw, berekend met bovenstaande instellingen." />
+		<Translation ID="RPR_CAL_VOL_VIS" String="Bezoekersaantal" />
+		<Translation ID="RPR_CAL_VOL_VIS_TIP" String="Maximum aantal gelijktijdige klanten ondersteund door dit gebouw." />
+		<Translation ID="RPR_CAL_VOL_PRD" String="Productiesnelheid" />
+		<Translation ID="RPR_CAL_VOL_PRD_TIP" String="Maximum productiesnelheid van dit gebouw." />
+		<Translation ID="RPR_CAL_VOL_FLH" String="Hoogte verdieping" />
+		<Translation ID="RPR_CAL_VOL_FLH_TIP" String="Standaard plafondhoogte, in meters, van elke verdieping in dit gebouw (aanvullende opties voor de begane grond hieronder)" />
+		<Translation ID="RPR_CAL_VOL_FMN" String="Hoogte begane grond min" />
+		<Translation ID="RPR_CAL_VOL_FMN_TIP" String="De minimale bouwhoogte in een deel van het gebouw om te tellen als minstens één verdieping" />
+		<Translation ID="RPR_CAL_VOL_FMX" String="Begane grond extra hoogte" />
+		<Translation ID="RPR_CAL_VOL_FMX_TIP" String="De hoogte van de begane grond zal met dit aantal meters worden verhoogd (bovenop de standaard plafondhoogte hierboven) voordat extra verdiepingen worden toegevoegd." />
+		<Translation ID="RPR_CAL_VOL_IGF" String="Negeer begane grond" />
+		<Translation ID="RPR_CAL_VOL_IGF_TIP" String="Wanneer dit is ingesteld zal de begane grond worden gezien als &quot;lege ruimte&quot; (bijv een lobby of foyer) zonder huishoudens of werkplekken. " />
+		<Translation ID="RPR_CAL_VOL_EPC" String="Lege ruimte (%)" />
+		<Translation ID="RPR_CAL_VOL_EPC_TIP" String="Dit percentage van elke vloeroppervlak zal worden behandeld als lege ruimte and wordt niet gebruikt bij het berekenen van huishoudens of aantal werknemers. " />
+		<Translation ID="RPR_CAL_VOL_EMP" String="Lege ruimte (absoluut)" />
+		<Translation ID="RPR_CAL_VOL_EMP_TIP" String="Een vastgestelde hoeveelheid ruimte dat zal worden afgetrokken van elk vloeroppervlak voordat huishoudens of werknemers worden berekend (behandeld als lege ruimte)." />
+		<Translation ID="RPR_CAL_VOL_FXP" String="Vastgestelde populatie?" />
+		<Translation ID="RPR_CAL_VOL_FXP_TIP" String="Wanneer dit is ingesteld zal een van tevoren ingevoerde waarde gebruikt worden om huishoudens en werknemers te berekenen, ongeacht de grootte van het gebouw (bijv. één huishouden per gebouw)" />
+		<Translation ID="RPR_CAL_VOL_UNI" String="Eenheden" />
+		<Translation ID="RPR_CAL_VOL_HOU" String="Huishoudens" />
+		<Translation ID="RPR_CAL_VOL_WOR" String="Werkplekken" />
+		<Translation ID="RPR_CAL_VOL_STU" String="Studenten:" />
+		<Translation ID="RPR_CAL_VOL_UNI_TIP" String="Vastgesteld aantal huishoudens of werknemers per gebouw." />
+		<Translation ID="RPR_CAL_VOL_APU" String="Oppervlakte per eenheid" />
+		<Translation ID="RPR_CAL_VOL_APU_TIP" String="De benodigde oppervlakte (in vierkante meters) voor elk huishouden of werknemers (na aftrek van lege ruimte)." />
+		<Translation ID="RPR_CAL_VOL_MFU" String="Eenheden met meerdere verdiepingen" />
+		<Translation ID="RPR_CAL_VOL_MFU_TIP" String="Wanneer dit niet wordt ingesteld zal het aantal huishoudens of werknemers worden berekend voor elke verdieping in het gebouw. Wanneer dit wel wordt ingesteld zal alleen de totale oppervlakte van het gebouw worden gebruikt om het aantal huishoudens of werknemers te berekenen. " />
+		<Translation ID="RPR_CAL_VOL_ARA" String="oppervlakte" />
+		<Translation ID="RPR_CAL_UNI_HOU" String="huishoudens" />
+		<Translation ID="RPR_CAL_UNI_WOR" String="werknemers" />
+		<Translation ID="RPR_CAL_UNI_STU" String="studenten" />
+		<Translation ID="RPR_CAL_HOM_CALC" String="Berekende huishoudens:" />
+		<Translation ID="RPR_CAL_HOM_CUST" String="Aangepaste huishoudens:" />
+		<Translation ID="RPR_CAL_HOM_APPL" String="Toegepaste huishoudens:" />
+		<Translation ID="RPR_CAL_JOB_CALC" String="Berekende banen:" />
+		<Translation ID="RPR_CAL_JOB_CUST" String="Aangepaste banen:" />
+		<Translation ID="RPR_CAL_JOB_APPL" String="Toegepaste banen:" />
+		<Translation ID="RPR_CAL_BLD_X" String="Breedte gebouw (m):" />
+		<Translation ID="RPR_CAL_BLD_Z" String="Lengte gebouw (m):" />
+		<Translation ID="RPR_CAL_BLD_Y" String="Steigerhoogte (m):" />
+		<Translation ID="RPR_CAL_BLD_M2" String="m2 per persoon:" />
+		<Translation ID="RPR_CAL_FLR_Y" String="Hoogte verdieping (m):" />
+		<Translation ID="RPR_CAL_FLR_M" String="Verdieping mod" />
+		<Translation ID="RPR_CAL_FLR" String="Berekend aantal verdiepingen:" />
+		<Translation ID="RPR_CAL_M2" String="Berekende oppervlakte:" />
+		<Translation ID="RPR_CAL_OVR" String="(Overschreven)" />
+		<Translation ID="RPR_CAL_OVM" String="Populatie berekening is overschreven door handmatige instelling" />
+		<Translation ID="RPR_CAL_RICO" String="Ploppable RICO Revisited beheert de getallen voor dit gebouw." />
+		<Translation ID="RPR_CAL_CAP_OVR" String="Aangepaste vermenigvuldiger capaciteit" />
+		<Translation ID="RPR_CAL_CAP_DEF" String="Standaard vermenigvuldiger:" />
+		<Translation ID="RPR_CAL_SCH_PRO" String="Personeel- en kostenschaling" />
+		<Translation ID="RPR_CAL_SCH_WKR" String="Schoolpersoneel" />
+		<Translation ID="RPR_CAL_SCH_WKR_TIP" String="Het aantal en level van de beschikbare werkplekken op deze school, berekenend met bovenstaande instellingen" />
+		<Translation ID="RPR_CAL_SCH_CST" String="Kosten/onderhoud" />
+		<Translation ID="RPR_CAL_SCH_CST_TIP" String="De, kosten voor bouw en wekelijks onderhoud van deze school, berekend met bovenstaande instellingen" />
+		<Translation ID="RPR_TIT_RDF" String="Berekeningsstandaarden woonwijk" />
+		<Translation ID="RPR_TIT_CDF" String="Berekeningsstandaarden comcercieel" />
+		<Translation ID="RPR_TIT_IDF" String="Berekeningsstandaarden industrieel" />
+		<Translation ID="RPR_TIT_EDF" String="Berekeningsstandaarden mijner" />
+		<Translation ID="RPR_TIT_ODF" String="Berekeningsstandaarden kantoor" />
+		<Translation ID="RPR_TIT_SDF" String="Berekeningsstandaarden school" />
+		<Translation ID="RPR_TIT_CGO" String="Instellingen voor commerciële goederen" />
+		<Translation ID="RPR_TIT_IGO" String="Instellingen voor industriële productie" />
+		<Translation ID="RPR_TIT_EGO" String="Instellingen voor mijnerproductie" />
+		<Translation ID="RPR_TIT_OGO" String="Instellingen voor kantoorproductie" />
+		<Translation ID="RPR_OPT_MOD" String="Mod instellingen" />
+		<Translation ID="RPR_OPT_KEY" String="Snelkoppeling voor scherm met gebouwopties" />
+		<Translation ID="RPR_OPT_PRS" String="Druk op een willekeurige toets" />
+		<Translation ID="RPR_OPT_LEG" String="Oorspronkelijk" />
+		<Translation ID="RPR_OPT_CON" String="Consumptie" />
+		<Translation ID="RPR_OPT_LVL" String="Level" />
+		<Translation ID="RPR_OPT_APH" String="Oppervlakte per huishouden (m2)" />
+		<Translation ID="RPR_OPT_APW" String="Oppervlakte per werknemer (m2)" />
+		<Translation ID="RPR_OPT_FLR" String="Hoogte verdieping (m)" />
+		<Translation ID="RPR_OPT_POW" String="Elektriciteit" />
+		<Translation ID="RPR_OPT_WAT" String="Water" />
+		<Translation ID="RPR_OPT_SEW" String="Riool" />
+		<Translation ID="RPR_OPT_GAR" String="Afval" />
+		<Translation ID="RPR_OPT_POL" String="Vervuiling" />
+		<Translation ID="RPR_OPT_NOI" String="Geluid" />
+		<Translation ID="RPR_OPT_MAI" String="Post" />
+		<Translation ID="RPR_OPT_PRO" String="Productie" />
+		<Translation ID="RPR_OPT_WEA" String="Welstand" />
+		<Translation ID="RPR_OPT_RTD" String="Terugezetten naar standaardwaarden" />
+		<Translation ID="RPR_OPT_RTS" String="Terugkeren naar opgeslagen waarden" />
+		<Translation ID="RPR_OPT_SAA" String="Opslaan en toepassen" />
+		<Translation ID="RPR_OPT_SCH" String="Scholen" />
+		<Translation ID="RPR_OPT_SEN" String="Schakel realistische studentcapaciteit in voor scholen" />
+		<Translation ID="RPR_OPT_SEJ" String="Schakel realistische eigenschappen voor scholen in (banen, kosten) - herstart nodig" />
+		<Translation ID="RPR_OPT_SDM" String="Standaard school vermenigvuldiger" />
+		<Translation ID="RPR_OPT_JB0" String="Ongeschoold werk" />
+		<Translation ID="RPR_OPT_JB1" String="Geschoold werk" />
+		<Translation ID="RPR_OPT_JB2" String="Goedopgeleid werk" />
+		<Translation ID="RPR_OPT_JB3" String="Hoogopgeleid werk" />
+		<Translation ID="RPR_OPT_SHE" String="Basisscholen" />
+		<Translation ID="RPR_OPT_SHH" String="Middelbare scholen" />
+		<Translation ID="RPR_OPT_SJB" String="Minimum aantal banen" />
+		<Translation ID="RPR_OPT_SJX" String="Extra banen per # studenten" />
+		<Translation ID="RPR_OPT_CRI" String="Criminaliteit" />
+		<Translation ID="RPR_OPT_CML" String="Vermenigvuldiger criminaliteit" />
+		<Translation ID="RPR_OPT_CML_TIP" String="De minimum criminaliteitsopbouw voor de stad wordt vermenigvuldigd met dit aantal" />
+		<Translation ID="RPR_OPT_POP" String="Berekeningsbundels voor populatie" />
+		<Translation ID="RPR_OPT_STO" String="Berekeningsbundels voor verdiepingen" />
+		<Translation ID="RPR_OPT_DEF" String="Standaard berekeningsbundels" />
+		<Translation ID="RPR_OPT_PSI" String="Instellingen voor productie, verkoop en voorraad" />
+		<Translation ID="RPR_OPT_EDT_NAM" String="Naam bundel" />
+		<Translation ID="RPR_OPT_SVC" String="Dienst" />
+		<Translation ID="RPR_OPT_CPK" String="Berekeningsbundel" />
+		<Translation ID="RPR_OPT_NEW" String="Voeg nieuwe toe" />
+		<Translation ID="RPR_OPT_DEL" String="Verwijder bundel" />
+		<Translation ID="RPR_OPT_NPK" String="Nieuwe bundel" />
+		<Translation ID="RPR_OPT_LDT" String="Schakel gedetailleerd loggen in voor debugging" />
+		<Translation ID="RPR_DEF_LGR" String="Gebruik standaard oorspronkelijke berekeningen (WG original and Realistic Population Revisited version 1) voor woningen:" />
+		<Translation ID="RPR_DEF_LGC" String="Gebruik standaard oorspronkelijke berekeningen (WG original and Realistic Population Revisited version 1) voor commerciële gebouwen:" />
+		<Translation ID="RPR_DEF_LGI" String="Gebruik standaard oorspronkelijke berekeningen (WG original and Realistic Population Revisited version 1) voor industriële gebouwen:" />
+		<Translation ID="RPR_DEF_LGO" String="Gebruik standaard oorspronkelijke berekeningen (WG original and Realistic Population Revisited version 1) voor kantoorgebouwen:" />
+		<Translation ID="RPR_DEF_LTS" String="Deze save" />
+		<Translation ID="RPR_DEF_LAS" String="Nieuwe saves" />
+		<Translation ID="RPR_DEF_VIS" String="Klanten (bezoekers) capaciteit" />
+		<Translation ID="RPR_DEF_VIS_TIP" String="De basis om het aantal klanten te berekenen dat dit gebouw tegelijk aankan. De oude methode gebruikte de oppervlakte van het perceel, de nieuwe methode gebruikt het aantal werkplekken in het gebouw. " />
+		<Translation ID="RPR_DEF_VNE" String="Nieuwe methode (populatie)" />
+		<Translation ID="RPR_DEF_VOL" String="Oude methode (perceeloppervlak)" />
+		<Translation ID="RPR_DEF_VMU" String="Vermenigvuldigingsfactor aantal klanten" />
+		<Translation ID="RPR_DEF_VMU_TIP" String="De berekende klantencapaciteit zal worden vermenigvuldigd met deze factor" />
+		<Translation ID="RPR_DEF_CGM" String="Vermenigvuligingsfactor verkoop" />
+		<Translation ID="RPR_DEF_CGM_TIP" String="Het aantal goederen dat per klant verkocht wordt zal worden vermenigvuldigd met deze factor; kleinere waarden betekent dat er minder goederen nodig zijn maar ook dat belastingopbrengsten minder worden" />
+		<Translation ID="RPR_DEF_IDC" String="Voorraadbeheer grens" />
+		<Translation ID="RPR_DEF_IDC_TIP" String="Stelt de maximum hoeveelheid voorraad in waarbij bestellingen worden geactiveerd voor meer goederen (heeft geen effect op gebouwen met een reeds lagere activatiedrempel)." />
+		<Translation ID="RPR_DEF_PMD" String="Berekeningsmethode" />
+		<Translation ID="RPR_DEF_PMD_TIP" String="De manier waarop de productiesnelheid van dit gebouw wordt berekenend. De oude methode gebruikte de oppervlakte van het perceel, de nieuwe methode gebruikt het aantal werkplekken in het gebouw." />
+		<Translation ID="RPR_DEF_PRD" String="Vermenigvuldigingsfactor productie" />
+		<Translation ID="RPR_DEF_PRD_TIP" String="Het aantal geproduceerde goederen door dit gebouw zal worden vermenigvuldigd met deze factor" />
+		<Translation ID="TRN_CHOICE" String="Stel taal in" />
+		<Translation ID="TRN_SYS" String="Gebruik systeemtaal" />
+		<Translation ID="MES_CLS" String="Sluit" />
+		<Translation ID="MES_DSA" String="Laat niet opnieuw zien" />
+		<Translation ID="MES_PAGE" String="Zie voor meer informatie de Steam Workshop pagina van deze mod." />
+		<Translation ID="RPR_OLD_0" String="Dit savebestand is niet opgeslagen met Realistic Population 2." />
+		<Translation ID="RPR_OLD_1" String="Wees ervan bewust dat het toepassen van verschillende populatieberekeningen op een bestaande stad de balans in de stad tijdelijk fors kan verstoren. " />
+		<Translation ID="RPR_OLD_2" String="Als je een stad laad die is gecreëerd met een eerdere versie van deze mod kan je kiezen om verder te gaan met de oorspronkelijke mod berekeningen; dit zou de balans in je stad moeten kunnen bewaren. Je kan er ook voor kiezen om te wisselen naar het nieuwe (meer accuraat en flexibele) berekeningsmodel, let wel dat je stad dan enige herbalancering nodig heeft. " />
+		<Translation ID="RPR_OLD_3" String="In beide gevallen zullen reeds gebouwde woningen de bestaande capaciteiten en huishoudens behouden en worden NIET beïnvloed. Werknemers met bestaande banen zullen NIET onmiddelijk ontslagen worden, er is dus geen onmiddelijke impact op de bevolking van je stad. " />
+		<Translation ID="RPR_OLD_LEG" String="Gebruik oorspronkelijke berekeningen" />
+		<Translation ID="RPR_OLD_NEW" String="Gebruik nieuwe berekeningen" />
+		<Translation ID="RPR_ERR_FAT" String="Dit betekent dat Realistic Population 2 niet naar behoren kan functioneren en is afgesloten. " />
+		<Translation ID="RPR_ERR_HAR" String="Realistic Population 2 kon de benodigde Harmony patches niet voltooien." />
+		<Translation ID="ERR_HAR0" String="Harmony patching error!" />
+		<Translation ID="ERR_HAR1" String="Mogelijke oorzaken van dit probleem zijn:" />
+		<Translation ID="ERR_HAR2" String="De benodigde Harmony 2 mod afhankelijkheid is niet geïnstalleerd" />
+		<Translation ID="ERR_HAR3" String="Een oude en/of beschadigde mod voorkomt dat Harmony 2 naar behoren kan functioneren" />
+		<Translation ID="ERR_CON0" String="Conflict met mod gedetecteerd!" />
+		<Translation ID="ERR_CON1" String="De mods waarmee conflicten zijn:" />
+		<Translation ID="RPR_ERR_CON0" String="Realistic Population 2 heeft een conflict met minstens één andere mod gedetecteerd." />
+		<Translation ID="RPR_ERR_CON1" String="Deze mods moeten worden verwijderd voor Realistic Population 2 kan functioneren." />
+		<Translation ID="RPR_200_0" String="Naamswijziging van &quot;Realistic Population Revisited&quot; naar &quot;Realistic Population 2&quot; om de omvang van de veranderingen weer te geven. " />
+		<Translation ID="RPR_200_1" String="BELANGRIJKE NIEUWE FUNCTIE: nieuwe berekeningen voor gebouwpopulatie gebaseerd op de daadwerkelijke vormen en afmetingen met realistisch berekende vloeroppervlakte. Mogelijkheid om te kiezen tussen nieuwe en oude (&quot;oorspronkelijke&quot;) berekeningen. " />
+		<Translation ID="RPR_200_2" String="BELANGRIJKE NIEUWE FUNCTIE: verschillende voorafingestelde berekeningen voor vloeroppervlak van gebouw en populatie, alsmede optionele manuele overschrijvingen for elk of beide" />
+		<Translation ID="RPR_200_3" String="BELANGRIJKE NIEUWE FUNCTIE: selecteerbare voorinstellingen voor gebouwen in elk zonetype" />
+		<Translation ID="RPR_200_4" String="BELANGRIJKE NIEUWE FUNCTIE: optionele, realistische capaciteitsberekenignen voor studenten op basisscholen en middelbare scholen. Met configureerbare vermenigvuldiger wanneer schoolgebouwen met een realistisch formaat niet beschikbaar zijn. " />
+		<Translation ID="RPR_200_5" String="BELANGRIJKE NIEUWE FUNCTIE: aanpasbaar misdaadcijfer" />
+		<Translation ID="RPR_200_6" String="Upgrade naar Harmony 2 (bofomer's Harmony 2 mod noodzakelijk)" />
+		<Translation ID="RPR_200_7" String="Verschillende verbeteringen aan het gebouwdetailvenster" />
+		<Translation ID="RPR_200_8" String="Verbeterde mod conflict detectie en notificatie" />
+		<Translation ID="RPR_200_9" String="Aanzienlijke herziening, opschoning en restructurering van de basiscode van de mod" />
+	</Translations>
 </Language>

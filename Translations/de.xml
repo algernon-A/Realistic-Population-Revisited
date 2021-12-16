@@ -1,309 +1,309 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Language UniqueName="de" ReadableName="Deutsch">
-  <Translations>
-    <Translation ID="RPR_NAME" String="Realistic Population 2" />
-    <Translation ID="RPR_DESC" String="Mehr realistische Gebäudebevölkerung (basierend auf der Gebäudegröße) und Versorgungsbedürfnisse." />
-    <Translation ID="RPR_REALPOP" String="Realistische Bevölkerung" />
-    <Translation ID="RPR_INF_VIS" String="Besucher" />
-    <Translation ID="RPR_PCK_DEF" String=" (Standard)" />
-    <Translation ID="RPR_PCK_NAM" String="Berechnungen" />
-    <Translation ID="RPR_PCK_LEG_NAM" String="Alte WG Berechnungen" />
-    <Translation ID="RPR_PCK_LEG_DES" String="Alte Berechnungen, die von Version 1.x dieser Mod und Whitefang Greytail's Original Realistic Population and Consumption mod verwendet wurden." />
-    <Translation ID="RPR_PCK_RLS_NAM" String="Einfamilienhäuser" />
-    <Translation ID="RPR_PCK_RLS_DES" String="Ein Haushalt je Gebäude." />
-    <Translation ID="RPR_PCK_RLD_NAM" String="Doppelhäuser" />
-    <Translation ID="RPR_PCK_RLD_DES" String="Zwei Haushalte je Gebäude." />
-    <Translation ID="RPR_PCK_RUH_NAM" String="US Hochhäuser" />
-    <Translation ID="RPR_PCK_RUH_DES" String="Durchschnittliche US Wohnungen und Eigentumswohnungen." />
-    <Translation ID="RPR_PCK_REM_NAM" String="Europäische Wohnungen (modern)" />
-    <Translation ID="RPR_PCK_REM_DES" String="Europäische Wohnungen, mittlere Bauhöhe (mittlere Dichte; moderne Gebäude)." />
-    <Translation ID="RPR_PCK_REO_NAM" String="Europäische Wohnungen (ältere)" />
-    <Translation ID="RPR_PCK_REO_DES" String="Europäische Wohnungen, mittlere Bauhöhe (hohe Dichte; ältere Gebäude)." />
-    <Translation ID="RPR_PCK_CUS_NAM" String="US Einzelhandel" />
-    <Translation ID="RPR_PCK_CUS_DES" String="Normaler Einzelhandel wie in den USA üblich." />
-    <Translation ID="RPR_PCK_CUK_NAM" String="UK Einzelhandel" />
-    <Translation ID="RPR_PCK_CUK_DES" String="Normaler Einzelhandel wie in UK üblich." />
-    <Translation ID="RPR_PCK_CRW_NAM" String="Supermärkte" />
-    <Translation ID="RPR_PCK_CRW_DES" String="Non-Food-Supermärkte und Fachmärkte." />
-    <Translation ID="RPR_PCK_THT_NAM" String="Hotels" />
-    <Translation ID="RPR_PCK_THT_DES" String="Hotels und Motels." />
-    <Translation ID="RPR_PCK_LFD_NAM" String="Lebensmittelversorgung" />
-    <Translation ID="RPR_PCK_LFD_DES" String="Restaurants und Cafés." />
-    <Translation ID="RPR_PCK_LEN_NAM" String="Unterhaltungsbranche" />
-    <Translation ID="RPR_PCK_LEN_DES" String="Vergnügungs-, Fitness- und Unterhaltungszentren." />
-    <Translation ID="RPR_PCK_LCN_NAM" String="Kinos" />
-    <Translation ID="RPR_PCK_LCN_DES" String="Kinos und Theater" />
-    <Translation ID="RPR_PCK_ILG_NAM" String="Leichtindustrie" />
-    <Translation ID="RPR_PCK_ILG_DES" String="Leichtindustrie und Gewerbeparks." />
-    <Translation ID="RPR_PCK_IMN_NAM" String="Fertigung" />
-    <Translation ID="RPR_PCK_IMN_DES" String="Industrielle Fertigung." />
-    <Translation ID="RPR_PCK_IWL_NAM" String="Kleine Lager" />
-    <Translation ID="RPR_PCK_IWL_DES" String="Lager für den lokalen Vertrieb - viel Lagerfläche und eine geringe Anzahl an Beschäftigten." />
-    <Translation ID="RPR_PCK_IWN_NAM" String="Große Lager" />
-    <Translation ID="RPR_PCK_IWN_DES" String="Lager für nationale Verteilung - viel Lagerfläche und sehr niedrige Anzahl an Beschäftigten." />
-    <Translation ID="RPR_PCK_OCP_NAM" String="Firmenbüros" />
-    <Translation ID="RPR_PCK_OCP_DES" String="Unternehmen, professionelle Dienstleistungen und Büros des öffentlichen Sektors." />
-    <Translation ID="RPR_PCK_OFN_NAM" String="Finanzdienstleistungen" />
-    <Translation ID="RPR_PCK_OFN_DES" String="Finanzdienstleistungen; höhere Dichte als typische Firmenbüros" />
-    <Translation ID="RPR_PCK_OCS_NAM" String="Call-Center" />
-    <Translation ID="RPR_PCK_OCS_DES" String="Call-Center und andere dicht gedrängte Büros" />
-    <Translation ID="RPR_PCK_ODT_NAM" String="Rechenzentren" />
-    <Translation ID="RPR_PCK_ODT_DES" String="Rechenzentren mit lokalen Niederlassungen" />
-    <Translation ID="RPR_PCK_SSB_NAM" String="Vorortschule" />
-    <Translation ID="RPR_PCK_SSB_DES" String="Vorortschulen" />
-    <Translation ID="RPR_PCK_SML_NAM" String="MN niedrig" />
-    <Translation ID="RPR_PCK_SML_DES" String="Gemäß dem Minnesota Dept of Education Leitfaden – niedrigste Dichte" />
-    <Translation ID="RPR_PCK_SMM_NAM" String="MN mittel" />
-    <Translation ID="RPR_PCK_SMM_DES" String="Gemäß dem Minnesota Dept of Education Leitfaden – mittlere Dichte" />
-    <Translation ID="RPR_PCK_SMH_NAM" String="MN hoch" />
-    <Translation ID="RPR_PCK_SMH_DES" String="Gemäß dem Minnesota Dept of Education Leitfaden – höchste Dichte" />
-    <Translation ID="RPR_PCK_SUK_NAM" String="UK Standard" />
-    <Translation ID="RPR_PCK_SUK_DES" String="Standardplanungsdichten für Großbritannien." />
-    <Translation ID="RPR_PCK_FDF_NAM" String="Generisch" />
-    <Translation ID="RPR_PCK_FDF_DES" String="Standard 3m Raumhöhe." />
-    <Translation ID="RPR_PCK_FHO_NAM" String="Freistehende Häuser" />
-    <Translation ID="RPR_PCK_FHO_DES" String="Freistehende Wohnhäuser." />
-    <Translation ID="RPR_PCK_FDL_NAM" String="Eingangshalle" />
-    <Translation ID="RPR_PCK_FDL_DES" String="Gebäude mit Eingangshallen und/oder erhöhten ersten Stockwerken." />
-    <Translation ID="RPR_PCK_FCM_NAM" String="Gewerblich" />
-    <Translation ID="RPR_PCK_FCM_DES" String="Gewerbe-, Büro-, Bildungs- und Industriegebäude mit größeren Raumhöhen." />
-    <Translation ID="RPR_PCK_FWH_NAM" String="Lagerhaus" />
-    <Translation ID="RPR_PCK_FWH_DES" String="Einzelhandels-, Gewerbe- und Industrielager." />
-    <Translation ID="RPR_PCK_FHB_NAM" String="Hochregallager" />
-    <Translation ID="RPR_PCK_FHB_DES" String="Hochregallager für Industrie und Gewerbe." />
-    <Translation ID="RPR_PCK_FEX_NAM" String="Primäre Industrie" />
-    <Translation ID="RPR_PCK_FEX_DES" String="Industrielle Extraktoren und Prozessoren" />
-    <Translation ID="RPR_PCK_SVE_NAM" String="Vanilla Grundschule" />
-    <Translation ID="RPR_PCK_SVE_DES" String="Skalierung nach der Vanilla Grundschule" />
-    <Translation ID="RPR_PCK_SVH_NAM" String="Vanilla Hochschule" />
-    <Translation ID="RPR_PCK_SVH_DES" String="Skalierung nach der Vanilla Hochschule" />
-    <Translation ID="RPR_PCK_SVC_NAM" String="Vanilla Gemeindeschule" />
-    <Translation ID="RPR_PCK_SVC_DES" String="Skalierung nach der Vanilla Gemeindeschule" />
-    <Translation ID="RPR_PCK_SVA_NAM" String="Vanilla Kunstschule" />
-    <Translation ID="RPR_PCK_SVA_DES" String="Skalierung nach der Vanilla Kunstschule" />
-    <Translation ID="RPR_CAT_ALL" String="Alle Kategorien" />
-    <Translation ID="RPR_CAT_RES" String="Wohngebiet" />
-    <Translation ID="RPR_CAT_RLO" String="Wohngebiet niedrig" />
-    <Translation ID="RPR_CAT_RHI" String="Wohngebiet hoch" />
-    <Translation ID="RPR_CAT_COM" String="Gewerbegebiet" />
-    <Translation ID="RPR_CAT_CLO" String="Gewerbegebiet niedrig" />
-    <Translation ID="RPR_CAT_CHI" String="Gewerbegebiet hoch" />
-    <Translation ID="RPR_CAT_OFF" String="Bürogebiet" />
-    <Translation ID="RPR_CAT_GEN" String="Allgemein" />
-    <Translation ID="RPR_CAT_ITC" String="IT Cluster" />
-    <Translation ID="RPR_CAT_IND" String="Industrie" />
-    <Translation ID="RPR_CAT_FAR" String="Landwirtschaft" />
-    <Translation ID="RPR_CAT_FOR" String="Forstwirtschaft" />
-    <Translation ID="RPR_CAT_OIL" String="Öl" />
-    <Translation ID="RPR_CAT_ORE" String="Erz" />
-    <Translation ID="RPR_CAT_EXT" String="Förderanlage" />
-    <Translation ID="RPR_CAT_PRO" String="Aufbereitungsanlage" />
-    <Translation ID="RPR_CAT_TOU" String="Tourismus" />
-    <Translation ID="RPR_CAT_LEI" String="Freizeit" />
-    <Translation ID="RPR_CAT_ORG" String="Bio- und lokale Produkte" />
-    <Translation ID="RPR_CAT_ECO" String="Öko-Läden" />
-    <Translation ID="RPR_CAT_SSH" String="Autarke Häuser" />
-    <Translation ID="RPR_CAT_ERL" String="Öko Wohngebiet niedrig" />
-    <Translation ID="RPR_CAT_ERH" String="Öko Wohngebiet hoch" />
-    <Translation ID="RPR_CAT_SIN" String="Spezialisierte Industrie" />
-    <Translation ID="RPR_CAT_SCH" String="Schulen" />
-    <Translation ID="RPR_FIL_NAME" String="Name:" />
-    <Translation ID="RPR_FIL_SET" String="Nach Einstellungen filtern (siehe Hinweise)" />
-    <Translation ID="RPR_EDT_POP" String="Befölkerung überschreiben" />
-    <Translation ID="RPR_EDT_FLR" String="Etagen überschreiben" />
-    <Translation ID="RPR_FTR_ANY" String="Verfügt über ein benutzerdefiniertes Überschreibungs- und/oder ein nicht standardmäßiges Berechnungspaket" />
-    <Translation ID="RPR_FTR_OVR" String="Hat eine Bewohner- und/oder Etagenüberschreibung" />
-    <Translation ID="RPR_FTR_NDC" String="Hat ein nicht standardmäßiges Berechnungspaket und/oder einen benutzerdefinierten Bewohner-Multiplikator" />
-    <Translation ID="RPR_CUS_TITLE" String="Benutzerdefinierte Einstellungen" />
-    <Translation ID="RPR_CUS_ADD" String="Benutzerdefinierte Einstellungen hinzufügen" />
-    <Translation ID="RPR_CUS_ADD_TIP" String="Fügt eine benutzerdefinierte Einstellung für das Gebäude hinzu (oder aktualisiert diese) " />
-    <Translation ID="RPR_CUS_DEL" String="Lösche benutzerdefinierte Einstellungen" />
-    <Translation ID="RPR_CUS_DEL_TIP" String="Entfernt die benutzerdefinierte Einstellungen vom ausgewählten Gebäude" />
-    <Translation ID="RPR_CUS_UPD" String="Benutzerdefinierte Einstellungen aktualisieren" />
-    <Translation ID="RPR_ERR_ZERO" String="Fehler: Der Wert muss größer Null sein" />
-    <Translation ID="RPR_ERR_INV" String="Fehler: ungültiger Wert" />
-    <Translation ID="RPR_LBL_HOM" String="Wohnungen:" />
-    <Translation ID="RPR_LBL_JOB" String="Arbeitsplätze:" />
-    <Translation ID="RPR_LBL_STU" String="Studenten:" />
-    <Translation ID="RPR_LBL_OFF" String="Raumhöhe 1.Etage" />
-    <Translation ID="RPR_LBL_OFH" String="Raumhöhe andere Etagen" />
-    <Translation ID="RPR_PRV_SFL" String="Berechnete Etagen anzeigen" />
-    <Translation ID="RPR_CAL_MOD" String="Mod-Berechnungen" />
-    <Translation ID="RPR_CAL_DEN" String="Bevölkerungsdichte" />
-    <Translation ID="RPR_CAL_BFL" String="Gebäudeetagen" />
-    <Translation ID="RPR_CAL_FOV" String="Verwenden der benutzerdefinierten Einstellungen" />
-    <Translation ID="RPR_CAL_FLG" String="Die Auswahl der Bodenberechnung ist nicht verfügbar, wenn die alten Berechnungen verwendet werden" />
-    <Translation ID="RPR_CAL_SAT" String="Speichern und anwenden auf:" />
-    <Translation ID="RPR_CAL_NBD" String="Nur neue Gebäude" />
-    <Translation ID="RPR_CAL_ABD" String="Alle Gebäude" />
-    <Translation ID="RPR_CAL_VOL_FLR" String="Etagen" />
-    <Translation ID="RPR_CAL_VOL_FLR_TIP" String="Die Anzahl der Stockwerke (Etagen) für dieses Gebäude, die anhand der obigen Einstellungen berechnet wurden." />
-    <Translation ID="RPR_CAL_VOL_TFA" String="Gesamtwohnfläche" />
-    <Translation ID="RPR_CAL_VOL_TFA_TIP" String="Die mit den obigen Einstellungen berechnete Gesamtwohnfläche für dieses Gebäude." />
-    <Translation ID="RPR_CAL_VOL_UTS" String="einheiten insgesamt" />
-    <Translation ID="RPR_CAL_VOL_UTS_TIP" String="Die Gesamtbevölkerung (Haushalte oder Arbeitsplätze) für dieses Gebäude, mit den obigen Einstellungen berechnet." />
-    <Translation ID="RPR_CAL_VOL_VIS" String="Besucherzahl" />
-    <Translation ID="RPR_CAL_VOL_VIS_TIP" String="Die maximale Anzahl Kunden, die von diesem Gebäude gleiczeitig unterstützt werden." />
-    <Translation ID="RPR_CAL_VOL_PRD" String="Produktionsrate" />
-    <Translation ID="RPR_CAL_VOL_PRD_TIP" String="Die maximale Produktionsrate dieses Gebäudes." />
-    <Translation ID="RPR_CAL_VOL_FLH" String="Stockwerkshöhe" />
-    <Translation ID="RPR_CAL_VOL_FLH_TIP" String="Die typische Höhe jedes Stockwerks von Stockwerk zu Stockwerk in Metern in diesem Gebäude (der erste Stock hat zusätzliche Optionen unten)." />
-    <Translation ID="RPR_CAL_VOL_FMN" String="Erdgeschosshöhe min" />
-    <Translation ID="RPR_CAL_VOL_FMN_TIP" String="Die minimale Gebäudehöhe, die erforderlich ist, damit ein Bereich des Gebäudes mit mindestens einer Etage gezählt werden kann." />
-    <Translation ID="RPR_CAL_VOL_FMX" String="Zusätzliche Erdgeschosshöhe" />
-    <Translation ID="RPR_CAL_VOL_FMX_TIP" String="Die Erdgeschosshöhe wird um so viele Meter nach oben verlängert (oberhalb der normalen Stockwerkshöhe), bevor weitere Etagen oben hinzugefügt werden." />
-    <Translation ID="RPR_CAL_VOL_IGF" String="Ignorieren Erdgeschoss" />
-    <Translation ID="RPR_CAL_VOL_IGF_TIP" String="Wenn dies eingestellt ist, wird das Erdgeschoss des Gebäudes als leerer Raum behandelt (z.B. ein Eingangshallen- oder Foyerbereich) ohne Haushalte oder Arbeiter." />
-    <Translation ID="RPR_CAL_VOL_EPC" String="Leerer Bereich (%)" />
-    <Translation ID="RPR_CAL_VOL_EPC_TIP" String="Dieser Prozentsatz jeder Etagenfläche wird als leere Fläche behandelt und wird nicht bei der Berechnung der Haushalte oder der Arbeiterzahl berücksichtigt werden." />
-    <Translation ID="RPR_CAL_VOL_EMP" String="Leerer Bereich (fest)" />
-    <Translation ID="RPR_CAL_VOL_EMP_TIP" String="Ein fester Betrag, der von jeder Etagenfläche abgezogen wird, bevor Haushalte oder Arbeiter berechnet werden (als leere Fläche behandelt)." />
-    <Translation ID="RPR_CAL_VOL_FXP" String="Feste Bewohnerzahl?" />
-    <Translation ID="RPR_CAL_VOL_FXP_TIP" String="Wenn dies festgelegt ist, wird eine fester Betrag für Haushalts- oder Arbeiterzählungen verwendet, unabhängig von der Gebäudegröße (z.B. ein Haushalt pro Gebäude)." />
-    <Translation ID="RPR_CAL_VOL_UNI" String="Einheiten" />
-    <Translation ID="RPR_CAL_VOL_HOU" String="Haushalte" />
-    <Translation ID="RPR_CAL_VOL_WOR" String="Arbeitsplätze" />
-    <Translation ID="RPR_CAL_VOL_STU" String="Studenten" />
-    <Translation ID="RPR_CAL_VOL_UNI_TIP" String="Feste Anzahl von Haushalten oder Arbeitern pro Gebäude." />
-    <Translation ID="RPR_CAL_VOL_APU" String="Fläche pro Einheit" />
-    <Translation ID="RPR_CAL_VOL_APU_TIP" String="Die für jeden Haushalt oder Arbeiter benötigte Fläche (in Quadratmetern) (nachdem der leere Bereich abgezogen wurde)." />
-    <Translation ID="RPR_CAL_VOL_MFU" String="Mehrgeschossige Einheiten" />
-    <Translation ID="RPR_CAL_VOL_MFU_TIP" String="Wenn dies nicht festgelegt ist, werden die Haushalts- oder Arbeiterzahlen für jede einzelne Etage des Gebäudes berechnet. Wenn dies eingestellt ist, wird nur die Gebäude-Summe verwendet, um die Anzahl der Haushalte oder Arbeiter zu berechnen." />
-    <Translation ID="RPR_CAL_VOL_ARA" String="Fläche" />
-    <Translation ID="RPR_CAL_UNI_HOU" String="Wohnungen" />
-    <Translation ID="RPR_CAL_UNI_WOR" String="Arbeitskräfte" />
-    <Translation ID="RPR_CAL_UNI_STU" String="Studenten" />
-    <Translation ID="RPR_CAL_HOM_CALC" String="Berechnete Wohnungen:" />
-    <Translation ID="RPR_CAL_HOM_CUST" String="Angepasste Wohungen:" />
-    <Translation ID="RPR_CAL_HOM_APPL" String="Verwendete Wohnungen:" />
-    <Translation ID="RPR_CAL_JOB_CALC" String="Berechnete Jobs:" />
-    <Translation ID="RPR_CAL_JOB_CUST" String="Angepasste Jobs:" />
-    <Translation ID="RPR_CAL_JOB_APPL" String="Besetzte Jobs:" />
-    <Translation ID="RPR_CAL_BLD_X" String="Gebäudebreite (m):" />
-    <Translation ID="RPR_CAL_BLD_Z" String="Gebäudelänge (m):" />
-    <Translation ID="RPR_CAL_BLD_Y" String="Gerüsthöhe (m):" />
-    <Translation ID="RPR_CAL_BLD_M2" String="m2 pro Person:" />
-    <Translation ID="RPR_CAL_FLR_Y" String="Etagenhöhe (m):" />
-    <Translation ID="RPR_CAL_FLR_M" String="Etagen Modifikation" />
-    <Translation ID="RPR_CAL_FLR" String="Berechnete Etagen:" />
-    <Translation ID="RPR_CAL_M2" String="Berechnete Fläche:" />
-    <Translation ID="RPR_CAL_OVR" String="(Überschrieben)" />
-    <Translation ID="RPR_CAL_OVM" String="Bewohnerberechnung wird durch manuelle Einstellung überschrieben" />
-    <Translation ID="RPR_CAL_RICO" String="Ploppable RICO Revisited kontrolliert die Zahlen für dieses Gebäude." />
-    <Translation ID="RPR_CAL_CAP_OVR" String="Benutzerdefinierter Kapazitätsmultiplikator" />
-    <Translation ID="RPR_CAL_CAP_DEF" String="Standardmultiplikator:" />
-    <Translation ID="RPR_CAL_SCH_PRO" String="Personal- und Kostenskalierung" />
-    <Translation ID="RPR_CAL_SCH_WKR" String="Schulmitarbeiter" />
-    <Translation ID="RPR_CAL_SCH_WKR_TIP" String="Anzahl und Niveau der an dieser Schule verfügbaren Arbeitsplätze berechnet mit den obigen Einstellungen" />
-    <Translation ID="RPR_CAL_SCH_CST" String="Kosten/Wartung" />
-    <Translation ID="RPR_CAL_SCH_CST_TIP" String="Die Baukosten und die wöchentlichen Wartungskosten der Schule, berechnet mit den obigen Einstellungen" />
-    <Translation ID="RPR_TIT_RDF" String="Berechnungsvorgaben für Wohngebäude" />
-    <Translation ID="RPR_TIT_CDF" String="Berechnungsvorgaben für Gewerbegebäude" />
-    <Translation ID="RPR_TIT_IDF" String="Berechnungsvorgaben für Industriegebäude" />
-    <Translation ID="RPR_TIT_EDF" String="Berechnungsvorgaben für Extraktorgebäude" />
-    <Translation ID="RPR_TIT_ODF" String="Berechnungsvorgaben für Bürogebäude" />
-    <Translation ID="RPR_TIT_SDF" String="Berechnungsvorgaben für Schulen" />
-    <Translation ID="RPR_TIT_CGO" String="Einstellungen für Handelswaren" />
-    <Translation ID="RPR_TIT_IGO" String="Einstellungen für die industrielle Produktion" />
-    <Translation ID="RPR_TIT_EGO" String="Einstellungen für Extraktoren" />
-    <Translation ID="RPR_TIT_OGO" String="Einstellungen für die Büroproduktion" />
-    <Translation ID="RPR_OPT_MOD" String="Mod-Einstellungen" />
-    <Translation ID="RPR_OPT_KEY" String="Tastaturkürzel für den Bauoptionsbildschirm" />
-    <Translation ID="RPR_OPT_PRS" String="Drücke irgendeine Taste" />
-    <Translation ID="RPR_OPT_LEG" String="Alte Werte" />
-    <Translation ID="RPR_OPT_CON" String="Verbrauch" />
-    <Translation ID="RPR_OPT_LVL" String="Level" />
-    <Translation ID="RPR_OPT_APH" String="Fläche pro Haushalt (m2)" />
-    <Translation ID="RPR_OPT_APW" String="Fläche pro Arbeiter (m2)" />
-    <Translation ID="RPR_OPT_FLR" String="Etagenhöhe (m)" />
-    <Translation ID="RPR_OPT_POW" String="Strom" />
-    <Translation ID="RPR_OPT_WAT" String="Wasser" />
-    <Translation ID="RPR_OPT_SEW" String="Abwasser" />
-    <Translation ID="RPR_OPT_GAR" String="Müll" />
-    <Translation ID="RPR_OPT_POL" String="Verschmutzung" />
-    <Translation ID="RPR_OPT_NOI" String="Lärm" />
-    <Translation ID="RPR_OPT_MAI" String="Post" />
-    <Translation ID="RPR_OPT_PRO" String="Produktion" />
-    <Translation ID="RPR_OPT_WEA" String="Vermögen" />
-    <Translation ID="RPR_OPT_RTD" String="Standard laden" />
-    <Translation ID="RPR_OPT_RTS" String="Gespeichertes laden" />
-    <Translation ID="RPR_OPT_SAA" String="Speichern und anwenden" />
-    <Translation ID="RPR_OPT_SCH" String="Schulen" />
-    <Translation ID="RPR_OPT_SEN" String="Realistische Schülerkapazitäten aktivieren" />
-    <Translation ID="RPR_OPT_SEJ" String="Realistische Schuleigenschaften aktivieren (Jobs, Kosten) - erfordert Neustart" />
-    <Translation ID="RPR_OPT_SDM" String="Standardfaktor für die Schulkapazität" />
-    <Translation ID="RPR_OPT_JB0" String="Aushilfsjobs" />
-    <Translation ID="RPR_OPT_JB1" String="Facharbeiter" />
-    <Translation ID="RPR_OPT_JB2" String="Vorarbeiter" />
-    <Translation ID="RPR_OPT_JB3" String="Führungskräfte" />
-    <Translation ID="RPR_OPT_SHE" String="Grundschulen" />
-    <Translation ID="RPR_OPT_SHH" String="Hochschulen" />
-    <Translation ID="RPR_OPT_SJB" String="Basis-Stellen" />
-    <Translation ID="RPR_OPT_SJX" String="Zusätzliche Stellen pro # Studenten" />
-    <Translation ID="RPR_OPT_CRI" String="Verbrechen" />
-    <Translation ID="RPR_OPT_CML" String="Kriminalitätsmultiplikator" />
-    <Translation ID="RPR_OPT_CML_TIP" String="Die Basisanhäufung der Kriminalität für die Stadt wird mit diesem Betrag multipliziert" />
-    <Translation ID="RPR_OPT_POP" String="Bevölkerungsberechnungspakete" />
-    <Translation ID="RPR_OPT_STO" String="Etagenberechnungspakete" />
-    <Translation ID="RPR_OPT_DEF" String="Standardberechnungspakete" />
-    <Translation ID="RPR_OPT_PSI" String="Produktions-, Verkaufs- und Lagereinstellungen" />
-    <Translation ID="RPR_OPT_EDT_NAM" String="Paketname" />
-    <Translation ID="RPR_OPT_SVC" String="Service" />
-    <Translation ID="RPR_OPT_CPK" String="Berechnungspaket" />
-    <Translation ID="RPR_OPT_NEW" String="Neu hinzufügen" />
-    <Translation ID="RPR_OPT_DEL" String="Paket löschen" />
-    <Translation ID="RPR_OPT_NPK" String="Neues Paket" />
-    <Translation ID="RPR_OPT_LDT" String="Aktiviert detailierte Debugging-Protokollierung" />
-    <Translation ID="RPR_DEF_LGR" String="Verwendet alte Berechnungen (WG-Original und Realistic Population Revisited) Version 1) standardmäßig für Wohngebäude:" />
-    <Translation ID="RPR_DEF_LGC" String="Verwendet alte Berechnungen (WG-Original und Realistic Population Revisited) Version 1) standardmäßig für Gewerbegebäude:" />
-    <Translation ID="RPR_DEF_LGI" String="Verwendet alte Berechnungen (WG-Original und Realistic Population Revisited) Version 1) standardmäßig für Industriegebäude:" />
-    <Translation ID="RPR_DEF_LGO" String="Verwendet alte Berechnungen (WG-Original und Realistic Population Revisited) Version 1) standardmäßig für Bürogebäude:" />
-    <Translation ID="RPR_DEF_LTS" String="Dieser Speicherstand" />
-    <Translation ID="RPR_DEF_LAS" String="Neue Speicherstände" />
-    <Translation ID="RPR_DEF_VIS" String="Kunden- (Besucher-) Kapazität" />
-    <Translation ID="RPR_DEF_VIS_TIP" String="Die Berechnungsgrundlage für die Anzahl der Kunden, die dieses Gebäude gleichzeitig bedienen kann. Die alte Methode bestand darin, die Größe des Grundstücks des Gebäudes zu verwenden, die neue Methode ist, die Anzahl der Arbeitsplätze im Gebäude zu nutzen." />
-    <Translation ID="RPR_DEF_VNE" String="Neue Methode (Bewohner)" />
-    <Translation ID="RPR_DEF_VOL" String="Alte Methode (Grundstücksgröße)" />
-    <Translation ID="RPR_DEF_VMU" String="Kundenzahl-Multiplikator" />
-    <Translation ID="RPR_DEF_VMU_TIP" String="Die berechnete Kundenkapazität wird mit diesem Betrag multipliziert" />
-    <Translation ID="RPR_DEF_CGM" String="Umsatzmultiplikator" />
-    <Translation ID="RPR_DEF_CGM_TIP" String="Die Menge der von diesem Gebäude verkauften Waren je Kunde wird um diesen Betrag multipliziert; reduzierte Sätze bedeuten, dass weniger Waren benötigt werden, aber die Steuerneinnahmen werden dadurch reduziert" />
-    <Translation ID="RPR_DEF_IDC" String="Lagerbedarfsobergrenze" />
-    <Translation ID="RPR_DEF_IDC_TIP" String="Auslösebeträge für Inventaraufträge werden auf dieses Maximum begrenzt (betrifft nicht Gebäude mit berechneten Auslösebeträgen für Inventaraufträge die bereits unter dieser Obergrenze liegen)." />
-    <Translation ID="RPR_DEF_PMD" String="Berechnungsmodus" />
-    <Translation ID="RPR_DEF_PMD_TIP" String="Die Grundlage für die Berechnung der Produktionsrate dieses Gebäudes. Die alte Methode bestand darin, die Größe des Grundstücks des Gebäudes zu verwenden, die neue Methode besteht darin, die Anzahl der Arbeitsplätze im Gebäude nutzen." />
-    <Translation ID="RPR_DEF_PRD" String="Produktionsmultiplikator" />
-    <Translation ID="RPR_DEF_PRD_TIP" String="Die Menge der von diesem Gebäude produzierten Güter wird mit diesem Faktor multipliziert." />
-    <Translation ID="TRN_CHOICE" String="Sprache einstellen" />
-    <Translation ID="TRN_SYS" String="Systemsprache verwenden" />
-    <Translation ID="MES_CLS" String="Schließen" />
-    <Translation ID="MES_DSA" String="Nicht mehr anzeigen" />
-    <Translation ID="MES_PAGE" String="Weitere Informationen befinden sich auf der Steam-Workshop-Seite der Mod." />
-    <Translation ID="RPR_OLD_0" String="Dieser Speicherstand wurde nicht mit Realistic Population 2 gespeichert." />
-    <Translation ID="RPR_OLD_1" String="Bitte beachte, dass die Anwendung unterschiedlicher Berechnungen auf eine bestehende Stadt kann das Stadtgleichgewicht vorübergehend stören kann." />
-    <Translation ID="RPR_OLD_2" String="Wenn du eine Stadt lädst, die mit einer früheren Version dieses Mods erstellt wurde, wirst du möglicherweise weiterhin die alten Mod-Berechnungen für diese Stadt verwenden wollen. Dies sollte das bestehende Stadtgleichgewicht erhalten. Alternativ kannst du auf das neue (genauere und flexiblere) Berechnungsmodell umsteigen, musst aber beachten, dass die Stadt möglicherweise eine Neuausrichtung erfordert." />
-    <Translation ID="RPR_OLD_3" String="Beachte, dass bestehende Wohngebäude in beiden Fällen die vorhandene Kapazitäten und Haushalte NICHT betroffen sind und Arbeitnehmer mit bestehenden Jobs werden NICHT sofort aus diesen Jobs gekündigt. Es wird also keine unmittelbaren Auswirkungen auf die Bevölkerung der Stadt geben." />
-    <Translation ID="RPR_OLD_LEG" String="Alte Berechnungen verwenden" />
-    <Translation ID="RPR_OLD_NEW" String="Neue Berechnungen verwenden" />
-    <Translation ID="RPR_ERR_FAT" String="Dies bedeutet, dass Realistic Population 2 nicht richtig funktionieren kann und sich geschlossen hat." />
-    <Translation ID="RPR_ERR_HAR" String="Realistic Population 2 konnte die erforderlichen Harmony-Patches nicht abschließen." />
-    <Translation ID="ERR_HAR0" String="Harmony-Patching-Fehler!" />
-    <Translation ID="ERR_HAR1" String="Mögliche Ursachen für dieses Problem sind:" />
-    <Translation ID="ERR_HAR2" String="Die erforderliche Harmony 2-Mod-Abhängigkeit wurde nicht installiert" />
-    <Translation ID="ERR_HAR3" String="Ein alter und/oder defekter Mod verhindert, dass Harmony 2 richtig funktioniert" />
-    <Translation ID="ERR_CON0" String="Mod-Konflikt erkannt!" />
-    <Translation ID="ERR_CON1" String="Die problematischen Mods sind:" />
-    <Translation ID="RPR_ERR_CON0" String="Realistic Population 2 hat einen Konflikt mit mindestens einer anderen Mod festgestellt." />
-    <Translation ID="RPR_ERR_CON1" String="Diese Mods müssen entfernt werden, bevor Realistic Population 2 funktionieren kann." />
-    <Translation ID="RPR_200_0" String="Umbenennung von ‚Realistic Population Revisited‘ in ‚Realistic Population 2‘ um das Ausmaß der Veränderungen widerzuspiegeln" />
-    <Translation ID="RPR_200_1" String="WICHTIGE NEUE FUNKTION: Berechnungen der neuen Gebäudebevölkerung auf der Grundlage der tatsächlichen Gebäudeformen und -größen mit realistisch berechneter Grundfläche, mit der Möglichkeit, zwischen den neuen oder alten ('Legacy') Berechnungen zu wählen" />
-    <Translation ID="RPR_200_2" String="WICHTIGE NEUE FUNKTION: Separate Berechnungsvoreinstellungen für Gebäudegrundfläche und Bevölkerung, zusammen mit optionalen manuellen Überschreibungen für eines oder beides" />
-    <Translation ID="RPR_200_3" String="WICHTIGE NEUE FUNKTION: Wählbare Konfigurationsvoreinstellungen für jede Gebäudedienstart" />
-    <Translation ID="RPR_200_4" String="WICHTIGE NEUE FUNKTION: Optionale realistische Berechnungen der Schülerkapazität für Grund- und weiterführende Schulen, mit konfigurierbarem Multiplikator wenn Schulgebäude in realistischer Größe nicht verfügbar sind" />
-    <Translation ID="RPR_200_5" String="WICHTIGE NEUE FUNKTION: Einstellbare Kriminalitätsrate" />
-    <Translation ID="RPR_200_6" String="Upgrade auf Harmony 2 (Boformers Harmony 2 Mod erforderlich)" />
-    <Translation ID="RPR_200_7" String="Verschiedene Verbesserungen an der Gebäudedetailseite" />
-    <Translation ID="RPR_200_8" String="Verbesserte Mod-Konflikterkennung und -Benachrichtigung" />
-    <Translation ID="RPR_200_9" String="Erhebliche Überarbeitung, Bereinigung und Neustrukturierung der Codebasis der Mod" />
-  </Translations>
+	<Translations>
+		<Translation ID="RPR_NAME" String="Realistic Population 2" />
+		<Translation ID="RPR_DESC" String="Mehr realistische Gebäudebevölkerung (basierend auf der Gebäudegröße) und Versorgungsbedürfnisse." />
+		<Translation ID="RPR_REALPOP" String="Realistische Bevölkerung" />
+		<Translation ID="RPR_INF_VIS" String="Besucher" />
+		<Translation ID="RPR_PCK_DEF" String=" (Standard)" />
+		<Translation ID="RPR_PCK_NAM" String="Berechnungen" />
+		<Translation ID="RPR_PCK_LEG_NAM" String="Alte WG Berechnungen" />
+		<Translation ID="RPR_PCK_LEG_DES" String="Alte Berechnungen, die von Version 1.x dieser Mod und Whitefang Greytail's Original Realistic Population and Consumption mod verwendet wurden." />
+		<Translation ID="RPR_PCK_RLS_NAM" String="Einfamilienhäuser" />
+		<Translation ID="RPR_PCK_RLS_DES" String="Ein Haushalt je Gebäude." />
+		<Translation ID="RPR_PCK_RLD_NAM" String="Doppelhäuser" />
+		<Translation ID="RPR_PCK_RLD_DES" String="Zwei Haushalte je Gebäude." />
+		<Translation ID="RPR_PCK_RUH_NAM" String="US Hochhäuser" />
+		<Translation ID="RPR_PCK_RUH_DES" String="Durchschnittliche US Wohnungen und Eigentumswohnungen." />
+		<Translation ID="RPR_PCK_REM_NAM" String="Europäische Wohnungen (modern)" />
+		<Translation ID="RPR_PCK_REM_DES" String="Europäische Wohnungen, mittlere Bauhöhe (mittlere Dichte; moderne Gebäude)." />
+		<Translation ID="RPR_PCK_REO_NAM" String="Europäische Wohnungen (ältere)" />
+		<Translation ID="RPR_PCK_REO_DES" String="Europäische Wohnungen, mittlere Bauhöhe (hohe Dichte; ältere Gebäude)." />
+		<Translation ID="RPR_PCK_CUS_NAM" String="US Einzelhandel" />
+		<Translation ID="RPR_PCK_CUS_DES" String="Normaler Einzelhandel wie in den USA üblich." />
+		<Translation ID="RPR_PCK_CUK_NAM" String="UK Einzelhandel" />
+		<Translation ID="RPR_PCK_CUK_DES" String="Normaler Einzelhandel wie in UK üblich." />
+		<Translation ID="RPR_PCK_CRW_NAM" String="Supermärkte" />
+		<Translation ID="RPR_PCK_CRW_DES" String="Non-Food-Supermärkte und Fachmärkte." />
+		<Translation ID="RPR_PCK_THT_NAM" String="Hotels" />
+		<Translation ID="RPR_PCK_THT_DES" String="Hotels und Motels." />
+		<Translation ID="RPR_PCK_LFD_NAM" String="Lebensmittelversorgung" />
+		<Translation ID="RPR_PCK_LFD_DES" String="Restaurants und Cafés." />
+		<Translation ID="RPR_PCK_LEN_NAM" String="Unterhaltungsbranche" />
+		<Translation ID="RPR_PCK_LEN_DES" String="Vergnügungs-, Fitness- und Unterhaltungszentren." />
+		<Translation ID="RPR_PCK_LCN_NAM" String="Kinos" />
+		<Translation ID="RPR_PCK_LCN_DES" String="Kinos und Theater" />
+		<Translation ID="RPR_PCK_ILG_NAM" String="Leichtindustrie" />
+		<Translation ID="RPR_PCK_ILG_DES" String="Leichtindustrie und Gewerbeparks." />
+		<Translation ID="RPR_PCK_IMN_NAM" String="Fertigung" />
+		<Translation ID="RPR_PCK_IMN_DES" String="Industrielle Fertigung." />
+		<Translation ID="RPR_PCK_IWL_NAM" String="Kleine Lager" />
+		<Translation ID="RPR_PCK_IWL_DES" String="Lager für den lokalen Vertrieb - viel Lagerfläche und eine geringe Anzahl an Beschäftigten." />
+		<Translation ID="RPR_PCK_IWN_NAM" String="Große Lager" />
+		<Translation ID="RPR_PCK_IWN_DES" String="Lager für nationale Verteilung - viel Lagerfläche und sehr niedrige Anzahl an Beschäftigten." />
+		<Translation ID="RPR_PCK_OCP_NAM" String="Firmenbüros" />
+		<Translation ID="RPR_PCK_OCP_DES" String="Unternehmen, professionelle Dienstleistungen und Büros des öffentlichen Sektors." />
+		<Translation ID="RPR_PCK_OFN_NAM" String="Finanzdienstleistungen" />
+		<Translation ID="RPR_PCK_OFN_DES" String="Finanzdienstleistungen; höhere Dichte als typische Firmenbüros" />
+		<Translation ID="RPR_PCK_OCS_NAM" String="Call-Center" />
+		<Translation ID="RPR_PCK_OCS_DES" String="Call-Center und andere dicht gedrängte Büros" />
+		<Translation ID="RPR_PCK_ODT_NAM" String="Rechenzentren" />
+		<Translation ID="RPR_PCK_ODT_DES" String="Rechenzentren mit lokalen Niederlassungen" />
+		<Translation ID="RPR_PCK_SSB_NAM" String="Vorortschule" />
+		<Translation ID="RPR_PCK_SSB_DES" String="Vorortschulen" />
+		<Translation ID="RPR_PCK_SML_NAM" String="MN niedrig" />
+		<Translation ID="RPR_PCK_SML_DES" String="Gemäß dem Minnesota Dept of Education Leitfaden – niedrigste Dichte" />
+		<Translation ID="RPR_PCK_SMM_NAM" String="MN mittel" />
+		<Translation ID="RPR_PCK_SMM_DES" String="Gemäß dem Minnesota Dept of Education Leitfaden – mittlere Dichte" />
+		<Translation ID="RPR_PCK_SMH_NAM" String="MN hoch" />
+		<Translation ID="RPR_PCK_SMH_DES" String="Gemäß dem Minnesota Dept of Education Leitfaden – höchste Dichte" />
+		<Translation ID="RPR_PCK_SUK_NAM" String="UK Standard" />
+		<Translation ID="RPR_PCK_SUK_DES" String="Standardplanungsdichten für Großbritannien." />
+		<Translation ID="RPR_PCK_FDF_NAM" String="Generisch" />
+		<Translation ID="RPR_PCK_FDF_DES" String="Standard 3m Raumhöhe." />
+		<Translation ID="RPR_PCK_FHO_NAM" String="Freistehende Häuser" />
+		<Translation ID="RPR_PCK_FHO_DES" String="Freistehende Wohnhäuser." />
+		<Translation ID="RPR_PCK_FDL_NAM" String="Eingangshalle" />
+		<Translation ID="RPR_PCK_FDL_DES" String="Gebäude mit Eingangshallen und/oder erhöhten ersten Stockwerken." />
+		<Translation ID="RPR_PCK_FCM_NAM" String="Gewerblich" />
+		<Translation ID="RPR_PCK_FCM_DES" String="Gewerbe-, Büro-, Bildungs- und Industriegebäude mit größeren Raumhöhen." />
+		<Translation ID="RPR_PCK_FWH_NAM" String="Lagerhaus" />
+		<Translation ID="RPR_PCK_FWH_DES" String="Einzelhandels-, Gewerbe- und Industrielager." />
+		<Translation ID="RPR_PCK_FHB_NAM" String="Hochregallager" />
+		<Translation ID="RPR_PCK_FHB_DES" String="Hochregallager für Industrie und Gewerbe." />
+		<Translation ID="RPR_PCK_FEX_NAM" String="Primäre Industrie" />
+		<Translation ID="RPR_PCK_FEX_DES" String="Industrielle Extraktoren und Prozessoren" />
+		<Translation ID="RPR_PCK_SVE_NAM" String="Vanilla Grundschule" />
+		<Translation ID="RPR_PCK_SVE_DES" String="Skalierung nach der Vanilla Grundschule" />
+		<Translation ID="RPR_PCK_SVH_NAM" String="Vanilla Hochschule" />
+		<Translation ID="RPR_PCK_SVH_DES" String="Skalierung nach der Vanilla Hochschule" />
+		<Translation ID="RPR_PCK_SVC_NAM" String="Vanilla Gemeindeschule" />
+		<Translation ID="RPR_PCK_SVC_DES" String="Skalierung nach der Vanilla Gemeindeschule" />
+		<Translation ID="RPR_PCK_SVA_NAM" String="Vanilla Kunstschule" />
+		<Translation ID="RPR_PCK_SVA_DES" String="Skalierung nach der Vanilla Kunstschule" />
+		<Translation ID="RPR_CAT_ALL" String="Alle Kategorien" />
+		<Translation ID="RPR_CAT_RES" String="Wohngebiet" />
+		<Translation ID="RPR_CAT_RLO" String="Wohngebiet niedrig" />
+		<Translation ID="RPR_CAT_RHI" String="Wohngebiet hoch" />
+		<Translation ID="RPR_CAT_COM" String="Gewerbegebiet" />
+		<Translation ID="RPR_CAT_CLO" String="Gewerbegebiet niedrig" />
+		<Translation ID="RPR_CAT_CHI" String="Gewerbegebiet hoch" />
+		<Translation ID="RPR_CAT_OFF" String="Bürogebiet" />
+		<Translation ID="RPR_CAT_GEN" String="Allgemein" />
+		<Translation ID="RPR_CAT_ITC" String="IT Cluster" />
+		<Translation ID="RPR_CAT_IND" String="Industrie" />
+		<Translation ID="RPR_CAT_FAR" String="Landwirtschaft" />
+		<Translation ID="RPR_CAT_FOR" String="Forstwirtschaft" />
+		<Translation ID="RPR_CAT_OIL" String="Öl" />
+		<Translation ID="RPR_CAT_ORE" String="Erz" />
+		<Translation ID="RPR_CAT_EXT" String="Förderanlage" />
+		<Translation ID="RPR_CAT_PRO" String="Aufbereitungsanlage" />
+		<Translation ID="RPR_CAT_TOU" String="Tourismus" />
+		<Translation ID="RPR_CAT_LEI" String="Freizeit" />
+		<Translation ID="RPR_CAT_ORG" String="Bio- und lokale Produkte" />
+		<Translation ID="RPR_CAT_ECO" String="Öko-Läden" />
+		<Translation ID="RPR_CAT_SSH" String="Autarke Häuser" />
+		<Translation ID="RPR_CAT_ERL" String="Öko Wohngebiet niedrig" />
+		<Translation ID="RPR_CAT_ERH" String="Öko Wohngebiet hoch" />
+		<Translation ID="RPR_CAT_SIN" String="Spezialisierte Industrie" />
+		<Translation ID="RPR_CAT_SCH" String="Schulen" />
+		<Translation ID="RPR_FIL_NAME" String="Name:" />
+		<Translation ID="RPR_FIL_SET" String="Nach Einstellungen filtern (siehe Hinweise)" />
+		<Translation ID="RPR_EDT_POP" String="Befölkerung überschreiben" />
+		<Translation ID="RPR_EDT_FLR" String="Etagen überschreiben" />
+		<Translation ID="RPR_FTR_ANY" String="Verfügt über ein benutzerdefiniertes Überschreibungs- und/oder ein nicht standardmäßiges Berechnungspaket" />
+		<Translation ID="RPR_FTR_OVR" String="Hat eine Bewohner- und/oder Etagenüberschreibung" />
+		<Translation ID="RPR_FTR_NDC" String="Hat ein nicht standardmäßiges Berechnungspaket und/oder einen benutzerdefinierten Bewohner-Multiplikator" />
+		<Translation ID="RPR_CUS_TITLE" String="Benutzerdefinierte Einstellungen" />
+		<Translation ID="RPR_CUS_ADD" String="Benutzerdefinierte Einstellungen hinzufügen" />
+		<Translation ID="RPR_CUS_ADD_TIP" String="Fügt eine benutzerdefinierte Einstellung für das Gebäude hinzu (oder aktualisiert diese) " />
+		<Translation ID="RPR_CUS_DEL" String="Lösche benutzerdefinierte Einstellungen" />
+		<Translation ID="RPR_CUS_DEL_TIP" String="Entfernt die benutzerdefinierte Einstellungen vom ausgewählten Gebäude" />
+		<Translation ID="RPR_CUS_UPD" String="Benutzerdefinierte Einstellungen aktualisieren" />
+		<Translation ID="RPR_ERR_ZERO" String="Fehler: Der Wert muss größer Null sein" />
+		<Translation ID="RPR_ERR_INV" String="Fehler: ungültiger Wert" />
+		<Translation ID="RPR_LBL_HOM" String="Wohnungen:" />
+		<Translation ID="RPR_LBL_JOB" String="Arbeitsplätze:" />
+		<Translation ID="RPR_LBL_STU" String="Studenten:" />
+		<Translation ID="RPR_LBL_OFF" String="Raumhöhe 1.Etage" />
+		<Translation ID="RPR_LBL_OFH" String="Raumhöhe andere Etagen" />
+		<Translation ID="RPR_PRV_SFL" String="Berechnete Etagen anzeigen" />
+		<Translation ID="RPR_CAL_MOD" String="Mod-Berechnungen" />
+		<Translation ID="RPR_CAL_DEN" String="Bevölkerungsdichte" />
+		<Translation ID="RPR_CAL_BFL" String="Gebäudeetagen" />
+		<Translation ID="RPR_CAL_FOV" String="Verwenden der benutzerdefinierten Einstellungen" />
+		<Translation ID="RPR_CAL_FLG" String="Die Auswahl der Bodenberechnung ist nicht verfügbar, wenn die alten Berechnungen verwendet werden" />
+		<Translation ID="RPR_CAL_SAT" String="Speichern und anwenden auf:" />
+		<Translation ID="RPR_CAL_NBD" String="Nur neue Gebäude" />
+		<Translation ID="RPR_CAL_ABD" String="Alle Gebäude" />
+		<Translation ID="RPR_CAL_VOL_FLR" String="Etagen" />
+		<Translation ID="RPR_CAL_VOL_FLR_TIP" String="Die Anzahl der Stockwerke (Etagen) für dieses Gebäude, die anhand der obigen Einstellungen berechnet wurden." />
+		<Translation ID="RPR_CAL_VOL_TFA" String="Gesamtwohnfläche" />
+		<Translation ID="RPR_CAL_VOL_TFA_TIP" String="Die mit den obigen Einstellungen berechnete Gesamtwohnfläche für dieses Gebäude." />
+		<Translation ID="RPR_CAL_VOL_UTS" String="einheiten insgesamt" />
+		<Translation ID="RPR_CAL_VOL_UTS_TIP" String="Die Gesamtbevölkerung (Haushalte oder Arbeitsplätze) für dieses Gebäude, mit den obigen Einstellungen berechnet." />
+		<Translation ID="RPR_CAL_VOL_VIS" String="Besucherzahl" />
+		<Translation ID="RPR_CAL_VOL_VIS_TIP" String="Die maximale Anzahl Kunden, die von diesem Gebäude gleiczeitig unterstützt werden." />
+		<Translation ID="RPR_CAL_VOL_PRD" String="Produktionsrate" />
+		<Translation ID="RPR_CAL_VOL_PRD_TIP" String="Die maximale Produktionsrate dieses Gebäudes." />
+		<Translation ID="RPR_CAL_VOL_FLH" String="Stockwerkshöhe" />
+		<Translation ID="RPR_CAL_VOL_FLH_TIP" String="Die typische Höhe jedes Stockwerks von Stockwerk zu Stockwerk in Metern in diesem Gebäude (der erste Stock hat zusätzliche Optionen unten)." />
+		<Translation ID="RPR_CAL_VOL_FMN" String="Erdgeschosshöhe min" />
+		<Translation ID="RPR_CAL_VOL_FMN_TIP" String="Die minimale Gebäudehöhe, die erforderlich ist, damit ein Bereich des Gebäudes mit mindestens einer Etage gezählt werden kann." />
+		<Translation ID="RPR_CAL_VOL_FMX" String="Zusätzliche Erdgeschosshöhe" />
+		<Translation ID="RPR_CAL_VOL_FMX_TIP" String="Die Erdgeschosshöhe wird um so viele Meter nach oben verlängert (oberhalb der normalen Stockwerkshöhe), bevor weitere Etagen oben hinzugefügt werden." />
+		<Translation ID="RPR_CAL_VOL_IGF" String="Ignorieren Erdgeschoss" />
+		<Translation ID="RPR_CAL_VOL_IGF_TIP" String="Wenn dies eingestellt ist, wird das Erdgeschoss des Gebäudes als leerer Raum behandelt (z.B. ein Eingangshallen- oder Foyerbereich) ohne Haushalte oder Arbeiter." />
+		<Translation ID="RPR_CAL_VOL_EPC" String="Leerer Bereich (%)" />
+		<Translation ID="RPR_CAL_VOL_EPC_TIP" String="Dieser Prozentsatz jeder Etagenfläche wird als leere Fläche behandelt und wird nicht bei der Berechnung der Haushalte oder der Arbeiterzahl berücksichtigt werden." />
+		<Translation ID="RPR_CAL_VOL_EMP" String="Leerer Bereich (fest)" />
+		<Translation ID="RPR_CAL_VOL_EMP_TIP" String="Ein fester Betrag, der von jeder Etagenfläche abgezogen wird, bevor Haushalte oder Arbeiter berechnet werden (als leere Fläche behandelt)." />
+		<Translation ID="RPR_CAL_VOL_FXP" String="Feste Bewohnerzahl?" />
+		<Translation ID="RPR_CAL_VOL_FXP_TIP" String="Wenn dies festgelegt ist, wird eine fester Betrag für Haushalts- oder Arbeiterzählungen verwendet, unabhängig von der Gebäudegröße (z.B. ein Haushalt pro Gebäude)." />
+		<Translation ID="RPR_CAL_VOL_UNI" String="Einheiten" />
+		<Translation ID="RPR_CAL_VOL_HOU" String="Haushalte" />
+		<Translation ID="RPR_CAL_VOL_WOR" String="Arbeitsplätze" />
+		<Translation ID="RPR_CAL_VOL_STU" String="Studenten" />
+		<Translation ID="RPR_CAL_VOL_UNI_TIP" String="Feste Anzahl von Haushalten oder Arbeitern pro Gebäude." />
+		<Translation ID="RPR_CAL_VOL_APU" String="Fläche pro Einheit" />
+		<Translation ID="RPR_CAL_VOL_APU_TIP" String="Die für jeden Haushalt oder Arbeiter benötigte Fläche (in Quadratmetern) (nachdem der leere Bereich abgezogen wurde)." />
+		<Translation ID="RPR_CAL_VOL_MFU" String="Mehrgeschossige Einheiten" />
+		<Translation ID="RPR_CAL_VOL_MFU_TIP" String="Wenn dies nicht festgelegt ist, werden die Haushalts- oder Arbeiterzahlen für jede einzelne Etage des Gebäudes berechnet. Wenn dies eingestellt ist, wird nur die Gebäude-Summe verwendet, um die Anzahl der Haushalte oder Arbeiter zu berechnen." />
+		<Translation ID="RPR_CAL_VOL_ARA" String="Fläche" />
+		<Translation ID="RPR_CAL_UNI_HOU" String="Wohnungen" />
+		<Translation ID="RPR_CAL_UNI_WOR" String="Arbeitskräfte" />
+		<Translation ID="RPR_CAL_UNI_STU" String="Studenten" />
+		<Translation ID="RPR_CAL_HOM_CALC" String="Berechnete Wohnungen:" />
+		<Translation ID="RPR_CAL_HOM_CUST" String="Angepasste Wohungen:" />
+		<Translation ID="RPR_CAL_HOM_APPL" String="Verwendete Wohnungen:" />
+		<Translation ID="RPR_CAL_JOB_CALC" String="Berechnete Jobs:" />
+		<Translation ID="RPR_CAL_JOB_CUST" String="Angepasste Jobs:" />
+		<Translation ID="RPR_CAL_JOB_APPL" String="Besetzte Jobs:" />
+		<Translation ID="RPR_CAL_BLD_X" String="Gebäudebreite (m):" />
+		<Translation ID="RPR_CAL_BLD_Z" String="Gebäudelänge (m):" />
+		<Translation ID="RPR_CAL_BLD_Y" String="Gerüsthöhe (m):" />
+		<Translation ID="RPR_CAL_BLD_M2" String="m2 pro Person:" />
+		<Translation ID="RPR_CAL_FLR_Y" String="Etagenhöhe (m):" />
+		<Translation ID="RPR_CAL_FLR_M" String="Etagen Modifikation" />
+		<Translation ID="RPR_CAL_FLR" String="Berechnete Etagen:" />
+		<Translation ID="RPR_CAL_M2" String="Berechnete Fläche:" />
+		<Translation ID="RPR_CAL_OVR" String="(Überschrieben)" />
+		<Translation ID="RPR_CAL_OVM" String="Bewohnerberechnung wird durch manuelle Einstellung überschrieben" />
+		<Translation ID="RPR_CAL_RICO" String="Ploppable RICO Revisited kontrolliert die Zahlen für dieses Gebäude." />
+		<Translation ID="RPR_CAL_CAP_OVR" String="Benutzerdefinierter Kapazitätsmultiplikator" />
+		<Translation ID="RPR_CAL_CAP_DEF" String="Standardmultiplikator:" />
+		<Translation ID="RPR_CAL_SCH_PRO" String="Personal- und Kostenskalierung" />
+		<Translation ID="RPR_CAL_SCH_WKR" String="Schulmitarbeiter" />
+		<Translation ID="RPR_CAL_SCH_WKR_TIP" String="Anzahl und Niveau der an dieser Schule verfügbaren Arbeitsplätze berechnet mit den obigen Einstellungen" />
+		<Translation ID="RPR_CAL_SCH_CST" String="Kosten/Wartung" />
+		<Translation ID="RPR_CAL_SCH_CST_TIP" String="Die Baukosten und die wöchentlichen Wartungskosten der Schule, berechnet mit den obigen Einstellungen" />
+		<Translation ID="RPR_TIT_RDF" String="Berechnungsvorgaben für Wohngebäude" />
+		<Translation ID="RPR_TIT_CDF" String="Berechnungsvorgaben für Gewerbegebäude" />
+		<Translation ID="RPR_TIT_IDF" String="Berechnungsvorgaben für Industriegebäude" />
+		<Translation ID="RPR_TIT_EDF" String="Berechnungsvorgaben für Extraktorgebäude" />
+		<Translation ID="RPR_TIT_ODF" String="Berechnungsvorgaben für Bürogebäude" />
+		<Translation ID="RPR_TIT_SDF" String="Berechnungsvorgaben für Schulen" />
+		<Translation ID="RPR_TIT_CGO" String="Einstellungen für Handelswaren" />
+		<Translation ID="RPR_TIT_IGO" String="Einstellungen für die industrielle Produktion" />
+		<Translation ID="RPR_TIT_EGO" String="Einstellungen für Extraktoren" />
+		<Translation ID="RPR_TIT_OGO" String="Einstellungen für die Büroproduktion" />
+		<Translation ID="RPR_OPT_MOD" String="Mod-Einstellungen" />
+		<Translation ID="RPR_OPT_KEY" String="Tastaturkürzel für den Bauoptionsbildschirm" />
+		<Translation ID="RPR_OPT_PRS" String="Drücke irgendeine Taste" />
+		<Translation ID="RPR_OPT_LEG" String="Alte Werte" />
+		<Translation ID="RPR_OPT_CON" String="Verbrauch" />
+		<Translation ID="RPR_OPT_LVL" String="Level" />
+		<Translation ID="RPR_OPT_APH" String="Fläche pro Haushalt (m2)" />
+		<Translation ID="RPR_OPT_APW" String="Fläche pro Arbeiter (m2)" />
+		<Translation ID="RPR_OPT_FLR" String="Etagenhöhe (m)" />
+		<Translation ID="RPR_OPT_POW" String="Strom" />
+		<Translation ID="RPR_OPT_WAT" String="Wasser" />
+		<Translation ID="RPR_OPT_SEW" String="Abwasser" />
+		<Translation ID="RPR_OPT_GAR" String="Müll" />
+		<Translation ID="RPR_OPT_POL" String="Verschmutzung" />
+		<Translation ID="RPR_OPT_NOI" String="Lärm" />
+		<Translation ID="RPR_OPT_MAI" String="Post" />
+		<Translation ID="RPR_OPT_PRO" String="Produktion" />
+		<Translation ID="RPR_OPT_WEA" String="Vermögen" />
+		<Translation ID="RPR_OPT_RTD" String="Standard laden" />
+		<Translation ID="RPR_OPT_RTS" String="Gespeichertes laden" />
+		<Translation ID="RPR_OPT_SAA" String="Speichern und anwenden" />
+		<Translation ID="RPR_OPT_SCH" String="Schulen" />
+		<Translation ID="RPR_OPT_SEN" String="Realistische Schülerkapazitäten aktivieren" />
+		<Translation ID="RPR_OPT_SEJ" String="Realistische Schuleigenschaften aktivieren (Jobs, Kosten) - erfordert Neustart" />
+		<Translation ID="RPR_OPT_SDM" String="Standardfaktor für die Schulkapazität" />
+		<Translation ID="RPR_OPT_JB0" String="Aushilfsjobs" />
+		<Translation ID="RPR_OPT_JB1" String="Facharbeiter" />
+		<Translation ID="RPR_OPT_JB2" String="Vorarbeiter" />
+		<Translation ID="RPR_OPT_JB3" String="Führungskräfte" />
+		<Translation ID="RPR_OPT_SHE" String="Grundschulen" />
+		<Translation ID="RPR_OPT_SHH" String="Hochschulen" />
+		<Translation ID="RPR_OPT_SJB" String="Basis-Stellen" />
+		<Translation ID="RPR_OPT_SJX" String="Zusätzliche Stellen pro # Studenten" />
+		<Translation ID="RPR_OPT_CRI" String="Verbrechen" />
+		<Translation ID="RPR_OPT_CML" String="Kriminalitätsmultiplikator" />
+		<Translation ID="RPR_OPT_CML_TIP" String="Die Basisanhäufung der Kriminalität für die Stadt wird mit diesem Betrag multipliziert" />
+		<Translation ID="RPR_OPT_POP" String="Bevölkerungsberechnungspakete" />
+		<Translation ID="RPR_OPT_STO" String="Etagenberechnungspakete" />
+		<Translation ID="RPR_OPT_DEF" String="Standardberechnungspakete" />
+		<Translation ID="RPR_OPT_PSI" String="Produktions-, Verkaufs- und Lagereinstellungen" />
+		<Translation ID="RPR_OPT_EDT_NAM" String="Paketname" />
+		<Translation ID="RPR_OPT_SVC" String="Service" />
+		<Translation ID="RPR_OPT_CPK" String="Berechnungspaket" />
+		<Translation ID="RPR_OPT_NEW" String="Neu hinzufügen" />
+		<Translation ID="RPR_OPT_DEL" String="Paket löschen" />
+		<Translation ID="RPR_OPT_NPK" String="Neues Paket" />
+		<Translation ID="RPR_OPT_LDT" String="Aktiviert detailierte Debugging-Protokollierung" />
+		<Translation ID="RPR_DEF_LGR" String="Verwendet alte Berechnungen (WG-Original und Realistic Population Revisited) Version 1) standardmäßig für Wohngebäude:" />
+		<Translation ID="RPR_DEF_LGC" String="Verwendet alte Berechnungen (WG-Original und Realistic Population Revisited) Version 1) standardmäßig für Gewerbegebäude:" />
+		<Translation ID="RPR_DEF_LGI" String="Verwendet alte Berechnungen (WG-Original und Realistic Population Revisited) Version 1) standardmäßig für Industriegebäude:" />
+		<Translation ID="RPR_DEF_LGO" String="Verwendet alte Berechnungen (WG-Original und Realistic Population Revisited) Version 1) standardmäßig für Bürogebäude:" />
+		<Translation ID="RPR_DEF_LTS" String="Dieser Speicherstand" />
+		<Translation ID="RPR_DEF_LAS" String="Neue Speicherstände" />
+		<Translation ID="RPR_DEF_VIS" String="Kunden- (Besucher-) Kapazität" />
+		<Translation ID="RPR_DEF_VIS_TIP" String="Die Berechnungsgrundlage für die Anzahl der Kunden, die dieses Gebäude gleichzeitig bedienen kann. Die alte Methode bestand darin, die Größe des Grundstücks des Gebäudes zu verwenden, die neue Methode ist, die Anzahl der Arbeitsplätze im Gebäude zu nutzen." />
+		<Translation ID="RPR_DEF_VNE" String="Neue Methode (Bewohner)" />
+		<Translation ID="RPR_DEF_VOL" String="Alte Methode (Grundstücksgröße)" />
+		<Translation ID="RPR_DEF_VMU" String="Kundenzahl-Multiplikator" />
+		<Translation ID="RPR_DEF_VMU_TIP" String="Die berechnete Kundenkapazität wird mit diesem Betrag multipliziert" />
+		<Translation ID="RPR_DEF_CGM" String="Umsatzmultiplikator" />
+		<Translation ID="RPR_DEF_CGM_TIP" String="Die Menge der von diesem Gebäude verkauften Waren je Kunde wird um diesen Betrag multipliziert; reduzierte Sätze bedeuten, dass weniger Waren benötigt werden, aber die Steuerneinnahmen werden dadurch reduziert" />
+		<Translation ID="RPR_DEF_IDC" String="Lagerbedarfsobergrenze" />
+		<Translation ID="RPR_DEF_IDC_TIP" String="Auslösebeträge für Inventaraufträge werden auf dieses Maximum begrenzt (betrifft nicht Gebäude mit berechneten Auslösebeträgen für Inventaraufträge die bereits unter dieser Obergrenze liegen)." />
+		<Translation ID="RPR_DEF_PMD" String="Berechnungsmodus" />
+		<Translation ID="RPR_DEF_PMD_TIP" String="Die Grundlage für die Berechnung der Produktionsrate dieses Gebäudes. Die alte Methode bestand darin, die Größe des Grundstücks des Gebäudes zu verwenden, die neue Methode besteht darin, die Anzahl der Arbeitsplätze im Gebäude nutzen." />
+		<Translation ID="RPR_DEF_PRD" String="Produktionsmultiplikator" />
+		<Translation ID="RPR_DEF_PRD_TIP" String="Die Menge der von diesem Gebäude produzierten Güter wird mit diesem Faktor multipliziert." />
+		<Translation ID="TRN_CHOICE" String="Sprache einstellen" />
+		<Translation ID="TRN_SYS" String="Systemsprache verwenden" />
+		<Translation ID="MES_CLS" String="Schließen" />
+		<Translation ID="MES_DSA" String="Nicht mehr anzeigen" />
+		<Translation ID="MES_PAGE" String="Weitere Informationen befinden sich auf der Steam-Workshop-Seite der Mod." />
+		<Translation ID="RPR_OLD_0" String="Dieser Speicherstand wurde nicht mit Realistic Population 2 gespeichert." />
+		<Translation ID="RPR_OLD_1" String="Bitte beachte, dass die Anwendung unterschiedlicher Berechnungen auf eine bestehende Stadt kann das Stadtgleichgewicht vorübergehend stören kann." />
+		<Translation ID="RPR_OLD_2" String="Wenn du eine Stadt lädst, die mit einer früheren Version dieses Mods erstellt wurde, wirst du möglicherweise weiterhin die alten Mod-Berechnungen für diese Stadt verwenden wollen. Dies sollte das bestehende Stadtgleichgewicht erhalten. Alternativ kannst du auf das neue (genauere und flexiblere) Berechnungsmodell umsteigen, musst aber beachten, dass die Stadt möglicherweise eine Neuausrichtung erfordert." />
+		<Translation ID="RPR_OLD_3" String="Beachte, dass bestehende Wohngebäude in beiden Fällen die vorhandene Kapazitäten und Haushalte NICHT betroffen sind und Arbeitnehmer mit bestehenden Jobs werden NICHT sofort aus diesen Jobs gekündigt. Es wird also keine unmittelbaren Auswirkungen auf die Bevölkerung der Stadt geben." />
+		<Translation ID="RPR_OLD_LEG" String="Alte Berechnungen verwenden" />
+		<Translation ID="RPR_OLD_NEW" String="Neue Berechnungen verwenden" />
+		<Translation ID="RPR_ERR_FAT" String="Dies bedeutet, dass Realistic Population 2 nicht richtig funktionieren kann und sich geschlossen hat." />
+		<Translation ID="RPR_ERR_HAR" String="Realistic Population 2 konnte die erforderlichen Harmony-Patches nicht abschließen." />
+		<Translation ID="ERR_HAR0" String="Harmony-Patching-Fehler!" />
+		<Translation ID="ERR_HAR1" String="Mögliche Ursachen für dieses Problem sind:" />
+		<Translation ID="ERR_HAR2" String="Die erforderliche Harmony 2-Mod-Abhängigkeit wurde nicht installiert" />
+		<Translation ID="ERR_HAR3" String="Ein alter und/oder defekter Mod verhindert, dass Harmony 2 richtig funktioniert" />
+		<Translation ID="ERR_CON0" String="Mod-Konflikt erkannt!" />
+		<Translation ID="ERR_CON1" String="Die problematischen Mods sind:" />
+		<Translation ID="RPR_ERR_CON0" String="Realistic Population 2 hat einen Konflikt mit mindestens einer anderen Mod festgestellt." />
+		<Translation ID="RPR_ERR_CON1" String="Diese Mods müssen entfernt werden, bevor Realistic Population 2 funktionieren kann." />
+		<Translation ID="RPR_200_0" String="Umbenennung von ‚Realistic Population Revisited‘ in ‚Realistic Population 2‘ um das Ausmaß der Veränderungen widerzuspiegeln" />
+		<Translation ID="RPR_200_1" String="WICHTIGE NEUE FUNKTION: Berechnungen der neuen Gebäudebevölkerung auf der Grundlage der tatsächlichen Gebäudeformen und -größen mit realistisch berechneter Grundfläche, mit der Möglichkeit, zwischen den neuen oder alten ('Legacy') Berechnungen zu wählen" />
+		<Translation ID="RPR_200_2" String="WICHTIGE NEUE FUNKTION: Separate Berechnungsvoreinstellungen für Gebäudegrundfläche und Bevölkerung, zusammen mit optionalen manuellen Überschreibungen für eines oder beides" />
+		<Translation ID="RPR_200_3" String="WICHTIGE NEUE FUNKTION: Wählbare Konfigurationsvoreinstellungen für jede Gebäudedienstart" />
+		<Translation ID="RPR_200_4" String="WICHTIGE NEUE FUNKTION: Optionale realistische Berechnungen der Schülerkapazität für Grund- und weiterführende Schulen, mit konfigurierbarem Multiplikator wenn Schulgebäude in realistischer Größe nicht verfügbar sind" />
+		<Translation ID="RPR_200_5" String="WICHTIGE NEUE FUNKTION: Einstellbare Kriminalitätsrate" />
+		<Translation ID="RPR_200_6" String="Upgrade auf Harmony 2 (Boformers Harmony 2 Mod erforderlich)" />
+		<Translation ID="RPR_200_7" String="Verschiedene Verbesserungen an der Gebäudedetailseite" />
+		<Translation ID="RPR_200_8" String="Verbesserte Mod-Konflikterkennung und -Benachrichtigung" />
+		<Translation ID="RPR_200_9" String="Erhebliche Überarbeitung, Bereinigung und Neustrukturierung der Codebasis der Mod" />
+	</Translations>
 </Language>
