@@ -91,7 +91,10 @@ namespace RealPop2
                     // Residential building; check that either the supplier prefab name is null or it matches this building's prefab.
                     if ((prefabName == null || thisBuilding.Info.name.Equals(prefabName)) && ((service != ItemClass.Service.None && thisBuilding.Info.GetService() == service) || (subService != ItemClass.SubService.None && thisBuilding.Info.GetSubService() == subService)))
                     {
-                        // Got one!  Recalculate home and visit counts.
+                        // Got one!  Log initial status.
+                        Logging.Message("Identified building ", i, " (", thisBuilding.Info.name, ") with ", CountCitizenUnits(ref thisBuilding), " CitizenUnits");
+
+                        // Recalculate home and visit counts.
                         privateAI.CalculateWorkplaceCount((ItemClass.Level)thisBuilding.m_level, new Randomizer(i), thisBuilding.Width, thisBuilding.Length, out int level0, out int level1, out int level2, out int level3);
                         int workCount = level0 + level1 + level2 + level3;
                         int homeCount = privateAI.CalculateHomeCount((ItemClass.Level)thisBuilding.m_level, new Randomizer(i), thisBuilding.Width, thisBuilding.Length);
@@ -109,7 +112,7 @@ namespace RealPop2
                         Singleton<SimulationManager>.instance.AddAction(delegate { RemoveCitizenUnits(ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], homeCount, workCount, visitCount, localPreserve); });
 
                         // Log changes.
-                        Logging.Message("Reset CitizenUnits for building ", i, " (", thisBuilding.Info.name, "); CitizenUnit count is now ", citizenManager.m_unitCount);
+                        Logging.Message("Reset CitizenUnits for building ", i, " (", thisBuilding.Info.name, "); building now has ", CountCitizenUnits(ref thisBuilding), " CitizenUnits, and total CitizenUnit count is now ", citizenManager.m_unitCount);
                     }
                 }
             }
@@ -232,6 +235,30 @@ namespace RealPop2
                 // Move on to next unit.
                 currentUnit = nextUnit;
             }
+        }
+
+
+        /// <summary>
+        /// Counts the number of CitizenUnits attached to the given building.
+        /// </summary>
+        /// <param name="building"></param>
+        /// <returns></returns>
+        private static uint CountCitizenUnits(ref Building building)
+        {
+            uint unitCount = 0;
+
+            // Local reference.
+            CitizenUnit[] citizenUnts = Singleton<CitizenManager>.instance.m_units.m_buffer;
+
+            // Follow m_nextUnit chain of linked CitizenUnits.
+            uint currentUnit = building.m_citizenUnits;
+            while (currentUnit != 0)
+            {
+                ++unitCount;
+                currentUnit = citizenUnts[currentUnit].m_nextUnit;
+            }
+
+            return unitCount;
         }
     }
 }
