@@ -159,7 +159,7 @@ namespace RealPop2
         //Household count.
         [XmlAttribute("population")]
         [DefaultValue(0)]
-        public int population;
+        public ushort population;
     }
 
 

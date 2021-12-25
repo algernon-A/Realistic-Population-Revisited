@@ -15,7 +15,7 @@ namespace RealPop2
         /// <param name="minWorkers"></param>
         /// <param name="array"></param>
         /// <param name="output"></param>
-        internal static void CalculateprefabWorkerVisit(int width, int length, ref BuildingInfo item, int minWorkers, ref int[] array, out int[] output)
+        internal static WorkplaceLevels CalculatePrefabWorkers(int width, int length, ref BuildingInfo item, int minWorkers, ref int[] array)
         {
             // Prefabs are tied to a level
 
@@ -26,6 +26,15 @@ namespace RealPop2
             int level2 = array[DataStore.WORK_LVL2];
             int level3 = array[DataStore.WORK_LVL3];
             int num2 = level0 + level1 + level2 + level3;
+
+            // Output.
+            WorkplaceLevels output = new WorkplaceLevels
+            {
+                level0 = 1,
+                level1 = 0,
+                level2 = 0,
+                level3 = 0
+            };
 
             if (num > 0 && num2 > 0)
             {
@@ -69,26 +78,14 @@ namespace RealPop2
 
                 num = Mathf.Max(minWorkers, value);
 
-                output = new int[4]
-                {
-                    0,
-                    (num * level1) / num2,
-                    (num * level2) / num2,
-                    (num * level3) / num2,
-                };
+                output.level1 = (ushort)((num * level1) / num2);
+                output.level2 = (ushort)((num * level2) / num2);
+                output.level3 = (ushort)((num * level3) / num2);
 
-                output[0] = Mathf.Max(0, num - output[1] - output[2] - output[3]);  // Whatever is left
+                output.level0 = (ushort)(Mathf.Max(0, num - output.level1 - output.level2 - output.level3));  // Whatever is left
             }
-            else
-            {
-                output = new int[4]
-                {
-                    1,
-                    0,
-                    0,
-                    0
-                };
-            }
+
+            return output;
 
             // Set the visitors here since we're calculating
             //if (num != 0)
@@ -106,7 +103,7 @@ namespace RealPop2
         /// <param name="length"></param>
         /// <param name="item"></param>
         /// <param name="returnValue"></param>
-        internal static int CalculatePrefabHousehold(int width, int length, ref BuildingInfo item, ref int[] array)
+        internal static ushort CalculatePrefabHousehold(int width, int length, ref BuildingInfo item, ref int[] array)
         {
             Vector3 v = item.m_size;
             int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT]));
@@ -149,7 +146,7 @@ namespace RealPop2
                 }
             }
 
-            return returnValue;
+            return (ushort)returnValue;
         }  // end calculatePrefabHousehold
 
 

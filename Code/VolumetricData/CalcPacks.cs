@@ -56,7 +56,7 @@
         /// <param name="level">Building level</param>
         /// <param name="multiplier">Population multiplier</param>
         /// <returns>Population</returns>
-        public virtual int Population(BuildingInfo buildingPrefab, int level, float multiplier) => 0;
+        public virtual ushort Population(BuildingInfo buildingPrefab, int level, float multiplier) => 0;
 
 
         /// <summary>
@@ -65,7 +65,7 @@
         /// <param name="buildingPrefab">Building prefab record</param>
         /// <param name="level">Building level</param>
         /// <returns>Workplace breakdowns and visitor count </returns>
-        public virtual int[] Workplaces(BuildingInfo buildingPrefab, int level) => new int[4];
+        public virtual WorkplaceLevels Workplaces(BuildingInfo buildingPrefab, int level) => new WorkplaceLevels {  level0 = 1, level1 = 0, level2 = 0, level3 = 0};
     }
 
 
@@ -126,7 +126,7 @@
         /// <param name="level">Building level</param>
         /// <param name="multiplier">Population multiplier</param>
         /// <returns>Population</returns>
-        public override int Population(BuildingInfo buildingPrefab, int level, float multiplier)
+        public override ushort Population(BuildingInfo buildingPrefab, int level, float multiplier)
         {
             // Bounds check for building level (zero-based).
             int thisLevel = level;
@@ -147,7 +147,7 @@
         /// <param name="buildingPrefab">Building prefab record</param>
         /// <param name="level">Building level</param>
         /// <returns>Workplace breakdowns and visitor count </returns>
-        public override int[] Workplaces(BuildingInfo buildingPrefab, int level) => EmploymentData.CalculateWorkplaces(buildingPrefab, level);
+        public override WorkplaceLevels Workplaces(BuildingInfo buildingPrefab, int level) => EmploymentData.CalculateWorkplaces(buildingPrefab, level);
     }
 
 
@@ -163,10 +163,10 @@
         /// <param name="level">Building level</param>
         /// <param name="multiplier">Ignored</param>
         /// <returns>Population</returns>
-        public override int Population(BuildingInfo buildingPrefab, int level, float multiplier)
+        public override ushort Population(BuildingInfo buildingPrefab, int level, float multiplier)
         {
             // First, check for volumetric population override - that trumps everything else.
-            int value = PopData.instance.GetOverride(buildingPrefab.name);
+            ushort value = PopData.instance.GetOverride(buildingPrefab.name);
             if (value == 0)
             {
                 // No volumetric override - use legacy calcs.
@@ -190,12 +190,10 @@
         /// <param name="buildingPrefab">Building prefab record</param>
         /// <param name="level">Building level</param>
         /// <returns>Workplace breakdowns and visitor count </returns>
-        public override int[] Workplaces(BuildingInfo buildingPrefab, int level)
+        public override WorkplaceLevels Workplaces(BuildingInfo buildingPrefab, int level)
         {
             int[] array = LegacyAIUtils.GetCommercialArray(buildingPrefab, level);
-            LegacyAIUtils.CalculateprefabWorkerVisit(buildingPrefab.GetWidth(), buildingPrefab.GetLength(), ref buildingPrefab, 4, ref array, out int[] output);
-
-            return output;
+            return LegacyAIUtils.CalculatePrefabWorkers(buildingPrefab.GetWidth(), buildingPrefab.GetLength(), ref buildingPrefab, 4, ref array);
         }
     }
 
@@ -211,7 +209,7 @@
         /// <param name="buildingPrefab">Building prefab record</param>
         /// <param name="level">Building level</param>
         /// <returns>Workplace breakdowns and visitor count </returns>
-        public override int[] Workplaces(BuildingInfo buildingPrefab, int level)
+        public override WorkplaceLevels Workplaces(BuildingInfo buildingPrefab, int level)
         {
             int[] array;
             int minWorkers;
@@ -228,9 +226,7 @@
                 minWorkers = 4;
             }
 
-            LegacyAIUtils.CalculateprefabWorkerVisit(buildingPrefab.GetWidth(), buildingPrefab.GetLength(), ref buildingPrefab, minWorkers, ref array, out int[] output);
-
-            return output;
+            return  LegacyAIUtils.CalculatePrefabWorkers(buildingPrefab.GetWidth(), buildingPrefab.GetLength(), ref buildingPrefab, minWorkers, ref array);
         }
     }
 
@@ -246,12 +242,10 @@
         /// <param name="buildingPrefab">Building prefab record</param>
         /// <param name="level">Building level</param>
         /// <returns>Workplace breakdowns and visitor count </returns>
-        public override int[] Workplaces(BuildingInfo buildingPrefab, int level)
+        public override WorkplaceLevels Workplaces(BuildingInfo buildingPrefab, int level)
         {
             int[] array = LegacyAIUtils.GetOfficeArray(buildingPrefab, level);
-            LegacyAIUtils.CalculateprefabWorkerVisit(buildingPrefab.GetWidth(), buildingPrefab.GetLength(), ref buildingPrefab, 10, ref array, out int[] output);
-
-            return output;
+            return LegacyAIUtils.CalculatePrefabWorkers(buildingPrefab.GetWidth(), buildingPrefab.GetLength(), ref buildingPrefab, 10, ref array);
         }
     }
 }

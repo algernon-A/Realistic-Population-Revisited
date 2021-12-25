@@ -238,7 +238,7 @@ namespace RealPop2
             if (popCheck.isChecked)
             {
                 // Read total floor count textfield if possible; ignore zero values
-                if (int.TryParse(homeJobsCount.textField.text, out int homesJobs) && homesJobs != 0)
+                if (ushort.TryParse(homeJobsCount.textField.text, out ushort homesJobs) && homesJobs != 0)
                 {
                     // Minimum value of 1.
                     if (homesJobs < 1)

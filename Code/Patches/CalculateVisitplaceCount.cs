@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using HarmonyLib;
 
 
@@ -89,8 +88,8 @@ namespace RealPop2
             if (comVisitModes[arrayIndex] == (int)ComVisitModes.popCalcs)
             {
                 // Get cached workplace count and calculate total workplaces.
-                int[] workplaces = PopData.instance.WorkplaceCache(info, (int)level);
-                __result = NewVisitCount(subService, level, workplaces[0] + workplaces[1] + workplaces[2] + workplaces[3]);
+                WorkplaceLevels workplaces = PopData.instance.WorkplaceCache(info, (int)level);
+                __result = NewVisitCount(subService, level, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
             }
             else
             {

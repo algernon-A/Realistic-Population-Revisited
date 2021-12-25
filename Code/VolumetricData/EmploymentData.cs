@@ -19,7 +19,7 @@ namespace RealPop2
         /// <param name="prefab">Building prefab</param>
         /// <param name="level">Building level</param>
         /// <returns>Workplace breakdowns and visitor count </returns>
-        internal static int[] CalculateWorkplaces(BuildingInfo prefab, int level)
+        internal static WorkplaceLevels CalculateWorkplaces(BuildingInfo prefab, int level)
         {
             int[] workplaces = new int[4];
 
@@ -66,7 +66,13 @@ namespace RealPop2
             // Allocate any remainder at this point to top-level jobs.
             workplaces[3] += totalJobs;
 
-            return workplaces;
+            return new WorkplaceLevels
+            {
+                level0 = (ushort)workplaces[0],
+                level1 = (ushort)workplaces[1],
+                level2 = (ushort)workplaces[2],
+                level3 = (ushort)workplaces[3]
+            };
         }
 
 

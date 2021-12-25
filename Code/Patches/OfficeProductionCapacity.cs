@@ -36,8 +36,8 @@ namespace RealPop2
             ItemClass.SubService subService = info.GetSubService();
 
             // Get cached workplace count and calculate total workplaces.
-            int[] workplaces = PopData.instance.WorkplaceCache(info, (int)level);
-            int totalWorkers = workplaces[0] + workplaces[1] + workplaces[2] + workplaces[3];
+            WorkplaceLevels workplaces = PopData.instance.WorkplaceCache(info, (int)level);
+            int totalWorkers = workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3;
 
             // Using legacy settings?
             if (PopData.instance.ActivePack(info).version == (int)DataVersion.legacy)

@@ -99,9 +99,9 @@ namespace RealPop2
                 }
 
                 // Get cached workplace count and calculate total workplaces.
-                int[] workplaces = PopData.instance.WorkplaceCache(info, (int)level);
+                WorkplaceLevels workplaces = PopData.instance.WorkplaceCache(info, (int)level);
 
-                float totalWorkers = workplaces[0] + workplaces[1] + workplaces[2] + workplaces[3];
+                float totalWorkers = workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3;
                 // Multiply total workers by multipler and overall multiplier (from settings) to get result.
                 __result = (int)((totalWorkers * multiplier * prodMults[arrayIndex]) / 100f);
             }
