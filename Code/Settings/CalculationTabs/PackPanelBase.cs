@@ -86,7 +86,6 @@ namespace RealPop2
 
             // Pack name textfield.
             PackNameField = UIControls.BigTextField(panel, 200f, currentY);
-            PackNameField.isEnabled = false;
             UILabel packNameLabel = UIControls.AddLabel(PackNameField, -100f, (PackNameField.height - 18f) / 2, Translations.Translate("RPR_OPT_EDT_NAM"));
 
             // Adjsut pack name textfield position to accomodate longer translation strings.
@@ -124,13 +123,11 @@ namespace RealPop2
             // Enable save and delete buttons and name textfield if this is a custom pack, otherwise disable.
             if (packList[index].version == (int)DataVersion.customOne)
             {
-                PackNameField.Enable();
                 saveButton.Enable();
                 deleteButton.Enable();
             }
             else
             {
-                PackNameField.Disable();
                 saveButton.Disable();
                 deleteButton.Disable();
             }

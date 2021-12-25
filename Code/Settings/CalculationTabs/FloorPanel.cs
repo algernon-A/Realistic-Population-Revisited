@@ -126,9 +126,8 @@ namespace RealPop2
         /// <param name="mouseEvent">Mouse event (unused)</param>
         protected override void AddPack(UIComponent control, UIMouseEventParameter mouseEvent)
         {
-            // Default new pack name.
-            string basePackName = Translations.Translate("RPR_OPT_NPK");
-            string newPackName = basePackName;
+            // Initial pack name.
+            string newPackName = PackNameField.text;
 
             // Integer suffix for when the above name already exists (starts with 2).
             int packNum = 2;
