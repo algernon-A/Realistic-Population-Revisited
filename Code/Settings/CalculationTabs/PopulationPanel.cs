@@ -185,10 +185,10 @@ namespace RealPop2
             ItemClass.Service currentService = services[serviceDropDown.selectedIndex];
 
             // Starting with our default new pack name, check to see if we already have a pack with this name for the currently selected service.
-            while (PopData.instance.calcPacks.Find(pack => ((PopDataPack)pack).service == currentService && pack.name.Equals(newPackName)) != null)
+                while (PopData.instance.calcPacks.Find(pack => ((PopDataPack)pack).service == currentService && (pack.name.Equals(newPackName) || pack.displayName.Equals(newPackName))) != null)
             {
                 // We already have a match for this name; append the current integer suffix to the base name and try again, incementing the integer suffix for the next attempt (if required).
-                newPackName = "New pack " + packNum++;
+                newPackName = PackNameField.text + " " + packNum++;
             }
 
             // We now have a unique name; set the textfield.

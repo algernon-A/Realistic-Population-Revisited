@@ -222,6 +222,7 @@ namespace RealPop2
                     citizenUnits[previousUnit].m_nextUnit = nextUnit;
 
                     // Release unit.
+                    citizenUnits[currentUnit] = default(CitizenUnit);
                     ReleaseUnitImplementation(citizenManager, currentUnit, ref citizenUnits[currentUnit]);
                     citizenManager.m_unitCount = (int)(citizenManager.m_units.ItemCount() - 1);
                 }

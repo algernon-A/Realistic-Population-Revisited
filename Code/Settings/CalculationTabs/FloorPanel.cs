@@ -133,10 +133,10 @@ namespace RealPop2
             int packNum = 2;
 
             // Starting with our default new pack name, check to see if we already have a pack with this name for the currently selected service.
-            while (FloorData.instance.calcPacks.Find(pack => pack.name.Equals(newPackName)) != null)
+            while (FloorData.instance.calcPacks.Find(pack => pack.name.Equals(newPackName) || pack.displayName.Equals(newPackName)) != null)
             {
                 // We already have a match for this name; append the current integer suffix to the base name and try again, incementing the integer suffix for the next attempt (if required).
-                newPackName = "New pack " + packNum++;
+                newPackName = PackNameField.text + " " + packNum++;
             }
 
             // We now have a unique name; set the textfield.
