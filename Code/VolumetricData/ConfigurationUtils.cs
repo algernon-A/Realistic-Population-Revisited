@@ -64,7 +64,7 @@ namespace RealPop2
                                 name = xmlPack.name,
                                 displayName = xmlPack.name,
                                 service = xmlPack.service,
-                                version = (int)DataVersion.customOne,
+                                version = DataVersion.customOne,
                                 levels = new LevelData[xmlPack.calculationLevels.Count]
                             };
 
@@ -93,7 +93,7 @@ namespace RealPop2
                             {
                                 name = xmlPack.name,
                                 displayName = xmlPack.name,
-                                version = (int)DataVersion.customOne,
+                                version = DataVersion.customOne,
                                 floorHeight = xmlPack.floorHeight,
                                 firstFloorMin = xmlPack.firstMin,
                                 firstFloorExtra = xmlPack.firstExtra,
@@ -202,7 +202,7 @@ namespace RealPop2
                         if (calcPack is VolumetricPopPack volPack)
                         {
                             // Look for packs marked as custom.
-                            if (volPack.version == (int)DataVersion.customOne)
+                            if (volPack.version == DataVersion.customOne)
                             {
                                 // Found one - serialise it.
                                 PopPackXML xmlPack = new PopPackXML()
@@ -244,7 +244,7 @@ namespace RealPop2
                         if (calcPack is FloorDataPack floorPack)
                         {
                             // Look for packs marked as custom.
-                            if (floorPack.version == (int)DataVersion.customOne)
+                            if (floorPack.version == DataVersion.customOne)
                             {
                                 // Found one - serialise it.
                                 FloorPackXML xmlPack = new FloorPackXML()

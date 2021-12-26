@@ -360,6 +360,7 @@ namespace RealPop2
             if (!assemblyPath.IsNullOrWhiteSpace())
             {
                 string localePath = Path.Combine(assemblyPath, "Translations");
+                Logging.Message("loading translations from ", localePath);
 
                 // Ensure that the directory exists before proceeding.
                 if (Directory.Exists(localePath))

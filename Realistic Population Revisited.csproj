@@ -122,6 +122,7 @@
     <Content Include="Translations\zh.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\GUI\UIVanillaCalcs.cs" />
     <Compile Include="Code\Patches\StudentCount.cs" />
     <Compile Include="Code\GUI\UIModCalcs.cs" />
     <Compile Include="Code\GUI\UIPreviewPanel.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Code\Patches\ResidentialConsumption.cs" />
     <Compile Include="Code\Patches\SimulationStepImpl.cs" />
     <Compile Include="Code\Patches\ModifyMaterialBuffer.cs" />
+    <Compile Include="Code\Patches\VanillaPopMethods.cs" />
     <Compile Include="Code\Patches\WorldInfoPanel.cs" />
     <Compile Include="Code\Patches\ZonedBuildingWorldInfoPanel.cs" />
     <Compile Include="Code\Serialization.cs" />

@@ -40,7 +40,7 @@ namespace RealPop2
             int totalWorkers = workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3;
 
             // Using legacy settings?
-            if (PopData.instance.ActivePack(info).version == (int)DataVersion.legacy)
+            if (PopData.instance.ActivePack(info).version == DataVersion.legacy)
             {
                 // Legacy settings.
                 int[] array = LegacyAIUtils.GetOfficeArray(info, (int)level);

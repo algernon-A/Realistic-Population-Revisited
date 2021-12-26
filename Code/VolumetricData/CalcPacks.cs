@@ -1,11 +1,15 @@
-﻿namespace RealPop2
+﻿using ColossalFramework.Math;
+
+
+namespace RealPop2
 {
     public enum DataVersion
     {
-        legacy = 0,
+        vanilla = 0,
+        legacy,
         one,
         customOne,
-        overrideOne
+        overrideOne,
     }
 
 
@@ -14,7 +18,7 @@
     /// </summary>
     public class DataPack
     {
-        public int version;
+        public DataVersion version;
         public string name;
         public string displayName;
         public string description;
@@ -142,7 +146,7 @@
 
 
         /// <summary>
-        /// Returns the workplace breakdowns and visitor count for the given building prefab and level.
+        /// Returns the workplace breakdown for the given building prefab and level.
         /// </summary>
         /// <param name="buildingPrefab">Building prefab record</param>
         /// <param name="level">Building level</param>
@@ -157,7 +161,7 @@
     public class LegacyResPack : PopDataPack
     {
         /// <summary>
-        /// Returns the volumetric population of the given building prefab and level.
+        /// Returns the legacy calculation workplaces for the given building prefab and level.
         /// </summary>
         /// <param name="buildingPrefab">Building prefab record</param>
         /// <param name="level">Building level</param>
@@ -185,7 +189,7 @@
     public class LegacyComPack : PopDataPack
     {
         /// <summary>
-        /// Returns the workplace breakdowns and visitor count for the given building prefab and level.
+        /// Returns the legacy calculation workplaces for the given building prefab and level.
         /// </summary>
         /// <param name="buildingPrefab">Building prefab record</param>
         /// <param name="level">Building level</param>
@@ -204,7 +208,7 @@
     public class LegacyIndPack : PopDataPack
     {
         /// <summary>
-        /// Returns the workplace breakdowns and visitor count for the given building prefab and level.
+        /// Returns the legacy calculation workplaces for the given building prefab and level.
         /// </summary>
         /// <param name="buildingPrefab">Building prefab record</param>
         /// <param name="level">Building level</param>
@@ -226,7 +230,7 @@
                 minWorkers = 4;
             }
 
-            return  LegacyAIUtils.CalculatePrefabWorkers(buildingPrefab.GetWidth(), buildingPrefab.GetLength(), ref buildingPrefab, minWorkers, ref array);
+            return LegacyAIUtils.CalculatePrefabWorkers(buildingPrefab.GetWidth(), buildingPrefab.GetLength(), ref buildingPrefab, minWorkers, ref array);
         }
     }
 
@@ -237,7 +241,7 @@
     public class LegacyOffPack : PopDataPack
     {
         /// <summary>
-        /// Returns the workplace breakdowns and visitor count for the given building prefab and level.
+        /// Returns the legacy calculation workplaces for the given building prefab and level.
         /// </summary>
         /// <param name="buildingPrefab">Building prefab record</param>
         /// <param name="level">Building level</param>
@@ -246,6 +250,51 @@
         {
             int[] array = LegacyAIUtils.GetOfficeArray(buildingPrefab, level);
             return LegacyAIUtils.CalculatePrefabWorkers(buildingPrefab.GetWidth(), buildingPrefab.GetLength(), ref buildingPrefab, 10, ref array);
+        }
+    }
+
+
+    /// <summary>
+    /// Vanilla calculation pack.
+    /// </summary>
+    public class VanillaPack : PopDataPack
+    {
+        /// <summary>
+        /// Returns the vanilla calculation workplaces for the given building prefab and level.
+        /// </summary>
+        /// <param name="buildingPrefab">Building prefab record</param>
+        /// <param name="level">Building level</param>
+        /// <param name="multiplier">Ignored</param>
+        /// <returns>Population</returns>
+        public override ushort Population(BuildingInfo buildingPrefab, int level, float multiplier)
+        {
+            // First, check for volumetric population override - that trumps everything else.
+            ushort value = PopData.instance.GetOverride(buildingPrefab.name);
+            if (value == 0)
+            {
+                // No volumetric override - use vanilla calcs.
+                return (ushort)VanillaPopMethods.CalculateHomeCount(buildingPrefab.GetAI(), (ItemClass.Level)level, new Randomizer(), buildingPrefab.GetWidth(), buildingPrefab.GetLength());
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Returns the vanilla workplaces for the given building prefab and level.
+        /// </summary>
+        /// <param name="buildingPrefab">Building prefab record</param>
+        /// <param name="level">Building level</param>
+        /// <returns>Workplace breakdown</returns>
+        public override WorkplaceLevels Workplaces(BuildingInfo buildingPrefab, int level)
+        {
+            VanillaPopMethods.WorkplaceCount(buildingPrefab.m_buildingAI, (ItemClass.Level)level, buildingPrefab.GetWidth(), buildingPrefab.GetLength(), out int workLevel0, out int workLevel1, out int workLevel2, out int workLevel3);
+            return new WorkplaceLevels
+            {
+                level0 = (ushort)workLevel0,
+                level1 = (ushort)workLevel1,
+                level2 = (ushort)workLevel2,
+                level3 = (ushort)workLevel3
+            };
         }
     }
 }

@@ -132,8 +132,8 @@ namespace RealPop2
                     isDirty = true;
                 }
 
-                // Check floor pack if we're not using legacy calcs.
-                if (selectedPopPack.version != (int)DataVersion.legacy && AvailableFloorPacks[FloorMenus[subServiceIndex].selectedIndex] is FloorDataPack selectedFloorPack)
+                // Check floor pack if we're not using legacy or vanila calcs.
+                if (selectedPopPack.version != DataVersion.legacy && selectedPopPack.version != DataVersion.vanilla && AvailableFloorPacks[FloorMenus[subServiceIndex].selectedIndex] is FloorDataPack selectedFloorPack)
                 {
                     // Not legacy - check to see if this is a change from the current default.
                     if (!FloorData.instance.CurrentDefaultPack(service, subService).name.Equals(selectedFloorPack.name))

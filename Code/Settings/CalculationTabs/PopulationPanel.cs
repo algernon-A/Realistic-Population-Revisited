@@ -197,7 +197,7 @@ namespace RealPop2
             // Add new pack with basic values (deails will be populated later).
             VolumetricPopPack newPack = new VolumetricPopPack
             {
-                version = (int)DataVersion.customOne,
+                version = DataVersion.customOne,
                 service = services[serviceDropDown.selectedIndex],
                 levels = new LevelData[maxLevels[serviceDropDown.selectedIndex]]
             };
@@ -236,7 +236,7 @@ namespace RealPop2
         protected override void DeletePack(UIComponent control, UIMouseEventParameter mouseEvent)
         {
             // Make sure it's not an inbuilt pack before proceeding.
-            if (packList[packDropDown.selectedIndex].version == (int)DataVersion.customOne)
+            if (packList[packDropDown.selectedIndex].version == DataVersion.customOne)
             {
                 // Remove from list of packs.
                 PopData.instance.calcPacks.Remove(packList[packDropDown.selectedIndex]);

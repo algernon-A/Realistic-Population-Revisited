@@ -121,7 +121,7 @@ namespace RealPop2
         protected void ButtonStates(int index)
         {
             // Enable save and delete buttons and name textfield if this is a custom pack, otherwise disable.
-            if (packList[index].version == (int)DataVersion.customOne)
+            if (packList[index].version == DataVersion.customOne)
             {
                 saveButton.Enable();
                 deleteButton.Enable();

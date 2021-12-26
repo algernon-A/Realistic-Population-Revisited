@@ -145,7 +145,7 @@ namespace RealPop2
             // Add new pack with basic values (deails will be populated later).
             FloorDataPack newPack = new FloorDataPack
             {
-                version = (int)DataVersion.customOne
+                version = DataVersion.customOne
             };
 
             // Update pack with information from the panel.
@@ -182,7 +182,7 @@ namespace RealPop2
         protected override void DeletePack(UIComponent control, UIMouseEventParameter mouseEvent)
         {
             // Make sure it's not an inbuilt pack before proceeding.
-            if (packList[packDropDown.selectedIndex].version == (int)DataVersion.customOne)
+            if (packList[packDropDown.selectedIndex].version == DataVersion.customOne)
             {
                 // Remove from list of packs.
                 FloorData.instance.calcPacks.Remove(packList[packDropDown.selectedIndex]);
@@ -207,7 +207,7 @@ namespace RealPop2
                 // Basic pack attributes.
                 floorPack.name = PackNameField.text;
                 floorPack.displayName = PackNameField.text;
-                floorPack.version = (int)DataVersion.customOne;
+                floorPack.version = DataVersion.customOne;
 
                 // Textfields.
                 PanelUtils.ParseFloat(ref floorPack.floorHeight, floorHeightField.text);

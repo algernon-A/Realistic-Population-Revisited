@@ -312,48 +312,54 @@ namespace RealPop2
             workplaceCache = new Dictionary<BuildingInfo, WorkplaceCache>();
 
             // Legacy residential.
-            LegacyResPack resWG = new LegacyResPack
+            calcPacks.Add(new LegacyResPack
             {
                 name = "resWG",
                 displayName = Translations.Translate("RPR_PCK_LEG_NAM"),
                 description = Translations.Translate("RPR_PCK_LEG_DES"),
-                version = (int)DataVersion.legacy,
+                version = DataVersion.legacy,
                 service = ItemClass.Service.Residential
-            };
-            calcPacks.Add(resWG);
+            });
 
             // Legacy industrial.
-            LegacyIndPack indWG = new LegacyIndPack()
+            calcPacks.Add(new LegacyIndPack()
             {
                 name = "indWG",
                 displayName = Translations.Translate("RPR_PCK_LEG_NAM"),
                 description = Translations.Translate("RPR_PCK_LEG_DES"),
-                version = (int)DataVersion.legacy,
+                version = DataVersion.legacy,
                 service = ItemClass.Service.Industrial
-            };
-            calcPacks.Add(indWG);
+            });
 
             // Legacy commercial.
-            LegacyComPack comWG = new LegacyComPack()
+            calcPacks.Add(new LegacyComPack()
             {
                 name = "comWG",
                 displayName = Translations.Translate("RPR_PCK_LEG_NAM"),
                 description = Translations.Translate("RPR_PCK_LEG_DES"),
-                version = (int)DataVersion.legacy,
+                version = DataVersion.legacy,
                 service = ItemClass.Service.Commercial
-            };
-            calcPacks.Add(comWG);
+            });
 
             // Legacy office.
-            LegacyOffPack offWG = new LegacyOffPack()
+            calcPacks.Add(new LegacyOffPack
             {
                 name = "offWG",
                 displayName = Translations.Translate("RPR_PCK_LEG_NAM"),
                 description = Translations.Translate("RPR_PCK_LEG_DES"),
-                version = (int)DataVersion.legacy,
+                version = DataVersion.legacy,
                 service = ItemClass.Service.Office
-            };
-            calcPacks.Add(offWG);
+            });
+
+            // Vanilla calcs.
+            calcPacks.Add(new VanillaPack
+            {
+                name = "vanilla",
+                displayName = Translations.Translate("RPR_PCK_VAN_NAM"),
+                description = Translations.Translate("RPR_PCK_VAN_DES"),
+                version = DataVersion.vanilla,
+                service = ItemClass.Service.None
+            });
 
             // Low-density residential.
             VolumetricPopPack newPack = new VolumetricPopPack
@@ -361,7 +367,7 @@ namespace RealPop2
                 name = "reslow",
                 displayName = Translations.Translate("RPR_PCK_RLS_NAM"),
                 description = Translations.Translate("RPR_PCK_RLS_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Residential,
                 levels = new LevelData[5]
             };
@@ -378,7 +384,7 @@ namespace RealPop2
                 name = "duplex",
                 displayName = Translations.Translate("RPR_PCK_RLD_NAM"),
                 description = Translations.Translate("RPR_PCK_RLD_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Residential,
                 levels = new LevelData[5]
             };
@@ -395,7 +401,7 @@ namespace RealPop2
                 name = "resEUmod",
                 displayName = Translations.Translate("RPR_PCK_REM_NAM"),
                 description = Translations.Translate("RPR_PCK_REM_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Residential,
                 levels = new LevelData[5]
             };
@@ -412,7 +418,7 @@ namespace RealPop2
                 name = "resEUold",
                 displayName = Translations.Translate("RPR_PCK_REO_NAM"),
                 description = Translations.Translate("RPR_PCK_REO_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Residential,
                 levels = new LevelData[5],
             };
@@ -429,7 +435,7 @@ namespace RealPop2
                 name = "reshighUS",
                 displayName = Translations.Translate("RPR_PCK_RUH_NAM"),
                 description = Translations.Translate("RPR_PCK_RUH_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Residential,
                 levels = new LevelData[5]
             };
@@ -447,7 +453,7 @@ namespace RealPop2
                 name = "comUS",
                 displayName = Translations.Translate("RPR_PCK_CUS_NAM"),
                 description = Translations.Translate("RPR_PCK_CUS_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Commercial,
                 levels = new LevelData[3]
             };
@@ -464,7 +470,7 @@ namespace RealPop2
                 name = "comUK",
                 displayName = Translations.Translate("RPR_PCK_CUK_NAM"),
                 description = Translations.Translate("RPR_PCK_CUK_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Commercial,
                 levels = new LevelData[3]
             };
@@ -481,7 +487,7 @@ namespace RealPop2
                 name = "retailware",
                 displayName = Translations.Translate("RPR_PCK_CRW_NAM"),
                 description = Translations.Translate("RPR_PCK_CRW_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Commercial,
                 levels = new LevelData[3]
             };
@@ -497,7 +503,7 @@ namespace RealPop2
                 name = "hotel",
                 displayName = Translations.Translate("RPR_PCK_THT_NAM"),
                 description = Translations.Translate("RPR_PCK_THT_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Commercial,
                 levels = new LevelData[3]
             };
@@ -514,7 +520,7 @@ namespace RealPop2
                 name = "restaurant",
                 displayName = Translations.Translate("RPR_PCK_LFD_NAM"),
                 description = Translations.Translate("RPR_PCK_LFD_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Commercial,
                 levels = new LevelData[3]
             };
@@ -531,7 +537,7 @@ namespace RealPop2
                 name = "entertainment",
                 displayName = Translations.Translate("RPR_PCK_LEN_NAM"),
                 description = Translations.Translate("RPR_PCK_LEN_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Commercial,
                 levels = new LevelData[3]
             };
@@ -548,7 +554,7 @@ namespace RealPop2
                 name = "cinema",
                 displayName = Translations.Translate("RPR_PCK_LCN_NAM"),
                 description = Translations.Translate("RPR_PCK_LCN_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Commercial,
                 levels = new LevelData[3]
             };
@@ -565,7 +571,7 @@ namespace RealPop2
                 name = "lightind",
                 displayName = Translations.Translate("RPR_PCK_ILG_NAM"),
                 description = Translations.Translate("RPR_PCK_ILG_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Industrial,
                 levels = new LevelData[3]
             };
@@ -582,7 +588,7 @@ namespace RealPop2
                 name = "factory",
                 displayName = Translations.Translate("RPR_PCK_IMN_NAM"),
                 description = Translations.Translate("RPR_PCK_IMN_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Industrial,
                 levels = new LevelData[3]
             };
@@ -598,7 +604,7 @@ namespace RealPop2
                 name = "localware",
                 displayName = Translations.Translate("RPR_PCK_IWL_NAM"),
                 description = Translations.Translate("RPR_PCK_IWL_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Industrial,
                 levels = new LevelData[3]
             };
@@ -614,7 +620,7 @@ namespace RealPop2
                 name = "natware",
                 displayName = Translations.Translate("RPR_PCK_IWN_NAM"),
                 description = Translations.Translate("RPR_PCK_IWN_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Industrial,
                 levels = new LevelData[3]
             };
@@ -631,7 +637,7 @@ namespace RealPop2
                 name = "offcorp",
                 displayName = Translations.Translate("RPR_PCK_OCP_NAM"),
                 description = Translations.Translate("RPR_PCK_OCP_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Office,
                 levels = new LevelData[3]
             };
@@ -648,7 +654,7 @@ namespace RealPop2
                 name = "offfin",
                 displayName = Translations.Translate("RPR_PCK_OFN_NAM"),
                 description = Translations.Translate("RPR_PCK_OFN_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Office,
                 levels = new LevelData[3]
             };
@@ -665,7 +671,7 @@ namespace RealPop2
                 name = "offcall",
                 displayName = Translations.Translate("RPR_PCK_OCS_NAM"),
                 description = Translations.Translate("RPR_PCK_OCS_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Office,
                 levels = new LevelData[3]
             };
@@ -682,7 +688,7 @@ namespace RealPop2
                 name = "datacent",
                 displayName = Translations.Translate("RPR_PCK_ODT_NAM"),
                 description = Translations.Translate("RPR_PCK_ODT_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Office,
                 levels = new LevelData[3]
             };
@@ -699,7 +705,7 @@ namespace RealPop2
                 name = "schoolsub",
                 displayName = Translations.Translate("RPR_PCK_SSB_NAM"),
                 description = Translations.Translate("RPR_PCK_SSB_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Education,
                 levels = new LevelData[2]
             };
@@ -714,7 +720,7 @@ namespace RealPop2
                 name = "schoolmnlow",
                 displayName = Translations.Translate("RPR_PCK_SML_NAM"),
                 description = Translations.Translate("RPR_PCK_SML_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Education,
                 levels = new LevelData[2]
             };
@@ -729,7 +735,7 @@ namespace RealPop2
                 name = "schoolmnmed",
                 displayName = Translations.Translate("RPR_PCK_SMM_NAM"),
                 description = Translations.Translate("RPR_PCK_SMM_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Education,
                 levels = new LevelData[2]
             };
@@ -744,7 +750,7 @@ namespace RealPop2
                 name = "schoolmnhigh",
                 displayName = Translations.Translate("RPR_PCK_SMH_NAM"),
                 description = Translations.Translate("RPR_PCK_SMH_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Education,
                 levels = new LevelData[2]
             };
@@ -759,7 +765,7 @@ namespace RealPop2
                 name = "schoolukhigh",
                 displayName = Translations.Translate("RPR_PCK_SUK_NAM"),
                 description = Translations.Translate("RPR_PCK_SUK_DES"),
-                version = (int)DataVersion.one,
+                version = DataVersion.one,
                 service = ItemClass.Service.Education,
                 levels = new LevelData[2]
             };
@@ -883,7 +889,7 @@ namespace RealPop2
             foreach (PopDataPack pack in calcPacks)
             {
                 // Check for matching service.
-                if (pack.service == service)
+                if (pack.service == service || pack.service == ItemClass.Service.None)
                 {
                     // Service matches; add pack.
                     list.Add(pack);

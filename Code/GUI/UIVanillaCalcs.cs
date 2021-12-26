@@ -8,16 +8,11 @@ namespace RealPop2
     /// <summary>
     /// Different mod calculations shown (in text labels) by this panel.
     /// </summary>
-    public enum LegacyDetails : int
+    public enum VanillaDetails
     {
         width,
         length,
         area,
-        personArea,
-        height,
-        floorHeight,
-        floors,
-        extraFloors,
         numDetails
     }
 
@@ -25,7 +20,7 @@ namespace RealPop2
     /// <summary>
     /// Panel to display the mod's calculations for jobs/workplaces.
     /// </summary>
-    public class UILegacyCalcs : UIPanel
+    public class UIVanillaCalcs : UIPanel
     {
         // Margin at left of standard selection
         private const float LeftPadding = 10;
@@ -57,8 +52,8 @@ namespace RealPop2
             clipChildren = true;
 
             // Set up detail fields.
-            detailLabels = new UILabel[(int)LegacyDetails.numDetails];
-            for (int i = 0; i < (int)LegacyDetails.numDetails; i++)
+            detailLabels = new UILabel[(int)VanillaDetails.numDetails];
+            for (int i = 0; i < (int)VanillaDetails.numDetails; i++)
             {
                 detailLabels[i] = this.AddUIComponent<UILabel>();
                 detailLabels[i].relativePosition = new Vector3(LeftPadding, (i * LineHeight) + LineHeight);
@@ -68,33 +63,33 @@ namespace RealPop2
 
             // Homes/jobs labels.
             homesJobsCalcLabel = this.AddUIComponent<UILabel>();
-            homesJobsCalcLabel.relativePosition = new Vector3(LeftPadding, ((int)LegacyDetails.numDetails + 1) * LineHeight);
+            homesJobsCalcLabel.relativePosition = new Vector3(LeftPadding, ((int)VanillaDetails.numDetails + 1) * LineHeight);
             homesJobsCalcLabel.width = 270;
             homesJobsCalcLabel.textAlignment = UIHorizontalAlignment.Left;
 
             homesJobsCustomLabel = this.AddUIComponent<UILabel>();
-            homesJobsCustomLabel.relativePosition = new Vector3(LeftPadding, ((int)LegacyDetails.numDetails + 2) * LineHeight);
+            homesJobsCustomLabel.relativePosition = new Vector3(LeftPadding, ((int)VanillaDetails.numDetails + 2) * LineHeight);
             homesJobsCustomLabel.width = 270;
             homesJobsCustomLabel.textAlignment = UIHorizontalAlignment.Left;
 
             homesJobsActualLabel = this.AddUIComponent<UILabel>();
-            homesJobsActualLabel.relativePosition = new Vector3(LeftPadding, ((int)LegacyDetails.numDetails + 4) * LineHeight);
+            homesJobsActualLabel.relativePosition = new Vector3(LeftPadding, ((int)VanillaDetails.numDetails + 4) * LineHeight);
             homesJobsActualLabel.width = 270;
             homesJobsActualLabel.textAlignment = UIHorizontalAlignment.Left;
 
             visitCountLabel = this.AddUIComponent<UILabel>();
-            visitCountLabel.relativePosition = new Vector3(LeftPadding, ((int)LegacyDetails.numDetails + 5) * LineHeight);
+            visitCountLabel.relativePosition = new Vector3(LeftPadding, ((int)VanillaDetails.numDetails + 5) * LineHeight);
             visitCountLabel.width = 270;
             visitCountLabel.textAlignment = UIHorizontalAlignment.Left;
 
             productionLabel = this.AddUIComponent<UILabel>();
-            productionLabel.relativePosition = new Vector3(LeftPadding, ((int)LegacyDetails.numDetails + 5) * LineHeight);
+            productionLabel.relativePosition = new Vector3(LeftPadding, ((int)VanillaDetails.numDetails + 5) * LineHeight);
             productionLabel.width = 270;
             productionLabel.textAlignment = UIHorizontalAlignment.Left;
 
             // Message label (initially hidden).
             messageLabel = this.AddUIComponent<UILabel>();
-            messageLabel.relativePosition = new Vector3(LeftPadding, ((int)LegacyDetails.numDetails + 7) * LineHeight);
+            messageLabel.relativePosition = new Vector3(LeftPadding, ((int)VanillaDetails.numDetails + 7) * LineHeight);
             messageLabel.textAlignment = UIHorizontalAlignment.Left;
             messageLabel.autoSize = false;
             messageLabel.autoHeight = true;
@@ -119,15 +114,8 @@ namespace RealPop2
 
             // Variables to compare actual counts vs. mod count, to see if there's another mod overriding counts.
             int appliedCount;
-            int modCount;
 
-            // Building model size, not plot size.
-            Vector3 buildingSize = building.m_size;
-            int floorCount;
-            // Array used for calculations depending on building service/subservice (via DataStore).
-            int[] array;
-            // Default minimum number of homes or jobs is one; different service types will override this.
-            int minHomesJobs = 1;
+            // Customized home/jobcount.
             int customHomeJobs;
 
             // Check for valid building AI.
@@ -140,9 +128,6 @@ namespace RealPop2
             // Residential vs. workplace AI.
             if (buildingAI is ResidentialBuildingAI)
             {
-                // Get appropriate calculation array.
-                array = LegacyAIUtils.GetResidentialArray(building, (int)building.GetClassLevel());
-
                 // Set calculated homes label.
                 homesJobsCalcLabel.text = Translations.Translate("RPR_CAL_HOM_CALC");
 
@@ -152,41 +137,16 @@ namespace RealPop2
 
                 // Applied homes is what's actually being returned by the CaclulateHomeCount call to this building AI.
                 // It differs from calculated homes if there's an override value for that building with this mod, or if another mod is overriding.
-                appliedCount = buildingAI.CalculateHomeCount(building.GetClassLevel(), new Randomizer(0), building.GetWidth(), building.GetLength());
+                appliedCount = VanillaPopMethods.CalculateHomeCount(buildingAI, building.GetClassLevel(), new Randomizer(0), building.GetWidth(), building.GetLength());
                 homesJobsActualLabel.text = Translations.Translate("RPR_CAL_HOM_APPL") + appliedCount;
             }
             else
             {
                 // Workplace AI.
-                // Default minimum number of jobs is 4.
-                minHomesJobs = 4;
-
-                // Find the correct array for the relevant building AI.
-                switch (building.GetService())
-                {
-                    case ItemClass.Service.Commercial:
-                        array = LegacyAIUtils.GetCommercialArray(building, (int)building.GetClassLevel());
-                        break;
-                    case ItemClass.Service.Office:
-                        array = LegacyAIUtils.GetOfficeArray(building, (int)building.GetClassLevel());
-                        break;
-                    case ItemClass.Service.Industrial:
-                        if (buildingAI is IndustrialExtractorAI)
-                        {
-                            array = LegacyAIUtils.GetExtractorArray(building);
-                        }
-                        else
-                        {
-                            array = LegacyAIUtils.GetIndustryArray(building, (int)building.GetClassLevel());
-                        }
-                        break;
-                    default:
-                        Logging.Error("invalid building service in building details for building ", building.name);
-                        return;
-                }
+                VanillaPopMethods.WorkplaceCount(buildingAI, building.GetClassLevel(), building.GetWidth(), building.GetLength(), out int jobs0, out int jobs1, out int jobs2, out int jobs3);
 
                 // Set calculated jobs label.
-                homesJobsCalcLabel.text = Translations.Translate("RPR_CAL_JOB_CALC") + " ";
+                homesJobsCalcLabel.text = Translations.Translate("RPR_CAL_JOB_CALC") + " " + (jobs0 + jobs1 + jobs2 + jobs3);
 
                 // Set customised jobs label and get value (if any).
                 homesJobsCustomLabel.text = Translations.Translate("RPR_CAL_JOB_CUST") + " ";
@@ -225,72 +185,10 @@ namespace RealPop2
             // Reproduce CalcBase calculations to get building area.
             int calcWidth = building.GetWidth();
             int calcLength = building.GetLength();
-            floorCount = Mathf.Max(1, Mathf.FloorToInt(buildingSize.y / array[DataStore.LEVEL_HEIGHT]));
-
-            // If CALC_METHOD is zero, then calculations are based on building model size, not plot size.
-            if (array[DataStore.CALC_METHOD] == 0)
-            {
-                // If asset has small x dimension, then use plot width in squares x 6m (75% of standard width) instead.
-                if (buildingSize.x <= 1)
-                {
-                    calcWidth *= 6;
-                }
-                else
-                {
-                    calcWidth = (int)buildingSize.x;
-                }
-
-                // If asset has small z dimension, then use plot length in squares x 6m (75% of standard length) instead.
-                if (buildingSize.z <= 1)
-                {
-                    calcLength *= 6;
-                }
-                else
-                {
-                    calcLength = (int)buildingSize.z;
-                }
-            }
-            else
-            {
-                // If CALC_METHOD is nonzero, then caluclations are based on plot size, not building size.
-                // Plot size is 8 metres per square.
-                calcWidth *= 8;
-                calcLength *= 8;
-            }
 
             // Display calculated (and retrieved) details.
-            detailLabels[(int)LegacyDetails.width].text = Translations.Translate("RPR_CAL_BLD_X") + " " + calcWidth;
-            detailLabels[(int)LegacyDetails.length].text = Translations.Translate("RPR_CAL_BLD_Z") + " " + calcLength;
-            detailLabels[(int)LegacyDetails.height].text = Translations.Translate("RPR_CAL_BLD_Y") + " " + (int)buildingSize.y;
-            detailLabels[(int)LegacyDetails.personArea].text = Translations.Translate("RPR_CAL_BLD_M2") + " " + array[DataStore.PEOPLE];
-            detailLabels[(int)LegacyDetails.floorHeight].text = Translations.Translate("RPR_CAL_FLR_Y") + " " + array[DataStore.LEVEL_HEIGHT];
-            detailLabels[(int)LegacyDetails.floors].text = Translations.Translate("RPR_CAL_FLR") + " " + floorCount;
-
-            // Area calculation - will need this later.
-            int calculatedArea = calcWidth * calcLength;
-            detailLabels[(int)LegacyDetails.area].text = Translations.Translate("RPR_CAL_M2") + " " + calculatedArea;
-
-            // Show or hide extra floor modifier as appropriate (hide for zero or less, otherwise show).
-            if (array[DataStore.DENSIFICATION] > 0)
-            {
-                detailLabels[(int)LegacyDetails.extraFloors].text = Translations.Translate("RPR_CAL_FLR_M") + " " + array[DataStore.DENSIFICATION];
-                detailLabels[(int)LegacyDetails.extraFloors].isVisible = true;
-            }
-            else
-            {
-                detailLabels[(int)LegacyDetails.extraFloors].isVisible = false;
-            }
-
-            // Set minimum residences for high density.
-            if ((building.GetSubService() == ItemClass.SubService.ResidentialHigh) || (building.GetSubService() == ItemClass.SubService.ResidentialHighEco))
-            {
-                // Minimum of 2, or 90% number of floors, whichever is greater. This helps the 1x1 high density.
-                minHomesJobs = Mathf.Max(2, Mathf.CeilToInt(0.9f * floorCount));
-            }
-
-            // Perform actual household or workplace calculation.
-            modCount = Mathf.Max(minHomesJobs, (calculatedArea * (floorCount + Mathf.Max(0, array[DataStore.DENSIFICATION]))) / array[DataStore.PEOPLE]);
-            homesJobsCalcLabel.text += modCount;
+            detailLabels[(int)VanillaDetails.width].text = Translations.Translate("RPR_CAL_BLD_X") + " " + calcWidth;
+            detailLabels[(int)VanillaDetails.length].text = Translations.Translate("RPR_CAL_BLD_Z") + " " + calcLength;
 
             // Set customised homes/jobs label (leave blank if no custom setting retrieved).
             if (customHomeJobs > 0)

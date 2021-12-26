@@ -30,6 +30,7 @@ namespace RealPop2
         private UILabel title;
         private UIPanel floorPanel, schoolPanel;
         private UILegacyCalcs legacyPanel;
+        private UIVanillaCalcs vanillaPanel;
         private UIVolumetricPanel volumetricPanel;
         private UIDropDown popMenu, floorMenu, schoolMenu;
         private UICheckBox multCheck;
@@ -50,7 +51,7 @@ namespace RealPop2
         private SchoolDataPack currentSchoolPack;
 
         // Flags.
-        private bool usingLegacy;
+        private bool usingLegacyOrVanilla;
 
         // Pop multiplier.
         private float currentMult;
@@ -66,8 +67,8 @@ namespace RealPop2
                 // Store override.
                 currentFloorOverride = value;
 
-                // Don't do anything else if we're using legacy calculations.
-                if (usingLegacy)
+                // Don't do anything else if we're using legacy or vanilla calculations.
+                if (usingLegacyOrVanilla)
                 {
                     return;
                 }
@@ -143,6 +144,14 @@ namespace RealPop2
             legacyPanel.width = volumetricPanel.width;
             legacyPanel.Setup();
             legacyPanel.Hide();
+
+            // Vanilla calculations panel - copy volumetric calculations panel.
+            vanillaPanel = this.AddUIComponent<UIVanillaCalcs>();
+            vanillaPanel.relativePosition = volumetricPanel.relativePosition;
+            vanillaPanel.height = volumetricPanel.height;
+            vanillaPanel.width = volumetricPanel.width;
+            vanillaPanel.Setup();
+            vanillaPanel.Hide();
 
             // Floor dropdown panel - set size manually to avoid invisible overlap of calculations panel (preventing e.g. tooltips).
             floorPanel = this.AddUIComponent<UIPanel>();
@@ -279,10 +288,11 @@ namespace RealPop2
                     }
                 }
 
-                // Update legacy panel for private building AIs (volumetric panel is updated by menu selection change above).
+                // Update legacy and vanilla panel for private building AIs (volumetric panel is updated by menu selection change above).
                 if (building.GetAI() is PrivateBuildingAI)
                 {
                     legacyPanel.SelectionChanged(building);
+                    vanillaPanel.SelectionChanged(building);
                 }
 
                 // Is this a school building (need to do school building after pop and floor packs are updated)?
@@ -374,11 +384,11 @@ namespace RealPop2
             // Check if we're using legacy or volumetric data.
             if (currentPopPack is VolumetricPopPack)
             {
-                // Volumetric pack.  Are we coming from a legacy setting?
-                if (usingLegacy)
+                // Volumetric pack.  Are we coming from a legacy or vanilla setting?
+                if (usingLegacyOrVanilla)
                 {
                     // Reset flag.
-                    usingLegacy = false;
+                    usingLegacyOrVanilla = false;
 
                     // Restore floor rendering.
                     BuildingDetailsPanel.Panel.HideFloors = false;
@@ -388,6 +398,7 @@ namespace RealPop2
 
                     // Set visibility.
                     legacyPanel.Hide();
+                    vanillaPanel.Hide();
                     volumetricPanel.Show();
                 }
 
@@ -410,14 +421,33 @@ namespace RealPop2
 
                 floorPanel.Show();
             }
-            else
+            else if (currentPopPack is VanillaPack)
             {
-                // Using legacy calcs = set flag.
-                usingLegacy = true;
+                // Using vanilla calcs.
+                usingLegacyOrVanilla = true;
 
                 // Set visibility.
                 volumetricPanel.Hide();
                 floorPanel.Hide();
+                legacyPanel.Hide();
+                vanillaPanel.Show();
+
+                // Set override label and show.
+                floorOverrideLabel.text = Translations.Translate("RPR_CAL_FLG");
+                floorOverrideLabel.Show();
+
+                // Cancel any floor rendering.
+                BuildingDetailsPanel.Panel.HideFloors = true;
+            }
+            else
+            {
+                // Using legacy calcs - set flag.
+                usingLegacyOrVanilla = true;
+
+                // Set visibility.
+                volumetricPanel.Hide();
+                floorPanel.Hide();
+                vanillaPanel.Hide();
                 legacyPanel.Show();
 
                 // Set override label and show.
@@ -442,9 +472,9 @@ namespace RealPop2
             // Update description.
             floorDescription.text = currentFloorPack.description;
 
-            // Update panel with new calculations, assuming that we're not using legacy popultion calcs.
+            // Update panel with new calculations, assuming that we're not using legacy or vanilla popultion calcs.
             volumetricPanel.UpdateFloorText(currentFloorPack);
-            if (currentPopPack.version != (int)DataVersion.legacy)
+            if (currentPopPack.version != DataVersion.legacy && currentPopPack.version != DataVersion.vanilla)
             {
                 volumetricPanel.CalculateVolumetric(currentBuilding, CurrentLevelData, currentFloorPack, currentSchoolPack, currentMult);
             }
@@ -467,7 +497,7 @@ namespace RealPop2
             schoolDescription.text = currentSchoolPack.description;
 
             // Update volumetric panel with new calculations.
-            if (!usingLegacy)
+            if (!usingLegacyOrVanilla)
             {
                 volumetricPanel.CalculateVolumetric(currentBuilding, CurrentLevelData, currentFloorPack, currentSchoolPack, currentMult);
             }
@@ -486,8 +516,8 @@ namespace RealPop2
             // Set multiplier.
             currentMult = multiplier;
 
-            // Recalculte values if we're not using legacy calcs.
-            if (!usingLegacy)
+            // Recalculte values if we're not using legacy or vanilla calcs.
+            if (!usingLegacyOrVanilla)
             {
                 volumetricPanel.CalculateVolumetric(currentBuilding, CurrentLevelData, currentFloorPack, currentSchoolPack, currentMult);
             }
@@ -521,7 +551,7 @@ namespace RealPop2
             }
 
             // In either case, recalculate as necessary.
-            if (!usingLegacy)
+            if (!usingLegacyOrVanilla)
             {
                 volumetricPanel.CalculateVolumetric(currentBuilding, CurrentLevelData, currentFloorPack, currentSchoolPack, currentMult);
             }

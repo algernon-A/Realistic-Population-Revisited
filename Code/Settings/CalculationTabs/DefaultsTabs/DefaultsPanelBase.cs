@@ -288,8 +288,9 @@ namespace RealPop2
                     PopData.instance.ChangeDefault(Services[i], SubServices[i], AvailablePopPacks[i][popIndex]);
                 }
 
-                // Update floor data pack if we're not using legacy calculations.
-                if (AvailablePopPacks[i][popIndex].version != (int)DataVersion.legacy)
+                // Update floor data pack if we're not using legacy or vanilla calculations.
+                DataVersion version = (DataVersion)AvailablePopPacks[i][popIndex].version;
+                if (version != DataVersion.legacy && version != DataVersion.vanilla)
                 {
                     // Check to see if this is a change from the current default.
                     if (!FloorData.instance.CurrentDefaultPack(Services[i], SubServices[i]).name.Equals(AvailableFloorPacks[FloorMenus[i].selectedIndex]))
@@ -323,8 +324,9 @@ namespace RealPop2
             // Retrieve stored index.
             int serviceIndex = (int)control.objectUserData;
 
-            // Hide floor menu if we've selected legacy calcs, otherwise show it.
-            if (AvailablePopPacks[serviceIndex][index].version == (int)DataVersion.legacy)
+            // Hide floor menu if we've selected legacy or vanilla calcs, otherwise show it.
+            DataVersion version = AvailablePopPacks[serviceIndex][index].version;
+            if (version == DataVersion.legacy || version == DataVersion.vanilla)
             {
                 FloorMenus[serviceIndex].Hide();
             }

@@ -374,7 +374,7 @@ namespace RealPop2
                 // Success - create new override floor pack with parsed data.
                 return new FloorDataPack
                 {
-                    version = (int)DataVersion.overrideOne,
+                    version = DataVersion.overrideOne,
                     firstFloorMin = firstFloor,
                     floorHeight = floorHeight
                 };
