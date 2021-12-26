@@ -7,8 +7,8 @@
 		<Translation ID="RPR_INF_VIS" String="訪問者"/>
 		<Translation ID="RPR_PCK_DEF" String=" (デフォルト)"/>
 		<Translation ID="RPR_PCK_NAM" String="計算モデル"/>
-		<Translation ID="RPR_PCK_VAN_NAM" String="ゲームの計算方法"/>
-		<Translation ID="RPR_PCK_VAN_DES" String="ベースゲーム(無改造)で使用される計算モデル"/>
+		<Translation ID="RPR_PCK_VAN_NAM" String="バニラ(ベースゲーム)"/>
+		<Translation ID="RPR_PCK_VAN_DES" String="ベースゲーム(MODを未使用)で使用される計算モデル"/>
 		<Translation ID="RPR_PCK_LEG_NAM" String="レガシーWGの計算モデル"/>
 		<Translation ID="RPR_PCK_LEG_DES" String="Ver1.x系とWhitefang Greytail'sが作成した、オリジナルのRealistic Population and Consumption MODで使用された古い計算モデル"/>
 		<Translation ID="RPR_PCK_RLS_NAM" String="一戸建住宅"/>
