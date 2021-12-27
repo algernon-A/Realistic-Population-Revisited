@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Language UniqueName="zh-tw" ReadableName="简体中文">
+<Language UniqueName="zh-tw" ReadableName="繁體中文">
 	<Translations>
 		<Translation ID="RPR_NAME" String="真實人口2 (Realistic Population 2)" />
 		<Translation ID="RPR_DESC" String="更真實的建築人口(依據建築尺吋)和效用需求。" />

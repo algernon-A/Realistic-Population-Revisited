@@ -77,6 +77,21 @@ namespace RealPop2
 
 
         /// <summary>
+        /// Adds header controls to the panel.
+        /// </summary>
+        /// <param name="yPos">Relative Y position for buttons</param>
+        /// <returns>Relative Y coordinate below the finished setup</returns>
+        protected override float PanelHeader(float yPos)
+        {
+            float newYPos = base.PanelHeader(yPos);
+
+            // Add 'save and apply to' label.
+            UIControls.AddLabel(panel, RowAdditionX + Margin, newYPos + 10f, Translations.Translate("RPR_CAL_SAT"));
+            return newYPos;
+        }
+
+
+        /// <summary>
         /// Adds any additional controls to each row.
         /// </summary>
         /// <param name="yPos">Relative Y position at top of row items</param>
@@ -92,10 +107,13 @@ namespace RealPop2
             applyNewButton.objectUserData = index;
             applyNewButton.eventClicked += ApplyToNew;
 
-            // Add 'apply to existing buildings' button level with floor pack dropdown.
-            UIButton applyExistButton = UIControls.AddButton(panel, RowAdditionX, yPos, Translations.Translate("RPR_CAL_ABD"), 200f, ButtonHeight, 0.8f);
-            applyExistButton.objectUserData = index;
-            applyExistButton.eventClicked += ApplyToAll;
+            // Add 'apply to existing buildings' button level with floor pack dropdown - only if in-game.
+            if (LoadingManager.exists && ColossalFramework.Singleton<LoadingManager>.instance.m_loadingComplete == true)
+            {
+                UIButton applyExistButton = UIControls.AddButton(panel, RowAdditionX, yPos, Translations.Translate("RPR_CAL_ABD"), 200f, ButtonHeight, 0.8f);
+                applyExistButton.objectUserData = index;
+                applyExistButton.eventClicked += ApplyToAll;
+            }
 
             return yPos;
         }
