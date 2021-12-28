@@ -32,11 +32,11 @@ namespace RealPop2
         {
             get
             {
-                return Translations.Language;
+                return Translations.CurrentLanguage;
             }
             set
             {
-                Translations.Language = value;
+                Translations.CurrentLanguage = value;
             }
         }
 
