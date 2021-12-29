@@ -89,9 +89,10 @@
     <None Include="packages.config" />
     <None Include="README.md" />
     <None Include="Translations\da.csv" />
-    <None Include="Translations\de.csv" />
+    <None Include="Translations\de-DE.csv" />
     <None Include="Translations\en.csv" />
     <None Include="Translations\es.csv" />
+    <None Include="Translations\fr-FR.csv" />
     <None Include="Translations\ja.csv" />
     <None Include="Translations\nl.csv" />
     <None Include="Translations\pt-BR.csv" />

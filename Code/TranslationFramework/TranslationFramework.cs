@@ -421,6 +421,40 @@ namespace RealPop2
                                         // Don't do anything if either key or value is invalid.
                                         if (!key.IsNullOrWhiteSpace() && !value.IsNullOrWhiteSpace())
                                         {
+                                            // Trim quotes off keys.
+                                            if (key.StartsWith("\""))
+                                            {
+                                                // Starts with quotation mark - if it also ends in a quotation mark, strip both quotation marks.
+                                                if (key.EndsWith("\""))
+                                                {
+                                                    key = key.Substring(1, key.Length - 2);
+                                                }
+                                                else
+                                                {
+                                                    // Doesn't end in a quotation mark, so just strip leading quotation mark.
+                                                    key = key.Substring(1);
+                                                }
+                                            }
+
+                                            // Does this value start with a quotation mark?
+                                            if (value.StartsWith("\""))
+                                            {
+                                                // Starts with quotation mark - if it also ends in a quotation mark, strip both quotation marks.
+                                                if (value.EndsWith("\""))
+                                                {
+                                                    value = value.Substring(1, value.Length - 2);
+                                                }
+                                                else
+                                                {
+                                                    // Doesn't end in a quotation mark, so we've (presumably) got a multi-line quoted entry
+                                                    // Flag quoting mode and set initial value to start of quoted string (less leading quotation mark), plus trailing newline.
+                                                    quoting = true;
+                                                    value = value.Substring(1) + Environment.NewLine;
+                                                }
+                                            }
+
+                                            Logging.Message("key: ", key, " value: ", value);
+
                                             // Check for reserved keywords.
                                             if (key.Equals(Language.CodeKey))
                                             {
@@ -434,23 +468,6 @@ namespace RealPop2
                                             }
                                             else
                                             {
-                                                // Not a reserved keyword - does this value start with a quotation mark?
-                                                if (value.StartsWith("\""))
-                                                {
-                                                    // Starts with quotation mark - if it also ends in a quotation mark, strip both quotation marks.
-                                                    if (value.EndsWith("\""))
-                                                    {
-                                                        value = value.Substring(1, value.Length - 2);
-                                                    }
-                                                    else
-                                                    {
-                                                        // Doesn't end in a quotation mark, so we've (presumably) got a multi-line quoted entry
-                                                        // Flag quoting mode and set initial value to start of quoted string (less leading quotation mark), plus trailing newline.
-                                                        quoting = true;
-                                                        value = value.Substring(1) + Environment.NewLine;
-                                                    }
-                                                }
-
                                                 // Try to add key/value pair to translation dictionary.
                                                 if (!thisLanguage.translationDictionary.ContainsKey(key))
                                                 {
