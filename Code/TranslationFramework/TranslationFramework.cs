@@ -453,8 +453,6 @@ namespace RealPop2
                                                 }
                                             }
 
-                                            Logging.Message("key: ", key, " value: ", value);
-
                                             // Check for reserved keywords.
                                             if (key.Equals(Language.CodeKey))
                                             {
