@@ -121,7 +121,6 @@
     <Content Include="Images\Screen_LRes.jpg" />
     <Content Include="Images\Screen_Office.jpg" />
     <Content Include="Images\Screen_PloppableRICO.jpg" />
-    <Content Include="Translations\ru.xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\GUI\UIVanillaCalcs.cs" />
