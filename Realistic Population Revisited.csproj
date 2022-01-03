@@ -88,6 +88,17 @@
     <None Include=".vs\VSWorkspaceState.json" />
     <None Include="packages.config" />
     <None Include="README.md" />
+    <None Include="Translations\da.csv" />
+    <None Include="Translations\de-DE.csv" />
+    <None Include="Translations\en.csv" />
+    <None Include="Translations\es.csv" />
+    <None Include="Translations\fr-FR.csv" />
+    <None Include="Translations\ja.csv" />
+    <None Include="Translations\nl.csv" />
+    <None Include="Translations\pt-BR.csv" />
+    <None Include="Translations\ru.csv" />
+    <None Include="Translations\zh-TW.csv" />
+    <None Include="Translations\zh.csv" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Changelog.txt" />
@@ -110,16 +121,7 @@
     <Content Include="Images\Screen_LRes.jpg" />
     <Content Include="Images\Screen_Office.jpg" />
     <Content Include="Images\Screen_PloppableRICO.jpg" />
-    <Content Include="Translations\da.xml" />
-    <Content Include="Translations\de.xml" />
-    <Content Include="Translations\en.xml" />
-    <Content Include="Translations\es.xml" />
-    <Content Include="Translations\ja.xml" />
-    <Content Include="Translations\nl.xml" />
-    <Content Include="Translations\pt-br.xml" />
     <Content Include="Translations\ru.xml" />
-    <Content Include="Translations\zh-tw.xml" />
-    <Content Include="Translations\zh.xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\GUI\UIVanillaCalcs.cs" />
@@ -224,7 +226,7 @@
     <Compile Include="Code\Settings\OptionsPanelTabs\ModOptionsPanel.cs" />
     <Compile Include="Code\Settings\SettingsXML.cs" />
     <Compile Include="Code\TranslationFramework\TranslationFramework.cs" />
-    <Compile Include="Code\TranslationFramework\TranslationXML.cs" />
+    <Compile Include="Code\TranslationFramework\Language.cs" />
     <Compile Include="Code\Utils\ModUtils.cs" />
     <Compile Include="Code\VolumetricData\FloorData.cs" />
     <Compile Include="Code\VolumetricData\SchoolData.cs" />
@@ -262,7 +264,7 @@ del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName
 xcopy /y "$(SolutionDir)packages\CitiesHarmony.API.2.0.0\lib\net35\CitiesHarmony.API.dll" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)"
 
 mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Translations"
-del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Translations\*.xml"
+del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Translations\*.csv"
 xcopy /y "$(SolutionDir)\Translations\" "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Translations" /s /e
 </PostBuildEvent>
   </PropertyGroup>
