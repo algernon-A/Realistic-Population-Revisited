@@ -106,7 +106,21 @@ namespace RealPop2
         /// <summary>
         /// /// Returns the level data record from the current floor pack that's relevant to the selected building's level.
         /// /// </summary>
-        private LevelData CurrentLevelData => ((VolumetricPopPack)currentPopPack).levels[(int)currentBuilding.GetClassLevel()];
+        private LevelData CurrentLevelData
+        {
+            get
+            {
+                // Bounds check on provided level, to handle misconfigured prefabs.
+                LevelData[] levels = ((VolumetricPopPack)currentPopPack).levels;
+                int level = (int)currentBuilding.GetClassLevel();
+                int maxLevel = levels.Length;
+                if (level > maxLevel)
+                {
+                    level = maxLevel;
+                }
+                return levels[level];
+            }
+        }
 
 
         /// <summary>
