@@ -113,9 +113,10 @@ namespace RealPop2
                 // Bounds check on provided level, to handle misconfigured prefabs.
                 LevelData[] levels = ((VolumetricPopPack)currentPopPack).levels;
                 int level = (int)currentBuilding.GetClassLevel();
-                int maxLevel = levels.Length;
+                int maxLevel = levels.Length - 1;
                 if (level > maxLevel)
                 {
+                    Logging.Error("building ", currentBuilding.name, " has ClassLevel ", level, " but maximum configured level count is ", maxLevel);
                     level = maxLevel;
                 }
                 return levels[level];
