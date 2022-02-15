@@ -86,6 +86,7 @@
     <None Include=".vs\Realistic-Population-Revisited\v16\.suo" />
     <None Include=".vs\slnx.sqlite" />
     <None Include=".vs\VSWorkspaceState.json" />
+    <None Include="LICENSE" />
     <None Include="packages.config" />
     <None Include="README.md" />
     <None Include="Translations\da-DK.csv" />

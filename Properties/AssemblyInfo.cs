@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Realistic Population 2")]
-[assembly: AssemblyCopyright("Copyright © 2015-2020 algernon, Whitefang Greytail")]
+[assembly: AssemblyCopyright("Copyright © 2015-2022 algernon, Whitefang Greytail")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
