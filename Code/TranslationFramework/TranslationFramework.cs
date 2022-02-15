@@ -466,8 +466,8 @@ namespace RealPop2
                                             }
                                             else
                                             {
-                                                // Try to add key/value pair to translation dictionary.
-                                                if (!thisLanguage.translationDictionary.ContainsKey(key))
+                                                // Try to add key/value pair to translation dictionary, if it's valid.
+                                                if (!value.IsNullOrWhiteSpace() && !thisLanguage.translationDictionary.ContainsKey(key))
                                                 {
                                                     thisLanguage.translationDictionary.Add(key, value);
                                                 }
