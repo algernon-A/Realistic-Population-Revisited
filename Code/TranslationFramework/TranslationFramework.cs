@@ -467,13 +467,17 @@ namespace RealPop2
                                             else
                                             {
                                                 // Try to add key/value pair to translation dictionary, if it's valid.
-                                                if (!value.IsNullOrWhiteSpace() && !thisLanguage.translationDictionary.ContainsKey(key))
+                                                if (!value.IsNullOrWhiteSpace())
                                                 {
-                                                    thisLanguage.translationDictionary.Add(key, value);
-                                                }
-                                                else
-                                                {
-                                                    Logging.Error("duplicate translation key ", key, " in file ", translationFile);
+                                                    // Check for duplicates.
+                                                    if (!thisLanguage.translationDictionary.ContainsKey(key))
+                                                    {
+                                                        thisLanguage.translationDictionary.Add(key, value);
+                                                    }
+                                                    else
+                                                    {
+                                                        Logging.Error("duplicate translation key ", key, " in file ", translationFile);
+                                                    }
                                                 }
                                             }
                                         }
