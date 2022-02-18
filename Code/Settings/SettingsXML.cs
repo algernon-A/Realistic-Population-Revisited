@@ -127,7 +127,7 @@ namespace RealPop2
 
         // Realistic education.
         [XmlElement("EnableSchoolPop")]
-        public bool EnableSchools { get => ModSettings.enableSchoolPop; set => ModSettings.enableSchoolPop = value; }
+        public bool EnableSchools { get => ModSettings.EnableSchoolPop; set => ModSettings.EnableSchoolPop = value; }
 
         // School properties.
         [XmlElement("EnableSchoolProperties")]

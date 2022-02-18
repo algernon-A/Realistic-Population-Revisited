@@ -39,8 +39,8 @@ namespace RealPop2
 
                 // Enable realistic schools checkbox.
                 UICheckBox schoolCapacityCheck = UIControls.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_SEN"));
-                schoolCapacityCheck.isChecked = ModSettings.enableSchoolPop;
-                schoolCapacityCheck.eventCheckChanged += (control, isChecked) => ModSettings.enableSchoolPop = isChecked;
+                schoolCapacityCheck.isChecked = ModSettings.EnableSchoolPop;
+                schoolCapacityCheck.eventCheckChanged += (control, isChecked) => ModSettings.EnableSchoolPop = isChecked;
 
                 // Enable realistic schools checkbox.
                 UICheckBox schoolPropertyCheck = UIControls.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_SEJ"));

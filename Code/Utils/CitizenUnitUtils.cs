@@ -109,7 +109,7 @@ namespace RealPop2
                         Singleton<SimulationManager>.instance.AddAction(delegate { EnsureCitizenUnits(thisAI, buildingID, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], homeCount, workCount, visitCount, 0); });
 
                         // Remove any extra CitizenUnits in SimulationManager.
-                        Singleton<SimulationManager>.instance.AddAction(delegate { RemoveCitizenUnits(ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], homeCount, workCount, visitCount, localPreserve); });
+                        Singleton<SimulationManager>.instance.AddAction(delegate { RemoveCitizenUnits(ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], homeCount, workCount, visitCount, 0, localPreserve); });
 
                         // Log changes.
                         Logging.Message("Reset CitizenUnits for building ", i, " (", thisBuilding.Info.name, "); building now has ", CountCitizenUnits(ref thisBuilding), " CitizenUnits, and total CitizenUnit count is now ", citizenManager.m_unitCount);
@@ -128,8 +128,9 @@ namespace RealPop2
         /// <param name="homeCount">Number of households to apply</param>
         /// <param name="workCount">Number of workplaces to apply</param>
         /// <param name="visitCount">Number of visitplaces to apply</param>
+        /// <param name="studentCount">Number of student places to apply</param>
         /// <param name="preserveOccupied">Preserve occupied residential households</param>
-        internal static void RemoveCitizenUnits(ref Building building, int homeCount, int workCount, int visitCount, bool preserveOccupied)
+        internal static void RemoveCitizenUnits(ref Building building, int homeCount, int workCount, int visitCount, int studentCount, bool preserveOccupied)
         {
 
             // Local references.
@@ -181,7 +182,7 @@ namespace RealPop2
                         workCount -= 5;
                     }
                 }
-                else if ((ushort)(unitFlags & CitizenUnit.Flags.Visit) != 0)
+                if ((ushort)(unitFlags & CitizenUnit.Flags.Visit) != 0)
                 {
                     // VisitPlace unit; are we still allocating to visitCount?
                     if (visitCount <= 0)
@@ -193,6 +194,21 @@ namespace RealPop2
                     {
                         // Still allocating - reduce unallocated visitCount by 5.
                         visitCount -= 5;
+                    }
+                }
+                if ((ushort)(unitFlags & CitizenUnit.Flags.Student) != 0)
+                {
+                    // Student unit; are we still allocating to students?
+                    if (studentCount <= 0)
+                    {
+                        // Not allocating any more, therefore this workplace unit is surplus to requirements - remove it.
+                        // Student buildings are set as workplace.
+                        removingFlag = (int)RemovingType.Workplace;
+                    }
+                    else
+                    {
+                        // Still allocating - reduce unallocated visitCount by 5.
+                        studentCount -= 5;
                     }
                 }
 

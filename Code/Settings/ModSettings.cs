@@ -17,7 +17,7 @@
         internal static bool newSaveLegacyOff = false;
 
         // Enable additional features.
-        internal static bool enableSchoolPop = true;
+        private static bool enableSchoolPop = false;
         internal static bool enableSchoolProperties = true;
         internal static float crimeMultiplier = 50f;
 
@@ -148,6 +148,26 @@
                     {
                         CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Office, ItemClass.SubService.None, false);
                     }
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Enables/disables custom school population counts.
+        /// </summary>
+        internal static bool EnableSchoolPop
+        {
+            // Simple getter.
+            get => enableSchoolPop;
+
+            // Setter needs to update schools if SchoolData instance is loaded (i.e. after game load), otherwise don't.
+            set
+            {
+                enableSchoolPop = value;
+                if (SchoolData.instance != null)
+                {
+                    SchoolData.instance.UpdateSchools();
                 }
             }
         }

@@ -18,7 +18,7 @@ namespace RealPop2
         public static bool Prefix(SchoolAI __instance, ref int __result)
         {
             // Check to see if we're using realistic school populations, and school level is elementary or high school.
-            if (ModSettings.enableSchoolPop && __instance.m_info.GetClassLevel() <= ItemClass.Level.Level2)
+            if (ModSettings.EnableSchoolPop && __instance.m_info.GetClassLevel() <= ItemClass.Level.Level2)
             {
                 // We are - set the result to our realistic population lookup.
                 BuildingInfo thisInfo = __instance.m_info;

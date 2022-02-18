@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using ColossalFramework;
 using ColossalFramework.UI;
 
 
@@ -293,6 +294,27 @@ namespace RealPop2
                 {
                     // Found a school; update school record and tooltip.
                     UpdateSchoolPrefab(building, schoolAI);
+                }
+            }
+
+            // Update school instances.
+            Building[] buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
+            for (int i = 0; i < buildingBuffer.Length; ++i)
+            {
+                BuildingInfo thisInfo = buildingBuffer[i].Info;
+                if (thisInfo.m_buildingAI is SchoolAI schoolAI && thisInfo.m_class.m_level <= ItemClass.Level.Level2)
+                {
+                    // Found a school - set local references for passing to SimulationManager.
+                    SchoolAI thisAI = schoolAI;
+                    ushort buildingID = (ushort)i;
+
+                    // Apply changes via call to EnsureCitizenUnits reverse patch in SimulationManager.
+                    Singleton<SimulationManager>.instance.AddAction(delegate
+                    {
+                        int workCount = thisAI.m_workPlaceCount0 + thisAI.m_workPlaceCount1 + thisAI.m_workPlaceCount2 + thisAI.m_workPlaceCount3;
+                        Singleton<CitizenManager>.instance.CreateUnits(out _, ref Singleton<SimulationManager>.instance.m_randomizer, buildingID, 0, 0, workCount, 0, 0, thisAI.StudentCount * 5 / 4);
+                        CitizenUnitUtils.RemoveCitizenUnits(ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], 0, workCount, 0, thisAI.StudentCount, false);
+                    });
                 }
             }
         }

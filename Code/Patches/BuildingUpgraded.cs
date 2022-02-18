@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using ColossalFramework.Math;
+﻿using ColossalFramework.Math;
 using HarmonyLib;
 
 
@@ -29,7 +28,7 @@ namespace RealPop2
 				Logging.Message("residential building ", buildingID, " (", data.Info.name, ") upgraded to level ", (data.m_level + 1), "; calculated homecount is ", homeCount);
 
 				// Remove any extra households.
-				CitizenUnitUtils.RemoveCitizenUnits(ref data, homeCount, 0, 0, false);
+				CitizenUnitUtils.RemoveCitizenUnits(ref data, homeCount, 0, 0, 0, false);
 			}
 		}
 	}
