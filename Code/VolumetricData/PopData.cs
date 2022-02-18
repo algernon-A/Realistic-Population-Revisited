@@ -38,46 +38,38 @@ namespace RealPop2
         /// <returns>Calculated population</returns>
         internal int HouseholdCache(BuildingInfo info, int level)
         {
-            // Null check for safety.
-            if (info?.name != null)
+            // Check if key is already in cache.
+            if (!householdCache.TryGetValue(info, out HouseholdCache cacheEntry))
             {
-                // Check if key is already in cache.
-                if (!householdCache.TryGetValue(info, out HouseholdCache cacheEntry))
+                // No - create new record.
+                cacheEntry = new HouseholdCache
                 {
-                    // No - create new record.
-                    cacheEntry = new HouseholdCache
-                    {
-                        // Calculate results for each of the five levels.
-                        level0 = Population(info, 0),
-                        level1 = Population(info, 1),
-                        level2 = Population(info, 2),
-                        level3 = Population(info, 3),
-                        level4 = Population(info, 4)
-                    };
+                    // Calculate results for each of the five levels.
+                    level0 = Math.Max((ushort)1, Population(info, 0)),
+                    level1 = Math.Max((ushort)1, Population(info, 1)),
+                    level2 = Math.Max((ushort)1, Population(info, 2)),
+                    level3 = Math.Max((ushort)1, Population(info, 3)),
+                    level4 = Math.Max((ushort)1, Population(info, 4))
+                };
 
-                    // Add new key to cache
-                    householdCache.Add(info, cacheEntry);
-                }
-
-                // Return record relevant to level.
-                switch (level)
-                {
-                    case 0:
-                        return cacheEntry.level0;
-                    case 1:
-                        return cacheEntry.level1;
-                    case 2:
-                        return cacheEntry.level2;
-                    case 3:
-                        return cacheEntry.level3;
-                    default:
-                        return cacheEntry.level4;
-                }
+                // Add new key to cache
+                householdCache.Add(info, cacheEntry);
             }
 
-            // If we got here, something went wrong; return 1.
-            Logging.Error("null prefab passed to HouseholdCache");
-            return 1;
+            // Return record relevant to level.
+            switch (level)
+            {
+                case 0:
+                    return cacheEntry.level0;
+                case 1:
+                    return cacheEntry.level1;
+                case 2:
+                    return cacheEntry.level2;
+                case 3:
+                    return cacheEntry.level3;
+                default:
+                    return cacheEntry.level4;
+            }
         }
 
 
@@ -139,20 +131,6 @@ namespace RealPop2
                 cacheEntry.level1 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
                 workplaces = Workplaces(info, 2);
                 cacheEntry.level2 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
-
-                // Check for minimums.
-                if (cacheEntry.level0 < 1)
-                {
-                    cacheEntry.level0 = 1;
-                }
-                if (cacheEntry.level1 < 1)
-                {
-                    cacheEntry.level1 = 1;
-                }
-                if (cacheEntry.level2 < 1)
-                {
-                    cacheEntry.level2 = 1;
-                }
 
                 // Add new key to cache
                 visitplaceCache.Add(info, cacheEntry);
