@@ -198,8 +198,11 @@
         /// </summary>
         private static void ClearWorkplaceCaches()
         {
-            //Clear workplace cache.
+            // Clear workplace cache.
             PopData.instance.workplaceCache.Clear();
+
+            // Clear visitplace cache.
+            PopData.instance.visitplaceCache.Clear();
 
             // Clear RICO cache too.
             if (ModUtils.ricoClearAllWorkplaces != null)

@@ -34,4 +34,15 @@
         public ushort level2;
         public ushort level3;
     }
+
+
+    /// <summary>
+    /// Visitplace cache data structure.
+    /// </summary>
+    public struct VisitplaceCache
+    {
+        public ushort level0;
+        public ushort level1;
+        public ushort level2;
+    }
 }

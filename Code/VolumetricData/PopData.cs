@@ -15,9 +15,10 @@ namespace RealPop2
         // Dictionary of manual population count overrides.
         private readonly Dictionary<string, ushort> overrides;
 
-        // Household and workplace calculation result caches (so we don't have to do the full calcs every SimulationStep for every building....).
+        // Household, workplace, and visitplace calculation result caches (so we don't have to do the full calcs every SimulationStep for every building....).
         internal readonly Dictionary<BuildingInfo, HouseholdCache> householdCache;
         internal readonly Dictionary<BuildingInfo, WorkplaceCache> workplaceCache;
+        internal readonly Dictionary<BuildingInfo, VisitplaceCache> visitplaceCache;
 
 
         /// <summary>
@@ -88,46 +89,85 @@ namespace RealPop2
         /// <returns>Calculated workplaces</returns>
         internal WorkplaceLevels WorkplaceCache(BuildingInfo info, int level)
         {
-            // Null check for safety.
-            if (info?.name != null)
+            // Check if key is already in cache.
+            if (!workplaceCache.TryGetValue(info, out WorkplaceCache cacheEntry))
             {
-                // Check if key is already in cache.
-                if (!workplaceCache.TryGetValue(info, out WorkplaceCache cacheEntry))
+                // No - create new record.
+                cacheEntry = new WorkplaceCache
                 {
-                    // No - create new record.
-                    cacheEntry = new WorkplaceCache
-                    {
-                        // Calculate results for each of the five levels.
-                        level0 = Workplaces(info, 0),
-                        level1 = Workplaces(info, 1),
-                        level2 = Workplaces(info, 2),
-                    };
+                    // Calculate results for each of the three levels.
+                    level0 = Workplaces(info, 0),
+                    level1 = Workplaces(info, 1),
+                    level2 = Workplaces(info, 2),
+                };
 
-                    // Add new key to cache
-                    workplaceCache.Add(info, cacheEntry);
-                }
-
-                // Return record relevant to level.
-                switch (level)
-                {
-                    case 0:
-                        return cacheEntry.level0;
-                    case 1:
-                        return cacheEntry.level1;
-                    default:
-                        return cacheEntry.level2;
-                }
+                // Add new key to cache
+                workplaceCache.Add(info, cacheEntry);
             }
 
-            // If we got here, something went wrong; return 1.
-            Logging.Error("null prefab passed to WorkplaceCache");
-            return new WorkplaceLevels
+            // Return record relevant to level.
+            switch (level)
             {
-                level0 = 1,
-                level1 = 0,
-                level2 = 0,
-                level3 = 0
-            };
+                case 0:
+                    return cacheEntry.level0;
+                case 1:
+                    return cacheEntry.level1;
+                default:
+                    return cacheEntry.level2;
+            }
+        }
+
+
+        /// <summary>
+        /// Returns the cached workplaces for the specified building prefab and level, adding to the cache if the record isn't already there.
+        /// </summary>
+        /// <param name="info">BuildingInfo to cache for</param>
+        /// <param name="level">Building level to cache for</param>
+        /// <returns>Calculated workplaces</returns>
+        internal ushort VisitplaceCache(BuildingInfo info, int level)
+        {
+            // Check if key is already in cache.
+            if (!visitplaceCache.TryGetValue(info, out VisitplaceCache cacheEntry))
+            {
+                // No - create new record.
+                cacheEntry = new VisitplaceCache();
+
+                // Calculate results for each of the three levels.
+                WorkplaceLevels workplaces = Workplaces(info, 0);
+                cacheEntry.level0 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
+                workplaces = Workplaces(info, 1);
+                cacheEntry.level1 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
+                workplaces = Workplaces(info, 2);
+                cacheEntry.level2 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
+
+                // Check for minimums.
+                if (cacheEntry.level0 < 1)
+                {
+                    cacheEntry.level0 = 1;
+                }
+                if (cacheEntry.level1 < 1)
+                {
+                    cacheEntry.level1 = 1;
+                }
+                if (cacheEntry.level2 < 1)
+                {
+                    cacheEntry.level2 = 1;
+                }
+
+                // Add new key to cache
+                visitplaceCache.Add(info, cacheEntry);
+            }
+
+            // Return record relevant to level.
+            switch (level)
+            {
+                case 0:
+                    return cacheEntry.level0;
+                case 1:
+                    return cacheEntry.level1;
+                default:
+                    return cacheEntry.level2;
+            }
         }
 
 
@@ -310,6 +350,7 @@ namespace RealPop2
             // Create caches.
             householdCache = new Dictionary<BuildingInfo, HouseholdCache>();
             workplaceCache = new Dictionary<BuildingInfo, WorkplaceCache>();
+            visitplaceCache = new Dictionary<BuildingInfo, VisitplaceCache>();
 
             // Legacy residential.
             calcPacks.Add(new LegacyResPack

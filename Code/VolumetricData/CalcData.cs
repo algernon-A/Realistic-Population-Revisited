@@ -401,6 +401,9 @@ namespace RealPop2
                 // Remove from workplace cache.
                 PopData.instance.workplaceCache.Remove(prefab);
 
+                // Remove from visitplace cache.
+                PopData.instance.visitplaceCache.Remove(prefab);
+
                 // Force RICO refresh, if we're using Ploppable RICO Revisited.
                 if (ModUtils.ricoClearWorkplace != null)
                 {

@@ -125,6 +125,7 @@ namespace RealPop2
 
             // Clear cached values.
             PopData.instance.workplaceCache.Clear();
+            PopData.instance.visitplaceCache.Clear();
 
             // Save new settings.
             SaveLegacy();

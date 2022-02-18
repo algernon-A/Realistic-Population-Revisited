@@ -70,6 +70,9 @@
 
             // Remove current building's record from 'live' dictionary.
             PopData.instance.workplaceCache.Remove(prefab);
+
+            // Also remove visitor cache entry, if any.
+            PopData.instance.visitplaceCache.Remove(prefab);
         }
     }
 }
