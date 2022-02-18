@@ -125,11 +125,11 @@ namespace RealPop2
                 cacheEntry = new VisitplaceCache();
 
                 // Calculate results for each of the three levels.
-                WorkplaceLevels workplaces = Workplaces(info, 0);
+                WorkplaceLevels workplaces = WorkplaceCache(info, 0);
                 cacheEntry.level0 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
-                workplaces = Workplaces(info, 1);
+                workplaces = WorkplaceCache(info, 1);
                 cacheEntry.level1 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
-                workplaces = Workplaces(info, 2);
+                workplaces = WorkplaceCache(info, 2);
                 cacheEntry.level2 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
 
                 // Add new key to cache
