@@ -1,3 +1,8 @@
+Version 2.0.0.1 -
+
+- Ensure custom school calculations are disabled when 'use legacy' is selected
+
+
 Version 2.0 -
 
 - Major overhaul: new volumetric population calculations, with option to choose between these and the old Legacy calculation

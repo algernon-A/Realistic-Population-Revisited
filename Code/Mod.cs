@@ -13,7 +13,7 @@ namespace RealPop2
 
         // Internal and private name and version components.
         internal static string ModName => "Realistic Population 2";
-        internal static string Version => "2.0";
+        internal static string Version => "2.0.0.1";
 
 
         /// <summary>
