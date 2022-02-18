@@ -60,8 +60,6 @@ namespace RealPop2.MessageBox
             ModSettings.ThisSaveLegacyCom = false;
             ModSettings.ThisSaveLegacyInd = false;
             ModSettings.ThisSaveLegacyOff = false;
-            ModSettings.EnableSchoolPop = true;
-            ModSettings.enableSchoolProperties = true;
             RealisticVisitplaceCount.SetVisitModes = (int)RealisticVisitplaceCount.ComVisitModes.popCalcs;
             RealisticIndustrialProduction.SetProdModes = (int)RealisticIndustrialProduction.ProdModes.popCalcs;
             RealisticExtractorProduction.SetProdModes = (int)RealisticExtractorProduction.ProdModes.popCalcs;

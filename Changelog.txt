@@ -1,6 +1,8 @@
 Version 2.0.0.1 -
 
-- Ensure custom school calculations are disabled when 'use legacy' is selected
+- Ensure custom school calculations are disabled by default
+- Set default school capacity slider to 3
+- Disable detailed logging by default 
 
 
 Version 2.0 -
