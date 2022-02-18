@@ -45,12 +45,12 @@ namespace RealPop2
         /// </summary>
         public void OnEnabled()
         {
+            // Load settings file first (includes logging detail setting).
+            XMLSettingsFile.Load();
+
             // Apply Harmony patches via Cities Harmony.
             // Called here instead of OnCreated to allow the auto-downloader to do its work prior to launch.
             HarmonyHelper.DoOnHarmonyReady(() => Patcher.PatchAll());
-
-            // Load settings file.
-            XMLSettingsFile.Load();
 
             // Populate (legacy) Datastore from configuration file.
             // Make sure this happens before loading the new configuration file, which will overwrite any settings here.

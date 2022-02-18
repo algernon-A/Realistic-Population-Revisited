@@ -11,7 +11,7 @@ namespace RealPop2
     internal static class Logging
     {
         // Logging detail flag.
-        internal static bool detailLogging = true;
+        internal static bool detailLogging = false;
 
 
         /// <summary>
