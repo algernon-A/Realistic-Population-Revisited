@@ -23,7 +23,7 @@
 
         // Status flags.
         internal static bool isRealPop2Save = false;
-        private static float defaultSchoolMult = 1f;
+        private static float defaultSchoolMult = 3f;
 
         // What's new notification version.
         internal static string whatsNewVersion = "0.0";
