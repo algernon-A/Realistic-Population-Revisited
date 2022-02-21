@@ -302,7 +302,7 @@ namespace RealPop2
             for (int i = 0; i < buildingBuffer.Length; ++i)
             {
                 BuildingInfo thisInfo = buildingBuffer[i].Info;
-                if (thisInfo.m_buildingAI is SchoolAI schoolAI && thisInfo.m_class.m_level <= ItemClass.Level.Level2)
+                if (thisInfo?.m_buildingAI is SchoolAI schoolAI && thisInfo.m_class.m_level <= ItemClass.Level.Level2)
                 {
                     // Found a school - set local references for passing to SimulationManager.
                     SchoolAI thisAI = schoolAI;
