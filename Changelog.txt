@@ -1,7 +1,6 @@
-Version 2.0.1 -
+Version 2.0.0.2 -
 
-- Implement caching of visitor count calculations
-
+- Fix issue with school calculations button not working under some circumstances
 
 
 Version 2.0.0.1 -

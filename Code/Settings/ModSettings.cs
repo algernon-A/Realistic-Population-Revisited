@@ -1,4 +1,7 @@
-﻿namespace RealPop2
+﻿using ColossalFramework;
+
+
+namespace RealPop2
 {
     /// <summary>
     /// Static class to hold global mod settings.
@@ -161,11 +164,11 @@
             // Simple getter.
             get => enableSchoolPop;
 
-            // Setter needs to update schools if SchoolData instance is loaded (i.e. after game load), otherwise don't.
+            // Setter needs to update schools if after game load, otherwise don't.
             set
             {
                 enableSchoolPop = value;
-                if (SchoolData.instance != null)
+                if (Singleton<LoadingManager>.instance.m_loadingComplete)
                 {
                     SchoolData.instance.UpdateSchools();
                 }
@@ -181,11 +184,11 @@
             // Simple getter.
             get => defaultSchoolMult;
 
-            // Setter needs to update schools if SchoolData instance is loaded (i.e. after game load), otherwise don't.
+            // Setter needs to update schools if after game load, otherwise don't.
             set
             {
                 defaultSchoolMult = value;
-                if (SchoolData.instance != null)
+                if (Singleton<LoadingManager>.instance.m_loadingComplete)
                 {
                     SchoolData.instance.UpdateSchools();
                 }
