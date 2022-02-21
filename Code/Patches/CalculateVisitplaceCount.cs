@@ -77,31 +77,7 @@ namespace RealPop2
         /// <returns>Always false (don't execute base game method after this)</returns>
         public static bool Prefix(ref int __result, CommercialBuildingAI __instance, ItemClass.Level level)
         {
-            // Get builidng info.
-            BuildingInfo info = __instance.m_info;
-            ItemClass.SubService subService = info.GetSubService();
-
-            // Array index.
-            int arrayIndex = GetIndex(subService);
-
-            // New or old calculations?
-            if (comVisitModes[arrayIndex] == (int)ComVisitModes.popCalcs)
-            {
-                // Get cached workplace count and calculate total workplaces.
-                WorkplaceLevels workplaces = PopData.instance.WorkplaceCache(info, (int)level);
-                __result = NewVisitCount(subService, level, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
-            }
-            else
-            {
-                // Old settings, based on lot size.
-                __result = LegacyVisitCount(info, level);
-            }
-
-            // Always set at least our minimum.
-            if (__result < MinVisitCount)
-            {
-                __result = MinVisitCount;
-            }
+            __result = PopData.instance.VisitplaceCache(__instance.m_info, (int)level);
 
             // Don't execute base method after this.
             return false;
@@ -109,12 +85,12 @@ namespace RealPop2
 
 
         /// <summary>
-        /// Returns the calculated visitplace count according to current settings for the given prefab and workforce total (e.g. for previewing effects of changes to workforces).
+        /// Calculates visitplace count according to current settings for the given prefab and workforce total.
         /// </summary>
         /// <param name="prefab">Prefab to check</param>
         /// <param name="workplaces">Number of workplaces to apply</param>
         /// <returns>Calculated visitplaces</returns>
-        internal static int PreviewVisitCount(BuildingInfo prefab, int workplaces)
+        internal static int CalculateVisitCount(BuildingInfo prefab, int workplaces)
         {
             // Get builidng info.
             ItemClass.SubService subService = prefab.GetSubService();
@@ -137,7 +113,7 @@ namespace RealPop2
 
 
         /// <summary>
-        /// Calculates the visitplace count for the given subservice, level and workforce, using on new volumetric calculations.
+        /// Calculates the visitplace count for the given subservice, level and workforce, using new volumetric calculations.
         /// </summary>
         /// <param name="subService">Building subservice</param>
         /// <param name="level">Building level </param>

@@ -336,7 +336,7 @@ namespace RealPop2
             if (building.GetAI() is CommercialBuildingAI)
             {
                 visitCountLabel.Show();
-                visitCountLabel.text = RealisticVisitplaceCount.PreviewVisitCount(building, totalUnits).ToString();
+                visitCountLabel.text = RealisticVisitplaceCount.CalculateVisitCount(building, totalUnits).ToString();
             }
             else
             {
