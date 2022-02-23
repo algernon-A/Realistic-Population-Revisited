@@ -254,6 +254,7 @@ RPR_OPT_CPK,Calculation pack
 RPR_OPT_NEW,Add new
 RPR_OPT_DEL,Delete pack
 RPR_OPT_NPK,New pack
+RPR_OPT_MEA,Display figures in US Customary units (instead of metric)
 RPR_OPT_LDT,Enable detailed debugging logging
 RPR_DEF_LGR,Use legacy calculations (WG original and Realistic Population Revisited version 1) by default for residential buildings:
 RPR_DEF_LGC,Use legacy calculations (WG original and Realistic Population Revisited version 1) by default for commercial buildings:

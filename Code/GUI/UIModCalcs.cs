@@ -9,7 +9,7 @@ namespace RealPop2
     {
         // Layout constants.
         private const float Margin = 5f;
-        private const float ColumnWidth = 300f;
+        private const float ColumnWidth = UIBuildingDetails.RightWidth / 2f;
         private const float ComponentWidth = ColumnWidth - (Margin * 2f);
         private const float RightColumnX = ColumnWidth + Margin;
         private const float LabelHeight = 20f;

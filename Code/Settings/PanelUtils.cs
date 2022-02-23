@@ -59,14 +59,16 @@ namespace RealPop2
 
         /// <summary>
         /// Attempts to parse a string for an floating-point value; if the parse fails, simply does nothing (leaving the original value intact).
+        /// Parsed value is converted from display units to metric.
         /// </summary>
         /// <param name="floatVer">Float variable to store result (left unchanged if parse fails)</param>
         /// <param name="text">Text to parse</param>
-        internal static void ParseFloat(ref float floatVar, string text)
+        /// <param name="isArea">True if this is an area calculation, false if a length calculation</param>
+        internal static void ParseFloat(ref float floatVar, string text, bool isArea)
         {
             if (float.TryParse(text, out float result))
             {
-                floatVar = result;
+                floatVar = isArea ? Measures.AreaToMetric(result) : Measures.LengthToMetric(result);
             }
         }
 

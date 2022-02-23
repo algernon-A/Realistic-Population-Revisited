@@ -98,7 +98,7 @@ namespace RealPop2
         /// <param name="text">Label text</param>
         /// <param name="width">Textfield width (default 200)</param>
         /// <returns>New large textfield with attached label</returns>
-        public static UITextField SmallLabelledTextField(UIComponent parent, float posX, float posY, string text, float width = 200f) => LabelledTextField(parent, posX, posY, text, width, 18f, 0.9f, 3);
+        public static UITextField SmallLabelledTextField(UIComponent parent, float posX, float posY, string text, float width = 200f) => LabelledTextField(parent, posX, posY, text, width, 18f, 0.8f, 3);
 
 
         /// <summary>
@@ -132,14 +132,17 @@ namespace RealPop2
 
             // Label.
             UILabel label = textField.AddUIComponent<UILabel>();
+            label.name = "label";
             label.textScale = scale;
-            label.text = text;
             label.autoSize = true;
             label.verticalAlignment = UIVerticalAlignment.Middle;
-            label.wordWrap = true;
+            label.wordWrap = false;
 
-            // Set position.
-            label.relativePosition = new Vector2(-(label.width + 5f), (height - label.height) / 2);
+            // Event handler to set position on text change.
+            label.eventTextChanged += (control, newText) => { label.relativePosition = new Vector2(-(label.width + 5f), (height - label.height) / 2); };
+
+            // Set text.
+            label.text = text;
 
             return textField;
         }

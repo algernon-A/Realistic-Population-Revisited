@@ -10,8 +10,7 @@ namespace RealPop2
     public class UIEditPanel : UIPanel
     {
         // Layout constants.
-        private const float MarginPadding = 10f;
-        private const float LabelWidth = 150f;
+        private const float Margin = 5f;
         private const float TitleY = 5f;
         private const float PopCheckY = TitleY + 30f;
         private const float HomeJobY = PopCheckY + 25f;
@@ -21,10 +20,13 @@ namespace RealPop2
         private const float SaveY = FloorHeightY + 35f;
         private const float DeleteY = SaveY + 35f;
         private const float MessageY = DeleteY + 35f;
+        private const float TextFieldWidth = 65f;
+        private const float TextFieldX = UIBuildingDetails.MiddleWidth - TextFieldWidth - 20f - Margin;
+        private const float ButtonWidth = UIBuildingDetails.MiddleWidth - (Margin * 2f);
 
 
         // Panel components
-        private UILabelledTextfield homeJobsCount, firstFloorField, floorHeightField;
+        private UITextField homeJobsCount, firstFloorField, floorHeightField;
         private UICheckBox popCheck, floorCheck;
         private UILabel homeJobLabel;
         private UIButton saveButton;
@@ -61,7 +63,7 @@ namespace RealPop2
             titleLabel.height = 30;
             
             // Autoscale tile label text, with minimum size 0.35.
-            while (titleLabel.width > (this.width - (MarginPadding * 2f)) && titleLabel.textScale > 0.35f)
+            while (titleLabel.width > ButtonWidth && titleLabel.textScale > 0.35f)
             {
                 titleLabel.textScale -= 0.05f;
             }
@@ -74,29 +76,31 @@ namespace RealPop2
             floorCheck = UIControls.LabelledCheckBox(this, 20f, FloorCheckY, Translations.Translate("RPR_EDT_FLR"), textScale: 1.0f);
 
             // Text fields.
-            homeJobsCount = AddLabelledTextfield(HomeJobY, "RPR_LBL_HOM");
-            firstFloorField = AddLabelledTextfield(FirstFloorY,"RPR_LBL_OFF");
-            floorHeightField = AddLabelledTextfield(FloorHeightY, "RPR_LBL_OFH");
-            homeJobLabel = homeJobsCount.label;
+            homeJobsCount = UIControls.SmallLabelledTextField(this, TextFieldX, HomeJobY, Translations.Translate("RPR_LBL_HOM"), TextFieldWidth);
+            homeJobLabel = homeJobsCount.Find<UILabel>("label");
+            firstFloorField = UIControls.SmallLabelledTextField(this, TextFieldX, FirstFloorY, Translations.Translate("RPR_LBL_OFF"), TextFieldWidth);
+            UIControls.AddLabel(firstFloorField, TextFieldWidth + Margin, 3f, Measures.LengthMeasure, textScale: 0.9f);
+            floorHeightField = UIControls.SmallLabelledTextField(this, TextFieldX, FloorHeightY, Translations.Translate("RPR_LBL_OFH"), TextFieldWidth);
+            UIControls.AddLabel(floorHeightField, TextFieldWidth + Margin, 3f, Measures.LengthMeasure, textScale: 0.9f);
 
             // Save button.
-            saveButton = UIControls.AddButton(this, MarginPadding, SaveY, Translations.Translate("RPR_CUS_ADD"), this.width - (MarginPadding * 2), scale: 0.8f);
+            saveButton = UIControls.AddButton(this, Margin, SaveY, Translations.Translate("RPR_CUS_ADD"), ButtonWidth, scale: 0.8f);
             saveButton.tooltip = Translations.Translate("RPR_CUS_ADD_TIP");
             saveButton.Disable();
 
             // Delete button.
-            deleteButton = UIControls.AddButton(this, MarginPadding, DeleteY, Translations.Translate("RPR_CUS_DEL"), this.width - (MarginPadding * 2), scale: 0.8f);
+            deleteButton = UIControls.AddButton(this, Margin, DeleteY, Translations.Translate("RPR_CUS_DEL"), ButtonWidth, scale: 0.8f);
             deleteButton.tooltip = Translations.Translate("RPR_CUS_DEL_TIP");
             deleteButton.Disable();
 
             // Message label (initially hidden).
             messageLabel = this.AddUIComponent<UILabel>();
-            messageLabel.relativePosition = new Vector3(MarginPadding, MessageY);
+            messageLabel.relativePosition = new Vector3(Margin, MessageY);
             messageLabel.textAlignment = UIHorizontalAlignment.Left;
             messageLabel.autoSize = false;
             messageLabel.autoHeight = true;
             messageLabel.wordWrap = true;
-            messageLabel.width = this.width - (MarginPadding * 2);
+            messageLabel.width = UIBuildingDetails.MiddleWidth - (Margin * 2f);
             messageLabel.isVisible = false;
             messageLabel.text = "No message to display";
 
@@ -141,8 +145,8 @@ namespace RealPop2
             currentSelection = building;
 
             // Blank all textfields and deselect checkboxes to start with.
-            homeJobsCount.textField.text = string.Empty;
-            UpdateFloorTextFields(string.Empty, string.Empty);
+            homeJobsCount.text = string.Empty;
+            UpdateFloorTextFields(0, 0);
             popCheck.isChecked = false;
             floorCheck.isChecked = false;
 
@@ -177,7 +181,7 @@ namespace RealPop2
             if (homesJobs != 0)
             {
                 // Valid custom settings found; display the result, rename the save button, and enable the delete button.
-                homeJobsCount.textField.text = homesJobs.ToString();
+                homeJobsCount.text = homesJobs.ToString();
                 saveButton.text = Translations.Translate("RPR_CUS_UPD");
                 deleteButton.Enable();
 
@@ -191,7 +195,7 @@ namespace RealPop2
                 if (overridePack != null)
                 {
                     // Valid custom settings found; display the result, rename the save button, and enable the delete button.
-                    UpdateFloorTextFields(overridePack.firstFloorMin.ToString(), overridePack.floorHeight.ToString());
+                    UpdateFloorTextFields(Measures.LengthFromMetric(overridePack.firstFloorMin), Measures.LengthFromMetric(overridePack.floorHeight));
                     saveButton.text = Translations.Translate("RPR_CUS_UPD");
                     deleteButton.Enable();
 
@@ -238,7 +242,7 @@ namespace RealPop2
             if (popCheck.isChecked)
             {
                 // Read total floor count textfield if possible; ignore zero values
-                if (ushort.TryParse(homeJobsCount.textField.text, out ushort homesJobs) && homesJobs != 0)
+                if (ushort.TryParse(homeJobsCount.text, out ushort homesJobs) && homesJobs != 0)
                 {
                     // Minimum value of 1.
                     if (homesJobs < 1)
@@ -297,7 +301,7 @@ namespace RealPop2
                     BuildingDetailsPanel.Panel.OverrideFloors = overrideFloors;
 
                     // Repopulate fields with parsed values.
-                    UpdateFloorTextFields(overrideFloors.firstFloorMin.ToString(), overrideFloors.floorHeight.ToString());
+                    UpdateFloorTextFields(overrideFloors.firstFloorMin, overrideFloors.floorHeight);
                 }
                 else
                 {
@@ -358,7 +362,7 @@ namespace RealPop2
 
             // Refresh the display so that all panels reflect the updated settings.
             BuildingDetailsPanel.Panel.Refresh();
-            homeJobsCount.textField.text = string.Empty;
+            homeJobsCount.text = string.Empty;
         }
 
 
@@ -369,14 +373,14 @@ namespace RealPop2
         private FloorDataPack TryParseFloors()
         {
             // Attempt to parse fields.
-            if (!string.IsNullOrEmpty(firstFloorField.textField.text) && !string.IsNullOrEmpty(floorHeightField.textField.text) && float.TryParse(firstFloorField.textField.text, out float firstFloor) && float.TryParse(floorHeightField.textField.text, out float floorHeight))
+            if (!string.IsNullOrEmpty(firstFloorField.text) && !string.IsNullOrEmpty(floorHeightField.text) && float.TryParse(firstFloorField.text, out float firstFloor) && float.TryParse(floorHeightField.text, out float floorHeight))
             {
                 // Success - create new override floor pack with parsed data.
                 return new FloorDataPack
                 {
                     version = DataVersion.overrideOne,
-                    firstFloorMin = firstFloor,
-                    floorHeight = floorHeight
+                    firstFloorMin = Measures.LengthToMetric(firstFloor),
+                    floorHeight = Measures.LengthToMetric(floorHeight)
                 };
             }
 
@@ -386,42 +390,15 @@ namespace RealPop2
 
 
         /// <summary>
-        /// Adds a textfield with a label to the left.
-        /// </summary>
-        /// <param name="yPos">Relative y-position of textfield</param>
-        /// <param name="key">Translation key for label</param>
-        /// <returns></returns>
-        private UILabelledTextfield AddLabelledTextfield(float yPos, string key)
-        {
-            // Create textfield.
-            UILabelledTextfield newField = new UILabelledTextfield
-            {
-                textField = UIControls.AddTextField(this, MarginPadding + LabelWidth + MarginPadding, yPos, width: this.width - (MarginPadding * 3) - LabelWidth)
-            };
-            newField.textField.clipChildren = false;
-
-            // Label.
-            newField.label = newField.textField.AddUIComponent<UILabel>();
-            newField.label.anchor = UIAnchorStyle.Right | UIAnchorStyle.CenterVertical;
-            newField.label.relativePosition = new Vector2(-MarginPadding * 2f, newField.textField.height / 2);
-            newField.label.textAlignment = UIHorizontalAlignment.Right;
-            newField.label.textScale = 0.7f;
-            newField.label.text = Translations.Translate(key);
-
-            return newField;
-        }
-
-
-        /// <summary>
         /// Updates floor override textfield values without triggering event handler.
         /// </summary>
-        /// <param name="firstFloorText">Text for first floor height field</param>
-        /// <param name="floorText">Text for other floor height field</param>
-        private void UpdateFloorTextFields(string firstFloorText, string floorText)
+        /// <param name="firstFloor">First floor height field</param>
+        /// <param name="otherFloor">Other floor height field</param>
+        private void UpdateFloorTextFields(float firstFloor, float otherFloor)
         {
             // Populate fields.
-            firstFloorField.textField.text = firstFloorText;
-            floorHeightField.textField.text = floorText;
+            firstFloorField.text = firstFloor == 0 ? string.Empty : firstFloor.ToString("N1");
+            floorHeightField.text = otherFloor == 0 ? string.Empty : otherFloor.ToString("N1");
         }
     }
 }

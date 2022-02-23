@@ -82,7 +82,8 @@ namespace RealPop2
                 packDropDown.eventSelectedIndexChanged += PackChanged;
 
                 // Label strings - cached to avoid calling Translations.Translate each time (for the tooltips, anwyay, including the others makes code more readable).
-                string emptyArea = Translations.Translate("RPR_CAL_VOL_EMP");
+                string areaSuffix = Environment.NewLine + "(" + Measures.AreaMeasure + ")";
+                string emptyArea = Translations.Translate("RPR_CAL_VOL_EMP") + areaSuffix;
                 string emptyAreaTip = Translations.Translate("RPR_CAL_VOL_EMP_TIP");
                 string emptyPercent = Translations.Translate("RPR_CAL_VOL_EPC");
                 string emptyPercentTip = Translations.Translate("RPR_CAL_VOL_EPC_TIP");
@@ -90,7 +91,7 @@ namespace RealPop2
                 string useFixedPopTip = Translations.Translate("RPR_CAL_VOL_FXP_TIP");
                 string fixedPop = Translations.Translate("RPR_CAL_VOL_UNI");
                 string fixedPopTip = Translations.Translate("RPR_CAL_VOL_UNI_TIP");
-                string areaPer = Translations.Translate("RPR_CAL_VOL_APU");
+                string areaPer = Translations.Translate("RPR_CAL_VOL_APU") + areaSuffix;
                 string areaPerTip = Translations.Translate("RPR_CAL_VOL_APU_TIP");
                 string multiFloor = Translations.Translate("RPR_CAL_VOL_MFU");
                 string multiFloorTip = Translations.Translate("RPR_CAL_VOL_MFU_TIP");
@@ -140,7 +141,7 @@ namespace RealPop2
                     // Move to next row.
                     currentY += RowHeight;
                 }
-
+                
                 // Add footer controls.
                 PanelFooter(currentY);
 
@@ -266,7 +267,7 @@ namespace RealPop2
                 for (int i = 0; i < maxLevels[serviceDropDown.selectedIndex]; ++i)
                 {
                     // Textfields.
-                    PanelUtils.ParseFloat(ref popPack.levels[i].emptyArea, emptyAreaFields[i].text);
+                    PanelUtils.ParseFloat(ref popPack.levels[i].emptyArea, emptyAreaFields[i].text, true);
                     PanelUtils.ParseInt(ref popPack.levels[i].emptyPercent, emptyPercentFields[i].text);
 
                     // Look at fixed population checkbox state to work out if we're doing fixed population or area per.
@@ -280,7 +281,7 @@ namespace RealPop2
                     else
                     {
                         // Area per unit.
-                        PanelUtils.ParseFloat(ref popPack.levels[i].areaPer, areaPerFields[i].text);
+                        PanelUtils.ParseFloat(ref popPack.levels[i].areaPer, areaPerFields[i].text, true);
                     }
 
                     // Checkboxes.
@@ -431,10 +432,10 @@ namespace RealPop2
                 LevelData level = volPack.levels[i];
 
                 // Populate controls.
-                emptyAreaFields[i].text = level.emptyArea.ToString();
+                emptyAreaFields[i].text = Measures.AreaFromMetric(level.emptyArea).ToString("N1");
                 emptyPercentFields[i].text = level.emptyPercent.ToString();
                 fixedPopChecks[i].isChecked = level.areaPer < 0;
-                areaPerFields[i].text = Math.Abs(level.areaPer).ToString();
+                areaPerFields[i].text = Measures.AreaFromMetric(Math.Abs(level.areaPer)).ToString("N1");
                 fixedPopFields[i].text = Math.Abs(level.areaPer).ToString();
                 multiFloorChecks[i].isChecked = level.multiFloorUnits;
             }

@@ -141,6 +141,10 @@ namespace RealPop2
         [XmlElement("CrimeRateMultiplier")]
         public float CrimeRateMultiplier { get => ModSettings.crimeMultiplier; set => ModSettings.crimeMultiplier = value; }
 
+        // Measurement system.
+        [XmlElement("Metric")]
+        public bool UsingMetric { get => Measures.UsingMetric; set => Measures.UsingMetric = value; }
+
         // Logging detail.
         [XmlElement("DetailedLogging")]
         public bool DetailLogging { get => Logging.detailLogging; set => Logging.detailLogging = value; }

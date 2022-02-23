@@ -191,6 +191,7 @@
     <Compile Include="Code\Settings\OptionsPanelTabs\SchoolsPanel.cs" />
     <Compile Include="Code\Utils\CitizenUnitUtils.cs" />
     <Compile Include="Code\Utils\GoodsUtils.cs" />
+    <Compile Include="Code\Utils\Measures.cs" />
     <Compile Include="Code\Utils\TextureUtils.cs" />
     <Compile Include="Code\Utils\TooltipUtils.cs" />
     <Compile Include="Code\Utils\UIControls.cs" />

@@ -83,7 +83,7 @@ namespace RealPop2
                 floorName = AddUIComponent<UILabel>();
                 floorName.relativePosition = new Vector3(10f, 5f);
                 floorName.width = 200;
-
+                floorName.textScale = 0.9f;
             }
 
             // Set selected building.

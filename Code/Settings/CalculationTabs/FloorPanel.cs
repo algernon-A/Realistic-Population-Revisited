@@ -65,17 +65,16 @@ namespace RealPop2
                 packDropDown.eventSelectedIndexChanged += PackChanged;
 
                 // Headings.
-                currentY += 140f;
-                PanelUtils.ColumnLabel(panel, FloorHeightX, currentY, ColumnWidth, Translations.Translate("RPR_CAL_VOL_FLH"), Translations.Translate("RPR_CAL_VOL_FLH_TIP"), 1.0f);
-                PanelUtils.ColumnLabel(panel, FirstMinX, currentY, ColumnWidth, Translations.Translate("RPR_CAL_VOL_FMN"), Translations.Translate("RPR_CAL_VOL_FMN_TIP"), 1.0f);
-                PanelUtils.ColumnLabel(panel, FirstMaxX, currentY, ColumnWidth, Translations.Translate("RPR_CAL_VOL_FMX"), Translations.Translate("RPR_CAL_VOL_FMX_TIP"), 1.0f);
+                currentY += 160f;
+                string lengthSuffix = System.Environment.NewLine + "(" + Measures.LengthMeasure + ")";
+                PanelUtils.ColumnLabel(panel, FloorHeightX, currentY, ColumnWidth, Translations.Translate("RPR_CAL_VOL_FLH") + lengthSuffix, Translations.Translate("RPR_CAL_VOL_FLH_TIP"), 1.0f);
+                PanelUtils.ColumnLabel(panel, FirstMinX, currentY, ColumnWidth, Translations.Translate("RPR_CAL_VOL_FMN") + lengthSuffix, Translations.Translate("RPR_CAL_VOL_FMN_TIP"), 1.0f);
+                PanelUtils.ColumnLabel(panel, FirstMaxX, currentY, ColumnWidth, Translations.Translate("RPR_CAL_VOL_FMX") + lengthSuffix, Translations.Translate("RPR_CAL_VOL_FMX_TIP"), 1.0f);
                 PanelUtils.ColumnLabel(panel, FirstEmptyX, currentY, ColumnWidth, Translations.Translate("RPR_CAL_VOL_IGF"), Translations.Translate("RPR_CAL_VOL_IGF_TIP"), 1.0f);
 
                 // Add level textfields.
-                currentY += RowHeight;
                 floorHeightField = UIControls.AddTextField(panel, FloorHeightX + Margin, currentY, width: TextFieldWidth, tooltip: Translations.Translate("RPR_CAL_VOL_FLH_TIP"));
                 floorHeightField.eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
-                floorHeightField.tooltipBox = TooltipUtils.TooltipBox;
 
                 firstMinField = UIControls.AddTextField(panel, FirstMinX + Margin, currentY, width: TextFieldWidth, tooltip: Translations.Translate("RPR_CAL_VOL_FMN_TIP"));
                 firstMinField.eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
@@ -84,11 +83,10 @@ namespace RealPop2
                 firstExtraField = UIControls.AddTextField(panel, FirstMaxX + Margin, currentY, width: TextFieldWidth, tooltip: Translations.Translate("RPR_CAL_VOL_FMX_TIP"));
                 firstExtraField.eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
                 firstExtraField.tooltipBox = TooltipUtils.TooltipBox;
-
                 firstEmptyCheck = UIControls.AddCheckBox(panel, FirstEmptyX + (ColumnWidth / 2), currentY, tooltip: Translations.Translate("RPR_CAL_VOL_IGF_TIP"));
                 firstEmptyCheck.tooltipBox = TooltipUtils.TooltipBox;
 
-                // Move to next row.
+                // Add space before footer.
                 currentY += RowHeight;
 
                 // Add footer controls.
@@ -210,9 +208,9 @@ namespace RealPop2
                 floorPack.version = DataVersion.customOne;
 
                 // Textfields.
-                PanelUtils.ParseFloat(ref floorPack.floorHeight, floorHeightField.text);
-                PanelUtils.ParseFloat(ref floorPack.firstFloorMin, firstMinField.text);
-                PanelUtils.ParseFloat(ref floorPack.firstFloorExtra, firstExtraField.text);
+                PanelUtils.ParseFloat(ref floorPack.floorHeight, floorHeightField.text, false);
+                PanelUtils.ParseFloat(ref floorPack.firstFloorMin, firstMinField.text, false);
+                PanelUtils.ParseFloat(ref floorPack.firstFloorExtra, firstExtraField.text, false);
 
                 // Checkboxes.
                 floorPack.firstFloorEmpty = firstEmptyCheck.isChecked;
@@ -248,9 +246,9 @@ namespace RealPop2
             PackNameField.text = floorPack.displayName ?? floorPack.name;
 
             // Populate controls.
-            floorHeightField.text = floorPack.floorHeight.ToString();
-            firstMinField.text = floorPack.firstFloorMin.ToString();
-            firstExtraField.text = floorPack.firstFloorExtra.ToString();
+            floorHeightField.text = Measures.LengthFromMetric(floorPack.floorHeight).ToString("N1");
+            firstMinField.text = Measures.LengthFromMetric(floorPack.firstFloorMin).ToString("N1");
+            firstExtraField.text = Measures.LengthFromMetric(floorPack.firstFloorExtra).ToString("N1");
             firstEmptyCheck.isChecked = floorPack.firstFloorEmpty;
         }
 

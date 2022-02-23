@@ -14,7 +14,7 @@ namespace RealPop2
     {
         // Layout constants.
         private const float Margin = 5f;
-        private const float ColumnWidth = 300f;
+        private const float ColumnWidth = UIBuildingDetails.RightWidth / 2f;
         private const float LabelOffset = 240f;
         private const float LeftColumn = LabelOffset;
         private const float RightColumn = ColumnWidth + LabelOffset;
@@ -86,8 +86,8 @@ namespace RealPop2
             emptyPercentLabel = AddVolumetricLabel(this, "RPR_CAL_VOL_EPC", LeftColumn, Row2, "RPR_CAL_VOL_EPC_TIP");
             emptyAreaLabel = AddVolumetricLabel(this, "RPR_CAL_VOL_EMP", LeftColumn, Row3, "RPR_CAL_VOL_EMP_TIP");
             perLabel = AddVolumetricLabel(this, "RPR_CAL_VOL_APU", LeftColumn, Row4, "RPR_CAL_VOL_APU_TIP");
-            schoolWorkerLabel = AddVolumetricLabel(this, "RPR_CAL_SCH_WKR", LeftColumn, Row7, "RPR_CAL_SCH_WKR_TIP");
-            costLabel = AddVolumetricLabel(this, "RPR_CAL_SCH_CST", LeftColumn, Row8, "RPR_CAL_SCH_CST_TIP");
+            schoolWorkerLabel = AddVolumetricLabel(this, "RPR_CAL_SCH_WKR", LeftColumn, Row7, "RPR_CAL_SCH_WKR_TIP", 20f);
+            costLabel = AddVolumetricLabel(this, "RPR_CAL_SCH_CST", LeftColumn, Row8, "RPR_CAL_SCH_CST_TIP", 20f);
 
             overridePopLabel = OverrideLabel(totalHomesLabel);
             overrideFloorsLabel = OverrideLabel(numFloorsLabel);
@@ -151,10 +151,10 @@ namespace RealPop2
             unitsLabel.isVisible = fixedPop;
 
             // Set values.
-            emptyAreaLabel.text = levelData.emptyArea.ToString();
+            emptyAreaLabel.text = Measures.AreaString(levelData.emptyArea, "N0");
             emptyPercentLabel.text = levelData.emptyPercent.ToString();
-            perLabel.text = levelData.areaPer.ToString();
-            unitsLabel.text = (levelData.areaPer * -1).ToString();
+            perLabel.text = Measures.AreaString(levelData.areaPer, "N0");
+            unitsLabel.text = Measures.AreaString(levelData.areaPer * -1, "N0");
             multiFloorCheckBox.isChecked = levelData.multiFloorUnits;
         }
 
@@ -166,9 +166,9 @@ namespace RealPop2
         internal void UpdateFloorText(FloorDataPack floorData)
         {
             // Set textfield values.
-            firstMinLabel.text = floorData.firstFloorMin.ToString();
-            firstExtraLabel.text = floorData.firstFloorExtra.ToString();
-            floorHeightLabel.text = floorData.floorHeight.ToString();
+            firstMinLabel.text = Measures.LengthString(floorData.firstFloorMin, "N1");
+            firstExtraLabel.text = Measures.LengthString(floorData.firstFloorExtra, "N1");
+            floorHeightLabel.text = Measures.LengthString(floorData.floorHeight, "N1");
 
             // Set checkbox.
             ignoreFirstCheckBox.isChecked = floorData.firstFloorEmpty;
@@ -197,7 +197,7 @@ namespace RealPop2
             // Perform calculations.
             // Get floors and allocate area an number of floor labels.
             SortedList<int, float> floors = PopData.instance.VolumetricFloors(building.m_generatedInfo, floorData, out float totalArea);
-            floorAreaLabel.text = totalArea.ToString("N0", LocaleManager.cultureInfo);
+            floorAreaLabel.text = Measures.AreaString(totalArea, "N0");
             numFloorsLabel.text = floors.Count.ToString();
 
             // Get total units.
@@ -236,10 +236,10 @@ namespace RealPop2
                     // StringBuilder, because we're doing a fair bit of manipulation here.
                     StringBuilder floorString = new StringBuilder("Floor ");
 
-                    // Floor number
+                    // Floor number.
                     floorString.Append(i + 1);
                     floorString.Append(" " + Translations.Translate("RPR_CAL_VOL_ARA") + " ");
-                    floorString.Append(floors[i].ToString("N0"));
+                    floorString.Append(Measures.AreaString(floors[i], "N0"));
 
                     // See if we're calculating units per individual floor.
                     if (!levelData.multiFloorUnits)
@@ -410,18 +410,19 @@ namespace RealPop2
         /// <param name="yPos">Relative X position</param>
         /// <param name="yPos">Relative Y position</param>
         /// <param name="toolKey">Tooltip translation key</param>
+        /// <param name="inset">X inset (default 0)</param>
         /// <returns>New UILabel</returns>
-        private UILabel AddVolumetricLabel(UIComponent parent, string textKey, float xPos, float yPos, string toolKey)
+        private UILabel AddVolumetricLabel(UIComponent parent, string textKey, float xPos, float yPos, string toolKey, float inset = 0f)
         {
             // Create new label.
             UILabel newLabel = parent.AddUIComponent<UILabel>();
-            newLabel.relativePosition = new Vector3(xPos, yPos);
+            newLabel.relativePosition = new Vector3(xPos - inset, yPos);
             newLabel.textAlignment = UIHorizontalAlignment.Left;
             newLabel.textScale = 0.8f;
-            newLabel.text = "Blank";
+            newLabel.text = string.Empty;
 
             // Add label title to the left.
-            AddLabelToComponent(newLabel, Translations.Translate(textKey));
+            AddLabelToComponent(newLabel, Translations.Translate(textKey), inset);
 
             // Add tooltip.
             newLabel.tooltip = Translations.Translate(toolKey);
@@ -478,10 +479,11 @@ namespace RealPop2
         /// </summary>
         /// <param name="parent">Component to add label to</param>
         /// <param name="text">Label text</param>
-        private void AddLabelToComponent(UIComponent parent, string text)
+        /// <param name="inset">Parent x-inset (default 0)</param>
+        private void AddLabelToComponent(UIComponent parent, string text, float inset = 0f)
         {
             UILabel label = parent.AddUIComponent<UILabel>();
-            label.relativePosition = new Vector2(-(LabelOffset - Margin), 0);
+            label.relativePosition = new Vector2(-(LabelOffset - Margin - inset), 0);
             label.autoSize = false;
             label.width = LabelOffset - (Margin * 2);
             label.textScale = 0.8f;

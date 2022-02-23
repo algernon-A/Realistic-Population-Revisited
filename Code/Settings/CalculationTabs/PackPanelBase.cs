@@ -17,6 +17,7 @@ namespace RealPop2
         protected const float LeftItem = 75f;
         protected const float FirstItem = 110f;
         protected const float RowHeight = 27f;
+        protected const float MeasurementLabelY = -20f;
 
 
         // Panel components.

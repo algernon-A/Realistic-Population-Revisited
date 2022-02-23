@@ -30,6 +30,11 @@ namespace RealPop2
             // Hotkey control.
             panel.gameObject.AddComponent<OptionsKeymapping>();
 
+
+            UICheckBox usMeasureCheck = UIControls.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_MEA"));
+            usMeasureCheck.isChecked = !Measures.UsingMetric;
+            usMeasureCheck.eventCheckChanged += (control, isChecked) => Measures.UsingMetric = !isChecked;
+
             // Detail logging option.
             UICheckBox logCheckBox = UIControls.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_LDT"));
             logCheckBox.isChecked = Logging.detailLogging;
