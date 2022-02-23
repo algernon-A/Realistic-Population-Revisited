@@ -25,6 +25,7 @@ namespace RealPop2
             languageDrop.eventSelectedIndexChanged += (control, index) =>
             {
                 Translations.Index = index;
+                OptionsPanel.LocaleChanged();
             };
 
             // Hotkey control.
@@ -33,7 +34,11 @@ namespace RealPop2
 
             UICheckBox usMeasureCheck = UIControls.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_MEA"));
             usMeasureCheck.isChecked = !Measures.UsingMetric;
-            usMeasureCheck.eventCheckChanged += (control, isChecked) => Measures.UsingMetric = !isChecked;
+            usMeasureCheck.eventCheckChanged += (control, isChecked) =>
+            {
+                Measures.UsingMetric = !isChecked;
+                OptionsPanel.LocaleChanged();
+            };
 
             // Detail logging option.
             UICheckBox logCheckBox = UIControls.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_LDT"));

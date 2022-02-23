@@ -83,10 +83,12 @@ namespace RealPop2
 
                 // Create a base panel attached to our game object, perfectly overlaying the game options panel.
                 UIPanel basePanel = optionsGameObject.AddComponent<UIPanel>();
-                basePanel.absolutePosition = optionsPanel.absolutePosition;
-                basePanel.width = optionsPanel.width;
-                basePanel.height = 735f;
+                basePanel.width = optionsPanel.width - 10f;
+                basePanel.height = 725f;
                 basePanel.clipChildren = false;
+
+                // Needed to ensure position is consistent if we regenerate after initial opening (e.g. on language change).
+                basePanel.relativePosition = new Vector2(10f, 10f);
 
                 // Add tabstrip.
                 UITabstrip tabStrip = basePanel.AddUIComponent<UITabstrip>();
