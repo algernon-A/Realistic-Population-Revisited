@@ -62,7 +62,6 @@ namespace RealPop2
                             VolumetricPopPack volPack = new VolumetricPopPack()
                             {
                                 name = xmlPack.name,
-                                displayName = xmlPack.name,
                                 service = xmlPack.service,
                                 version = DataVersion.customOne,
                                 levels = new LevelData[xmlPack.calculationLevels.Count]
@@ -92,7 +91,6 @@ namespace RealPop2
                             FloorDataPack floorPack = new FloorDataPack()
                             {
                                 name = xmlPack.name,
-                                displayName = xmlPack.name,
                                 version = DataVersion.customOne,
                                 floorHeight = xmlPack.floorHeight,
                                 firstFloorMin = xmlPack.firstMin,

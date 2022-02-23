@@ -32,8 +32,8 @@ namespace RealPop2
             FloorDataPack newPack = new FloorDataPack
             {
                 name = "generic",
-                displayName = Translations.Translate("RPR_PCK_FDF_NAM"),
-                description = Translations.Translate("RPR_PCK_FDF_DES"),
+                nameKey = "RPR_PCK_FDF_NAM",
+                descriptionKey = "RPR_PCK_FDF_DES",
                 version = DataVersion.one,
                 floorHeight = 3f,
                 firstFloorMin = 3f,
@@ -46,8 +46,8 @@ namespace RealPop2
             newPack = new FloorDataPack
             {
                 name = "house",
-                displayName = Translations.Translate("RPR_PCK_FHO_NAM"),
-                description = Translations.Translate("RPR_PCK_FHO_DES"),
+                nameKey = "RPR_PCK_FHO_NAM",
+                descriptionKey = "RPR_PCK_FHO_DES",
                 version = DataVersion.one,
                 floorHeight = 3f,
                 firstFloorMin = 3f,
@@ -60,8 +60,8 @@ namespace RealPop2
             newPack = new FloorDataPack
             {
                 name = "lobbies",
-                displayName = Translations.Translate("RPR_PCK_FDL_NAM"),
-                description = Translations.Translate("RPR_PCK_FDL_DES"),
+                nameKey = "RPR_PCK_FDL_NAM",
+                descriptionKey = "RPR_PCK_FDL_DES",
                 version = DataVersion.one,
                 floorHeight = 3f,
                 firstFloorMin = 3f,
@@ -74,8 +74,8 @@ namespace RealPop2
             newPack = new FloorDataPack
             {
                 name = "commercial",
-                displayName = Translations.Translate("RPR_PCK_FCM_NAM"),
-                description = Translations.Translate("RPR_PCK_FCM_DES"),
+                nameKey = "RPR_PCK_FCM_NAM",
+                descriptionKey = "RPR_PCK_FCM_DES",
                 version = DataVersion.one,
                 floorHeight = 4f,
                 firstFloorMin = 3f,
@@ -88,8 +88,8 @@ namespace RealPop2
             newPack = new FloorDataPack
             {
                 name = "warehouse",
-                displayName = Translations.Translate("RPR_PCK_FWH_NAM"),
-                description = Translations.Translate("RPR_PCK_FWH_DES"),
+                nameKey = "RPR_PCK_FWH_NAM",
+                descriptionKey = "RPR_PCK_FWH_DES",
                 version = DataVersion.one,
                 floorHeight = 9f,
                 firstFloorMin = 3f,
@@ -102,8 +102,8 @@ namespace RealPop2
             newPack = new FloorDataPack
             {
                 name = "highbay",
-                displayName = Translations.Translate("RPR_PCK_FHB_NAM"),
-                description = Translations.Translate("RPR_PCK_FHB_DES"),
+                nameKey = "RPR_PCK_FHB_NAM",
+                descriptionKey = "RPR_PCK_FHB_DES",
                 version = DataVersion.one,
                 floorHeight = 12f,
                 firstFloorMin = 3f,
@@ -116,8 +116,8 @@ namespace RealPop2
             newPack = new FloorDataPack
             {
                 name = "extractor",
-                displayName = Translations.Translate("RPR_PCK_FEX_NAM"),
-                description = Translations.Translate("RPR_PCK_FEX_DES"),
+                nameKey = "RPR_PCK_FEX_NAM",
+                descriptionKey = "RPR_PCK_FEX_DES",
                 version = DataVersion.one,
                 floorHeight = 99f,
                 firstFloorMin = 3f,

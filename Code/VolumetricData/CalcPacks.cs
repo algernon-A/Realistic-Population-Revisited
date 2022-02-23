@@ -18,10 +18,22 @@ namespace RealPop2
     /// </summary>
     public class DataPack
     {
+        // Basic data.
         public DataVersion version;
         public string name;
-        public string displayName;
-        public string description;
+        public string nameKey;
+        public string descriptionKey;
+
+
+        /// <summary>
+        /// Pack display name, in current language if available.
+        /// </summary>
+        public string DisplayName => !string.IsNullOrEmpty(nameKey) ? Translations.Translate(nameKey) : name;
+
+        /// <summary>
+        /// Pack description, in current language if available.
+        /// </summary>
+        public string Description => !string.IsNullOrEmpty(descriptionKey) ? Translations.Translate(descriptionKey) : string.Empty;
     }
 
 

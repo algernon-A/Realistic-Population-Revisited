@@ -334,8 +334,8 @@ namespace RealPop2
             calcPacks.Add(new LegacyResPack
             {
                 name = "resWG",
-                displayName = Translations.Translate("RPR_PCK_LEG_NAM"),
-                description = Translations.Translate("RPR_PCK_LEG_DES"),
+                nameKey = "RPR_PCK_LEG_NAM",
+                descriptionKey = "RPR_PCK_LEG_DES",
                 version = DataVersion.legacy,
                 service = ItemClass.Service.Residential
             });
@@ -344,8 +344,8 @@ namespace RealPop2
             calcPacks.Add(new LegacyIndPack()
             {
                 name = "indWG",
-                displayName = Translations.Translate("RPR_PCK_LEG_NAM"),
-                description = Translations.Translate("RPR_PCK_LEG_DES"),
+                nameKey = "RPR_PCK_LEG_NAM",
+                descriptionKey = "RPR_PCK_LEG_DES",
                 version = DataVersion.legacy,
                 service = ItemClass.Service.Industrial
             });
@@ -354,8 +354,8 @@ namespace RealPop2
             calcPacks.Add(new LegacyComPack()
             {
                 name = "comWG",
-                displayName = Translations.Translate("RPR_PCK_LEG_NAM"),
-                description = Translations.Translate("RPR_PCK_LEG_DES"),
+                nameKey = "RPR_PCK_LEG_NAM",
+                descriptionKey = "RPR_PCK_LEG_DES",
                 version = DataVersion.legacy,
                 service = ItemClass.Service.Commercial
             });
@@ -364,8 +364,8 @@ namespace RealPop2
             calcPacks.Add(new LegacyOffPack
             {
                 name = "offWG",
-                displayName = Translations.Translate("RPR_PCK_LEG_NAM"),
-                description = Translations.Translate("RPR_PCK_LEG_DES"),
+                nameKey = "RPR_PCK_LEG_NAM",
+                descriptionKey = "RPR_PCK_LEG_DES",
                 version = DataVersion.legacy,
                 service = ItemClass.Service.Office
             });
@@ -374,8 +374,8 @@ namespace RealPop2
             calcPacks.Add(new VanillaPack
             {
                 name = "vanilla",
-                displayName = Translations.Translate("RPR_PCK_VAN_NAM"),
-                description = Translations.Translate("RPR_PCK_VAN_DES"),
+                nameKey = "RPR_PCK_VAN_NAM",
+                descriptionKey = "RPR_PCK_VAN_DES",
                 version = DataVersion.vanilla,
                 service = ItemClass.Service.None
             });
@@ -384,8 +384,8 @@ namespace RealPop2
             VolumetricPopPack newPack = new VolumetricPopPack
             {
                 name = "reslow",
-                displayName = Translations.Translate("RPR_PCK_RLS_NAM"),
-                description = Translations.Translate("RPR_PCK_RLS_DES"),
+                nameKey = "RPR_PCK_RLS_NAM",
+                descriptionKey = "RPR_PCK_RLS_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Residential,
                 levels = new LevelData[5]
@@ -401,8 +401,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack
             {
                 name = "duplex",
-                displayName = Translations.Translate("RPR_PCK_RLD_NAM"),
-                description = Translations.Translate("RPR_PCK_RLD_DES"),
+                nameKey = "RPR_PCK_RLD_NAM",
+                descriptionKey = "RPR_PCK_RLD_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Residential,
                 levels = new LevelData[5]
@@ -418,8 +418,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack
             {
                 name = "resEUmod",
-                displayName = Translations.Translate("RPR_PCK_REM_NAM"),
-                description = Translations.Translate("RPR_PCK_REM_DES"),
+                nameKey = "RPR_PCK_REM_NAM",
+                descriptionKey = "RPR_PCK_REM_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Residential,
                 levels = new LevelData[5]
@@ -435,8 +435,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "resEUold",
-                displayName = Translations.Translate("RPR_PCK_REO_NAM"),
-                description = Translations.Translate("RPR_PCK_REO_DES"),
+                nameKey = "RPR_PCK_REO_NAM",
+                descriptionKey = "RPR_PCK_REO_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Residential,
                 levels = new LevelData[5],
@@ -452,8 +452,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "reshighUS",
-                displayName = Translations.Translate("RPR_PCK_RUH_NAM"),
-                description = Translations.Translate("RPR_PCK_RUH_DES"),
+                nameKey = "RPR_PCK_RUH_NAM",
+                descriptionKey = "RPR_PCK_RUH_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Residential,
                 levels = new LevelData[5]
@@ -470,8 +470,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "comUS",
-                displayName = Translations.Translate("RPR_PCK_CUS_NAM"),
-                description = Translations.Translate("RPR_PCK_CUS_DES"),
+                nameKey = "RPR_PCK_CUS_NAM",
+                descriptionKey = "RPR_PCK_CUS_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Commercial,
                 levels = new LevelData[3]
@@ -487,8 +487,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "comUK",
-                displayName = Translations.Translate("RPR_PCK_CUK_NAM"),
-                description = Translations.Translate("RPR_PCK_CUK_DES"),
+                nameKey = "RPR_PCK_CUK_NAM",
+                descriptionKey = "RPR_PCK_CUK_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Commercial,
                 levels = new LevelData[3]
@@ -504,8 +504,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "retailware",
-                displayName = Translations.Translate("RPR_PCK_CRW_NAM"),
-                description = Translations.Translate("RPR_PCK_CRW_DES"),
+                nameKey = "RPR_PCK_CRW_NAM",
+                descriptionKey = "RPR_PCK_CRW_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Commercial,
                 levels = new LevelData[3]
@@ -520,8 +520,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "hotel",
-                displayName = Translations.Translate("RPR_PCK_THT_NAM"),
-                description = Translations.Translate("RPR_PCK_THT_DES"),
+                nameKey = "RPR_PCK_THT_NAM",
+                descriptionKey = "RPR_PCK_THT_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Commercial,
                 levels = new LevelData[3]
@@ -537,8 +537,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "restaurant",
-                displayName = Translations.Translate("RPR_PCK_LFD_NAM"),
-                description = Translations.Translate("RPR_PCK_LFD_DES"),
+                nameKey = "RPR_PCK_LFD_NAM",
+                descriptionKey = "RPR_PCK_LFD_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Commercial,
                 levels = new LevelData[3]
@@ -554,8 +554,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "entertainment",
-                displayName = Translations.Translate("RPR_PCK_LEN_NAM"),
-                description = Translations.Translate("RPR_PCK_LEN_DES"),
+                nameKey = "RPR_PCK_LEN_NAM",
+                descriptionKey = "RPR_PCK_LEN_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Commercial,
                 levels = new LevelData[3]
@@ -571,8 +571,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "cinema",
-                displayName = Translations.Translate("RPR_PCK_LCN_NAM"),
-                description = Translations.Translate("RPR_PCK_LCN_DES"),
+                nameKey = "RPR_PCK_LCN_NAM",
+                descriptionKey = "RPR_PCK_LCN_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Commercial,
                 levels = new LevelData[3]
@@ -588,8 +588,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "lightind",
-                displayName = Translations.Translate("RPR_PCK_ILG_NAM"),
-                description = Translations.Translate("RPR_PCK_ILG_DES"),
+                nameKey = "RPR_PCK_ILG_NAM",
+                descriptionKey = "RPR_PCK_ILG_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Industrial,
                 levels = new LevelData[3]
@@ -605,8 +605,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "factory",
-                displayName = Translations.Translate("RPR_PCK_IMN_NAM"),
-                description = Translations.Translate("RPR_PCK_IMN_DES"),
+                nameKey = "RPR_PCK_IMN_NAM",
+                descriptionKey = "RPR_PCK_IMN_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Industrial,
                 levels = new LevelData[3]
@@ -621,8 +621,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "localware",
-                displayName = Translations.Translate("RPR_PCK_IWL_NAM"),
-                description = Translations.Translate("RPR_PCK_IWL_DES"),
+                nameKey = "RPR_PCK_IWL_NAM",
+                descriptionKey = "RPR_PCK_IWL_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Industrial,
                 levels = new LevelData[3]
@@ -637,8 +637,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "natware",
-                displayName = Translations.Translate("RPR_PCK_IWN_NAM"),
-                description = Translations.Translate("RPR_PCK_IWN_DES"),
+                nameKey = "RPR_PCK_IWN_NAM",
+                descriptionKey = "RPR_PCK_IWN_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Industrial,
                 levels = new LevelData[3]
@@ -654,8 +654,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "offcorp",
-                displayName = Translations.Translate("RPR_PCK_OCP_NAM"),
-                description = Translations.Translate("RPR_PCK_OCP_DES"),
+                nameKey = "RPR_PCK_OCP_NAM",
+                descriptionKey = "RPR_PCK_OCP_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Office,
                 levels = new LevelData[3]
@@ -671,8 +671,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "offfin",
-                displayName = Translations.Translate("RPR_PCK_OFN_NAM"),
-                description = Translations.Translate("RPR_PCK_OFN_DES"),
+                nameKey = "RPR_PCK_OFN_NAM",
+                descriptionKey = "RPR_PCK_OFN_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Office,
                 levels = new LevelData[3]
@@ -688,8 +688,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "offcall",
-                displayName = Translations.Translate("RPR_PCK_OCS_NAM"),
-                description = Translations.Translate("RPR_PCK_OCS_DES"),
+                nameKey = "RPR_PCK_OCS_NAM",
+                descriptionKey = "RPR_PCK_OCS_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Office,
                 levels = new LevelData[3]
@@ -705,8 +705,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "datacent",
-                displayName = Translations.Translate("RPR_PCK_ODT_NAM"),
-                description = Translations.Translate("RPR_PCK_ODT_DES"),
+                nameKey = "RPR_PCK_ODT_NAM",
+                descriptionKey = "RPR_PCK_ODT_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Office,
                 levels = new LevelData[3]
@@ -722,8 +722,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "schoolsub",
-                displayName = Translations.Translate("RPR_PCK_SSB_NAM"),
-                description = Translations.Translate("RPR_PCK_SSB_DES"),
+                nameKey = "RPR_PCK_SSB_NAM",
+                descriptionKey = "RPR_PCK_SSB_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Education,
                 levels = new LevelData[2]
@@ -737,8 +737,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "schoolmnlow",
-                displayName = Translations.Translate("RPR_PCK_SML_NAM"),
-                description = Translations.Translate("RPR_PCK_SML_DES"),
+                nameKey = "RPR_PCK_SML_NAM",
+                descriptionKey = "RPR_PCK_SML_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Education,
                 levels = new LevelData[2]
@@ -752,8 +752,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "schoolmnmed",
-                displayName = Translations.Translate("RPR_PCK_SMM_NAM"),
-                description = Translations.Translate("RPR_PCK_SMM_DES"),
+                nameKey = "RPR_PCK_SMM_NAM",
+                descriptionKey = "RPR_PCK_SMM_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Education,
                 levels = new LevelData[2]
@@ -767,8 +767,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "schoolmnhigh",
-                displayName = Translations.Translate("RPR_PCK_SMH_NAM"),
-                description = Translations.Translate("RPR_PCK_SMH_DES"),
+                nameKey = "RPR_PCK_SMH_NAM",
+                descriptionKey = "RPR_PCK_SMH_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Education,
                 levels = new LevelData[2]
@@ -782,8 +782,8 @@ namespace RealPop2
             newPack = new VolumetricPopPack()
             {
                 name = "schoolukhigh",
-                displayName = Translations.Translate("RPR_PCK_SUK_NAM"),
-                description = Translations.Translate("RPR_PCK_SUK_DES"),
+                nameKey = "RPR_PCK_SUK_NAM",
+                descriptionKey = "RPR_PCK_SUK_DES",
                 version = DataVersion.one,
                 service = ItemClass.Service.Education,
                 levels = new LevelData[2]

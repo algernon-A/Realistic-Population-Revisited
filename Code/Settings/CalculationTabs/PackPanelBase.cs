@@ -173,7 +173,7 @@ namespace RealPop2
             UpdatePack(packList[packDropDown.selectedIndex]);
 
             // Update selected menu item in case the name has changed.
-            packDropDown.items[packDropDown.selectedIndex] = packList[packDropDown.selectedIndex].displayName ?? packList[packDropDown.selectedIndex].name;
+            packDropDown.items[packDropDown.selectedIndex] = packList[packDropDown.selectedIndex].DisplayName;
 
             // Update defaults panel menus.
             CalculationsPanel.Instance.UpdateDefaultMenus();

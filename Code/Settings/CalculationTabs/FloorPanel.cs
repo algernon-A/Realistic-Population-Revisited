@@ -131,7 +131,7 @@ namespace RealPop2
             int packNum = 2;
 
             // Starting with our default new pack name, check to see if we already have a pack with this name for the currently selected service.
-            while (FloorData.instance.calcPacks.Find(pack => pack.name.Equals(newPackName) || pack.displayName.Equals(newPackName)) != null)
+            while (FloorData.instance.calcPacks.Find(pack => pack.name.Equals(newPackName) || pack.DisplayName.Equals(newPackName)) != null)
             {
                 // We already have a match for this name; append the current integer suffix to the base name and try again, incementing the integer suffix for the next attempt (if required).
                 newPackName = PackNameField.text + " " + packNum++;
@@ -159,7 +159,7 @@ namespace RealPop2
             // Set pack selection by iterating through each pack in the menu and looking for a match.
             for (int i = 0; i < packDropDown.items.Length; ++i)
             {
-                if (packDropDown.items[i].Equals(newPack.displayName))
+                if (packDropDown.items[i].Equals(newPack.DisplayName))
                 {
                     // Got a match; apply selected index and stop looping.
                     packDropDown.selectedIndex = i;
@@ -204,7 +204,6 @@ namespace RealPop2
             {
                 // Basic pack attributes.
                 floorPack.name = PackNameField.text;
-                floorPack.displayName = PackNameField.text;
                 floorPack.version = DataVersion.customOne;
 
                 // Textfields.
@@ -243,7 +242,7 @@ namespace RealPop2
             FloorDataPack floorPack = (FloorDataPack)packList[index];
 
             // Set name field.
-            PackNameField.text = floorPack.displayName ?? floorPack.name;
+            PackNameField.text = floorPack.DisplayName;
 
             // Populate controls.
             floorHeightField.text = Measures.LengthFromMetric(floorPack.floorHeight).ToString("N1");
@@ -268,7 +267,7 @@ namespace RealPop2
             {
                 // Found one - add to our lists.
                 packList.Add((FloorDataPack)calcPack);
-                packNames.Add(calcPack.displayName ?? calcPack.name);
+                packNames.Add(calcPack.DisplayName);
             }
 
             return packNames.ToArray();

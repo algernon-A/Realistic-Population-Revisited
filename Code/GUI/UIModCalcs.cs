@@ -263,7 +263,7 @@ namespace RealPop2
                 popMenu.items = new string[popPacks.Length];
                 for (int i = 0; i < popMenu.items.Length; ++i)
                 {
-                    popMenu.items[i] = popPacks[i].displayName;
+                    popMenu.items[i] = popPacks[i].DisplayName;
 
                     // Check for default name match,
                     if (popPacks[i].name.Equals(defaultPopPack.name))
@@ -285,7 +285,7 @@ namespace RealPop2
                 floorMenu.items = new string[floorPacks.Length];
                 for (int i = 0; i < floorPacks.Length; ++i)
                 {
-                    floorMenu.items[i] = floorPacks[i].displayName;
+                    floorMenu.items[i] = floorPacks[i].DisplayName;
 
                     // Check for default name match,
                     if (floorPacks[i].name.Equals(defaultFloorPack.name))
@@ -334,7 +334,7 @@ namespace RealPop2
                         schoolMenu.items = new string[schoolPacks.Length];
                         for (int i = 0; i < schoolMenu.items.Length; ++i)
                         {
-                            schoolMenu.items[i] = schoolPacks[i].displayName;
+                            schoolMenu.items[i] = schoolPacks[i].DisplayName;
 
                             // Check for default name match,
                             if (schoolPacks[i].name.Equals(defaultSchoolPack.name))
@@ -394,7 +394,7 @@ namespace RealPop2
             currentPopPack = popPack;
 
             // Update description.
-            popDescription.text = currentPopPack.description;
+            popDescription.text = currentPopPack.Description;
 
             // Check if we're using legacy or volumetric data.
             if (currentPopPack is VolumetricPopPack)
@@ -485,7 +485,7 @@ namespace RealPop2
             currentFloorPack = (FloorDataPack)floorPacks[index];
 
             // Update description.
-            floorDescription.text = currentFloorPack.description;
+            floorDescription.text = currentFloorPack.Description;
 
             // Update panel with new calculations, assuming that we're not using legacy or vanilla popultion calcs.
             volumetricPanel.UpdateFloorText(currentFloorPack);
@@ -509,7 +509,7 @@ namespace RealPop2
             currentSchoolPack = schoolPacks[index];
 
             // Update description.
-            schoolDescription.text = currentSchoolPack.description;
+            schoolDescription.text = currentSchoolPack.Description;
 
             // Update volumetric panel with new calculations.
             if (!usingLegacyOrVanilla)

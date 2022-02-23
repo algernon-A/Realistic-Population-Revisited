@@ -37,8 +37,8 @@ namespace RealPop2
             SchoolDataPack newPack = new SchoolDataPack
             {
                 name = "vanelem",
-                displayName = Translations.Translate("RPR_PCK_SVE_NAM"),
-                description = Translations.Translate("RPR_PCK_SVE_DES"),
+                nameKey = "RPR_PCK_SVE_NAM",
+                descriptionKey = "RPR_PCK_SVE_DES",
                 version = DataVersion.one,
                 level = ItemClass.Level.Level1,
                 baseWorkers = new int[] { 1, 2, 1, 0 },
@@ -54,8 +54,8 @@ namespace RealPop2
             newPack = new SchoolDataPack
             {
                 name = "vancom",
-                displayName = Translations.Translate("RPR_PCK_SVC_NAM"),
-                description = Translations.Translate("RPR_PCK_SVC_DES"),
+                nameKey = "RPR_PCK_SVC_NAM",
+                descriptionKey = "RPR_PCK_SVC_DES",
                 version = DataVersion.one,
                 level = ItemClass.Level.Level1,
                 baseWorkers = new int[] { 2, 2, 1, 1 },
@@ -71,8 +71,8 @@ namespace RealPop2
             newPack = new SchoolDataPack
             {
                 name = "vanhigh",
-                displayName = Translations.Translate("RPR_PCK_SVH_NAM"),
-                description = Translations.Translate("RPR_PCK_SVH_DES"),
+                nameKey = "RPR_PCK_SVH_NAM",
+                descriptionKey = "RPR_PCK_SVH_DES",
                 version = DataVersion.one,
                 level = ItemClass.Level.Level2,
                 baseWorkers = new int[] { 9, 11, 5, 1 },
@@ -88,8 +88,8 @@ namespace RealPop2
             newPack = new SchoolDataPack
             {
                 name = "vanart",
-                displayName = Translations.Translate("RPR_PCK_SVA_NAM"),
-                description = Translations.Translate("RPR_PCK_SVA_DES"),
+                nameKey = "RPR_PCK_SVA_NAM",
+                descriptionKey = "RPR_PCK_SVA_DES",
                 version = DataVersion.one,
                 level = ItemClass.Level.Level2,
                 baseWorkers = new int[] { 10, 20, 5, 1 },

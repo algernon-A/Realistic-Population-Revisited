@@ -84,7 +84,7 @@ namespace RealPop2
                 for (int j = 0; j < PopMenus[i].items.Length; ++j)
                 {
                     // Set menu item text.
-                    PopMenus[i].items[j] = AvailablePopPacks[i][j].displayName;
+                    PopMenus[i].items[j] = AvailablePopPacks[i][j].DisplayName;
 
                     // Check for default name match.
                     if (AvailablePopPacks[i][j].name.Equals(defaultPopPack.name))
@@ -104,7 +104,7 @@ namespace RealPop2
                 for (int j = 0; j < FloorMenus[i].items.Length; ++j)
                 {
                     // Set menu item text.
-                    FloorMenus[i].items[j] = AvailableFloorPacks[j].displayName;
+                    FloorMenus[i].items[j] = AvailableFloorPacks[j].DisplayName;
 
                     // Check for deefault name match.
                     if (AvailableFloorPacks[j].name.Equals(defaultFloorPack.name))
