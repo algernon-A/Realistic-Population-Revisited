@@ -15,6 +15,16 @@ namespace RealPop2
         {
             new WhatsNewMessage
             {
+                version = new Version("2.0.1.0"),
+                versionHeader = "",
+                messageKeys = true,
+                messages = new string[]
+                {
+                    "RPR_201_0"
+                }
+            },
+            new WhatsNewMessage
+            {
                 version = new Version("2.0.0.0"),
                 versionHeader = "",
                 messageKeys = true,
