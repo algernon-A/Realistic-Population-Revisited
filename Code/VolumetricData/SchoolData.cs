@@ -308,7 +308,7 @@ namespace RealPop2
                     SchoolAI thisAI = schoolAI;
                     ushort buildingID = (ushort)i;
 
-                    // Apply changes via call to EnsureCitizenUnits reverse patch in SimulationManager.
+                    // Apply changes via SimulationManager.
                     Singleton<SimulationManager>.instance.AddAction(delegate
                     {
                         int workCount = thisAI.m_workPlaceCount0 + thisAI.m_workPlaceCount1 + thisAI.m_workPlaceCount2 + thisAI.m_workPlaceCount3;
