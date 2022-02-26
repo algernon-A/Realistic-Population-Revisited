@@ -132,7 +132,6 @@ namespace RealPop2
         /// <param name="preserveOccupied">Preserve occupied residential households</param>
         internal static void RemoveCitizenUnits(ref Building building, int homeCount, int workCount, int visitCount, int studentCount, bool preserveOccupied)
         {
-
             // Local references.
             CitizenManager citizenManager = Singleton<CitizenManager>.instance;
             CitizenUnit[] citizenUnits = citizenManager.m_units.m_buffer;
@@ -158,7 +157,7 @@ namespace RealPop2
                     // Residential unit; are we still allocating homes, and if we're preserving occupied units, is it empty?
                     if (homeCount <= 0 && (!preserveOccupied || (citizenUnits[currentUnit].m_citizen0 + citizenUnits[currentUnit].m_citizen1 + citizenUnits[currentUnit].m_citizen2 + citizenUnits[currentUnit].m_citizen3 + citizenUnits[currentUnit].m_citizen4 == 0)))
                     {
-                        // Already have the maximum number of households, and iw.
+                        // Already have the maximum number of households, therefore this workplace unit is surplus to requirements - remove it.
                         removingFlag = (int)RemovingType.Household;
                     }
                     else
