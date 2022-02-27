@@ -182,5 +182,25 @@ namespace RealPop2
             Logging.Error(message, instance, level, r, width, length);
             throw new NotImplementedException(message);
         }
+
+
+        /// <summary>
+        /// Reverse patch for SchoolAI.StudentCount to access original game method without any Harmony patches (including ours).
+        /// </summary>
+        /// <param name="instance">Object instance</param>
+        /// <param name="level">Building level</param>
+        /// <param name="r">Randomizer</param>
+        /// <param name="width">Building lot width (in cells)</param>
+        /// <param name="length">Building lot depth (in cells)</param>
+        /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied</exception>
+        [HarmonyReversePatch]
+        [HarmonyPatch((typeof(SchoolAI)), nameof(SchoolAI.StudentCount), MethodType.Getter)]
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static int StudentCount(object instance)
+        {
+            string message = "SchoolAI.StudentCount reverse Harmony patch wasn't applied";
+            Logging.Error(message, instance);
+            throw new NotImplementedException(message);
+        }
     }
 }

@@ -82,11 +82,19 @@ namespace RealPop2
         /// <param name="level">Building level</param>
         /// <returns>Workplace breakdowns and visitor count </returns>
         public virtual WorkplaceLevels Workplaces(BuildingInfo buildingPrefab, int level) => new WorkplaceLevels {  level0 = 1, level1 = 0, level2 = 0, level3 = 0};
+
+
+        /// <summary>
+        /// Returns the student count for the given building prefab and level.
+        /// </summary>
+        /// <param name="buildingPrefab">Building prefab record</param>
+        /// <returns>Student count (0 if not a school building)</returns>
+        public virtual int Students(BuildingInfo buildingPrefab) => buildingPrefab.m_buildingAI is SchoolAI ? Population(buildingPrefab, (int)buildingPrefab.m_class.m_level, Multipliers.instance.ActiveMultiplier(buildingPrefab)) : 0;
     }
 
 
     /// <summary>
-    /// Population clculation data pack - provides parameters for calculating building populations.
+    /// Population calculation data pack - provides parameters for calculating building populations.
     /// </summary>
     public class SchoolDataPack : DataPack
     {
@@ -307,6 +315,25 @@ namespace RealPop2
                 level2 = (ushort)workLevel2,
                 level3 = (ushort)workLevel3
             };
+        }
+
+
+        /// <summary>
+        /// Returns the vanilla student count for the given building prefab and level.
+        /// </summary>
+        /// <param name="buildingPrefab">Building prefab record</param>
+        /// <returns>Workplace breakdown</returns>
+        public override int Students(BuildingInfo buildingPrefab)
+        {
+            // Set m_studentCount to original value.
+            if (buildingPrefab.m_buildingAI is SchoolAI schoolAI)
+            {
+                schoolAI.m_studentCount = SchoolData.instance.OriginalStudentCount(buildingPrefab);
+                return VanillaPopMethods.StudentCount(schoolAI);
+            }
+
+            // If we got here, no valid vanilla settings were found; return 0.
+            return 0;
         }
     }
 }

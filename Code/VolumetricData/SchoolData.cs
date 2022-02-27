@@ -11,6 +11,7 @@ namespace RealPop2
     /// </summary>
     public class OriginalSchoolStats
     {
+        public int students;
         public int jobs0, jobs1, jobs2, jobs3;
         public int cost, maintenance;
     }
@@ -100,6 +101,30 @@ namespace RealPop2
                 maintPer = 5
             };
             calcPacks.Add(newPack);
+        }
+
+
+        /// <summary>
+        /// Returns the original student count for the given school prefab.
+        /// </summary>
+        /// <param name="building">Building prefab</param>
+        /// <returns>Original student count, if available (300 if no record available)</returns>
+        internal int OriginalStudentCount(BuildingInfo prefab)
+        {
+            if (originalStats == null)
+            {
+                if (prefab.m_buildingAI is SchoolAI schoolAI)
+                {
+                    return schoolAI.m_studentCount;
+                }
+            }
+            else if (originalStats.ContainsKey(prefab.name))
+            {
+                return originalStats[prefab.name].students;
+            }
+
+            // If we got here, no record was found; return 300 (vanilla elementary).
+            return 300;
         }
 
 
@@ -255,6 +280,7 @@ namespace RealPop2
                     // Found a school; add it to our dictionary.
                     originalStats.Add(building.name, new OriginalSchoolStats
                     {
+                        students = schoolAI.m_studentCount,
                         jobs0 = schoolAI.m_workPlaceCount0,
                         jobs1 = schoolAI.m_workPlaceCount1,
                         jobs2 = schoolAI.m_workPlaceCount2,
@@ -262,6 +288,8 @@ namespace RealPop2
                         cost = schoolAI.m_constructionCost,
                         maintenance = schoolAI.m_maintenanceCost
                     });
+
+                    Logging.KeyMessage("found school prefab ", building.name, " with student count ", schoolAI.m_studentCount);
 
                     // If setting is set, get currently active pack and apply it.
                     if (ModSettings.enableSchoolProperties)
@@ -305,6 +333,7 @@ namespace RealPop2
                 if (thisInfo?.m_buildingAI is SchoolAI schoolAI && thisInfo.m_class.m_level <= ItemClass.Level.Level2)
                 {
                     // Found a school - set local references for passing to SimulationManager.
+                    Logging.KeyMessage("updating school building ", i, ": ", thisInfo.name, " to student count of ", schoolAI.StudentCount);
                     SchoolAI thisAI = schoolAI;
                     ushort buildingID = (ushort)i;
 
@@ -406,7 +435,7 @@ namespace RealPop2
                 schoolAI.m_constructionCost = CalcCost(schoolPack, schoolAI.StudentCount);
                 schoolAI.m_maintenanceCost = CalcMaint(schoolPack, schoolAI.StudentCount);
 
-                // Force update of m_studentCount.
+                // Update prefab population record.
                 schoolAI.m_studentCount = schoolAI.StudentCount;
 
                 // Update prefab and tooltip.
@@ -435,8 +464,13 @@ namespace RealPop2
                 return;
             }
 
+            Logging.KeyMessage("updating school prefab ", prefab.name, " with studentCount ", schoolAI.m_studentCount);
+            Logging.KeyMessage("applying calculation pack ", PopData.instance.ActivePack(prefab).DisplayName, " with multiplier ", Multipliers.instance.ActiveMultiplier(prefab));
+
             // Update prefab population record.
             schoolAI.m_studentCount = schoolAI.StudentCount;
+
+            Logging.KeyMessage("new student count is ", schoolAI.m_studentCount);
 
             // Update tooltip.
             UpdateSchoolTooltip(prefab);

@@ -31,6 +31,14 @@ namespace RealPop2
 
 
         /// <summary>
+        /// Returns the student count for the given building prefab.
+        /// </summary>
+        /// <param name="prefab">Building prefab</param>
+        /// <returns>Student count</returns>
+        internal int Students(BuildingInfo buildingPrefab) => ((PopDataPack)ActivePack(buildingPrefab)).Students(buildingPrefab);
+
+
+        /// <summary>
         /// Adds or updates cached housholds for the specified building prefab and level.
         /// </summary>
         /// <param name="info">BuildingInfo to cache for</param>
