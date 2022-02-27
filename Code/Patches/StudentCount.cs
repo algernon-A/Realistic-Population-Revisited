@@ -17,15 +17,22 @@ namespace RealPop2
         /// <returns></returns>
         public static bool Prefix(SchoolAI __instance, ref int __result)
         {
-            // Check to see if we're using realistic school populations, and school level is elementary or high school.
-            if (ModSettings.EnableSchoolPop && __instance.m_info.GetClassLevel() <= ItemClass.Level.Level2)
+            // Check to see if school level is elementary or high school.
+            BuildingInfo thisInfo = __instance.m_info;
+            if (thisInfo.GetClassLevel() <= ItemClass.Level.Level2)
             {
-                // We are - set the result to our realistic population lookup.
-                BuildingInfo thisInfo = __instance.m_info;
-                __result = PopData.instance.Students(thisInfo);
+                // It's a school - check to see if we're using custom school calculations.
+                if (ModSettings.EnableSchoolPop)
+                {
+                    // Custom calcs enabled - set the result to our realistic population lookup.
+                    __result = PopData.instance.Students(thisInfo);
 
-                // Don't continue on to original method.
-                return false;
+                    // Don't continue on to original method.
+                    return false;
+                }
+
+                // Not using custom calcs - ensure default is set.
+                __instance.m_studentCount = SchoolData.instance.OriginalStudentCount(thisInfo);
             }
 
             // Not using realistic school populations - continue on to original method.

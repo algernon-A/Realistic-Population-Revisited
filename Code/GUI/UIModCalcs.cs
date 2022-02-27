@@ -316,6 +316,9 @@ namespace RealPop2
                     // Yes - school building.  Set current pack.
                     currentSchoolPack = (SchoolDataPack)SchoolData.instance.ActivePack(building);
 
+                    // Hide vanilla panel.
+                    vanillaPanel.Hide();
+
                     // Are we using custom school settings?
                     if (ModSettings.enableSchoolProperties)
                     {

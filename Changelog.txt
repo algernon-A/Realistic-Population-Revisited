@@ -1,6 +1,7 @@
 Version 2.0.1 -
 
 - Add option to display units in US customary measures (does not apply to legacy calculations)
+- Enabling/disabling custom school population counts no longer requires a restart
 - Implement caching of visitor count calculations
 - Automatically refresh options panel on language or measurement unit change
 

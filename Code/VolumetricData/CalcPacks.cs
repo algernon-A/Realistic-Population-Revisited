@@ -81,15 +81,33 @@ namespace RealPop2
         /// <param name="buildingPrefab">Building prefab record</param>
         /// <param name="level">Building level</param>
         /// <returns>Workplace breakdowns and visitor count </returns>
-        public virtual WorkplaceLevels Workplaces(BuildingInfo buildingPrefab, int level) => new WorkplaceLevels {  level0 = 1, level1 = 0, level2 = 0, level3 = 0};
+        public virtual WorkplaceLevels Workplaces(BuildingInfo buildingPrefab, int level) => new WorkplaceLevels { level0 = 1, level1 = 0, level2 = 0, level3 = 0 };
 
 
         /// <summary>
-        /// Returns the student count for the given building prefab and level.
+        /// Returns the student count for the given building prefab.
         /// </summary>
         /// <param name="buildingPrefab">Building prefab record</param>
         /// <returns>Student count (0 if not a school building)</returns>
-        public virtual int Students(BuildingInfo buildingPrefab) => buildingPrefab.m_buildingAI is SchoolAI ? Population(buildingPrefab, (int)buildingPrefab.m_class.m_level, Multipliers.instance.ActiveMultiplier(buildingPrefab)) : 0;
+        public virtual int Students(BuildingInfo buildingPrefab)
+        {
+            // Check for school.
+            if (buildingPrefab.m_buildingAI is SchoolAI)
+            {
+                // It's a school; are custom school calcs enabled?
+                if (ModSettings.EnableSchoolPop)
+                {
+                    // Custom calcs enabled - use pack.
+                    return Population(buildingPrefab, (int)buildingPrefab.m_class.m_level, Multipliers.instance.ActiveMultiplier(buildingPrefab));
+                }
+
+                // Custom school settings not enabled; use default.
+                return SchoolData.instance.OriginalStudentCount(buildingPrefab);
+            }
+
+            // If we got here, it's not a school building; return 0.
+            return 0;
+        }
     }
 
 

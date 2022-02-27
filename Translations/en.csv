@@ -230,7 +230,7 @@ RPR_OPT_RTD,Reset to defaults
 RPR_OPT_RTS,Revert to saved
 RPR_OPT_SAA,Save and apply
 RPR_OPT_SCH,Schools
-RPR_OPT_SEN,Enable realistic school student capacities - requires restart
+RPR_OPT_SEN,Enable realistic school student capacities
 RPR_OPT_SEJ,"Enable realistic school properties (jobs, costs) - requires restart"
 RPR_OPT_SDM,Default school capacity multiplier
 RPR_OPT_JB0,Uneducated jobs
