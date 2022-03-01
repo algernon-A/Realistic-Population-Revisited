@@ -254,6 +254,7 @@
 "RPR_OPT_NEW","Agregar nuevo"
 "RPR_OPT_DEL","Borrar paquete"
 "RPR_OPT_NPK","Nuevo paquete"
+"RPR_OPT_MEA","Mostrar cifras en unidades imperiales (en lugar de métricas)"
 "RPR_OPT_LDT","Habilitar el registro de depuración detallado"
 "RPR_DEF_LGR","Usar cálculos antiguos (WG original y ""Realistic Population Revisited"" versión 1) por defecto para edificios residenciales:"
 "RPR_DEF_LGC","Usar cálculos antiguos (WG original y ""Realistic Population Revisited"" versión 1) por defecto para edificios comerciales:"
@@ -306,3 +307,4 @@
 "RPR_200_7","Varias mejoras al panel de detalles de los edificios"
 "RPR_200_8","Detección y notificación de conflictos de mods mejorados"
 "RPR_200_9","Reparación, limpieza y reestructuración significativas del código base del mod"
+"RPR_201_0","Añadir opción para usar medidas imperiales (pies y pies cuadrados) en lugar de mediciones métricas"

@@ -254,6 +254,7 @@
 "RPR_OPT_NEW","Neu hinzufügen"
 "RPR_OPT_DEL","Paket löschen"
 "RPR_OPT_NPK","Neues Paket"
+"RPR_OPT_MEA","Zahlen in den US-Zolleinheiten anzeigen (statt metrisch)"
 "RPR_OPT_LDT","Aktiviert detaillierte Debugging-Protokollierung"
 "RPR_DEF_LGR","Verwendet alte Berechnungen (WG-Original und Realistic Population Revisited Version 1) standardmäßig für Wohngebäude:"
 "RPR_DEF_LGC","Verwendet alte Berechnungen (WG-Original und Realistic Population Revisited Version 1) standardmäßig für Gewerbegebäude:"
@@ -306,3 +307,4 @@
 "RPR_200_7","Verschiedene Verbesserungen an der Gebäudedetailseite"
 "RPR_200_8","Verbesserte Mod-Konflikterkennung und Benachrichtigung"
 "RPR_200_9","Wichtige Überarbeitung, Bereinigung und Restrukturierung der Codebase des Mods"
+"RPR_201_0","Fügen Sie die Option hinzu, anstelle von metrischen Messungen die üblichen US-Maßeinheiten zu verwenden (feet und square feet)"
