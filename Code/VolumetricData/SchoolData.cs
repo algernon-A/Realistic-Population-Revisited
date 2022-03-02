@@ -105,14 +105,16 @@ namespace RealPop2
 
 
         /// <summary>
-        /// Returns the original student count for the given school prefab.
+        /// Returns the original student count for the given school prefab (overriding with any manual figure).
         /// </summary>
         /// <param name="building">Building prefab</param>
-        /// <returns>Original student count, if available (300 if no record available)</returns>
+        /// <returns>Original student count, if available, overridden by any manual figure (300 if no record available)</returns>
         internal int OriginalStudentCount(BuildingInfo prefab)
         {
+            // Has the original stats dictionary been initialized yet (i.e. are we still loading)?
             if (originalStats == null)
             {
+                // Not yet initialized - use raw prefab value.
                 if (prefab.m_buildingAI is SchoolAI schoolAI)
                 {
                     return schoolAI.m_studentCount;
@@ -120,6 +122,14 @@ namespace RealPop2
             }
             else if (originalStats.ContainsKey(prefab.name))
             {
+                // Original stats dictionary initialized - check for any override.
+                ushort value = PopData.instance.GetOverride(prefab.name);
+                if (value > 0)
+                {
+                    // Manual override present - use that value.
+                    return value;
+                }
+                // No override - retrieve stored value.
                 return originalStats[prefab.name].students;
             }
 
