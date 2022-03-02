@@ -97,7 +97,14 @@ namespace RealPop2
                 // It's a school; are custom school calcs enabled?
                 if (ModSettings.EnableSchoolPop)
                 {
-                    // Custom calcs enabled - use pack.
+                    // Custom calcs enabled - check for any override.
+                    ushort value = PopData.instance.GetOverride(buildingPrefab.name);
+                    if (value > 0)
+                    {
+                        // Manual override present - use that value.
+                        return value;
+                    }
+                    // No override - use pack value.
                     return Population(buildingPrefab, (int)buildingPrefab.m_class.m_level, Multipliers.instance.ActiveMultiplier(buildingPrefab));
                 }
 
