@@ -420,7 +420,14 @@ namespace RealPop2
         /// Updates a school prefab record (and associated tooltip) with updated population.
         /// </summary>
         /// <param name="prefab">Prefab to update</param>
-        internal void UpdateSchoolPrefab(BuildingInfo prefab) => UpdateSchoolPrefab(prefab, prefab.GetAI() as SchoolAI);
+        internal void UpdateSchoolPrefab(BuildingInfo prefab)
+        {
+            // Update prefab.
+            UpdateSchoolPrefab(prefab, prefab.GetAI() as SchoolAI);
+
+            // Update existing school buildings via SimulationManager.
+            Singleton<SimulationManager>.instance.AddAction(delegate { UpdateSchools(prefab); });
+        }
 
 
         /// <summary>
