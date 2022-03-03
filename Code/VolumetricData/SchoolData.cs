@@ -146,15 +146,40 @@ namespace RealPop2
         /// <param name="pack">New data pack to apply</param>
         internal override void UpdateBuildingPack(BuildingInfo prefab, DataPack pack)
         {
-            // Don't do anything if not a valid school pack.
+            // Check for volumetric school pack.
             if (pack is SchoolDataPack schoolPack)
             {
-                // Call base to update dictionary.
-                base.UpdateBuildingPack(prefab, pack);
-
                 // Apply settings to prefab.
                 ApplyPack(prefab, schoolPack);
             }
+            else if (pack is VanillaPack vanillaPack && prefab?.m_buildingAI is SchoolAI schoolAI && originalStats.TryGetValue(prefab.name, out OriginalSchoolStats vanillaStats))
+            {
+                // Vanilla school - restore worker counts.
+                schoolAI.m_workPlaceCount0 = vanillaStats.jobs0;
+                schoolAI.m_workPlaceCount1 = vanillaStats.jobs1;
+                schoolAI.m_workPlaceCount2 = vanillaStats.jobs2;
+                schoolAI.m_workPlaceCount3 = vanillaStats.jobs3;
+
+                // Restore costs and maintenance.
+                schoolAI.m_constructionCost = vanillaStats.cost;
+                schoolAI.m_maintenanceCost = vanillaStats.maintenance;
+
+                // Update prefab and tooltip.
+                UpdateSchoolPrefab(prefab, schoolAI);
+            }
+            else
+            {
+                // Something went wong - return without doing anything.
+                Logging.Error("invalid parameter passed to SchoolData.UpdateBuildingPack");
+                return;
+            }
+
+            // Call base to update dictionary.
+            base.UpdateBuildingPack(prefab, pack);
+
+            // Update existing school buildings.
+            BuildingInfo thisPrefab = prefab;
+            Singleton<SimulationManager>.instance.AddAction(delegate { UpdateSchools(thisPrefab); });
         }
 
 
@@ -319,8 +344,9 @@ namespace RealPop2
 
         /// <summary>
         /// Updates all school prefabs (e.g. when the global multiplier has changed).
+        /// Should only be called via simulation thread.
         /// </summary>
-        internal void UpdateSchools()
+        internal void UpdateSchoolPrefabs()
         {
             // Iterate through all loaded building prefabs.
             for (uint i = 0; i < PrefabCollection<BuildingInfo>.LoadedCount(); ++i)
@@ -335,27 +361,8 @@ namespace RealPop2
                 }
             }
 
-            // Update school instances.
-            Building[] buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
-            for (int i = 0; i < buildingBuffer.Length; ++i)
-            {
-                BuildingInfo thisInfo = buildingBuffer[i].Info;
-                if (thisInfo?.m_buildingAI is SchoolAI schoolAI && thisInfo.m_class.m_level <= ItemClass.Level.Level2)
-                {
-                    // Found a school - set local references for passing to SimulationManager.
-                    Logging.KeyMessage("updating school building ", i, ": ", thisInfo.name, " to student count of ", schoolAI.StudentCount);
-                    SchoolAI thisAI = schoolAI;
-                    ushort buildingID = (ushort)i;
-
-                    // Apply changes via SimulationManager.
-                    Singleton<SimulationManager>.instance.AddAction(delegate
-                    {
-                        int workCount = thisAI.m_workPlaceCount0 + thisAI.m_workPlaceCount1 + thisAI.m_workPlaceCount2 + thisAI.m_workPlaceCount3;
-                        Singleton<CitizenManager>.instance.CreateUnits(out _, ref Singleton<SimulationManager>.instance.m_randomizer, buildingID, 0, 0, workCount, 0, 0, thisAI.StudentCount * 5 / 4);
-                        CitizenUnitUtils.RemoveCitizenUnits(ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], 0, workCount, 0, thisAI.StudentCount, false);
-                    });
-                }
-            }
+            // Update school buildings.
+            UpdateSchools(null);
         }
 
 
@@ -410,6 +417,42 @@ namespace RealPop2
 
 
         /// <summary>
+        /// Updates a school prefab record (and associated tooltip) with updated population.
+        /// </summary>
+        /// <param name="prefab">Prefab to update</param>
+        internal void UpdateSchoolPrefab(BuildingInfo prefab) => UpdateSchoolPrefab(prefab, prefab.GetAI() as SchoolAI);
+
+
+        /// <summary>
+        /// Updates all school buildings matching the given prefab, or all school buildings if no prefab is specified, to current settings.
+        /// Should only be called via simulation thread.
+        /// <param name="schoolPrefab">Building prefab to update (null to update all schools)</param>
+        /// </summary>
+        internal void UpdateSchools(BuildingInfo schoolPrefab)
+        {
+            // Iterate through all buildings looking for schools.
+            Building[] buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
+            for (int i = 0; i < buildingBuffer.Length; ++i)
+            {
+                // Is this a valid building?
+                if ((buildingBuffer[i].m_flags & Building.Flags.Created) != Building.Flags.None)
+                {
+                    // Valid building - check for a prefab match (if applicable), and school AI type and level.
+                    BuildingInfo thisInfo = buildingBuffer[i].Info;
+                    if (thisInfo != null && (schoolPrefab == null || schoolPrefab == thisInfo) && thisInfo.m_buildingAI is SchoolAI schoolAI && thisInfo.m_class.m_level <= ItemClass.Level.Level2)
+                    {
+                        // Found a school - apply changes to citizen units.
+                        int workCount = schoolAI.m_workPlaceCount0 + schoolAI.m_workPlaceCount1 + schoolAI.m_workPlaceCount2 + schoolAI.m_workPlaceCount3;
+                        int studentCount = schoolAI.StudentCount * 5 / 4; // Game ratio.
+                        CitizenUnitUtils.EnsureCitizenUnits(schoolAI, (ushort)i, ref buildingBuffer[i], 0, workCount, 0, studentCount);
+                        CitizenUnitUtils.RemoveCitizenUnits(ref buildingBuffer[i], 0, workCount, 0, studentCount, false);
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Applies a school data pack to a school prefab.
         /// </summary>
         /// <param name="prefab">School prefab to apply to</param>
@@ -445,20 +488,10 @@ namespace RealPop2
                 schoolAI.m_constructionCost = CalcCost(schoolPack, schoolAI.StudentCount);
                 schoolAI.m_maintenanceCost = CalcMaint(schoolPack, schoolAI.StudentCount);
 
-                // Update prefab population record.
-                schoolAI.m_studentCount = schoolAI.StudentCount;
-
                 // Update prefab and tooltip.
                 UpdateSchoolPrefab(prefab, schoolAI);
             }
         }
-
-
-        /// <summary>
-        /// Updates a school prefab record (and associated tooltip) with updated population.
-        /// </summary>
-        /// <param name="prefab">Prefab to update</param>
-        internal void UpdateSchoolPrefab(BuildingInfo prefab) => UpdateSchoolPrefab(prefab, prefab.GetAI() as SchoolAI);
 
 
         /// <summary>

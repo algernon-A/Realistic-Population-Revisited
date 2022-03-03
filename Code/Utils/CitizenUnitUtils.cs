@@ -69,55 +69,14 @@ namespace RealPop2
         /// <param name="preserveOccupied">Set to true to preserve occupied residential households from removal, false otherwise</param>
         internal static void UpdateCitizenUnits(string prefabName, ItemClass.Service service, ItemClass.SubService subService, bool preserveOccupied)
         {
-            // Local references.
-            CitizenManager citizenManager = Singleton<CitizenManager>.instance;
-            Building[] buildingBuffer = Singleton<BuildingManager>.instance?.m_buildings?.m_buffer;
-
-            // Don't do anything if we couldn't get the building buffer or if we're not in-game.
-            if (buildingBuffer == null || Singleton<ToolManager>.instance?.m_properties?.m_mode != ItemClass.Availability.Game)
+            // Don't do anything if we're not in-game.
+            if (Singleton<ToolManager>.instance?.m_properties?.m_mode != ItemClass.Availability.Game)
             {
                 return;
             }
 
-            // Iterate through each building in the scene.
-            for (ushort i = 0; i < buildingBuffer.Length; i++)
-            {
-                // Get current building instance.
-                Building thisBuilding = buildingBuffer[i];
-
-                // Only interested in buildings with private AI.
-                if (thisBuilding.Info?.GetAI() is PrivateBuildingAI privateAI)
-                {
-                    // Residential building; check that either the supplier prefab name is null or it matches this building's prefab.
-                    if ((prefabName == null || thisBuilding.Info.name.Equals(prefabName)) && ((service != ItemClass.Service.None && thisBuilding.Info.GetService() == service) || (subService != ItemClass.SubService.None && thisBuilding.Info.GetSubService() == subService)))
-                    {
-                        // Got one!  Log initial status.
-                        Logging.Message("Identified building ", i, " (", thisBuilding.Info.name, ") with ", CountCitizenUnits(ref thisBuilding), " CitizenUnits");
-
-                        // Recalculate home and visit counts.
-                        privateAI.CalculateWorkplaceCount((ItemClass.Level)thisBuilding.m_level, new Randomizer(i), thisBuilding.Width, thisBuilding.Length, out int level0, out int level1, out int level2, out int level3);
-                        int workCount = level0 + level1 + level2 + level3;
-                        int homeCount = privateAI.CalculateHomeCount((ItemClass.Level)thisBuilding.m_level, new Randomizer(i), thisBuilding.Width, thisBuilding.Length);
-                        int visitCount = privateAI.CalculateVisitplaceCount((ItemClass.Level)thisBuilding.m_level, new Randomizer(i), thisBuilding.Width, thisBuilding.Length);
-
-                        // Local references for passing to SimulationManager.
-                        PrivateBuildingAI thisAI = privateAI;
-                        ushort buildingID = i;
-                        bool localPreserve = preserveOccupied;
-
-                        // Apply changes via call to EnsureCitizenUnits reverse patch in SimulationManager.
-                        Singleton<SimulationManager>.instance.AddAction(delegate { EnsureCitizenUnits(thisAI, buildingID, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], homeCount, workCount, visitCount, 0); });
-
-                        // Remove any extra CitizenUnits in SimulationManager.
-                        Singleton<SimulationManager>.instance.AddAction(delegate { RemoveCitizenUnits(ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], homeCount, workCount, visitCount, 0, localPreserve); });
-
-                        // Log changes.
-                        Logging.Message("Reset CitizenUnits for building ", i, " (", thisBuilding.Info.name, "); building now has ", CountCitizenUnits(ref thisBuilding), " CitizenUnits, and total CitizenUnit count is now ", citizenManager.m_unitCount);
-                    }
-                }
-            }
-
-            Logging.Message("CitizenUnit count is now ", citizenManager.m_unitCount);
+            // Apply via SimulationManager action.
+            Singleton<SimulationManager>.instance.AddAction(delegate { RecalculateCitizenUnits(prefabName, service, subService, preserveOccupied); });
         }
 
 
@@ -250,6 +209,65 @@ namespace RealPop2
 
                 // Move on to next unit.
                 currentUnit = nextUnit;
+            }
+        }
+
+
+        /// <summary>
+        /// Updates the CitizenUnits of already existing (placed/grown) building instances of the specified prefab, or all buildings of the specified service or subservice if prefab name is null.
+        /// Called after updating a prefab's household/worker/visitor count, or when applying new default calculations, in order to apply changes to existing buildings.
+        /// </summary>
+        /// <param name="prefabName">The (raw BuildingInfo) name of the prefab (null to ignore name match)</param>
+        /// <param name="service">The service to apply to (ignored if 'none')</param>
+        /// <param name="subService">The subservice to apply to (ignored if 'none')</param>
+        /// <param name="preserveOccupied">Set to true to preserve occupied residential households from removal, false otherwise</param>
+        private static void RecalculateCitizenUnits(string prefabName, ItemClass.Service service, ItemClass.SubService subService, bool preserveOccupied)
+        {
+            // Local references.
+            CitizenManager citizenManager = Singleton<CitizenManager>.instance;
+            Building[] buildingBuffer = Singleton<BuildingManager>.instance?.m_buildings?.m_buffer;
+
+            // Don't do anything if we couldn't get the building buffer.
+            if (buildingBuffer == null)
+            {
+                return;
+            }
+
+            // Iterate through each building in the scene.
+            for (ushort i = 0; i < buildingBuffer.Length; i++)
+            {
+                // Only interested in created buildings with private AI.
+                if ((buildingBuffer[i].m_flags & Building.Flags.Created) != Building.Flags.None)
+                {
+                    BuildingInfo buildingInfo = buildingBuffer[i].Info;
+                    if (buildingBuffer[i].Info?.GetAI() is PrivateBuildingAI privateAI)
+                    {
+                        // Residential building; check that either the supplier prefab name is null or it matches this building's prefab.
+                        if ((prefabName == null || buildingBuffer[i].Info.name.Equals(prefabName)) && ((service != ItemClass.Service.None && buildingInfo.GetService() == service) || (subService != ItemClass.SubService.None && buildingInfo.GetSubService() == subService)))
+                        {
+                            // Got one!  Log initial status.
+                            Logging.Message("Identified building ", i, " (", buildingBuffer[i].Info.name, ") with ", CountCitizenUnits(ref buildingBuffer[i]), " CitizenUnits");
+
+                            // Recalculate home and visit counts.
+                            ItemClass.Level buildingLevel = (ItemClass.Level)buildingBuffer[i].m_level;
+                            byte buildingWidth = buildingBuffer[i].m_width;
+                            byte buildingLength = buildingBuffer[i].m_length;
+                            privateAI.CalculateWorkplaceCount(buildingLevel, new Randomizer(i), buildingWidth, buildingLength, out int level0, out int level1, out int level2, out int level3);
+                            int workCount = level0 + level1 + level2 + level3;
+                            int homeCount = privateAI.CalculateHomeCount(buildingLevel, new Randomizer(i), buildingWidth, buildingLength);
+                            int visitCount = privateAI.CalculateVisitplaceCount(buildingLevel, new Randomizer(i), buildingWidth, buildingLength);
+
+                            // Add CitizenUnits via EnsureCitizenUnits reverse patch..
+                            EnsureCitizenUnits(privateAI, i, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[i], homeCount, workCount, visitCount, 0);
+
+                            // Remove any extra CitizenUnits.
+                            RemoveCitizenUnits(ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[i], homeCount, workCount, visitCount, 0, preserveOccupied);
+
+                            // Log changes.
+                            Logging.Message("Reset CitizenUnits for building ", i, " (", buildingInfo.name, "); building now has ", CountCitizenUnits(ref buildingBuffer[i]), " CitizenUnits, and total CitizenUnit count is now ", citizenManager.m_unitCount);
+                        }
+                    }
+                }
             }
         }
 

@@ -1,3 +1,6 @@
+E- Additional checks to ensure workplace and cost settings are reset and free any unused CitizenUnits when converting to/from vanilla school settings
+
+
 Version 2.0.1.1 hotfix -
 
 - Fix regression with school student count overrides

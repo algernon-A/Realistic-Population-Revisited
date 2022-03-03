@@ -168,10 +168,7 @@ namespace RealPop2
             set
             {
                 enableSchoolPop = value;
-                if (Singleton<LoadingManager>.instance.m_loadingComplete)
-                {
-                    SchoolData.instance.UpdateSchools();
-                }
+                UpdateSchools(null);
             }
         }
 
@@ -188,10 +185,22 @@ namespace RealPop2
             set
             {
                 defaultSchoolMult = value;
-                if (Singleton<LoadingManager>.instance.m_loadingComplete)
-                {
-                    SchoolData.instance.UpdateSchools();
-                }
+                UpdateSchools(null);
+            }
+        }
+
+
+        /// <summary>
+        /// Triggers an update of existing school buildings to current settings, if loading is complete.
+        /// </summary>
+        /// <param name="schoolPrefab>Building prefab to update (null to update all schools)</param>
+        private static void UpdateSchools(BuildingInfo schoolPrefab)
+        {
+            // Check for loading complete.
+            if (Singleton<LoadingManager>.instance.m_loadingComplete)
+            {
+                // Update school buildings via simulation thread.
+                Singleton<SimulationManager>.instance.AddAction(delegate { SchoolData.instance.UpdateSchoolPrefabs(); });
             }
         }
 
