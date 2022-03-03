@@ -1,4 +1,6 @@
-- Fix school workplace and cost settings not being reset when converting to/from vanilla school pack and via overrides
+Version 2.0.1.2 hotfix -
+
+- Fix custom school workplace and cost settings not being reset when converting to/from vanilla school pack and via overrides
 
 
 Version 2.0.1.1 hotfix -
