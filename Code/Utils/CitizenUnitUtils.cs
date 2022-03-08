@@ -14,19 +14,7 @@ namespace RealPop2
     public static class CitizenUnitUtils
     {
         /// <summary>
-        /// CitizenUnit removal flag enum.
-        /// </summary>
-        private enum RemovingType
-        {
-            NotRemoving = 0,
-            Household = 1,
-            Workplace = 2,
-            Visitplace = 3
-        }
-
-
-        /// <summary>
-        /// Reverse patch for ResidentAI.FinishSchoolOrWork to access private method of original instance.
+        /// Reverse patch for CitizenManager.EnsureCitizenUnits to access private method of original instance.
         /// </summary>
         /// <param name="instance">Object instance</param>
         /// <param name="citizenID">ID of this citizen (for game method)</param>
@@ -43,7 +31,7 @@ namespace RealPop2
 
 
         /// <summary>
-        /// Reverse patch for ResidentAI.FinishSchoolOrWork to access private method of original instance.
+        /// Reverse patch for CitizenManager.ReleaseUnitImplementation to access private method of original instance.
         /// </summary>
         /// <param name="instance">Object instance</param>
         /// <param name="citizenID">ID of this citizen (for game method)</param>
@@ -94,10 +82,9 @@ namespace RealPop2
             // Local references.
             CitizenManager citizenManager = Singleton<CitizenManager>.instance;
             CitizenUnit[] citizenUnits = citizenManager.m_units.m_buffer;
-            Citizen[] citizens = citizenManager.m_citizens.m_buffer;
 
-
-            uint previousUnit = building.m_citizenUnits;
+            // Set starting unit references.
+            uint previousUnit = 0;
             uint currentUnit = building.m_citizenUnits;
 
             // Keep looping through all CitizenUnits in this building until the end.
@@ -108,16 +95,16 @@ namespace RealPop2
                 uint nextUnit = citizenUnits[currentUnit].m_nextUnit;
 
                 // Status flag.
-                int removingFlag = (int)RemovingType.NotRemoving;
+                bool removingFlag = false;
 
                 // Is this a residential unit?
                 if ((ushort)(unitFlags & CitizenUnit.Flags.Home) != 0)
                 {
                     // Residential unit; are we still allocating homes, and if we're preserving occupied units, is it empty?
-                    if (homeCount <= 0 && (!preserveOccupied || (citizenUnits[currentUnit].m_citizen0 + citizenUnits[currentUnit].m_citizen1 + citizenUnits[currentUnit].m_citizen2 + citizenUnits[currentUnit].m_citizen3 + citizenUnits[currentUnit].m_citizen4 == 0)))
+                    if (homeCount <= 0 && (citizenUnits[currentUnit].m_citizen0 + citizenUnits[currentUnit].m_citizen1 + citizenUnits[currentUnit].m_citizen2 + citizenUnits[currentUnit].m_citizen3 + citizenUnits[currentUnit].m_citizen4 == 0))
                     {
                         // Already have the maximum number of households, therefore this workplace unit is surplus to requirements - remove it.
-                        removingFlag = (int)RemovingType.Household;
+                        removingFlag = true;
                     }
                     else
                     {
@@ -126,13 +113,13 @@ namespace RealPop2
                     }
                 }
                 // Is this a workplace unit?
-                if ((ushort)(unitFlags & CitizenUnit.Flags.Work) != 0)
+                else if ((ushort)(unitFlags & CitizenUnit.Flags.Work) != 0)
                 {
                     // Workplace unit; are we still allocating to workplaces?
                     if (workCount <= 0)
                     {
                         // Not allocating any more, therefore this workplace unit is surplus to requirements - remove it.
-                        removingFlag = (int)RemovingType.Workplace;
+                        removingFlag = true;
                     }
                     else
                     {
@@ -140,13 +127,13 @@ namespace RealPop2
                         workCount -= 5;
                     }
                 }
-                if ((ushort)(unitFlags & CitizenUnit.Flags.Visit) != 0)
+                else if ((ushort)(unitFlags & CitizenUnit.Flags.Visit) != 0)
                 {
                     // VisitPlace unit; are we still allocating to visitCount?
                     if (visitCount <= 0)
                     {
                         // Not allocating any more, therefore this workplace unit is surplus to requirements - remove it.
-                        removingFlag = (int)RemovingType.Visitplace;
+                        removingFlag = true;
                     }
                     else
                     {
@@ -154,14 +141,14 @@ namespace RealPop2
                         visitCount -= 5;
                     }
                 }
-                if ((ushort)(unitFlags & CitizenUnit.Flags.Student) != 0)
+                else if ((ushort)(unitFlags & CitizenUnit.Flags.Student) != 0)
                 {
                     // Student unit; are we still allocating to students?
                     if (studentCount <= 0)
                     {
                         // Not allocating any more, therefore this workplace unit is surplus to requirements - remove it.
                         // Student buildings are set as workplace.
-                        removingFlag = (int)RemovingType.Workplace;
+                        removingFlag = true;
                     }
                     else
                     {
@@ -169,31 +156,28 @@ namespace RealPop2
                         studentCount -= 5;
                     }
                 }
+                else
+                {
+                    // Invalid unit; remove it.
+                    removingFlag = true;
+                    Logging.Message("found unit ", currentUnit, " with no valid flags");
+                }
 
                 // Are we removing this unit?
-                if (removingFlag != (int)RemovingType.NotRemoving)
+                if (removingFlag)
                 {
-                    // Yes - remove any occupying citizens.
-                    for (int i = 0; i < 5; ++i)
-                    {
-                        // Remove relevant citizen unit reference from citizen.
-                        uint citizen = citizenUnits[currentUnit].GetCitizen(i);
-                        switch (removingFlag)
-                        {
-                            case (int)RemovingType.Household:
-                                citizens[citizen].m_homeBuilding = 0;
-                                break;
-                            case (int)RemovingType.Workplace:
-                                citizens[citizen].m_workBuilding = 0;
-                                break;
-                            case (int)RemovingType.Visitplace:
-                                citizens[citizen].m_visitBuilding = 0;
-                                break;
-                        }
-                    }
+                    Logging.Message("removing unit ", currentUnit);
 
                     // Unlink this unit from building CitizenUnit list.
-                    citizenUnits[previousUnit].m_nextUnit = nextUnit;
+                    if (previousUnit != 0)
+                    {
+                        citizenUnits[previousUnit].m_nextUnit = nextUnit;
+                    }
+                    else
+                    {
+                        // No previous unit - unlink from building record.
+                        building.m_citizenUnits = nextUnit;
+                    }
 
                     // Release unit.
                     citizenUnits[currentUnit] = default(CitizenUnit);
@@ -205,7 +189,6 @@ namespace RealPop2
                     // Not removing - therefore previous unit reference needs to be updated.
                     previousUnit = currentUnit;
                 }
-
 
                 // Move on to next unit.
                 currentUnit = nextUnit;
