@@ -125,7 +125,9 @@
     <Content Include="Images\Screen_PloppableRICO.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\CitizenUnitChecks\CitizenUtils.cs" />
     <Compile Include="Code\GUI\UIVanillaCalcs.cs" />
+    <Compile Include="Code\Patches\OnLevelLoaded.cs" />
     <Compile Include="Code\Patches\StudentCount.cs" />
     <Compile Include="Code\GUI\UIModCalcs.cs" />
     <Compile Include="Code\GUI\UIPreviewPanel.cs" />
@@ -195,6 +197,7 @@
     <Compile Include="Code\Utils\TextureUtils.cs" />
     <Compile Include="Code\Utils\TooltipUtils.cs" />
     <Compile Include="Code\Utils\UIControls.cs" />
+    <Compile Include="Code\CitizenUnitChecks\UnitUtils.cs" />
     <Compile Include="Code\VolumetricData\CalcData.cs" />
     <Compile Include="Code\VolumetricData\ConfigurationUtils.cs" />
     <Compile Include="Code\VolumetricData\ConfigurationXML.cs" />

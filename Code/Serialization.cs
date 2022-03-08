@@ -3,7 +3,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 using ICities;
 using ColossalFramework;
 using ColossalFramework.IO;
-using RealPop2;
 
 
 namespace RealPop2
@@ -15,7 +14,7 @@ namespace RealPop2
     {
         // Unique data ID.
         private readonly string dataID = "RealisticPopulation";
-        internal const int CurrentDataVersion = 5;
+        internal const int CurrentDataVersion = 6;
 
 
         /// <summary>
@@ -130,7 +129,13 @@ namespace RealPop2
                 Logging.Message("read data version ", dataVersion);
 
                 // Make sure we have a matching data version.
-                if (dataVersion == 3 || dataVersion == 5)
+                if (dataVersion == 6)
+                {
+                    // Same as version 5, but if we've saved with this version we disable auto-rebuild of CitizenUnits.
+                    OnLevelLoadedPatch.rebuildUnitArray = false;
+                }
+
+                if (dataVersion == 3 || dataVersion == 5 || dataVersion == 6)
                 {
                     // Versions where industrial and extractor workplace legacy settings are combined.
 
