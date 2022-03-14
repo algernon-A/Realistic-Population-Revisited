@@ -23,6 +23,7 @@ namespace RealPop2
         private static bool enableSchoolPop = false;
         internal static bool enableSchoolProperties = true;
         internal static float crimeMultiplier = 50f;
+        internal static bool dontRebuildUnits = false;
 
         // Status flags.
         internal static bool isRealPop2Save = false;

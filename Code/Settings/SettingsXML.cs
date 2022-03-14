@@ -149,6 +149,10 @@ namespace RealPop2
         [XmlElement("DetailedLogging")]
         public bool DetailLogging { get => Logging.detailLogging; set => Logging.detailLogging = value; }
 
+        // Logging detail.
+        [XmlElement("DontRebuildUnits")]
+        public bool DontRebuildUnits { get => ModSettings.dontRebuildUnits; set => ModSettings.dontRebuildUnits = value; }
+
 
         /// <summary>
         /// Load settings from XML file - Beta legacy.

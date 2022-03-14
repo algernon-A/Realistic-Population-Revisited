@@ -30,7 +30,7 @@ namespace RealPop2
         public static void Postfix()
         {
             // If we're rebuilding the CitizenUnit array, do so (via simulation thread).
-            if (rebuildUnitArray && !_stopRebuild)
+            if (rebuildUnitArray && !ModSettings.dontRebuildUnits && !_stopRebuild)
             {
                 Singleton<SimulationManager>.instance.AddAction(() => UnitUtils.ResetUnits());
             }
