@@ -167,7 +167,7 @@ namespace RealPop2
         {
             UISprite newSprite = AddUIComponent<UISprite>();
             newSprite.size = new Vector2(20, 20);
-            newSprite.relativePosition = new Vector3(xPos, 5f);
+            newSprite.relativePosition = new Vector2(xPos, 5f);
             newSprite.tooltip = Translations.Translate(translationKey);
 
             return newSprite;

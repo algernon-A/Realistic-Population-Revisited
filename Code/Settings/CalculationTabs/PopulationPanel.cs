@@ -72,13 +72,13 @@ namespace RealPop2
 
                 // Service selection dropdown.
                 serviceDropDown = UIControls.AddPlainDropDown(panel, Translations.Translate("RPR_OPT_SVC"), serviceNames, -1);
-                serviceDropDown.parent.relativePosition = new Vector3(20f, currentY);
+                serviceDropDown.parent.relativePosition = new Vector2(20f, currentY);
                 serviceDropDown.eventSelectedIndexChanged += ServiceChanged;
 
                 // Pack selection dropdown.
                 packDropDown = UIControls.AddPlainDropDown(panel, Translations.Translate("RPR_OPT_CPK"), new string[0], -1);
                 currentY += 70f;
-                packDropDown.parent.relativePosition = new Vector3(20f, currentY);
+                packDropDown.parent.relativePosition = new Vector2(20f, currentY);
                 packDropDown.eventSelectedIndexChanged += PackChanged;
 
                 // Label strings - cached to avoid calling Translations.Translate each time (for the tooltips, anwyay, including the others makes code more readable).

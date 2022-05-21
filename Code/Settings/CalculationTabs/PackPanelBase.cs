@@ -156,7 +156,7 @@ namespace RealPop2
             {
                 xPos = LeftItem;
             }
-            lineLabel.relativePosition = new Vector3(xPos, yPos + 2);
+            lineLabel.relativePosition = new Vector2(xPos, yPos + 2);
 
             return lineLabel;
         }

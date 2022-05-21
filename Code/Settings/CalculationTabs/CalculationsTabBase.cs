@@ -64,13 +64,13 @@ namespace RealPop2
 
                 // Add tabstrip.
                 UITabstrip childTabStrip = panel.AddUIComponent<UITabstrip>();
-                childTabStrip.relativePosition = new Vector3(0, 0);
+                childTabStrip.relativePosition = new Vector2(0, 0);
                 childTabStrip.size = new Vector2(744f, 725f);
 
                 // Tab container (the panels underneath each tab).
                 UITabContainer tabContainer = panel.AddUIComponent<UITabContainer>();
-                tabContainer.relativePosition = new Vector3(0, 30f);
-                tabContainer.size = new Vector3(744f, 720);
+                tabContainer.relativePosition = new Vector2(0, 30f);
+                tabContainer.size = new Vector2(744f, 720);
                 childTabStrip.tabPages = tabContainer;
 
                 // Set up child tabs and make sure first one is selected (doing a 'quickstep' via the second tab to ensure proper events are triggered).

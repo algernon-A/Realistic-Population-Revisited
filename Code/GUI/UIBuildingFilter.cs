@@ -169,7 +169,7 @@ namespace RealPop2
                 // Basic setup.
                 categoryToggles[i] = UIUtils.CreateIconToggle(this, CategoryIcons.atlases[i], CategoryIcons.spriteNames[i], CategoryIcons.spriteNames[i] + "Disabled");
                 categoryToggles[i].tooltip = Translations.Translate(CategoryIcons.tooltips[i]);
-                categoryToggles[i].relativePosition = new Vector3(40 * i, 0);
+                categoryToggles[i].relativePosition = new Vector2(40 * i, 0);
                 categoryToggles[i].isChecked = true;
                 categoryToggles[i].readOnly = true;
 
@@ -227,18 +227,18 @@ namespace RealPop2
                 settingsFilter[i].width = 20f;
                 settingsFilter[i].height = 20f;
                 settingsFilter[i].clipChildren = true;
-                settingsFilter[i].relativePosition = new Vector3(AnyX + (FilterSpacing * i), 45f);
+                settingsFilter[i].relativePosition = new Vector2(AnyX + (FilterSpacing * i), 45f);
 
                 // Checkbox sprites.
                 UISprite sprite = settingsFilter[i].AddUIComponent<UISprite>();
                 sprite.spriteName = "ToggleBase";
                 sprite.size = new Vector2(20f, 20f);
-                sprite.relativePosition = Vector3.zero;
+                sprite.relativePosition = Vector2.zero;
 
                 settingsFilter[i].checkedBoxObject = sprite.AddUIComponent<UISprite>();
                 ((UISprite)settingsFilter[i].checkedBoxObject).spriteName = "ToggleBaseFocused";
                 settingsFilter[i].checkedBoxObject.size = new Vector2(20f, 20f);
-                settingsFilter[i].checkedBoxObject.relativePosition = Vector3.zero;
+                settingsFilter[i].checkedBoxObject.relativePosition = Vector2.zero;
 
                 // Tooltip.
                 settingsFilter[i].tooltip = Translations.Translate(FilterTooltipKeys[i]);
@@ -366,7 +366,7 @@ namespace RealPop2
             newLabel.text = text;
 
             // Set relative position.
-            newLabel.relativePosition = new Vector3(10f, yPos - (newLabel.height / 2f), 0);
+            newLabel.relativePosition = new Vector2(10f, yPos - (newLabel.height / 2f));
 
             return newLabel;
         }

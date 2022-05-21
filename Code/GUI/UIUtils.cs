@@ -28,7 +28,7 @@ namespace RealPop2
             UIPanel panel = checkBox.AddUIComponent<UIPanel>();
             panel.backgroundSprite = "IconPolicyBaseRect";
             panel.size = checkBox.size;
-            panel.relativePosition = Vector3.zero;
+            panel.relativePosition = Vector2.zero;
 
             checkBox.eventCheckChanged += (c, b) =>
             {
@@ -56,13 +56,13 @@ namespace RealPop2
             sprite.atlas = TextureUtils.GetTextureAtlas(atlas);
             sprite.spriteName = uncheckedSprite;
             sprite.size = checkBox.size;
-            sprite.relativePosition = Vector3.zero;
+            sprite.relativePosition = Vector2.zero;
 
             checkBox.checkedBoxObject = sprite.AddUIComponent<UISprite>();
             ((UISprite)checkBox.checkedBoxObject).atlas = sprite.atlas;
             ((UISprite)checkBox.checkedBoxObject).spriteName = checkedSprite;
             checkBox.checkedBoxObject.size = checkBox.size;
-            checkBox.checkedBoxObject.relativePosition = Vector3.zero;
+            checkBox.checkedBoxObject.relativePosition = Vector2.zero;
 
             return checkBox;
         }

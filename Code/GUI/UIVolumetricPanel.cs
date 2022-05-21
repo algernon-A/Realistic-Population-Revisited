@@ -416,7 +416,7 @@ namespace RealPop2
         {
             // Create new label.
             UILabel newLabel = parent.AddUIComponent<UILabel>();
-            newLabel.relativePosition = new Vector3(xPos - inset, yPos);
+            newLabel.relativePosition = new Vector2(xPos - inset, yPos);
             newLabel.textAlignment = UIHorizontalAlignment.Left;
             newLabel.textScale = 0.8f;
             newLabel.text = string.Empty;
@@ -449,19 +449,19 @@ namespace RealPop2
             // Size and position.
             checkBox.width = parent.width - xPos;
             checkBox.height = 20f;
-            checkBox.relativePosition = new Vector3(xPos, yPos);
+            checkBox.relativePosition = new Vector2(xPos, yPos);
 
             // Unselected sprite.
             UISprite sprite = checkBox.AddUIComponent<UISprite>();
             //sprite.spriteName = "AchievementCheckedFalse";
             sprite.size = new Vector2(16f, 16f);
-            sprite.relativePosition = Vector3.zero;
+            sprite.relativePosition = Vector2.zero;
 
             // Selected sprite.
             checkBox.checkedBoxObject = sprite.AddUIComponent<UISprite>();
             ((UISprite)checkBox.checkedBoxObject).spriteName = "CheckDLCOwned";
             checkBox.checkedBoxObject.size = new Vector2(16f, 16f);
-            checkBox.checkedBoxObject.relativePosition = Vector3.zero;
+            checkBox.checkedBoxObject.relativePosition = Vector2.zero;
 
             // Text label.
             AddLabelToComponent(checkBox, Translations.Translate(textKey));

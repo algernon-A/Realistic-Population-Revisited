@@ -56,7 +56,7 @@ namespace RealPop2
             tipBox.backgroundSprite = "InfoDisplay";
 
             // Start hidden and off to the side.
-            tipBox.transformPosition = new Vector3(-2f, -2f);
+            tipBox.transformPosition = new Vector2(-2f, -2f);
             tipBox.isVisible = false;
 
             return tipBox;

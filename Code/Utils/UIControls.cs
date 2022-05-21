@@ -289,12 +289,12 @@ namespace RealPop2
             UISprite sprite = checkBox.AddUIComponent<UISprite>();
             sprite.spriteName = "check-unchecked";
             sprite.size = new Vector2(size, size);
-            sprite.relativePosition = Vector3.zero;
+            sprite.relativePosition = Vector2.zero;
 
             checkBox.checkedBoxObject = sprite.AddUIComponent<UISprite>();
             ((UISprite)checkBox.checkedBoxObject).spriteName = "check-checked";
             checkBox.checkedBoxObject.size = new Vector2(size, size);
-            checkBox.checkedBoxObject.relativePosition = Vector3.zero;
+            checkBox.checkedBoxObject.relativePosition = Vector2.zero;
 
             // Add tooltip.
             if (tooltip != null)
@@ -549,8 +549,8 @@ namespace RealPop2
             sliderLabel.autoHeight = true;
             sliderLabel.width = width;
             sliderLabel.anchor = UIAnchorStyle.Left | UIAnchorStyle.Top;
-            sliderLabel.relativePosition = Vector3.zero;
-            sliderLabel.relativePosition = Vector3.zero;
+            sliderLabel.relativePosition = Vector2.zero;
+            sliderLabel.relativePosition = Vector2.zero;
             sliderLabel.text = text;
 
             // Slider configuration.

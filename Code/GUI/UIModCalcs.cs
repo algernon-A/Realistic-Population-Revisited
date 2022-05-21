@@ -134,7 +134,7 @@ namespace RealPop2
 
             // Title.
             title = this.AddUIComponent<UILabel>();
-            title.relativePosition = new Vector3(0, 0);
+            title.relativePosition = Vector2.zero;
             title.textAlignment = UIHorizontalAlignment.Center;
             title.text = Translations.Translate("RPR_CAL_MOD");
             title.textScale = 1.2f;
@@ -618,7 +618,7 @@ namespace RealPop2
         private UILabel ColumnLabel(UIComponent parent, string text, float xPos, float yPos)
         {
             UILabel newLabel = parent.AddUIComponent<UILabel>();
-            newLabel.relativePosition = new Vector3(xPos, yPos);
+            newLabel.relativePosition = new Vector2(xPos, yPos);
             newLabel.textAlignment = UIHorizontalAlignment.Center;
             newLabel.text = text;
             newLabel.textScale = 1f;

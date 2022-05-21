@@ -27,30 +27,30 @@ namespace RealPop2
             isVisible = true;
             canFocus = true;
             isInteractive = true;
-            relativePosition = Vector3.zero;
+            relativePosition = Vector2.zero;
 
             // Make it draggable.
             dragHandle = AddUIComponent<UIDragHandle>();
             dragHandle.width = width - 50;
             dragHandle.height = height;
-            dragHandle.relativePosition = Vector3.zero;
+            dragHandle.relativePosition = Vector2.zero;
             dragHandle.target = parent;
 
             // Decorative icon (top-left).
             iconSprite = AddUIComponent<UISprite>();
-            iconSprite.relativePosition = new Vector3(10, 5);
+            iconSprite.relativePosition = new Vector2(10, 5);
             iconSprite.spriteName = "ToolbarIconZoomOutCity";
             UIUtils.ResizeIcon(iconSprite, new Vector2(30, 30));
-            iconSprite.relativePosition = new Vector3(10, 5);
+            iconSprite.relativePosition = new Vector2(10, 5);
 
             // Titlebar label.
             titleLabel = AddUIComponent<UILabel>();
-            titleLabel.relativePosition = new Vector3(50, 13);
+            titleLabel.relativePosition = new Vector2(50, 13);
             titleLabel.text = RealPopMod.ModName;
 
             // Close button.
             closeButton = AddUIComponent<UIButton>();
-            closeButton.relativePosition = new Vector3(width - 35, 2);
+            closeButton.relativePosition = new Vector2(width - 35, 2);
             closeButton.normalBgSprite = "buttonclose";
             closeButton.hoveredBgSprite = "buttonclosehover";
             closeButton.pressedBgSprite = "buttonclosepressed";

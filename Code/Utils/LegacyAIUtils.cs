@@ -43,7 +43,7 @@ namespace RealPop2
                 if (value == 0)
                 {
                     // No volumetric override - use legacy approach.
-                    Vector3 v = item.m_size;
+                    Vector2 v = item.m_size;
                     int floorSpace = CalcBase(width, length, ref array, v);
                     int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT])) + array[DataStore.DENSIFICATION];
                     value = (floorSpace * floorCount) / array[DataStore.PEOPLE];
@@ -105,7 +105,7 @@ namespace RealPop2
         /// <param name="returnValue"></param>
         internal static ushort CalculatePrefabHousehold(int width, int length, ref BuildingInfo item, ref int[] array)
         {
-            Vector3 v = item.m_size;
+            Vector2 v = item.m_size;
             int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT]));
             int returnValue = (CalcBase(width, length, ref array, v) * floorCount) / array[DataStore.PEOPLE];
 

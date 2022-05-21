@@ -49,7 +49,7 @@ namespace RealPop2
             if (floorName != null)
             {
                 Background.width = width;
-                floorName.relativePosition = new Vector3(10f, 5f);
+                floorName.relativePosition = new Vector2(10f, 5f);
             }
         }
 
@@ -81,7 +81,7 @@ namespace RealPop2
                 height = rowHeight;
 
                 floorName = AddUIComponent<UILabel>();
-                floorName.relativePosition = new Vector3(10f, 5f);
+                floorName.relativePosition = new Vector2(10f, 5f);
                 floorName.width = 200;
                 floorName.textScale = 0.9f;
             }

@@ -300,7 +300,7 @@ namespace RealPop2
                 isInteractive = true;
                 width = LeftWidth + MiddleWidth + RightWidth + (Spacing * 4) + Spacing;
                 height = PanelHeight + TitleHeight + FilterHeight + (Spacing * 2) + BottomMargin;
-                relativePosition = new Vector3(Mathf.Floor((GetUIView().fixedWidth - width) / 2), Mathf.Floor((GetUIView().fixedHeight - height) / 2));
+                relativePosition = new Vector2(Mathf.Floor((GetUIView().fixedWidth - width) / 2), Mathf.Floor((GetUIView().fixedHeight - height) / 2));
                 backgroundSprite = "UnlockingPanel2";
 
                 // Titlebar.
@@ -311,7 +311,7 @@ namespace RealPop2
                 filterBar = AddUIComponent<UIBuildingFilter>();
                 filterBar.width = width - (Spacing * 2);
                 filterBar.height = FilterHeight;
-                filterBar.relativePosition = new Vector3(Spacing, TitleHeight);
+                filterBar.relativePosition = new Vector2(Spacing, TitleHeight);
 
                 filterBar.EventFilteringChanged += (c, i) =>
                 {
@@ -330,31 +330,31 @@ namespace RealPop2
                 UIPanel leftPanel = AddUIComponent<UIPanel>();
                 leftPanel.width = LeftWidth;
                 leftPanel.height = PanelHeight - CheckFilterHeight;
-                leftPanel.relativePosition = new Vector3(Spacing, TitleHeight + FilterHeight + CheckFilterHeight + Spacing);
+                leftPanel.relativePosition = new Vector2(Spacing, TitleHeight + FilterHeight + CheckFilterHeight + Spacing);
 
                 // Middle panel - building preview and edit panels.
                 UIPanel middlePanel = AddUIComponent<UIPanel>();
                 middlePanel.width = MiddleWidth;
                 middlePanel.height = PanelHeight;
-                middlePanel.relativePosition = new Vector3(LeftWidth + (Spacing * 2), TitleHeight + FilterHeight + Spacing);
+                middlePanel.relativePosition = new Vector2(LeftWidth + (Spacing * 2), TitleHeight + FilterHeight + Spacing);
 
                 previewPanel = middlePanel.AddUIComponent<UIPreviewPanel>();
                 previewPanel.width = middlePanel.width;
                 previewPanel.height = (PanelHeight - Spacing) / 2;
-                previewPanel.relativePosition = Vector3.zero;
+                previewPanel.relativePosition = Vector2.zero;
                 previewPanel.Setup();
 
                 editPanel = middlePanel.AddUIComponent<UIEditPanel>();
                 editPanel.width = middlePanel.width;
                 editPanel.height = (PanelHeight - Spacing) / 2;
-                editPanel.relativePosition = new Vector3(0, previewPanel.height + Spacing);
+                editPanel.relativePosition = new Vector2(0, previewPanel.height + Spacing);
                 editPanel.Setup();
 
                 // Right panel - mod calculations.
                 calcsPanel = this.AddUIComponent<UIModCalcs>();
                 calcsPanel.width = RightWidth;
                 calcsPanel.height = PanelHeight;
-                calcsPanel.relativePosition = new Vector3(LeftWidth + MiddleWidth + (Spacing * 3), TitleHeight + FilterHeight + Spacing);
+                calcsPanel.relativePosition = new Vector2(LeftWidth + MiddleWidth + (Spacing * 3), TitleHeight + FilterHeight + Spacing);
                 calcsPanel.Setup();
 
                 // Building selection list.
@@ -365,7 +365,7 @@ namespace RealPop2
                 buildingSelection.canSelect = true;
                 buildingSelection.rowHeight = 30f;
                 buildingSelection.autoHideScrollbar = true;
-                buildingSelection.relativePosition = Vector3.zero;
+                buildingSelection.relativePosition = Vector2.zero;
                 buildingSelection.rowsData = new FastList<object>();
                 buildingSelection.selectedIndex = -1;
 

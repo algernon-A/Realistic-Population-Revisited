@@ -92,14 +92,14 @@ namespace RealPop2
 
                 // Add tabstrip.
                 UITabstrip tabStrip = basePanel.AddUIComponent<UITabstrip>();
-                tabStrip.relativePosition = new Vector3(0, 0);
+                tabStrip.relativePosition = Vector2.zero;
                 tabStrip.width = basePanel.width;
                 tabStrip.height = basePanel.height;
                 tabStrip.clipChildren = false;
 
                 // Tab container (the panels underneath each tab).
                 UITabContainer tabContainer = basePanel.AddUIComponent<UITabContainer>();
-                tabContainer.relativePosition = new Vector3(0, 30f);
+                tabContainer.relativePosition = new Vector2(0, 30f);
                 tabContainer.width = tabStrip.width;
                 tabContainer.height = tabStrip.height;
                 tabContainer.clipChildren = false;

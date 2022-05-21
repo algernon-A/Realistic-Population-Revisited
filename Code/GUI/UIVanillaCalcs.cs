@@ -56,40 +56,40 @@ namespace RealPop2
             for (int i = 0; i < (int)VanillaDetails.numDetails; i++)
             {
                 detailLabels[i] = this.AddUIComponent<UILabel>();
-                detailLabels[i].relativePosition = new Vector3(LeftPadding, (i * LineHeight) + LineHeight);
+                detailLabels[i].relativePosition = new Vector2(LeftPadding, (i * LineHeight) + LineHeight);
                 detailLabels[i].width = 270;
                 detailLabels[i].textAlignment = UIHorizontalAlignment.Left;
             }
 
             // Homes/jobs labels.
             homesJobsCalcLabel = this.AddUIComponent<UILabel>();
-            homesJobsCalcLabel.relativePosition = new Vector3(LeftPadding, ((int)VanillaDetails.numDetails + 1) * LineHeight);
+            homesJobsCalcLabel.relativePosition = new Vector2(LeftPadding, ((int)VanillaDetails.numDetails + 1) * LineHeight);
             homesJobsCalcLabel.width = 270;
             homesJobsCalcLabel.textAlignment = UIHorizontalAlignment.Left;
 
             homesJobsCustomLabel = this.AddUIComponent<UILabel>();
-            homesJobsCustomLabel.relativePosition = new Vector3(LeftPadding, ((int)VanillaDetails.numDetails + 2) * LineHeight);
+            homesJobsCustomLabel.relativePosition = new Vector2(LeftPadding, ((int)VanillaDetails.numDetails + 2) * LineHeight);
             homesJobsCustomLabel.width = 270;
             homesJobsCustomLabel.textAlignment = UIHorizontalAlignment.Left;
 
             homesJobsActualLabel = this.AddUIComponent<UILabel>();
-            homesJobsActualLabel.relativePosition = new Vector3(LeftPadding, ((int)VanillaDetails.numDetails + 4) * LineHeight);
+            homesJobsActualLabel.relativePosition = new Vector2(LeftPadding, ((int)VanillaDetails.numDetails + 4) * LineHeight);
             homesJobsActualLabel.width = 270;
             homesJobsActualLabel.textAlignment = UIHorizontalAlignment.Left;
 
             visitCountLabel = this.AddUIComponent<UILabel>();
-            visitCountLabel.relativePosition = new Vector3(LeftPadding, ((int)VanillaDetails.numDetails + 5) * LineHeight);
+            visitCountLabel.relativePosition = new Vector2(LeftPadding, ((int)VanillaDetails.numDetails + 5) * LineHeight);
             visitCountLabel.width = 270;
             visitCountLabel.textAlignment = UIHorizontalAlignment.Left;
 
             productionLabel = this.AddUIComponent<UILabel>();
-            productionLabel.relativePosition = new Vector3(LeftPadding, ((int)VanillaDetails.numDetails + 5) * LineHeight);
+            productionLabel.relativePosition = new Vector2(LeftPadding, ((int)VanillaDetails.numDetails + 5) * LineHeight);
             productionLabel.width = 270;
             productionLabel.textAlignment = UIHorizontalAlignment.Left;
 
             // Message label (initially hidden).
             messageLabel = this.AddUIComponent<UILabel>();
-            messageLabel.relativePosition = new Vector3(LeftPadding, ((int)VanillaDetails.numDetails + 7) * LineHeight);
+            messageLabel.relativePosition = new Vector2(LeftPadding, ((int)VanillaDetails.numDetails + 7) * LineHeight);
             messageLabel.textAlignment = UIHorizontalAlignment.Left;
             messageLabel.autoSize = false;
             messageLabel.autoHeight = true;

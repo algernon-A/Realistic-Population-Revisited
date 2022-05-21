@@ -95,7 +95,7 @@ namespace RealPop2
 
             // Message label (initially hidden).
             messageLabel = this.AddUIComponent<UILabel>();
-            messageLabel.relativePosition = new Vector3(Margin, MessageY);
+            messageLabel.relativePosition = new Vector2(Margin, MessageY);
             messageLabel.textAlignment = UIHorizontalAlignment.Left;
             messageLabel.autoSize = false;
             messageLabel.autoHeight = true;

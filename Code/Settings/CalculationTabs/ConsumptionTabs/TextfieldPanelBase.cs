@@ -60,14 +60,14 @@ namespace RealPop2
             UIPanel thumbPanel = panel.AddUIComponent<UIPanel>();
             thumbPanel.width = 35f;
             thumbPanel.height = 35f;
-            thumbPanel.relativePosition = new Vector3(xPos + ((width - 35f) / 2), TitleHeight - 40f);
+            thumbPanel.relativePosition = new Vector2(xPos + ((width - 35f) / 2), TitleHeight - 40f);
             thumbPanel.clipChildren = true;
             thumbPanel.backgroundSprite = "IconPolicyBaseRect";
             thumbPanel.tooltip = text;
 
             // Actual icon.
             UISprite thumbSprite = thumbPanel.AddUIComponent<UISprite>();
-            thumbSprite.relativePosition = Vector3.zero;
+            thumbSprite.relativePosition = Vector2.zero;
             thumbSprite.size = thumbPanel.size;
             thumbSprite.atlas = TextureUtils.GetTextureAtlas("Ingame");
             thumbSprite.spriteName = icon;
@@ -97,7 +97,7 @@ namespace RealPop2
                 // Too long to fit in the given space, so we'll let this wrap across and just move the textfields down an extra line.
                 currentY += RowHeight;
             }
-            lineLabel.relativePosition = new Vector3(xPos, yPos + 2);
+            lineLabel.relativePosition = new Vector2(xPos, yPos + 2);
         }
 
 

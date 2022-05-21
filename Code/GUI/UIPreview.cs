@@ -148,11 +148,11 @@ namespace RealPop2
 
             previewSprite = AddUIComponent<UITextureSprite>();
             previewSprite.size = size;
-            previewSprite.relativePosition = Vector3.zero;
+            previewSprite.relativePosition = Vector2.zero;
 
             noPreviewSprite = AddUIComponent<UISprite>();
             noPreviewSprite.size = size;
-            noPreviewSprite.relativePosition = Vector3.zero;
+            noPreviewSprite.relativePosition = Vector2.zero;
 
             // Initialise renderer; use double size for anti-aliasing.
             previewRender = gameObject.AddComponent<UIPreviewRenderer>();
@@ -186,7 +186,7 @@ namespace RealPop2
             buildingName.dropShadowOffset = new Vector2(2, -2);
             buildingName.text = "Name";
             buildingName.isVisible = false;
-            buildingName.relativePosition = new Vector3(5, 10);
+            buildingName.relativePosition = new Vector2(5, 10);
 
             // Display building level.
             buildingLevel = AddUIComponent<UILabel>();
@@ -196,7 +196,7 @@ namespace RealPop2
             buildingLevel.dropShadowOffset = new Vector2(2, -2);
             buildingLevel.text = "Level";
             buildingLevel.isVisible = false;
-            buildingLevel.relativePosition = new Vector3(5, height - 20);
+            buildingLevel.relativePosition = new Vector2(5, height - 20);
 
             // Display building size.
             buildingSize = AddUIComponent<UILabel>();
@@ -206,7 +206,7 @@ namespace RealPop2
             buildingSize.dropShadowOffset = new Vector2(2, -2);
             buildingSize.text = "Size";
             buildingSize.isVisible = false;
-            buildingSize.relativePosition = new Vector3(width - 50, height - 20);
+            buildingSize.relativePosition = new Vector2(width - 50, height - 20);
         }
 
 

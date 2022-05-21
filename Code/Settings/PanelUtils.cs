@@ -177,7 +177,7 @@ namespace RealPop2
 
             // Actual icon.
             UISprite thumbSprite = panel.AddUIComponent<UISprite>();
-            thumbSprite.relativePosition = new Vector3(Margin, yPos - 2.5f);
+            thumbSprite.relativePosition = new Vector2(Margin, yPos - 2.5f);
             thumbSprite.width = SpriteSize;
             thumbSprite.height = SpriteSize;
             thumbSprite.atlas = TextureUtils.GetTextureAtlas(atlas);
@@ -205,7 +205,7 @@ namespace RealPop2
             lineLabel.text = text;
 
             // Set poistion.
-            lineLabel.relativePosition = new Vector3(LeftTitle, yPos - 2.5f + ((SpriteSize - lineLabel.height) / 2f));
+            lineLabel.relativePosition = new Vector2(LeftTitle, yPos - 2.5f + ((SpriteSize - lineLabel.height) / 2f));
 
             // Increment our current height.
             yPos += 30f;
@@ -240,7 +240,7 @@ namespace RealPop2
             columnLabel.tooltipBox = TooltipUtils.TooltipBox;
 
             // Set the relative position at the end so we can adjust for the final post-wrap autoheight.
-            columnLabel.relativePosition = new Vector3(xPos + ((width - columnLabel.width) / 2), baseY - columnLabel.height);
+            columnLabel.relativePosition = new Vector2(xPos + ((width - columnLabel.width) / 2), baseY - columnLabel.height);
         }
 
 
