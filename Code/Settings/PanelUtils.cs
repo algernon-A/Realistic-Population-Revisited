@@ -79,7 +79,7 @@ namespace RealPop2
         /// <param name="tabStrip">UIT tabstrip to add to</param>
         /// <param name="tabName">Name of this tab</param>
         /// <param name="tabIndex">Index number of this tab</param>
-        /// <param name="button">Tab button instance references</param>
+        /// <param name="button">Tab button instance reference</param>
         /// <param name="width">Tab width</param>
         /// <param name="autoLayout">Default autoLayout setting</param>
         /// <returns>UIHelper instance for the new tab panel</returns>
