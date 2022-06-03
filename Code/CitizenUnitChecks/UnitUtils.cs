@@ -191,7 +191,7 @@ namespace RealPop2
 				}
 
 				// If this unit doesn't have any citizens, it's a valid target; copy it over.
-				if (newUnitBuffer[newUnitID].m_citizen0 == 0 && newUnitBuffer[newUnitID].m_citizen1 == 0 && newUnitBuffer[newUnitID].m_citizen2 == 0 && newUnitBuffer[newUnitID].m_citizen3 == 0 && newUnitBuffer[newUnitID].m_citizen4 == 0)
+				if (newUnitBuffer[newUnitID].m_flags == oldUnit.m_flags && newUnitBuffer[newUnitID].m_citizen0 == 0 && newUnitBuffer[newUnitID].m_citizen1 == 0 && newUnitBuffer[newUnitID].m_citizen2 == 0 && newUnitBuffer[newUnitID].m_citizen3 == 0 && newUnitBuffer[newUnitID].m_citizen4 == 0)
 				{
 					newUnitBuffer[newUnitID].m_citizen0 = oldUnit.m_citizen0;
 					newUnitBuffer[newUnitID].m_citizen1 = oldUnit.m_citizen1;
@@ -206,7 +206,26 @@ namespace RealPop2
 				}
 
 				// No empty unit found; try next unit in chain.
-				newUnitID = newUnitBuffer[newUnitID].m_nextUnit;
+				uint nextUnitID = newUnitBuffer[newUnitID].m_nextUnit;
+
+				// If we've exhausted the chain, try to add a new unit to this building to accomodate the excess old one.
+				if (nextUnitID == 0)
+				{
+					// Attempt unit creation.
+					Singleton<CitizenManager>.instance.m_units.CreateItem(out uint newUnit, ref Singleton<SimulationManager>.instance.m_randomizer);
+					if (newUnit != 0)
+					{
+						// Creation successful; set new unit flags to match the old one and add to chain.
+						newUnitBuffer[newUnit].m_flags = oldUnit.m_flags;
+						newUnitBuffer[newUnitID].m_nextUnit = newUnit;
+
+						// Use this new unit in next pass.
+						nextUnitID = newUnit;
+					}
+				}
+
+				// Next unit to check.
+				newUnitID = nextUnitID;
 			}
 
 			// If we got here, we didn't have space to copy the old unit over.
