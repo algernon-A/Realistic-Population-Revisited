@@ -19,7 +19,7 @@ namespace RealPop2.MessageBox
         protected const float TitleBarHeight = 40f;
         protected const float ButtonHeight = 45f;
         protected const float Padding = 16f;
-        protected const float ButtonSpacing = 25f;
+        protected const float ButtonSpacing = 15f;
         protected const float MaxContentHeight = 400f;
 
         // Reference constants.

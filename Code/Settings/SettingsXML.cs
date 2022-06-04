@@ -90,29 +90,40 @@ namespace RealPop2
         {
             set
             {
-                ModSettings.newSaveLegacyRes = value;
-                ModSettings.newSaveLegacyCom = value;
-                ModSettings.newSaveLegacyInd = value;
-                ModSettings.newSaveLegacyOff = value;
+                ModSettings.newSaveDefaultRes = DefaultMode.Legacy;
+                ModSettings.newSaveDefaultCom = DefaultMode.Legacy;
+                ModSettings.newSaveDefaultInd = DefaultMode.Legacy;
+                ModSettings.newSaveDefaultOff = DefaultMode.Legacy;
             }
         }
 
 
-        // Use legacy calculations by default (new granular setting).
+        // Use legacy calculations by default (deprecated granular setting).
         [XmlElement("NewSavesLegacyRes")]
-        public bool DefaultLegacyRes { get => ModSettings.newSaveLegacyRes; set => ModSettings.newSaveLegacyRes = value; }
+        public bool DefaultLegacyRes { set => ModSettings.newSaveDefaultRes = value ? DefaultMode.Legacy : DefaultMode.New; }
 
         [XmlElement("NewSavesLegacyCom")]
-        public bool DefaultLegacyCom { get => ModSettings.newSaveLegacyCom; set => ModSettings.newSaveLegacyCom = value; }
+        public bool DefaultLegacyCom { set => ModSettings.newSaveDefaultCom = value ? DefaultMode.Legacy : DefaultMode.New; }
 
         [XmlElement("NewSavesLegacyInd")]
-        public bool DefaultLegacyInd { get => ModSettings.newSaveLegacyInd; set => ModSettings.newSaveLegacyInd = value; }
-
-        [XmlElement("NewSavesLegacyExt")]
-        public bool DefaultLegacyExt { get => ModSettings.newSaveLegacyExt; set => ModSettings.newSaveLegacyExt = value; }
+        public bool DefaultLegacyInd { set => ModSettings.newSaveDefaultInd = value ? DefaultMode.Legacy : DefaultMode.New; }
 
         [XmlElement("NewSavesLegacyOff")]
-        public bool DefaultLegacyOff { get => ModSettings.newSaveLegacyOff; set => ModSettings.newSaveLegacyOff = value; }
+        public bool DefaultLegacyOff { set => ModSettings.newSaveDefaultOff = value ? DefaultMode.Legacy : DefaultMode.New; }
+
+
+        // New default mode settings.
+        [XmlElement("NewSavesDefaultRes")]
+        public DefaultMode XMLNewSavesDefaultRes { get => ModSettings.newSaveDefaultRes; set => ModSettings.newSaveDefaultRes = value; }
+
+        [XmlElement("NewSavesDefaultCom")]
+        public DefaultMode NewSavesDefaultCom { get => ModSettings.newSaveDefaultCom; set => ModSettings.newSaveDefaultCom = value; }
+
+        [XmlElement("NewSavesDefaultInd")]
+        public DefaultMode NewSavesDefaultInd { get => ModSettings.newSaveDefaultInd; set => ModSettings.newSaveDefaultInd = value; }
+
+        [XmlElement("NewSavesDefaultOff")]
+        public DefaultMode NewSavesDefaultOff { get => ModSettings.newSaveDefaultOff; set => ModSettings.newSaveDefaultOff = value; }
 
 
         // Commercial visitor calculations - clamp to 0 or 1 at this stage.

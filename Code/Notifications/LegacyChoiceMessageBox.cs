@@ -9,7 +9,7 @@ namespace RealPop2.MessageBox
     internal class LegacyChoiceMessageBox : ListMessageBox
     {
         // Button instances.
-        UIButton legacyButton, newButton;
+        UIButton vanillaButton, legacyButton, newButton;
 
 
         /// <summary>
@@ -17,7 +17,7 @@ namespace RealPop2.MessageBox
         /// </summary>
         public LegacyChoiceMessageBox()
         {
-            AddParas(Translations.Translate("RPR_OLD_0"), Translations.Translate("RPR_OLD_1"), Translations.Translate("RPR_OLD_2"), Translations.Translate("RPR_OLD_3"));
+            AddParas(Translations.Translate("RPR_OLD_0"), Translations.Translate("RPR_OLD_1"), Translations.Translate("RPR_OLD_4"), Translations.Translate("RPR_OLD_5"), Translations.Translate("RPR_OLD_6"), Translations.Translate("RPR_OLD_3"));
         }
 
 
@@ -27,21 +27,43 @@ namespace RealPop2.MessageBox
         public override void AddButtons()
         {
             // Add close button.
-            legacyButton = AddButton(1, 2, ChoseLegacy);
-            legacyButton.text = Translations.Translate("RPR_OLD_LEG");
-            newButton = AddButton(2, 2, ChoseNew);
+            newButton = AddButton(1, 3, ChooseNew);
             newButton.text = Translations.Translate("RPR_OLD_NEW");
+            newButton.wordWrap = true;
+            vanillaButton = AddButton(2, 3, ChooseVanilla);
+            vanillaButton.text = Translations.Translate("RPR_OLD_VAN");
+            vanillaButton.wordWrap = true;
+            legacyButton = AddButton(3, 3, ChooseLegacy);
+            legacyButton.text = Translations.Translate("RPR_OLD_LEG");
+            legacyButton.wordWrap = true;
         }
+
+
+        /// <summary>
+        /// Button action for choosing new calculations for this save.
+        /// </summary>
+        private void ChooseNew()
+        {
+            ModSettings.ThisSaveDefaultRes = DefaultMode.New;
+            ModSettings.ThisSaveDefaultCom = DefaultMode.New;
+            ModSettings.ThisSaveDefaultInd = DefaultMode.New;
+            ModSettings.ThisSaveDefaultOff = DefaultMode.New;
+            RealisticVisitplaceCount.SetVisitModes = (int)RealisticVisitplaceCount.ComVisitModes.legacy;
+            RealisticIndustrialProduction.SetProdModes = (int)RealisticIndustrialProduction.ProdModes.legacy;
+            RealisticExtractorProduction.SetProdModes = (int)RealisticExtractorProduction.ProdModes.legacy;
+            Close();
+        }
+
 
         /// <summary>
         /// Button action for choosing legacy calculations for this save.
         /// </summary>
-        private void ChoseLegacy()
+        private void ChooseVanilla()
         {
-            ModSettings.ThisSaveLegacyRes = true;
-            ModSettings.ThisSaveLegacyCom = true;
-            ModSettings.ThisSaveLegacyInd = true;
-            ModSettings.ThisSaveLegacyOff = true;
+            ModSettings.ThisSaveDefaultRes = DefaultMode.Vanilla;
+            ModSettings.ThisSaveDefaultCom = DefaultMode.Vanilla;
+            ModSettings.ThisSaveDefaultInd = DefaultMode.Vanilla;
+            ModSettings.ThisSaveDefaultOff = DefaultMode.Vanilla;
             ModSettings.EnableSchoolPop = false;
             ModSettings.enableSchoolProperties = false;
             RealisticVisitplaceCount.SetVisitModes = (int)RealisticVisitplaceCount.ComVisitModes.legacy;
@@ -52,17 +74,19 @@ namespace RealPop2.MessageBox
 
 
         /// <summary>
-        /// Button action for choosing new calculations for this save.
+        /// Button action for choosing legacy calculations for this save.
         /// </summary>
-        private void ChoseNew()
+        private void ChooseLegacy()
         {
-            ModSettings.ThisSaveLegacyRes = false;
-            ModSettings.ThisSaveLegacyCom = false;
-            ModSettings.ThisSaveLegacyInd = false;
-            ModSettings.ThisSaveLegacyOff = false;
-            RealisticVisitplaceCount.SetVisitModes = (int)RealisticVisitplaceCount.ComVisitModes.popCalcs;
-            RealisticIndustrialProduction.SetProdModes = (int)RealisticIndustrialProduction.ProdModes.popCalcs;
-            RealisticExtractorProduction.SetProdModes = (int)RealisticExtractorProduction.ProdModes.popCalcs;
+            ModSettings.ThisSaveDefaultRes = DefaultMode.Legacy;
+            ModSettings.ThisSaveDefaultCom = DefaultMode.Legacy;
+            ModSettings.ThisSaveDefaultInd = DefaultMode.Legacy;
+            ModSettings.ThisSaveDefaultOff = DefaultMode.Legacy;
+            ModSettings.EnableSchoolPop = false;
+            ModSettings.enableSchoolProperties = false;
+            RealisticVisitplaceCount.SetVisitModes = (int)RealisticVisitplaceCount.ComVisitModes.legacy;
+            RealisticIndustrialProduction.SetProdModes = (int)RealisticIndustrialProduction.ProdModes.legacy;
+            RealisticExtractorProduction.SetProdModes = (int)RealisticExtractorProduction.ProdModes.legacy;
             Close();
         }
     }

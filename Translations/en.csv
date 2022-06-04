@@ -258,10 +258,10 @@ RPR_OPT_MEA,Display figures in US Customary units (instead of metric)
 RPR_OPT_LDT,Enable detailed debugging logging
 RPR_OPT_DRC,Don't rebuild CitizenUnit array on first load of a city
 RPR_OPT_DRC_TIP,"Normally Realistic Population will automatically reubild the CitizenUnit array of a save when the mod is first applied, to ensure that the array is clean and with no errors.  Selecting this option disables that behavior."
-RPR_DEF_LGR,Use legacy calculations (WG original and Realistic Population Revisited version 1) by default for residential buildings:
-RPR_DEF_LGC,Use legacy calculations (WG original and Realistic Population Revisited version 1) by default for commercial buildings:
-RPR_DEF_LGI,Use legacy calculations (WG original and Realistic Population Revisited version 1) by default for industrial buildings:
-RPR_DEF_LGO,Use legacy calculations (WG original and Realistic Population Revisited version 1) by default for office buildings:
+RPR_DEF_DMR,Default residential building calculation mode:
+RPR_DEF_DMC,Default commercial building calculation mode:
+RPR_DEF_DMI,Default industrial building calculation mode:
+RPR_DEF_DMO,Default office building calculation mode:
 RPR_DEF_LTS,This save
 RPR_DEF_LAS,New saves
 RPR_DEF_VIS,Customer (visitor) capacity
@@ -285,10 +285,13 @@ MES_DSA,Don't show again
 MES_PAGE,Please refer to the mod's Steam Workshop page for further information.
 RPR_OLD_0,This savefile has not been saved with Realistic Population 2.
 RPR_OLD_1,Please be aware that applying different population calculations to an existing city can temporarily disrupt city balance.
-RPR_OLD_2,"If you are loading a city created with an earlier version of this mod, you may wish to continue using the legacy mod calculations for this city; this should preserve your existing city balance. Alternatively, you can choose to switch to the new (more accurate and flexible) calculation model, noting that your city may require some rebalancing."
-RPR_OLD_3,"Note that in either case, existing residential buildings will retain their existing capacities and households and will NOT be affected, and workers with existing jobs will NOT be immediately displaced from those jobs, so there will be no immediate impact on your city's population."
-RPR_OLD_LEG,Use legacy calculations
-RPR_OLD_NEW,Use new calculations
+RPR_OLD_3,"Note that in any case, existing residential buildings will retain their existing capacities and households and will NOT be affected, and workers with existing jobs will NOT be immediately displaced from those jobs, so there will be no immediate impact on your city's population."
+RPR_OLD_4,"Choose new calculations to immediately apply the mod's standard calculations."
+RPR_OLD_5,"Choose vanilla calculations to continue using the game's default calculations.  You can change to the mod's calculations later."
+RPR_OLD_6,"Choose legacy calculations to use the calculations used by earlier versions of this mod (the Realistc Population and Consumption mod and Realistic Population Revisited version 1).  Only choose this if your savefile used one of these earlier versions."
+RPR_OLD_VAN,Vanilla calculations
+RPR_OLD_LEG,Legacy calculations
+RPR_OLD_NEW,New calculations
 RPR_ERR_FAT,This means that Realistic Population 2 is not able to operate properly and has shut down.
 RPR_ERR_HAR,Realistic Population 2 was unable to complete its required Harmony patches.
 ERR_HAR0,Harmony patching error!

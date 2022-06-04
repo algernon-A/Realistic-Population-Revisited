@@ -66,10 +66,10 @@ namespace RealPop2
         protected override string TitleKey => "RPR_TIT_CDF";
 
 
-        // Legacy settings references.
-        protected override bool NewLegacyCategory { get => ModSettings.newSaveLegacyCom; set => ModSettings.newSaveLegacyCom = value; }
-        protected override bool ThisLegacyCategory { get => ModSettings.ThisSaveLegacyCom; set => ModSettings.ThisSaveLegacyCom = value; }
-        protected override string LegacyCheckLabel => "RPR_DEF_LGC";
+        // Default mode references.
+        protected override DefaultMode ThisDefaultMode { get => ModSettings.ThisSaveDefaultCom; set => ModSettings.ThisSaveDefaultCom = value; }
+        protected override DefaultMode NewDefaultMode { get => ModSettings.newSaveDefaultCom; set => ModSettings.newSaveDefaultCom = value; }
+        protected override string DefaultModeLabel => "RPR_DEF_DMC";
 
 
         /// <summary>

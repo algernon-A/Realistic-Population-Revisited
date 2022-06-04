@@ -10,12 +10,13 @@ namespace RealPop2
     internal abstract class RICODefaultsPanel : DefaultsPanelBase
     {
 
-        // Legacy settings links.
-        protected abstract bool NewLegacyCategory { get; set; }
-        protected abstract bool ThisLegacyCategory { get; set; }
+        // Default mode links.
+        protected abstract DefaultMode NewDefaultMode { get; set; }
+        protected abstract DefaultMode ThisDefaultMode { get; set; }
+
 
         // Translation key for legacy settings label.
-        protected abstract string LegacyCheckLabel { get; }
+        protected abstract string DefaultModeLabel { get; }
 
 
         /// <summary>
@@ -41,38 +42,50 @@ namespace RealPop2
             // Add 'Use legacy by default' header.
 
             // Label.
-            UILabel legacyLabel = UIControls.AddLabel(panel, Margin, currentY, Translations.Translate(LegacyCheckLabel), panel.width - Margin, textScale: 0.9f);
+            UILabel legacyLabel = UIControls.AddLabel(panel, Margin, currentY, Translations.Translate(DefaultModeLabel), panel.width - Margin, textScale: 0.9f);
             currentY += legacyLabel.height + 5f;
 
-            // Use legacy by default for this save check.
-            UICheckBox legacyThisSaveCheck = UIControls.LabelledCheckBox(panel, Margin * 2, currentY, Translations.Translate("RPR_DEF_LTS"));
-            legacyThisSaveCheck.label.wordWrap = true;
-            legacyThisSaveCheck.label.autoSize = false;
-            legacyThisSaveCheck.label.width = 710f;
-            legacyThisSaveCheck.label.autoHeight = true;
-            legacyThisSaveCheck.isChecked = ThisLegacyCategory;
-            legacyThisSaveCheck.eventCheckChanged += (control, isChecked) =>
+            // Mode dropdown items.
+            string[] modeMenuItems = new string[]
             {
-                ThisLegacyCategory = isChecked;
+                "New",
+                "Vanilla",
+                "Legacy"
+            };
+
+
+            UIDropDown thisSaveModeDrop = UIControls.AddLabelledDropDown(panel, Margin * 2, currentY, Translations.Translate("RPR_DEF_LTS"));
+            thisSaveModeDrop.items = modeMenuItems;
+            thisSaveModeDrop.selectedIndex = (int)ThisDefaultMode;
+            thisSaveModeDrop.eventSelectedIndexChanged += (control, index) =>
+            {
+                ThisDefaultMode = (DefaultMode)index;
+                UpdateControls();
+            };
+            currentY += 30f;
+
+            UIDropDown newSaveModeDrop = UIControls.AddLabelledDropDown(panel, Margin * 2, currentY, Translations.Translate("RPR_DEF_LAS"));
+            newSaveModeDrop.items = modeMenuItems;
+            newSaveModeDrop.selectedIndex = (int)NewDefaultMode;
+            newSaveModeDrop.eventSelectedIndexChanged += (control, index) =>
+            {
+                NewDefaultMode = (DefaultMode)index;
                 UpdateControls();
             };
 
-            // Use legacy by default for new saves check.
-            currentY += 20f;
-            UICheckBox legacyNewSaveCheck = UIControls.LabelledCheckBox(panel, Margin * 2, currentY, Translations.Translate("RPR_DEF_LAS"));
-            legacyNewSaveCheck.label.wordWrap = true;
-            legacyNewSaveCheck.label.autoSize = false;
-            legacyNewSaveCheck.label.width = 710f;
-            legacyNewSaveCheck.label.autoHeight = true;
-            legacyNewSaveCheck.isChecked = NewLegacyCategory;
-            legacyNewSaveCheck.eventCheckChanged += (control, isChecked) =>
+            // Align menus horizontally.
+            float menuOffset = thisSaveModeDrop.relativePosition.x - newSaveModeDrop.relativePosition.x;
+            if (menuOffset < 0)
             {
-                NewLegacyCategory = isChecked;
-                UpdateControls();
-            };
+                thisSaveModeDrop.relativePosition -= new Vector3(menuOffset, 0);
+            }
+            else
+            {
+                newSaveModeDrop.relativePosition += new Vector3(menuOffset, 0);
+            }
 
             // Spacer bar.
-            currentY += 25f;
+            currentY += 35f;
             UIControls.OptionsSpacer(panel, Margin, currentY, panel.width - (Margin * 2f));
 
             return currentY + 10f;

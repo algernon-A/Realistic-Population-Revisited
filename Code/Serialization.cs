@@ -14,7 +14,7 @@ namespace RealPop2
     {
         // Unique data ID.
         private readonly string dataID = "RealisticPopulation";
-        internal const int CurrentDataVersion = 6;
+        internal const int CurrentDataVersion = 7;
 
 
         /// <summary>
@@ -78,11 +78,12 @@ namespace RealPop2
                 if ((LoadMode)Singleton<SimulationManager>.instance.m_metaData.m_updateMode == LoadMode.NewGame)
                 {
                     Logging.KeyMessage("new game detected");
+
                     // New game - set this game's legacy save settings to the new game defaults, and set the savegame flag.
-                    ModSettings.ThisSaveLegacyRes = ModSettings.newSaveLegacyRes;
-                    ModSettings.ThisSaveLegacyCom = ModSettings.newSaveLegacyCom;
-                    ModSettings.ThisSaveLegacyInd = ModSettings.newSaveLegacyInd;
-                    ModSettings.ThisSaveLegacyOff = ModSettings.newSaveLegacyOff;
+                    ModSettings.ThisSaveDefaultRes = ModSettings.newSaveDefaultRes;
+                    ModSettings.ThisSaveDefaultCom = ModSettings.newSaveDefaultCom;
+                    ModSettings.ThisSaveDefaultInd = ModSettings.newSaveDefaultInd;
+                    ModSettings.ThisSaveDefaultOff = ModSettings.newSaveDefaultOff;
                     ModSettings.isRealPop2Save = true;
                 }
             }
@@ -107,10 +108,10 @@ namespace RealPop2
             serializer.WriteInt32(Serializer.CurrentDataVersion);
 
             // Write 'using legacy' flags.
-            serializer.WriteBool(ModSettings.ThisSaveLegacyRes);
-            serializer.WriteBool(ModSettings.ThisSaveLegacyCom);
-            serializer.WriteBool(ModSettings.ThisSaveLegacyInd);
-            serializer.WriteBool(ModSettings.ThisSaveLegacyOff);
+            serializer.WriteUInt8((byte)ModSettings.ThisSaveDefaultRes);
+            serializer.WriteUInt8((byte)ModSettings.ThisSaveDefaultCom);
+            serializer.WriteUInt8((byte)ModSettings.ThisSaveDefaultInd);
+            serializer.WriteUInt8((byte)ModSettings.ThisSaveDefaultOff);
         }
 
 
@@ -129,9 +130,19 @@ namespace RealPop2
                 Logging.Message("read data version ", dataVersion);
 
                 // Make sure we have a matching data version.
-                if (dataVersion == 6)
+                if (dataVersion == 7)
                 {
-                    // Same as version 5, but if we've saved with this version we disable auto-rebuild of CitizenUnits.
+                    // Replaces 'using legacy' bool flags.
+
+                    ModSettings.ThisSaveDefaultRes = (DefaultMode)serializer.ReadUInt8();
+                    ModSettings.ThisSaveDefaultCom = (DefaultMode)serializer.ReadUInt8();
+                    ModSettings.ThisSaveDefaultInd = (DefaultMode)serializer.ReadUInt8();
+                    ModSettings.ThisSaveDefaultOff = (DefaultMode)serializer.ReadUInt8();
+                }
+
+                if (dataVersion > 5)
+                {
+                    // Above version 5 we disable auto-rebuild of CitizenUnits.
                     OnLevelLoadedPatch.rebuildUnitArray = false;
                 }
 

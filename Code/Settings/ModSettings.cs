@@ -4,20 +4,26 @@
 namespace RealPop2
 {
     /// <summary>
+    /// Default calculation modes.
+    /// </summary>
+    public enum DefaultMode : byte
+    {
+        New = 0,
+        Vanilla = 1,
+        Legacy = 2
+    }
+
+
+    /// <summary>
     /// Static class to hold global mod settings.
     /// </summary>
     internal static class ModSettings
     {
-        // Legacy settings.
-        private static bool thisSaveLegacyRes = false;
-        private static bool thisSaveLegacyCom = false;
-        private static bool thisSaveLegacyInd = false;
-        private static bool thisSaveLegacyOff = false;
-        internal static bool newSaveLegacyRes = false;
-        internal static bool newSaveLegacyCom = false;
-        internal static bool newSaveLegacyInd = false;
-        internal static bool newSaveLegacyExt = false;
-        internal static bool newSaveLegacyOff = false;
+        // Load modes.
+        internal static DefaultMode newSaveDefaultRes = DefaultMode.New;
+        internal static DefaultMode newSaveDefaultCom = DefaultMode.New;
+        internal static DefaultMode newSaveDefaultInd = DefaultMode.New;
+        internal static DefaultMode newSaveDefaultOff = DefaultMode.New;
 
         // Enable additional features.
         private static bool enableSchoolPop = false;
@@ -32,128 +38,168 @@ namespace RealPop2
         // What's new notification version.
         internal static string whatsNewVersion = "0.0";
 
+
         /// <summary>
-        /// Handles current 'use legacy by default for residential' option changes.
+        /// Default calculation mode for residential buildings for this save.
         /// </summary>
-        internal static bool ThisSaveLegacyRes
+        internal static DefaultMode ThisSaveDefaultRes
         {
             // Simple getter.
-            get => thisSaveLegacyRes;
+            get => thisSaveDefaultRes;
 
             // Setter needs to clear out DataStore cache if the setting has changed (to force calculation of new values).
             set
             {
                 // Has setting changed?
-                if (value != thisSaveLegacyRes)
+                if (value != thisSaveDefaultRes)
                 {
                     // Yes - clear caches.
                     PopData.instance.householdCache.Clear();
 
-                    // Update flag.
-                    thisSaveLegacyRes = value;
+                    // Update value.
+                    thisSaveDefaultRes = value;
 
-                    // If set to true, need to clear out surplus unoccupied households.
-                    // This is to resolve a race condition on load, where the save file mod data (including thisSaveLegacyRes) is loaded *after* building init (which means init has occured with volumetric values).
-                    // Leaving occupied households alone prevents any potential damage.
-                    if (value)
-                    {
-                        CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Residential, ItemClass.SubService.None, true);
-                    }
+                    // Update exiting buildings.
+                    CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Residential, ItemClass.SubService.None, false);
                 }
             }
+        }
+        private static DefaultMode thisSaveDefaultRes = DefaultMode.New;
+
+
+        /// <summary>
+        /// Default calculation mode for commercial buildings for this save.
+        /// </summary>
+        internal static DefaultMode ThisSaveDefaultCom
+        {
+            // Simple getter.
+            get => thisSaveDefaultCom;
+
+            // Setter needs to clear out DataStore cache if the setting has changed (to force calculation of new values).
+            set
+            {
+                // Has setting changed?
+                if (value != thisSaveDefaultCom)
+                {
+                    // Yes - clear caches.
+                    ClearWorkplaceCaches();
+
+                    // Update value.
+                    thisSaveDefaultCom = value;
+
+                    // Update exiting buildings.
+                    CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Commercial, ItemClass.SubService.None, false);
+                }
+            }
+        }
+        private static DefaultMode thisSaveDefaultCom = DefaultMode.New;
+
+
+        /// <summary>
+        /// Default calculation mode for industrial buildings for this save.
+        /// </summary>
+        internal static DefaultMode ThisSaveDefaultInd
+        {
+            // Simple getter.
+            get => thisSaveDefaultInd;
+
+            // Setter needs to clear out DataStore cache if the setting has changed (to force calculation of new values).
+            set
+            {
+                // Has setting changed?
+                if (value != thisSaveDefaultInd)
+                {
+                    // Yes - clear caches.
+                    ClearWorkplaceCaches();
+
+                    // Update value.
+                    thisSaveDefaultInd = value;
+
+                    // Update exiting buildings.
+                    CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Industrial, ItemClass.SubService.None, false);
+                }
+            }
+        }
+        private static DefaultMode thisSaveDefaultInd = DefaultMode.New;
+
+
+        /// <summary>
+        /// Default calculation mode for commercial buildings for this save.
+        /// </summary>
+        internal static DefaultMode ThisSaveDefaultOff
+        {
+            // Simple getter.
+            get => thisSaveDefaultOff;
+
+            // Setter needs to clear out DataStore cache if the setting has changed (to force calculation of new values).
+            set
+            {
+                // Has setting changed?
+                if (value != thisSaveDefaultOff)
+                {
+                    // Yes - clear caches.
+                    ClearWorkplaceCaches();
+
+                    // Update value.
+                    thisSaveDefaultOff = value;
+
+                    // Update exiting buildings.
+                    CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Office, ItemClass.SubService.None, false);
+                }
+            }
+        }
+        private static DefaultMode thisSaveDefaultOff = DefaultMode.New;
+
+
+        /// <summary>
+        /// Old 'use legacy by default for residential' option.
+        /// </summary>
+        internal static bool ThisSaveLegacyRes
+        {
+            // Simple getter.
+            get => ThisSaveDefaultRes == DefaultMode.Legacy;
+
+            // Setter only toggles between legacy and new (vanilla setting wasn't implemented for this).
+            set => ThisSaveDefaultRes = value ? DefaultMode.Legacy : DefaultMode.New;
         }
 
 
         /// <summary>
-        /// Handles current 'use legacy by default for commercial' option changes.
+        /// Old 'use legacy by default for commercial' option.
         /// </summary>
         internal static bool ThisSaveLegacyCom
         {
             // Simple getter.
-            get => thisSaveLegacyCom;
+            get => ThisSaveDefaultCom == DefaultMode.Legacy;
 
-            // Setter needs to clear out DataStore cache if the setting has changed (to force calculation of new values).
-            set
-            {
-                // Has setting changed?
-                if (value != thisSaveLegacyCom)
-                {
-                    // Yes - clear caches.
-                    ClearWorkplaceCaches();
-
-                    // Update flag.
-                    thisSaveLegacyCom = value;
-
-                    // If set to true, we need to clear out surplus unoccupied citizen units.
-                    // This is to resolve a race condition on load, where the save file mod data (including thisSaveLegacyRes) is loaded *after* building init (which means init has occured with volumetric values).
-                    if (value)
-                    {
-                        CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Commercial, ItemClass.SubService.None, false);
-                    }
-                }
-            }
+            // Setter only toggles between legacy and new (vanilla setting wasn't implemented for this).
+            set => ThisSaveDefaultCom = value ? DefaultMode.Legacy : DefaultMode.New;
         }
 
 
         /// <summary>
-        /// Handles current 'use legacy by default for industrial' option changes.
+        /// Old 'use legacy by default for industrial' option.
         /// </summary>
         internal static bool ThisSaveLegacyInd
         {
             // Simple getter.
-            get => thisSaveLegacyInd;
+            get => ThisSaveDefaultInd == DefaultMode.Legacy;
 
-            // Setter needs to clear out DataStore cache if the setting has changed (to force calculation of new values).
-            set
-            {
-                // Has setting changed?
-                if (value != thisSaveLegacyInd)
-                {
-                    // Yes - clear caches.
-                    ClearWorkplaceCaches();
-
-                    // Update flag.
-                    thisSaveLegacyInd = value;
-
-                    // If set to true, we need to clear out surplus unoccupied citizen units.
-                    // This is to resolve a race condition on load, where the save file mod data (including thisSaveLegacyRes) is loaded *after* building init (which means init has occured with volumetric values).
-                    if (value)
-                    {
-                        CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Industrial, ItemClass.SubService.None, false);
-                    }
-                }
-            }
+            // Setter only toggles between legacy and new (vanilla setting wasn't implemented for this).
+            set => ThisSaveDefaultInd = value ? DefaultMode.Legacy : DefaultMode.New;
         }
 
 
         /// <summary>
-        /// Handles current 'use legacy by default for industiral' option changes.
+        /// Old 'use legacy by default for office' option.
         /// </summary>
         internal static bool ThisSaveLegacyOff
         {
             // Simple getter.
-            get => thisSaveLegacyOff;
+            get => ThisSaveDefaultOff == DefaultMode.Legacy;
 
-            // Setter needs to clear out DataStore cache if the setting has changed (to force calculation of new values).
-            set
-            {
-                // Has setting changed?
-                if (value != thisSaveLegacyOff)
-                {
-                    // Yes - clear caches.
-                    ClearWorkplaceCaches();
-
-                    // Update flag.
-                    thisSaveLegacyOff = value;
-
-                    // If set to true, we need to clear out surplus unoccupied citizen units.
-                    // This is to resolve a race condition on load, where the save file mod data (including thisSaveLegacyRes) is loaded *after* building init (which means init has occured with volumetric values).
-                    if (value)
-                    {
-                        CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Office, ItemClass.SubService.None, false);
-                    }
-                }
-            }
+            // Setter only toggles between legacy and new (vanilla setting wasn't implemented for this).
+            set => ThisSaveDefaultOff = value ? DefaultMode.Legacy : DefaultMode.New;
         }
 
 

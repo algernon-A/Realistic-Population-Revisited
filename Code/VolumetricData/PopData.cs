@@ -822,36 +822,62 @@ namespace RealPop2
             switch (service)
             {
                 case ItemClass.Service.Residential:
-                    // Residential - legacy defaults or new?
-                    if (ModSettings.ThisSaveLegacyRes)
+                    switch (ModSettings.ThisSaveDefaultRes)
                     {
-                        // Legacy.
-                        defaultName = "resWG";
-                    }
-                    else
-                    {
-                        // Volumetric.
-                        switch (subService)
-                        {
-                            case ItemClass.SubService.ResidentialHigh:
-                                defaultName = "reshighUS";
-                                break;
-                            case ItemClass.SubService.ResidentialHighEco:
-                                defaultName = "resEUmod";
-                                break;
-                            default:
-                                defaultName = "reslow";
-                                break;
-                        }
+                        case DefaultMode.Vanilla:
+                            defaultName = "vanilla";
+                            break;
+                        case DefaultMode.Legacy:
+                            defaultName = "resWG";
+                            break;
+                        default:
+                            // Default is volumetric.
+                            switch (subService)
+                            {
+                                case ItemClass.SubService.ResidentialHigh:
+                                    defaultName = "reshighUS";
+                                    break;
+                                case ItemClass.SubService.ResidentialHighEco:
+                                    defaultName = "resEUmod";
+                                    break;
+                                default:
+                                    defaultName = "reslow";
+                                    break;
+                            }
+                            break;
                     }
                     break;
 
                 case ItemClass.Service.Industrial:
-                    defaultName = ModSettings.ThisSaveLegacyInd ? "indWG" : "factory";
+                    switch (ModSettings.ThisSaveDefaultInd)
+                    {
+                        case DefaultMode.Vanilla:
+                            defaultName = "vanilla";
+                            break;
+                        case DefaultMode.Legacy:
+                            defaultName = "indWG";
+                            break;
+                        default:
+                            // Default is volumetric.
+                            defaultName = "factory";
+                            break;
+                    }
                     break;
 
                 case ItemClass.Service.Office:
-                    defaultName = ModSettings.ThisSaveLegacyOff ? "offWG" : "offcorp";
+                    switch (ModSettings.ThisSaveDefaultOff)
+                    {
+                        case DefaultMode.Vanilla:
+                            defaultName = "vanilla";
+                            break;
+                        case DefaultMode.Legacy:
+                            defaultName = "offWG";
+                            break;
+                        default:
+                            // Default is volumetric.
+                            defaultName = "offcorp";
+                            break;
+                    }
                     break;
 
                 case ItemClass.Service.Education:
@@ -860,31 +886,33 @@ namespace RealPop2
 
                 default:
                     // Default is commercial.
-
-                    if (ModSettings.ThisSaveLegacyCom)
+                    switch (ModSettings.ThisSaveDefaultCom)
                     {
-                        // Legacy settings.
-                        defaultName = "comWG";
-                    }
-                    else
-                    {
-                        // New settings.
-                        switch (subService)
-                        {
-                            case ItemClass.SubService.CommercialHigh:
-                                defaultName = "comUS";
-                                break;
-                            case ItemClass.SubService.CommercialTourist:
-                                defaultName = "hotel";
-                                break;
-                            case ItemClass.SubService.CommercialLeisure:
-                                defaultName = "restaurant";
-                                break;
-                            default:
-                                // Default is low-density commercial.
-                                defaultName = "comUS";
-                                break;
-                        }
+                        case DefaultMode.Vanilla:
+                            defaultName = "vanilla";
+                            break;
+                        case DefaultMode.Legacy:
+                            defaultName = "comWG";
+                            break;
+                        default:
+                            // Default is volumetric.
+                            switch (subService)
+                            {
+                                case ItemClass.SubService.CommercialHigh:
+                                    defaultName = "comUS";
+                                    break;
+                                case ItemClass.SubService.CommercialTourist:
+                                    defaultName = "hotel";
+                                    break;
+                                case ItemClass.SubService.CommercialLeisure:
+                                    defaultName = "restaurant";
+                                    break;
+                                default:
+                                    // Default is low-density commercial.
+                                    defaultName = "comUS";
+                                    break;
+                            }
+                            break;
                     }
                     break;
             }
