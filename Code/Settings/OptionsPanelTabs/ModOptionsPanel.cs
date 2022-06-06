@@ -21,7 +21,7 @@ namespace RealPop2
             panel.autoLayout = true;
 
             // Language dropdown.
-            UIDropDown languageDrop = UIControls.AddPlainDropDown(panel, Translations.Translate("TRN_CHOICE"), Translations.LanguageList, Translations.Index);
+            UIDropDown languageDrop = UIControls.AddPlainDropDown(panel, 0f, 0f, Translations.Translate("TRN_CHOICE"), Translations.LanguageList, Translations.Index);
             languageDrop.eventSelectedIndexChanged += (control, index) =>
             {
                 Translations.Index = index;

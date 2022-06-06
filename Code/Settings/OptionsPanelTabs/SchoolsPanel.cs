@@ -48,7 +48,7 @@ namespace RealPop2
                 schoolPropertyCheck.eventCheckChanged += (control, isChecked) => ModSettings.enableSchoolProperties = isChecked;
 
                 // School default multiplier.  Simple integer.
-                UISlider schoolMult = UIControls.AddSliderWithValue(panel, Translations.Translate("RPR_OPT_SDM"), 1f, 5f, 0.5f, ModSettings.DefaultSchoolMult, (value) => { ModSettings.DefaultSchoolMult = value; });
+                UISlider schoolMult = UIControls.AddSliderWithValue(panel, 0f, 0f, Translations.Translate("RPR_OPT_SDM"), 1f, 5f, 0.5f, ModSettings.DefaultSchoolMult, (value) => { ModSettings.DefaultSchoolMult = value; });
             }
         }
     }

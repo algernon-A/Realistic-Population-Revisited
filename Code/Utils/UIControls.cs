@@ -503,12 +503,14 @@ namespace RealPop2
         /// Creates a plain dropdown using the game's option panel dropdown template.
         /// </summary>
         /// <param name="parent">Parent component</param>
+        /// <param name="xPos">Relative x position)</param>
+        /// <param name="yPos">Relative y position</param>
         /// <param name="text">Descriptive label text</param>
         /// <param name="items">Dropdown menu item list</param>
         /// <param name="selectedIndex">Initially selected index (default 0)</param>
         /// <param name="width">Width of dropdown (default 60)</param>
         /// <returns>New dropdown menu using game's option panel template</returns>
-        public static UIDropDown AddPlainDropDown(UIComponent parent, string text, string[] items, int selectedIndex = 0, float width = 270f)
+        public static UIDropDown AddPlainDropDown(UIComponent parent, float xPos, float yPos, string text, string[] items, int selectedIndex = 0, float width = 270f)
         {
             UIPanel panel = parent.AttachUIComponent(UITemplateManager.GetAsGameObject("OptionsDropdownTemplate")) as UIPanel;
             UIDropDown dropDown = panel.Find<UIDropDown>("Dropdown");
@@ -524,6 +526,9 @@ namespace RealPop2
             dropDown.items = items;
             dropDown.selectedIndex = selectedIndex;
 
+            // Set position.
+            dropDown.parent.relativePosition = new Vector2(xPos, yPos);
+
             return dropDown;
         }
 
@@ -531,7 +536,9 @@ namespace RealPop2
         /// <summary>
         /// Adds a slider with a descriptive text label above.
         /// </summary>
-        /// <param name="parent">Panel to add the control to</param>
+        /// <param name="parent">Parent component</param>
+        /// <param name="xPos">Relative x position)</param>
+        /// <param name="yPos">Relative y position</param>
         /// <param name="text">Descriptive label text</param>
         /// <param name="min">Slider minimum value</param>
         /// <param name="max">Slider maximum value</param>
@@ -539,7 +546,7 @@ namespace RealPop2
         /// <param name="defaultValue">Slider initial value</param>
         /// <param name="width">Slider width (excluding value label to right) (default 600)</param>
         /// <returns>New UI slider with attached labels</returns>
-        public static UISlider AddSlider(UIComponent parent, string text, float min, float max, float step, float defaultValue, float width = 600f)
+        public static UISlider AddSlider(UIComponent parent, float xPos, float yPos, string text, float min, float max, float step, float defaultValue, float width = 600f)
         {
             // Add slider component.
             UIPanel sliderPanel = parent.AttachUIComponent(UITemplateManager.GetAsGameObject("OptionsSliderTemplate")) as UIPanel;
@@ -568,7 +575,11 @@ namespace RealPop2
             // Move default slider position to match resized label.
             newSlider.anchor = UIAnchorStyle.Left | UIAnchorStyle.Top;
             newSlider.relativePosition = PositionUnder(sliderLabel);
+
             newSlider.width = width;
+
+            // Set position.
+            newSlider.parent.relativePosition = new Vector2(xPos, yPos);
 
             return newSlider;
         }
@@ -578,6 +589,8 @@ namespace RealPop2
         /// Adds a slider with a descriptive text label above and an automatically updating value label immediately to the right.
         /// </summary>
         /// <param name="parent">Panel to add the control to</param>
+        /// <param name="xPos">Relative x position)</param>
+        /// <param name="yPos">Relative y position</param>
         /// <param name="text">Descriptive label text</param>
         /// <param name="min">Slider minimum value</param>
         /// <param name="max">Slider maximum value</param>
@@ -586,10 +599,10 @@ namespace RealPop2
         /// <param name="eventCallback">Slider event handler</param>
         /// <param name="width">Slider width (excluding value label to right) (default 600)</param>
         /// <returns>New UI slider with attached labels</returns>
-        public static UISlider AddSliderWithValue(UIComponent parent, string text, float min, float max, float step, float defaultValue, OnValueChanged eventCallback, float width = 600f)
+        public static UISlider AddSliderWithValue(UIComponent parent, float xPos, float ypos, string text, float min, float max, float step, float defaultValue, OnValueChanged eventCallback, float width = 600f)
         {
             // Add slider component.
-            UISlider newSlider = AddSlider(parent, text, min, max, step, defaultValue, width);
+            UISlider newSlider = AddSlider(parent, xPos, ypos, text, min, max, step, defaultValue, width);
             UIPanel sliderPanel = (UIPanel)newSlider.parent;
 
             // Value label.

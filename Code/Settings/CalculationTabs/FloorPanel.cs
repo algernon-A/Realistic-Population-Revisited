@@ -60,8 +60,7 @@ namespace RealPop2
                 firstEmptyCheck = new UICheckBox();
 
                 // Pack selection dropdown.
-                packDropDown = UIControls.AddPlainDropDown(panel, Translations.Translate("RPR_OPT_CPK"), new string[0], -1);
-                packDropDown.parent.relativePosition = new Vector2(20f, currentY);
+                packDropDown = UIControls.AddPlainDropDown(panel, 20f, currentY, Translations.Translate("RPR_OPT_CPK"), new string[0], -1);
                 packDropDown.eventSelectedIndexChanged += PackChanged;
 
                 // Headings.

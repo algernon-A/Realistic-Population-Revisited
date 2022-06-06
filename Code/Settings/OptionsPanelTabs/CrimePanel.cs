@@ -40,7 +40,7 @@ namespace RealPop2
                 UIHelper helper = new UIHelper(panel);
 
                 // Add slider component.
-                UISlider newSlider = UIControls.AddSlider(panel, Translations.Translate("RPR_OPT_CML"), 1f, 200f, 1f, ModSettings.crimeMultiplier);
+                UISlider newSlider = UIControls.AddSlider(panel, 0f, 0f, Translations.Translate("RPR_OPT_CML"), 1f, 200f, 1f, ModSettings.crimeMultiplier);
                 newSlider.tooltipBox = TooltipUtils.TooltipBox;
                 newSlider.tooltip = Translations.Translate("RPR_OPT_CML_TIP");
 

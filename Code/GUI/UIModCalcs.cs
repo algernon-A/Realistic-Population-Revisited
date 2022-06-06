@@ -665,7 +665,7 @@ namespace RealPop2
         private UISlider AddSliderWithMultipler(UIComponent parent, string text, float min, float max, float step, float defaultValue, OnValueChanged eventCallback, float width = 600f)
         {
             // Add slider component.
-            UISlider newSlider = UIControls.AddSlider(parent, text, min, max, step, defaultValue, width);
+            UISlider newSlider = UIControls.AddSlider(parent, 0f, 0f, text, min, max, step, defaultValue, width);
             UIPanel sliderPanel = (UIPanel)newSlider.parent;
 
             // Value label.
