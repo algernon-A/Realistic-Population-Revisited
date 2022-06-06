@@ -1,3 +1,5 @@
+Version 2.0.3 -
+
 - Add Vanilla default calculation pack mode
 - Remove auto-rebuild of CitizenUnit array on first load
 
