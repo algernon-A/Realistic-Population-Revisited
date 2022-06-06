@@ -49,18 +49,6 @@ namespace RealPop2
                 Logging.detailLogging = isChecked;
                 Logging.KeyMessage("detailed logging ", Logging.detailLogging ? "enabled" : "disabled");
             };
-
-            // Don't rebuild CitizenUnit array option.
-            UICheckBox dontRebuildCheck = UIControls.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_DRC"));
-            dontRebuildCheck.tooltipBox = TooltipUtils.TooltipBox;
-            dontRebuildCheck.tooltip = Translations.Translate("RPR_OPT_DRC_TIP");
-            dontRebuildCheck.isChecked = ModSettings.dontRebuildUnits;
-            dontRebuildCheck.eventCheckChanged += (control, isChecked) =>
-            {
-                // Update mod settings.
-                ModSettings.dontRebuildUnits = isChecked;
-                Logging.KeyMessage("don't rebuild CitizenUnit array on first load ", ModSettings.dontRebuildUnits ? "enabled" : "disabled");
-            };
         }
     }
 }

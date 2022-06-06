@@ -256,8 +256,6 @@ RPR_OPT_DEL,Delete pack
 RPR_OPT_NPK,New pack
 RPR_OPT_MEA,Display figures in US Customary units (instead of metric)
 RPR_OPT_LDT,Enable detailed debugging logging
-RPR_OPT_DRC,Don't rebuild CitizenUnit array on first load of a city
-RPR_OPT_DRC_TIP,"Normally Realistic Population will automatically reubild the CitizenUnit array of a save when the mod is first applied, to ensure that the array is clean and with no errors.  Selecting this option disables that behavior."
 RPR_DEF_DMR,Default residential building calculation mode:
 RPR_DEF_DMC,Default commercial building calculation mode:
 RPR_DEF_DMI,Default industrial building calculation mode:

@@ -140,12 +140,6 @@ namespace RealPop2
                     ModSettings.ThisSaveDefaultOff = (DefaultMode)serializer.ReadUInt8();
                 }
 
-                if (dataVersion > 5)
-                {
-                    // Above version 5 we disable auto-rebuild of CitizenUnits.
-                    OnLevelLoadedPatch.rebuildUnitArray = false;
-                }
-
                 if (dataVersion == 3 || dataVersion == 5 || dataVersion == 6)
                 {
                     // Versions where industrial and extractor workplace legacy settings are combined.
