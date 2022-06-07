@@ -286,7 +286,7 @@ RPR_OLD_1,Please be aware that applying different population calculations to an 
 RPR_OLD_3,"Note that in any case, existing residential buildings will retain their existing capacities and households and will NOT be affected, and workers with existing jobs will NOT be immediately displaced from those jobs, so there will be no immediate impact on your city's population."
 RPR_OLD_4,"Choose new calculations to immediately apply the mod's standard calculations."
 RPR_OLD_5,"Choose vanilla calculations to continue using the game's default calculations.  You can change to the mod's calculations later."
-RPR_OLD_6,"Choose legacy calculations to use the calculations used by earlier versions of this mod (the Realistc Population and Consumption mod and Realistic Population Revisited version 1).  Only choose this if your savefile used one of these earlier versions."
+RPR_OLD_6,"Choose legacy calculations to use the calculations used by earlier versions of this mod (the Realistic Population and Consumption mod and Realistic Population Revisited version 1).  Only choose this if your savefile used one of these earlier versions."
 RPR_OLD_VAN,Vanilla calculations
 RPR_OLD_LEG,Legacy calculations
 RPR_OLD_NEW,New calculations
