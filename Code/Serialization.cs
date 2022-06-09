@@ -138,6 +138,9 @@ namespace RealPop2
                     ModSettings.ThisSaveDefaultCom = (DefaultMode)serializer.ReadUInt8();
                     ModSettings.ThisSaveDefaultInd = (DefaultMode)serializer.ReadUInt8();
                     ModSettings.ThisSaveDefaultOff = (DefaultMode)serializer.ReadUInt8();
+
+                    // Record that we've successfully deserialized savegame data.
+                    ModSettings.isRealPop2Save = true;
                 }
 
                 if (dataVersion == 3 || dataVersion == 5 || dataVersion == 6)
