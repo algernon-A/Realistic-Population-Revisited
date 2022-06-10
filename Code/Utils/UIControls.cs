@@ -346,6 +346,44 @@ namespace RealPop2
 
 
         /// <summary>
+        /// Creates a plain checkbox using the game's option panel checkbox template, with word wrapping for the label.
+        /// </summary>
+        /// <param name="parent">Parent component</param>
+        /// <param name="text">Descriptive label text</param>
+        /// <param name="xPos">Relative x position)</param>
+        /// <param name="yPos">Relative y position</param>
+        /// <param name="labelWidth">Label width</param>
+        /// <returns>New checkbox using the game's option panel template</returns>
+        public static UICheckBox AddPlainCheckBox(UIComponent parent, float xPos, float yPos, string text, float labelWidth)
+        {
+            // Create checkbox.
+            UICheckBox checkBox = AddPlainCheckBox(parent, xPos, yPos, text);
+
+            // Find label.
+            UILabel label = checkBox.Find<UILabel>("Label");
+            if (label != null)
+            {
+                // Apply label fixed width.
+                label.autoSize = false;
+                label.autoHeight = true;
+                label.width = labelWidth;
+                label.wordWrap = true;
+
+                // Update label parent layout.
+                checkBox.PerformLayout();
+
+                // Update parent size.
+                if (checkBox.height < label.height)
+                {
+                    checkBox.height = label.height + 2f;
+                }
+            }
+
+            return checkBox;
+        }
+
+
+        /// <summary>
         /// Adds a plain text label to the specified UI component.
         /// </summary>
         /// <param name="parent">Parent component</param>
