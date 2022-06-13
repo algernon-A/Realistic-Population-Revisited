@@ -64,8 +64,6 @@ namespace RealPop2.MessageBox
             ModSettings.ThisSaveDefaultCom = DefaultMode.Vanilla;
             ModSettings.ThisSaveDefaultInd = DefaultMode.Vanilla;
             ModSettings.ThisSaveDefaultOff = DefaultMode.Vanilla;
-            ModSettings.EnableSchoolPop = false;
-            ModSettings.enableSchoolProperties = false;
             RealisticVisitplaceCount.SetVisitModes = (int)RealisticVisitplaceCount.ComVisitModes.legacy;
             RealisticIndustrialProduction.SetProdModes = (int)RealisticIndustrialProduction.ProdModes.legacy;
             RealisticExtractorProduction.SetProdModes = (int)RealisticExtractorProduction.ProdModes.legacy;
@@ -82,8 +80,6 @@ namespace RealPop2.MessageBox
             ModSettings.ThisSaveDefaultCom = DefaultMode.Legacy;
             ModSettings.ThisSaveDefaultInd = DefaultMode.Legacy;
             ModSettings.ThisSaveDefaultOff = DefaultMode.Legacy;
-            ModSettings.EnableSchoolPop = false;
-            ModSettings.enableSchoolProperties = false;
             RealisticVisitplaceCount.SetVisitModes = (int)RealisticVisitplaceCount.ComVisitModes.legacy;
             RealisticIndustrialProduction.SetProdModes = (int)RealisticIndustrialProduction.ProdModes.legacy;
             RealisticExtractorProduction.SetProdModes = (int)RealisticExtractorProduction.ProdModes.legacy;
