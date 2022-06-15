@@ -132,13 +132,24 @@ namespace RealPop2
                 // No - create new record.
                 cacheEntry = new VisitplaceCache();
 
-                // Calculate results for each of the three levels.
+                // Check for vanilla calcs.
                 WorkplaceLevels workplaces = WorkplaceCache(info, 0);
-                cacheEntry.level0 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
-                workplaces = WorkplaceCache(info, 1);
-                cacheEntry.level1 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
-                workplaces = WorkplaceCache(info, 2);
-                cacheEntry.level2 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
+                if (workplaces.level0 == ushort.MaxValue)
+                {
+                    // Vanilla calcs - set all entries to ushort.MaxValue; the Prefix patch will detect this and fall through to game code.
+                    cacheEntry.level0 = ushort.MaxValue;
+                    cacheEntry.level1 = ushort.MaxValue;
+                    cacheEntry.level2 = ushort.MaxValue;
+                }
+                else
+                {
+                    // Not vanulla - calculate results for each of the three levels.
+                    cacheEntry.level0 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
+                    workplaces = WorkplaceCache(info, 1);
+                    cacheEntry.level1 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
+                    workplaces = WorkplaceCache(info, 2);
+                    cacheEntry.level2 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
+                }
 
                 // Add new key to cache
                 visitplaceCache.Add(info, cacheEntry);

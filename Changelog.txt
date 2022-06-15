@@ -1,3 +1,5 @@
+- Overhaul vanilla population calculations for prefabs with variable lot sizes
+
 Version 2.0.3.1 -
 
 - Fix legacy choice selections clobbering global custom school setting

@@ -23,20 +23,28 @@ namespace RealPop2
         /// <param name="r">Randomizer (unused)</param>
         /// <param name="width">Building lot width (unused)</param>
         /// <param name="length">Building lot length (unused)</param>
-        /// <returns>Always false (don't execute base game method after this)</returns>
+        /// <returns>False (never execute original method) if anything other than vanilla calculations are set for the building, true (fall through to game code) otherwise</returns>
         public static bool Prefix(ref int __result, ResidentialBuildingAI __instance, ItemClass.Level level, Randomizer r, int width, int length)
         {
             // Get population value from cache.
-            __result = PopData.instance.HouseholdCache(__instance.m_info, (int)level);
+            int result = PopData.instance.HouseholdCache(__instance.m_info, (int)level);
 
             // Always set at least one.
-            if (__result < 1)
+            if (result < 1)
             {
-                Logging.Error("invalid homecount result ", __result, " for ", __instance.m_info.name, "; setting to 1");
-                __result = 1;
+                Logging.Error("invalid homecount result ", result, " for ", __instance.m_info.name, "; setting to 1");
+                result = 1;
+            }
+
+            // Check for vanilla calc setting.
+            else if (result == ushort.MaxValue)
+            {
+                // Vanilla calculations; fall through to original game code.
+                return true;
             }
 
             // Don't execute base method after this.
+            __result = result;
             return false;
         }
     }

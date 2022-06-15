@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using ColossalFramework.Math;
 using HarmonyLib;
 
+
 namespace RealPop2
 {
     /// <summary>
@@ -25,7 +26,7 @@ namespace RealPop2
         public static void WorkplaceCount(BuildingAI buildingAI, ItemClass.Level level, int width, int length, out int level0, out int level1, out int level2, out int level3)
         {
             // Setup randomizer
-            Randomizer randomizer = new Randomizer();
+            Randomizer randomizer = new Randomizer(width + length);
 
             switch (buildingAI)
             {

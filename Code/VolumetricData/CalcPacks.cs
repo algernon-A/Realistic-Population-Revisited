@@ -317,8 +317,8 @@ namespace RealPop2
             ushort value = PopData.instance.GetOverride(buildingPrefab.name);
             if (value == 0)
             {
-                // No volumetric override - use vanilla calcs.
-                return (ushort)VanillaPopMethods.CalculateHomeCount(buildingPrefab.GetAI(), (ItemClass.Level)level, new Randomizer(), buildingPrefab.GetWidth(), buildingPrefab.GetLength());
+                // No volumetric override - use short.MaxValue; the Prefix patch will detect this and fall through to game code.
+                return ushort.MaxValue;
             }
 
             return value;
@@ -332,13 +332,13 @@ namespace RealPop2
         /// <returns>Workplace breakdown</returns>
         public override WorkplaceLevels Workplaces(BuildingInfo buildingPrefab, int level)
         {
-            VanillaPopMethods.WorkplaceCount(buildingPrefab.m_buildingAI, (ItemClass.Level)level, buildingPrefab.GetWidth(), buildingPrefab.GetLength(), out int workLevel0, out int workLevel1, out int workLevel2, out int workLevel3);
+            // For vanilla, we just set all workplace levels to ushort.MaxValue; the Prefix patch will detect this and fall through to game code.
             return new WorkplaceLevels
             {
-                level0 = (ushort)workLevel0,
-                level1 = (ushort)workLevel1,
-                level2 = (ushort)workLevel2,
-                level3 = (ushort)workLevel3
+                level0 = ushort.MaxValue,
+                level1 = ushort.MaxValue,
+                level2 = ushort.MaxValue,
+                level3 = ushort.MaxValue
             };
         }
 

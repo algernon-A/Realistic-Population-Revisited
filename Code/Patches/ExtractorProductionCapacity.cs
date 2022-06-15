@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using ColossalFramework.Math;
 using HarmonyLib;
 
 
@@ -70,8 +71,11 @@ namespace RealPop2
         /// <param name="__result">Original method result</param>
         /// <param name="__instance">Original AI instance reference</param>
         /// <param name="level">Building level</param>
+        /// <param name="r">Randomizer></param>
+        /// <param name="width">Building width in cells></param>
+        /// <param name="length">Building length in cells></param>
         /// <returns>False (don't execute base game method after this)</returns>
-        public static bool Prefix(ref int __result, IndustrialExtractorAI __instance, ItemClass.Level level, int width, int length)
+        public static bool Prefix(ref int __result, IndustrialExtractorAI __instance, ItemClass.Level level, Randomizer r, int width, int length)
         {
             // Get builidng info.
             BuildingInfo info = __instance.m_info;
@@ -96,10 +100,10 @@ namespace RealPop2
                         break;
                 }
 
-                // Get cached workplace count and calculate total workplaces.
-                WorkplaceLevels workplaces = PopData.instance.WorkplaceCache(info, (int)level);
+                // Calculate total workplaces.
+                __instance.CalculateWorkplaceCount(level, r, width, length, out int level0, out int level1, out int level2, out int level3);
+                int totalWorkers = level0 + level1 + level2 + level3;
 
-                float totalWorkers = workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3;
                 // Multiply total workers by multipler and overall multiplier (from settings) to get result.
                 __result = (int)((totalWorkers * multiplier * prodMults[arrayIndex]) / 100f);
             }

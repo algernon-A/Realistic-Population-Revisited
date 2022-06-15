@@ -74,12 +74,20 @@ namespace RealPop2
         /// <param name="__result">Original method result</param>
         /// <param name="__instance">Original AI instance reference</param>
         /// <param name="level">Building level</param>
-        /// <returns>Always false (don't execute base game method after this)</returns>
+        /// <returns>False (never execute original method) if anything other than vanilla calculations are set for the building, true (fall through to game code) otherwise</returns>
         public static bool Prefix(ref int __result, CommercialBuildingAI __instance, ItemClass.Level level)
         {
-            __result = PopData.instance.VisitplaceCache(__instance.m_info, (int)level);
+            int result = PopData.instance.VisitplaceCache(__instance.m_info, (int)level);
+
+            // Check for vanilla calc setting.
+            if (result == ushort.MaxValue)
+            {
+                // Vanilla calculations; fall through to original game code.
+                return true;
+            }
 
             // Don't execute base method after this.
+            __result = result;
             return false;
         }
 

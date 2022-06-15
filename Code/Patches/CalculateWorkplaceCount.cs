@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using ColossalFramework.Math;
 using HarmonyLib;
 
 
@@ -38,11 +37,18 @@ namespace RealPop2
         /// <param name="level1">Educated worker count output</param>
         /// <param name="level2">Well-educated worker count output</param>
         /// <param name="level3">Highly-educated worker count output</param>
-        /// <returns>Always false (never execute original method)</returns>
-        public static bool Prefix(PrivateBuildingAI __instance, ItemClass.Level level, out int level0, out int level1, out int level2, out int level3)
+        /// <returns>False (never execute original method) if anything other than vanilla calculations are set for the building, true (fall through to game code) otherwise</returns>
+        public static bool Prefix(PrivateBuildingAI __instance, ItemClass.Level level, ref int level0, ref int level1, ref int level2, ref int level3)
         {
             // Get cached workplace count.
             WorkplaceLevels workplaces = PopData.instance.WorkplaceCache(__instance.m_info, (int)level);
+
+            // Check for vanilla calc setting.
+            if (workplaces.level0 == ushort.MaxValue)
+            {
+                // Vanilla calculations; fall through to original game code.
+                return true;
+            }
 
             // Set return values.
             level0 = workplaces.level0;

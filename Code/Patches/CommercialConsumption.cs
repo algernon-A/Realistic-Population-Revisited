@@ -8,7 +8,7 @@ namespace RealPop2
     /// <summary>
     /// Harmony patch to implement commercial building consumption rates.
     /// </summary>
-    [HarmonyPatch(typeof(CommercialBuildingAI), nameof(CommercialBuildingAI.GetConsumptionRates))]
+   [HarmonyPatch(typeof(CommercialBuildingAI), nameof(CommercialBuildingAI.GetConsumptionRates))]
     public static class RealisticCommercialConsumption
     {
         /// <summary>
