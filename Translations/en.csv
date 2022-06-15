@@ -182,6 +182,8 @@ RPR_CAL_JOB_CUST,Customised jobs:
 RPR_CAL_JOB_APPL,Applied jobs:
 RPR_CAL_BLD_X,Building width (m):
 RPR_CAL_BLD_Z,Building length (m):
+RPR_CAL_LOT_X,Lot width (squares):
+RPR_CAL_LOT_Z,Lot length (squares):
 RPR_CAL_BLD_Y,Scaffolding height (m):
 RPR_CAL_BLD_M2,m2 per person:
 RPR_CAL_FLR_Y,Floor height (m):

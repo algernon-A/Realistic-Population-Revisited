@@ -6,39 +6,44 @@ using UnityEngine;
 namespace RealPop2
 {
     /// <summary>
-    /// Different mod calculations shown (in text labels) by this panel.
-    /// </summary>
-    public enum VanillaDetails
-    {
-        width,
-        length,
-        area,
-        numDetails
-    }
-
-
-    /// <summary>
     /// Panel to display the mod's calculations for jobs/workplaces.
     /// </summary>
-    public class UIVanillaCalcs : UIPanel
+    internal class UIVanillaCalcs : UIPanel
     {
-        // Margin at left of standard selection
+        private enum LabelIndex : int
+        {
+            Width = 0,
+            Length,
+            PopCalc,
+            PopCustom,
+            AppliedPop,
+            Visit,
+            Production,
+            NumIndexes
+        }
+
+        // Layout constants.
         private const float LeftPadding = 10;
         private const float LineHeight = 25f;
+        private const float Column1X = 280f;
+        private const float ColumnWidth = 75f;
+        private const float Column2X = Column1X + ColumnWidth;
+        private const float Column3X = Column2X + ColumnWidth;
 
         // Panel components.
-        private UILabel[] detailLabels;
         private UILabel messageLabel;
 
-        // Special-purpose labels used to display either jobs or households as appropriate.
-        private UILabel homesJobsCalcLabel, homesJobsCustomLabel, homesJobsActualLabel;
-        private UILabel visitCountLabel, productionLabel;
+        // Labels.
+        UILabel[] titleLabel = new UILabel[(int)LabelIndex.NumIndexes];
+        UILabel[] fig1Labels = new UILabel[(int)LabelIndex.NumIndexes];
+        UILabel[] fig2Labels = new UILabel[(int)LabelIndex.NumIndexes];
+        UILabel[] fig3Labels = new UILabel[(int)LabelIndex.NumIndexes];
 
 
         /// <summary>
         /// Create the mod calcs panel; we no longer use Start() as that's not sufficiently reliable (race conditions), and is no longer needed, with the new create/destroy process.
         /// </summary>
-        public void Setup()
+        internal void Setup()
         {
             // Generic setup.
             isVisible = true;
@@ -51,45 +56,49 @@ namespace RealPop2
             builtinKeyNavigation = true;
             clipChildren = true;
 
-            // Set up detail fields.
-            detailLabels = new UILabel[(int)VanillaDetails.numDetails];
-            for (int i = 0; i < (int)VanillaDetails.numDetails; i++)
-            {
-                detailLabels[i] = this.AddUIComponent<UILabel>();
-                detailLabels[i].relativePosition = new Vector2(LeftPadding, (i * LineHeight) + LineHeight);
-                detailLabels[i].width = 270;
-                detailLabels[i].textAlignment = UIHorizontalAlignment.Left;
-            }
 
-            // Homes/jobs labels.
-            homesJobsCalcLabel = this.AddUIComponent<UILabel>();
-            homesJobsCalcLabel.relativePosition = new Vector2(LeftPadding, ((int)VanillaDetails.numDetails + 1) * LineHeight);
-            homesJobsCalcLabel.width = 270;
-            homesJobsCalcLabel.textAlignment = UIHorizontalAlignment.Left;
+            // Add title labels.
+            titleLabel[(int)LabelIndex.Width] = UIControls.AddLabel(this, LeftPadding, LineHeight * 1f, Translations.Translate("RPR_CAL_LOT_X"));
+            titleLabel[(int)LabelIndex.Length] = UIControls.AddLabel(this, LeftPadding, LineHeight * 2f, Translations.Translate("RPR_CAL_LOT_Z"));
+            titleLabel[(int)LabelIndex.PopCalc] = UIControls.AddLabel(this, LeftPadding, LineHeight * 4f, Translations.Translate("RPR_CAL_JOB_CALC"));
+            titleLabel[(int)LabelIndex.PopCustom] = UIControls.AddLabel(this, LeftPadding, LineHeight * 5f, Translations.Translate("RPR_CAL_JOB_CUST"));
+            titleLabel[(int)LabelIndex.AppliedPop] = UIControls.AddLabel(this, LeftPadding, LineHeight * 6f, Translations.Translate("RPR_CAL_JOB_APPL"));
+            titleLabel[(int)LabelIndex.Visit] = UIControls.AddLabel(this, LeftPadding, LineHeight * 8f, Translations.Translate("RPR_CAL_VOL_VIS"));
+            titleLabel[(int)LabelIndex.Production] = UIControls.AddLabel(this, LeftPadding, LineHeight * 8f, Translations.Translate("RPR_CAL_VOL_PRD"));
 
-            homesJobsCustomLabel = this.AddUIComponent<UILabel>();
-            homesJobsCustomLabel.relativePosition = new Vector2(LeftPadding, ((int)VanillaDetails.numDetails + 2) * LineHeight);
-            homesJobsCustomLabel.width = 270;
-            homesJobsCustomLabel.textAlignment = UIHorizontalAlignment.Left;
+            // Set up first column.
+            fig1Labels[(int)LabelIndex.Width] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Width], Column1X, 0f, string.Empty);
+            fig1Labels[(int)LabelIndex.Length] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Length], Column1X, 0f, string.Empty);
+            fig1Labels[(int)LabelIndex.PopCalc] = UIControls.AddLabel(titleLabel[(int)LabelIndex.PopCalc], Column1X, 0f, string.Empty);
+            fig1Labels[(int)LabelIndex.PopCustom] = UIControls.AddLabel(titleLabel[(int)LabelIndex.PopCustom], Column1X, 0f, string.Empty);
+            fig1Labels[(int)LabelIndex.AppliedPop] = UIControls.AddLabel(titleLabel[(int)LabelIndex.AppliedPop], Column1X, 0f, string.Empty);
+            fig1Labels[(int)LabelIndex.Visit] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Visit], Column1X, 0f, string.Empty);
+            fig1Labels[(int)LabelIndex.Production] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Production], Column1X, 0f, string.Empty);
 
-            homesJobsActualLabel = this.AddUIComponent<UILabel>();
-            homesJobsActualLabel.relativePosition = new Vector2(LeftPadding, ((int)VanillaDetails.numDetails + 4) * LineHeight);
-            homesJobsActualLabel.width = 270;
-            homesJobsActualLabel.textAlignment = UIHorizontalAlignment.Left;
+            // Set up second column.
+            fig2Labels[(int)LabelIndex.Width] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Width], Column2X, 0f, string.Empty);
+            fig2Labels[(int)LabelIndex.Length] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Length], Column2X, 0f, string.Empty);
+            fig2Labels[(int)LabelIndex.PopCalc] = UIControls.AddLabel(titleLabel[(int)LabelIndex.PopCalc], Column2X, 0f, string.Empty);
+            fig2Labels[(int)LabelIndex.PopCustom] = UIControls.AddLabel(titleLabel[(int)LabelIndex.PopCustom], Column2X, 0f, string.Empty);
+            fig2Labels[(int)LabelIndex.AppliedPop] = UIControls.AddLabel(titleLabel[(int)LabelIndex.AppliedPop], Column2X, 0f, string.Empty);
+            fig2Labels[(int)LabelIndex.Visit] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Visit], Column2X, 0f, string.Empty);
+            fig2Labels[(int)LabelIndex.Production] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Production], Column2X, 0f, string.Empty);
 
-            visitCountLabel = this.AddUIComponent<UILabel>();
-            visitCountLabel.relativePosition = new Vector2(LeftPadding, ((int)VanillaDetails.numDetails + 5) * LineHeight);
-            visitCountLabel.width = 270;
-            visitCountLabel.textAlignment = UIHorizontalAlignment.Left;
+            // Set up third column.
+            fig3Labels[(int)LabelIndex.Width] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Width], Column3X, 0f, string.Empty);
+            fig3Labels[(int)LabelIndex.Length] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Length], Column3X, 0f, string.Empty);
+            fig3Labels[(int)LabelIndex.PopCalc] = UIControls.AddLabel(titleLabel[(int)LabelIndex.PopCalc], Column3X, 0f, string.Empty);
+            fig3Labels[(int)LabelIndex.PopCustom] = UIControls.AddLabel(titleLabel[(int)LabelIndex.PopCustom], Column3X, 0f, string.Empty);
+            fig3Labels[(int)LabelIndex.AppliedPop] = UIControls.AddLabel(titleLabel[(int)LabelIndex.AppliedPop], Column3X, 0f, string.Empty);
+            fig3Labels[(int)LabelIndex.Visit] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Visit], Column3X, 0f, string.Empty);
+            fig3Labels[(int)LabelIndex.Production] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Production], Column3X, 0f, string.Empty);
 
-            productionLabel = this.AddUIComponent<UILabel>();
-            productionLabel.relativePosition = new Vector2(LeftPadding, ((int)VanillaDetails.numDetails + 5) * LineHeight);
-            productionLabel.width = 270;
-            productionLabel.textAlignment = UIHorizontalAlignment.Left;
+            // Hide production label to start.
+            titleLabel[(int)LabelIndex.Production].Hide();
 
             // Message label (initially hidden).
             messageLabel = this.AddUIComponent<UILabel>();
-            messageLabel.relativePosition = new Vector2(LeftPadding, ((int)VanillaDetails.numDetails + 7) * LineHeight);
+            messageLabel.relativePosition = new Vector2(LeftPadding, LineHeight * 10f);
             messageLabel.textAlignment = UIHorizontalAlignment.Left;
             messageLabel.autoSize = false;
             messageLabel.autoHeight = true;
@@ -104,7 +113,7 @@ namespace RealPop2
         /// Called whenever the currently selected building is changed to update the panel display.
         /// </summary>
         /// <param name="building">Newly selected building</param>
-        public void SelectionChanged(BuildingInfo building)
+        internal void SelectionChanged(BuildingInfo building)
         {
             // Make sure we have a valid selection before proceeding.
             if (building?.name == null)
@@ -112,88 +121,65 @@ namespace RealPop2
                 return;
             }
 
-            // Variables to compare actual counts vs. mod count, to see if there's another mod overriding counts.
-            int appliedCount;
-
-            // Customized home/jobcount.
-            int customHomeJobs;
-
             // Check for valid building AI.
-            if (!(building.GetAI() is PrivateBuildingAI buildingAI))
+            if (!(building.m_buildingAI is PrivateBuildingAI buildingAI))
             {
                 Logging.Error("invalid building AI type in building details for building ", building.name);
                 return;
             }
 
-            // Residential vs. workplace AI.
+            // Set title labels according to AI type.
             if (buildingAI is ResidentialBuildingAI)
             {
-                // Set calculated homes label.
-                homesJobsCalcLabel.text = Translations.Translate("RPR_CAL_HOM_CALC");
+                // Residential AI.
+                titleLabel[(int)LabelIndex.PopCalc].text = Translations.Translate("RPR_CAL_HOM_CALC");
+                titleLabel[(int)LabelIndex.PopCustom].text = Translations.Translate("RPR_CAL_HOM_CUST");
+                titleLabel[(int)LabelIndex.AppliedPop].text = Translations.Translate("RPR_CAL_HOM_APPL");
 
-                // Set customised homes label and get value (if any).
-                homesJobsCustomLabel.text = Translations.Translate("RPR_CAL_HOM_CUST");
-                customHomeJobs = OverrideUtils.GetResidential(building);
-
-                // Applied homes is what's actually being returned by the CaclulateHomeCount call to this building AI.
-                // It differs from calculated homes if there's an override value for that building with this mod, or if another mod is overriding.
-                appliedCount = VanillaPopMethods.CalculateHomeCount(buildingAI, building.GetClassLevel(), new Randomizer(0), building.GetWidth(), building.GetLength());
-                homesJobsActualLabel.text = Translations.Translate("RPR_CAL_HOM_APPL") + appliedCount;
+                // Hide redundant labels.
+                titleLabel[(int)LabelIndex.Visit].Hide();
+                titleLabel[(int)LabelIndex.Production].Hide();
             }
             else
             {
                 // Workplace AI.
-                VanillaPopMethods.WorkplaceCount(buildingAI, building.GetClassLevel(), building.GetWidth(), building.GetLength(), out int jobs0, out int jobs1, out int jobs2, out int jobs3);
+                titleLabel[(int)LabelIndex.PopCalc].text = Translations.Translate("RPR_CAL_JOB_CALC");
+                titleLabel[(int)LabelIndex.PopCustom].text = Translations.Translate("RPR_CAL_JOB_CUST");
+                titleLabel[(int)LabelIndex.AppliedPop].text = Translations.Translate("RPR_CAL_JOB_APPL");
 
-                // Set calculated jobs label.
-                homesJobsCalcLabel.text = Translations.Translate("RPR_CAL_JOB_CALC") + " " + (jobs0 + jobs1 + jobs2 + jobs3);
-
-                // Set customised jobs label and get value (if any).
-                homesJobsCustomLabel.text = Translations.Translate("RPR_CAL_JOB_CUST") + " ";
-                customHomeJobs = OverrideUtils.GetWorker(building);
-
-                // Applied jobs is what's actually being returned by the CalculateWorkplaceCount call to this building AI.
-                // It differs from calculated jobs if there's an override value for that building with this mod, or if another mod is overriding.
-                int[] jobs = new int[4];
-                buildingAI.CalculateWorkplaceCount(building.GetClassLevel(), new Randomizer(0), building.GetWidth(), building.GetLength(), out jobs[0], out jobs[1], out jobs[2], out jobs[3]);
-                appliedCount = jobs[0] + jobs[1] + jobs[2] + jobs[3];
-                homesJobsActualLabel.text = Translations.Translate("RPR_CAL_JOB_APPL") + " " + appliedCount;
-
-                // Show visitor count for commercial buildings.
-                if (buildingAI is CommercialBuildingAI commercialAI)
-                {
-                    visitCountLabel.Show();
-                    visitCountLabel.text = Translations.Translate("RPR_CAL_VOL_VIS") + " " + commercialAI.CalculateVisitplaceCount(building.GetClassLevel(), new Randomizer(), building.GetWidth(), building.GetLength());
-                }
-                else
-                {
-                    visitCountLabel.Hide();
-                }
-
-                // Display production count, or hide the label if not a production building.
-                if (building.GetAI() is PrivateBuildingAI privateAI && (privateAI is OfficeBuildingAI || privateAI is IndustrialBuildingAI || privateAI is IndustrialExtractorAI))
-                {
-                    productionLabel.Show();
-                    productionLabel.text = Translations.Translate("RPR_CAL_VOL_PRD") + " " + privateAI.CalculateProductionCapacity(building.GetClassLevel(), new Randomizer(), building.GetWidth(), building.GetLength()).ToString();
-                }
-                else
-                {
-                    productionLabel.Hide();
-                }
+                // Set vistor/production label visibility.
+                bool showProduction = buildingAI is OfficeBuildingAI || buildingAI is IndustrialBuildingAI || buildingAI is IndustrialExtractorAI;
+                titleLabel[(int)LabelIndex.Production].isVisible = showProduction;
+                titleLabel[(int)LabelIndex.Visit].isVisible = !showProduction;
             }
 
-            // Reproduce CalcBase calculations to get building area.
-            int calcWidth = building.GetWidth();
-            int calcLength = building.GetLength();
 
-            // Display calculated (and retrieved) details.
-            detailLabels[(int)VanillaDetails.width].text = Translations.Translate("RPR_CAL_BLD_X") + " " + calcWidth;
-            detailLabels[(int)VanillaDetails.length].text = Translations.Translate("RPR_CAL_BLD_Z") + " " + calcLength;
+            // Set figures.
+            int width = building.GetWidth();
+            int length = building.GetLength();
+            SetFigures(fig1Labels, building, buildingAI, width, length);
 
-            // Set customised homes/jobs label (leave blank if no custom setting retrieved).
-            if (customHomeJobs > 0)
+            // Column 2 figures and visibility.
+            bool hideCol2 = true;
+            if (length < 4)
             {
-                homesJobsCustomLabel.text += customHomeJobs.ToString();
+                SetFigures(fig2Labels, building, buildingAI, width, ++length);
+                hideCol2 = false;
+            }
+
+            // Column 3 figures and visibility.
+            bool hideCol3 = true;
+            if (length < 4)
+            {
+                SetFigures(fig3Labels, building, buildingAI, width, ++length);
+                hideCol3 = false;
+            }
+
+            // Apply visibility.
+            for (int i = 0; i < fig2Labels.Length; ++i)
+            {
+                fig2Labels[i].isVisible = !hideCol2;
+                fig3Labels[i].isVisible = !hideCol3;
             }
 
             // Check to see if Ploppable RICO Revisited is controlling this building's population.
@@ -207,6 +193,65 @@ namespace RealPop2
                 // Hide message text by default.
                 messageLabel.Hide();
             }
+        }
+
+
+        private void SetFigures(UILabel[] labels, BuildingInfo building, PrivateBuildingAI privateAI, int width, int length)
+        {
+            // Calculated totals.
+            int calculatedCount, appliedCount;
+
+            // Set dimension labels.
+            labels[(int)LabelIndex.Width].text = width.ToString();
+            labels[(int)LabelIndex.Length].text = length.ToString();
+
+            // Randomizer for calculations.
+            Randomizer randomizer = new Randomizer(building.m_prefabDataIndex);
+
+            // Residential vs. workplace AI for calculating applied count.
+            if (privateAI is ResidentialBuildingAI residentialAI)
+            {
+                calculatedCount = VanillaPopMethods.CalculateHomeCount(residentialAI, building.GetClassLevel(), randomizer, width, length);
+                appliedCount = residentialAI.CalculateHomeCount(building.GetClassLevel(), randomizer, width, length);
+            }
+            else
+            {
+                // Workplace AI - get jobs count.
+                int jobs0 = 0, jobs1 = 0, jobs2 = 0, jobs3 = 0;
+                if (privateAI is CommercialBuildingAI)
+                {
+                    VanillaPopMethods.CommercialWorkplaceCount(privateAI, building.GetClassLevel(), randomizer, width, length, out jobs0, out jobs1, out jobs2, out jobs3);
+                }
+                else if (privateAI is OfficeBuildingAI)
+                {
+                    VanillaPopMethods.OfficeWorkplaceCount(privateAI, building.GetClassLevel(), randomizer, width, length, out jobs0, out jobs1, out jobs2, out jobs3);
+                }
+                else if (privateAI is IndustrialBuildingAI)
+                {
+                    VanillaPopMethods.IndustrialWorkplaceCount(privateAI, building.GetClassLevel(), randomizer, width, length, out jobs0, out jobs1, out jobs2, out jobs3);
+                }
+                else if (privateAI is IndustrialExtractorAI)
+                {
+                    VanillaPopMethods.ExtractorWorkplaceCount(privateAI, building.GetClassLevel(), randomizer, width, length, out jobs0, out jobs1, out jobs2, out jobs3);
+                }
+                calculatedCount = jobs0 + jobs1 + jobs2 + jobs3;
+
+                // Get actual applied jobs.
+                privateAI.CalculateWorkplaceCount(building.GetClassLevel(), randomizer, width, length, out jobs0, out jobs1, out jobs2, out jobs3);
+                appliedCount = jobs0 + jobs1 + jobs2 + jobs3;
+            }
+
+            // Set population labels.
+            labels[(int)LabelIndex.PopCalc].text = calculatedCount.ToString();
+            labels[(int)LabelIndex.AppliedPop].text = appliedCount.ToString();
+
+            // Set customised homes/jobs (leave blank if no custom setting retrieved).
+            int customHomeJobs = PopData.instance.GetOverride(building.name);
+            labels[(int)LabelIndex.PopCustom].text = (customHomeJobs > 0) ? customHomeJobs.ToString() : string.Empty;
+
+            // Visitor and production values.
+            labels[(int)LabelIndex.Visit].text = privateAI.CalculateVisitplaceCount(building.GetClassLevel(), randomizer, width, length).ToString();
+            labels[(int)LabelIndex.Production].text = privateAI.CalculateProductionCapacity(building.GetClassLevel(), randomizer, width, length).ToString();
         }
     }
 }
