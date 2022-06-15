@@ -14,17 +14,26 @@ namespace RealPop2
 
 
         /// <summary>
-        /// Returns the workplace breakdowns and visitor count for the given building prefab and level.
+        /// Returns the workplace breakdown for the given building prefab and level.
         /// </summary>
         /// <param name="prefab">Building prefab</param>
         /// <param name="level">Building level</param>
-        /// <returns>Workplace breakdowns and visitor count </returns>
-        internal static WorkplaceLevels CalculateWorkplaces(BuildingInfo prefab, int level)
+        /// <returns>Workplace breakdown by employment level</returns>
+        internal static WorkplaceLevels CalculateWorkplaces(BuildingInfo prefab, int level) => CalculateWorkplaces(prefab, level, PopData.instance.Population(prefab, level));
+
+
+        /// <summary>
+        /// Returns the workplace breakdown for the given building prefab, level, and population total.
+        /// </summary>
+        /// <param name="prefab">Building prefab</param>
+        /// <param name="level">Building level</param>
+        /// <param name="totalJobs">Total number of jobs</param>
+        /// <returns>Workplace breakdown by employment level</returns>
+        internal static WorkplaceLevels CalculateWorkplaces(BuildingInfo prefab, int level, int totalJobs)
         {
             int[] workplaces = new int[4];
 
-            // Get total jobs and distribution.
-            int totalJobs = PopData.instance.Population(prefab, level);
+            // Get distribution.
             int[] distribution = WorkplaceDistribution(prefab.GetService(), prefab.GetSubService(), (ItemClass.Level)level);
 
             // Allocate jobs according to distribution (percentages).  Division after multiplication to reduce intermediate rounding errors.
@@ -34,7 +43,7 @@ namespace RealPop2
 
             // Level 0 is the remainder.
             workplaces[0] = totalJobs - workplaces[1] - workplaces[2] - workplaces[3];
-            
+
             // Now, check distributions - start at bottom level and work up.  At least one in each level before any jobs are assigned to any higher levels.
             for (int i = 0; i < 4; ++i)
             {

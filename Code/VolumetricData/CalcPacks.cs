@@ -332,7 +332,15 @@ namespace RealPop2
         /// <returns>Workplace breakdown</returns>
         public override WorkplaceLevels Workplaces(BuildingInfo buildingPrefab, int level)
         {
-            // For vanilla, we just set all workplace levels to ushort.MaxValue; the Prefix patch will detect this and fall through to game code.
+            // First, check for volumetric population override - that trumps everything else.
+            ushort customValue = PopData.instance.GetOverride(buildingPrefab.name);
+            if (customValue > 0)
+            {
+                // Active override - calculate workplace level breakdown.
+                return EmploymentData.CalculateWorkplaces(buildingPrefab, level, customValue);
+            }
+
+            // No override - for vanilla, we just set all workplace levels to ushort.MaxValue; the Prefix patch will detect this and fall through to game code.
             return new WorkplaceLevels
             {
                 level0 = ushort.MaxValue,
