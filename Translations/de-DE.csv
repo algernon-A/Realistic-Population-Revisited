@@ -182,6 +182,8 @@
 "RPR_CAL_JOB_APPL","Besetzte Jobs:"
 "RPR_CAL_BLD_X","Gebäudebreite (m):"
 "RPR_CAL_BLD_Z","Gebäudelänge (m):"
+"RPR_CAL_LOT_X","Parzellen-Breite (Quadrate):"
+"RPR_CAL_LOT_Z","Parzellen-Länge (Quadrate):"
 "RPR_CAL_BLD_Y","Gerüsthöhe (m):"
 "RPR_CAL_BLD_M2","m2 pro Person:"
 "RPR_CAL_FLR_Y","Etagenhöhe (m):"

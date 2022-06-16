@@ -182,6 +182,8 @@
 "RPR_CAL_JOB_APPL","適用済の雇用数:"
 "RPR_CAL_BLD_X","建物の横幅 (m):"
 "RPR_CAL_BLD_Z","建物の縦幅 (m):"
+"RPR_CAL_LOT_X","敷地の横幅 (四角形)"
+"RPR_CAL_LOT_Z","敷地の奥行き (四角形)"
 "RPR_CAL_BLD_Y","建物の高さ (m):"
 "RPR_CAL_BLD_M2","㎡/人:"
 "RPR_CAL_FLR_Y","フロアの高さ (m):"
