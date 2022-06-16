@@ -26,18 +26,18 @@ namespace RealPop2
         private const float LeftPadding = 10;
         private const float LineHeight = 25f;
         private const float Column1X = 280f;
-        private const float ColumnWidth = 75f;
-        private const float Column2X = Column1X + ColumnWidth;
-        private const float Column3X = Column2X + ColumnWidth;
+        private const float ColumnWidth = 70f;
+
+        // Number of columns.
+        private const int NumColumns = 4;
+
 
         // Panel components.
         private UILabel messageLabel;
 
         // Labels.
-        UILabel[] titleLabel = new UILabel[(int)LabelIndex.NumIndexes];
-        UILabel[] fig1Labels = new UILabel[(int)LabelIndex.NumIndexes];
-        UILabel[] fig2Labels = new UILabel[(int)LabelIndex.NumIndexes];
-        UILabel[] fig3Labels = new UILabel[(int)LabelIndex.NumIndexes];
+        private UILabel[] titleLabel = new UILabel[(int)LabelIndex.NumIndexes];
+        private UILabel[][] figLabels = new UILabel[NumColumns][];
 
 
         /// <summary>
@@ -66,32 +66,21 @@ namespace RealPop2
             titleLabel[(int)LabelIndex.Visit] = UIControls.AddLabel(this, LeftPadding, LineHeight * 8f, Translations.Translate("RPR_CAL_VOL_VIS"));
             titleLabel[(int)LabelIndex.Production] = UIControls.AddLabel(this, LeftPadding, LineHeight * 8f, Translations.Translate("RPR_CAL_VOL_PRD"));
 
-            // Set up first column.
-            fig1Labels[(int)LabelIndex.Width] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Width], Column1X, 0f, string.Empty);
-            fig1Labels[(int)LabelIndex.Length] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Length], Column1X, 0f, string.Empty);
-            fig1Labels[(int)LabelIndex.PopCalc] = UIControls.AddLabel(titleLabel[(int)LabelIndex.PopCalc], Column1X, 0f, string.Empty);
-            fig1Labels[(int)LabelIndex.PopCustom] = UIControls.AddLabel(titleLabel[(int)LabelIndex.PopCustom], Column1X, 0f, string.Empty);
-            fig1Labels[(int)LabelIndex.AppliedPop] = UIControls.AddLabel(titleLabel[(int)LabelIndex.AppliedPop], Column1X, 0f, string.Empty);
-            fig1Labels[(int)LabelIndex.Visit] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Visit], Column1X, 0f, string.Empty);
-            fig1Labels[(int)LabelIndex.Production] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Production], Column1X, 0f, string.Empty);
+            // Set up figure columns.
+            for (int i = 0; i < NumColumns; ++i)
+            {
+                // Initialize array.
+                figLabels[i] = new UILabel[(int)LabelIndex.NumIndexes];
 
-            // Set up second column.
-            fig2Labels[(int)LabelIndex.Width] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Width], Column2X, 0f, string.Empty);
-            fig2Labels[(int)LabelIndex.Length] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Length], Column2X, 0f, string.Empty);
-            fig2Labels[(int)LabelIndex.PopCalc] = UIControls.AddLabel(titleLabel[(int)LabelIndex.PopCalc], Column2X, 0f, string.Empty);
-            fig2Labels[(int)LabelIndex.PopCustom] = UIControls.AddLabel(titleLabel[(int)LabelIndex.PopCustom], Column2X, 0f, string.Empty);
-            fig2Labels[(int)LabelIndex.AppliedPop] = UIControls.AddLabel(titleLabel[(int)LabelIndex.AppliedPop], Column2X, 0f, string.Empty);
-            fig2Labels[(int)LabelIndex.Visit] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Visit], Column2X, 0f, string.Empty);
-            fig2Labels[(int)LabelIndex.Production] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Production], Column2X, 0f, string.Empty);
+                // Relative x-position for this column.
+                float xPos = Column1X + (i * ColumnWidth);
 
-            // Set up third column.
-            fig3Labels[(int)LabelIndex.Width] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Width], Column3X, 0f, string.Empty);
-            fig3Labels[(int)LabelIndex.Length] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Length], Column3X, 0f, string.Empty);
-            fig3Labels[(int)LabelIndex.PopCalc] = UIControls.AddLabel(titleLabel[(int)LabelIndex.PopCalc], Column3X, 0f, string.Empty);
-            fig3Labels[(int)LabelIndex.PopCustom] = UIControls.AddLabel(titleLabel[(int)LabelIndex.PopCustom], Column3X, 0f, string.Empty);
-            fig3Labels[(int)LabelIndex.AppliedPop] = UIControls.AddLabel(titleLabel[(int)LabelIndex.AppliedPop], Column3X, 0f, string.Empty);
-            fig3Labels[(int)LabelIndex.Visit] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Visit], Column3X, 0f, string.Empty);
-            fig3Labels[(int)LabelIndex.Production] = UIControls.AddLabel(titleLabel[(int)LabelIndex.Production], Column3X, 0f, string.Empty);
+                // Set up figures in column
+                for (int j = 0; j < (int)LabelIndex.NumIndexes; ++j)
+                {
+                    figLabels[i][j] = UIControls.AddLabel(titleLabel[j], xPos, 0f, string.Empty);
+                }
+            }
 
             // Hide production label to start.
             titleLabel[(int)LabelIndex.Production].Hide();
@@ -154,32 +143,25 @@ namespace RealPop2
             }
 
 
-            // Set figures.
+            // Iterate through each column to set figures.
             int width = building.GetWidth();
             int length = building.GetLength();
-            SetFigures(fig1Labels, building, buildingAI, width, length);
-
-            // Column 2 figures and visibility.
-            bool hideCol2 = true;
-            if (length < 4)
+            for (int i = 0; i < NumColumns; ++i)
             {
-                SetFigures(fig2Labels, building, buildingAI, width, ++length);
-                hideCol2 = false;
-            }
-
-            // Column 3 figures and visibility.
-            bool hideCol3 = true;
-            if (length < 4)
-            {
-                SetFigures(fig3Labels, building, buildingAI, width, ++length);
-                hideCol3 = false;
-            }
-
-            // Apply visibility.
-            for (int i = 0; i < fig2Labels.Length; ++i)
-            {
-                fig2Labels[i].isVisible = !hideCol2;
-                fig3Labels[i].isVisible = !hideCol3;
+                // Set figures for each building length increment.
+                if (length <= NumColumns)
+                {
+                    // Valid length increment; set figures and increment length counter by one square.
+                    SetFigures(figLabels[i], building, buildingAI, width, length++);
+                }
+                else
+                {
+                    // Invalid length increment (greater than 4); clear figures for that column.
+                    for (int j = 0; j < (int)LabelIndex.NumIndexes; ++j)
+                    {
+                        figLabels[i][j].text = string.Empty;
+                    }
+                }
             }
 
             // Check to see if Ploppable RICO Revisited is controlling this building's population.
@@ -196,6 +178,14 @@ namespace RealPop2
         }
 
 
+        /// <summary>
+        /// Sets the figures for a given column.
+        /// </summary>
+        /// <param name="labels">Column label array</param>
+        /// <param name="building">Selected BuildingInfo</param>
+        /// <param name="privateAI">Building AI as PrivateBuildingAI</param>
+        /// <param name="width">Building lot width</param>
+        /// <param name="length">Building lot length</param>
         private void SetFigures(UILabel[] labels, BuildingInfo building, PrivateBuildingAI privateAI, int width, int length)
         {
             // Calculated totals.
