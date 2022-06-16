@@ -448,7 +448,7 @@ namespace RealPop2
                 volumetricPanel.Hide();
                 floorPanel.Hide();
                 legacyPanel.Hide();
-                vanillaPanel.Show();
+                vanillaPanel.isVisible = !(currentBuilding.m_buildingAI is SchoolAI);
 
                 // Set override label and show.
                 floorOverrideLabel.text = Translations.Translate("RPR_CAL_FLG");
