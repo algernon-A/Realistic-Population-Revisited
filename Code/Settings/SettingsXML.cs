@@ -166,7 +166,7 @@ namespace RealPop2
 
 
         /// <summary>
-        /// Load settings from XML file - Beta legacy.
+        /// Load settings from XML file.
         /// </summary>
         internal static void Load()
         {

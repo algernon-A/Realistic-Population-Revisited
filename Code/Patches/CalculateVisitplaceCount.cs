@@ -272,7 +272,13 @@ namespace RealPop2
         /// <param name="subService">Sub-service to set</param>
         /// <param name="value">Value to set</param>
         /// <returns>Visit calculaiton mode</returns>
-        internal static void SetVisitMode(ItemClass.SubService subService, int value) => comVisitModes[GetIndex(subService)] = value;
+        internal static void SetVisitMode(ItemClass.SubService subService, int value)
+        {
+            comVisitModes[GetIndex(subService)] = value;
+
+            // Clear visitplace cache.
+            PopData.instance.visitplaceCache.Clear();
+        }
 
 
         /// <summary>
@@ -288,7 +294,13 @@ namespace RealPop2
         /// </summary>
         /// <param name="subService">Sub-service to set</param>
         /// <param name="value">Value to set</param>
-        internal static void SetVisitMult(ItemClass.SubService subService, int value) => comVisitMults[GetIndex(subService)] = value;
+        internal static void SetVisitMult(ItemClass.SubService subService, int value)
+        {
+            comVisitMults[GetIndex(subService)] = value;
+
+            // Clear visitplace cache.
+            PopData.instance.visitplaceCache.Clear();
+        }
 
 
         /// <summary>
