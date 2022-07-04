@@ -144,8 +144,7 @@ namespace RealPop2
         /// </summary>
         /// <param name="building">Building prefab to update</param>
         /// <param name="pack">New data pack to apply</param>
-        /// <param name="refresh">True to force a CitizenUnit refresh of all existing buildings, false to leave intact</param>
-        internal override void UpdateBuildingPack(BuildingInfo prefab, DataPack pack, bool refresh)
+        internal override void UpdateBuildingPack(BuildingInfo prefab, DataPack pack)
         {
             // Check for volumetric school pack.
             if (pack is SchoolDataPack schoolPack)
@@ -176,12 +175,11 @@ namespace RealPop2
             }
 
             // Call base to update dictionary.
-            base.UpdateBuildingPack(prefab, pack, refresh);
+            base.UpdateBuildingPack(prefab, pack);
 
             // Update existing school buildings.
             BuildingInfo thisPrefab = prefab;
-            bool thisRefresh = refresh;
-            Singleton<SimulationManager>.instance.AddAction(delegate { UpdateSchools(thisPrefab, refresh); });
+            Singleton<SimulationManager>.instance.AddAction(delegate { UpdateSchools(thisPrefab); });
         }
 
 
@@ -364,7 +362,7 @@ namespace RealPop2
             }
 
             // Update school buildings.
-            UpdateSchools(null, true);
+            UpdateSchools(null);
         }
 
 
@@ -428,7 +426,7 @@ namespace RealPop2
             UpdateSchoolPrefab(prefab, prefab.GetAI() as SchoolAI);
 
             // Update existing school buildings via SimulationManager.
-            Singleton<SimulationManager>.instance.AddAction(delegate { UpdateSchools(prefab, true); });
+            Singleton<SimulationManager>.instance.AddAction(delegate { UpdateSchools(prefab); });
         }
 
 
@@ -436,9 +434,8 @@ namespace RealPop2
         /// Updates all school buildings matching the given prefab, or all school buildings if no prefab is specified, to current settings.
         /// Should only be called via simulation thread.
         /// <param name="schoolPrefab">Building prefab to update (null to update all schools)</param>
-        /// <param name="allowRemoval">True to force eviction of existing students if required to reduce the CitizenUnit count of all existing buildings, false to leave intact</param>
         /// </summary>
-        internal void UpdateSchools(BuildingInfo schoolPrefab, bool allowRemoval)
+        internal void UpdateSchools(BuildingInfo schoolPrefab)
         {
             // Iterate through all buildings looking for schools.
             Building[] buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
@@ -455,7 +452,7 @@ namespace RealPop2
                         int workCount = schoolAI.m_workPlaceCount0 + schoolAI.m_workPlaceCount1 + schoolAI.m_workPlaceCount2 + schoolAI.m_workPlaceCount3;
                         int studentCount = schoolAI.StudentCount * 5 / 4; // Game ratio.
                         CitizenUnitUtils.EnsureCitizenUnits(schoolAI, (ushort)i, ref buildingBuffer[i], 0, workCount, 0, studentCount);
-                        CitizenUnitUtils.RemoveCitizenUnits(ref buildingBuffer[i], 0, workCount, 0, studentCount, allowRemoval);
+                        CitizenUnitUtils.RemoveCitizenUnits(ref buildingBuffer[i], 0, workCount, 0, studentCount, false);
                     }
                 }
             }

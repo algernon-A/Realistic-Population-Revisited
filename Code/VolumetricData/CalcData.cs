@@ -86,8 +86,7 @@ namespace RealPop2
         /// </summary>
         /// <param name="prefab">Building prefab to update</param>
         /// <param name="pack">New data pack to apply</param>
-        /// <param name="refresh">True to force a CitizenUnit refresh of all existing buildings, false to leave intact</param>
-        internal virtual void UpdateBuildingPack(BuildingInfo prefab, DataPack pack, bool refresh)
+        internal virtual void UpdateBuildingPack(BuildingInfo prefab, DataPack pack)
         {
             // Don't do anything with null packs (e.g. null school packs).
             if (pack == null)
@@ -123,10 +122,7 @@ namespace RealPop2
             }
 
             // Refresh the prefab's population settings to reflect changes.
-            if (refresh)
-            {
-                RefreshPrefab(prefab);
-            }
+            RefreshPrefab(prefab);
         }
 
 

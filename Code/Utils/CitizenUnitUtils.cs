@@ -64,7 +64,10 @@ namespace RealPop2
             }
 
             // Apply via SimulationManager action.
-            Singleton<SimulationManager>.instance.AddAction(delegate { RecalculateCitizenUnits(prefabName, service, subService, preserveOccupied); });
+            ItemClass.Service thisService = service;
+            ItemClass.SubService thisSubService = subService;
+            bool thisPreserveOccupied = preserveOccupied;
+            Singleton<SimulationManager>.instance.AddAction(delegate { RecalculateCitizenUnits(prefabName, thisService, thisSubService, thisPreserveOccupied); });
         }
 
 
@@ -225,7 +228,7 @@ namespace RealPop2
                     BuildingInfo buildingInfo = buildingBuffer[i].Info;
                     if (buildingBuffer[i].Info?.GetAI() is PrivateBuildingAI privateAI)
                     {
-                        // Residential building; check that either the supplier prefab name is null or it matches this building's prefab.
+                        // Residential building; check that either the supplied prefab name is null or it matches this building's prefab.
                         if ((prefabName == null || buildingBuffer[i].Info.name.Equals(prefabName)) && ((service != ItemClass.Service.None && buildingInfo.GetService() == service) || (subService != ItemClass.SubService.None && buildingInfo.GetSubService() == subService)))
                         {
                             // Got one!  Log initial status.
@@ -247,7 +250,7 @@ namespace RealPop2
                             RemoveCitizenUnits(ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[i], homeCount, workCount, visitCount, 0, preserveOccupied);
 
                             // Log changes.
-                            Logging.Message("Reset CitizenUnits for building ", i, " (", buildingInfo.name, "); building now has ", CountCitizenUnits(ref buildingBuffer[i]), " CitizenUnits, and total CitizenUnit count is now ", citizenManager.m_unitCount);
+                            Logging.Message("Reset CitizenUnits for building ", i, " (", buildingInfo.name, ") with preserve occupied flag of ", preserveOccupied,"; building now has ", CountCitizenUnits(ref buildingBuffer[i]), " CitizenUnits, and total CitizenUnit count is now ", citizenManager.m_unitCount);
                         }
                     }
                 }
