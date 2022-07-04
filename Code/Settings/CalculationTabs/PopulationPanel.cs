@@ -73,11 +73,12 @@ namespace RealPop2
                 // Service selection dropdown.
                 serviceDropDown = UIControls.AddPlainDropDown(panel, 20f, currentY, Translations.Translate("RPR_OPT_SVC"), serviceNames, -1);
                 serviceDropDown.eventSelectedIndexChanged += ServiceChanged;
+                currentY += serviceDropDown.parent.height;
 
                 // Pack selection dropdown.
                 packDropDown = UIControls.AddPlainDropDown(panel, 20f, currentY, Translations.Translate("RPR_OPT_CPK"), new string[0], -1);
                 packDropDown.eventSelectedIndexChanged += PackChanged;
-                currentY += 70f;
+                currentY += packDropDown.parent.height;
 
                 // Label strings - cached to avoid calling Translations.Translate each time (for the tooltips, anwyay, including the others makes code more readable).
                 string areaSuffix = Environment.NewLine + "(" + Measures.AreaMeasure + ")";
@@ -95,7 +96,7 @@ namespace RealPop2
                 string multiFloorTip = Translations.Translate("RPR_CAL_VOL_MFU_TIP");
 
                 // Headings.
-                currentY += 140f;
+                currentY += 70f;
                 PanelUtils.ColumnLabel(panel, EmptyAreaX, currentY, ColumnWidth, emptyArea, emptyAreaTip, 1.0f);
                 PanelUtils.ColumnLabel(panel, EmptyPercentX, currentY, ColumnWidth, emptyPercent, emptyPercentTip, 1.0f);
                 PanelUtils.ColumnLabel(panel, PopCheckX, currentY, ColumnWidth, useFixedPop, useFixedPopTip, 1.0f);
