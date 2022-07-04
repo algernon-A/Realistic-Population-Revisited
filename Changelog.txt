@@ -1,5 +1,6 @@
 Version 2.0.4.2 -
 
+- Ensure manual population changes always force eviction of households if required
 - Fix overlapping dropdown menus on population pack panel
 
 

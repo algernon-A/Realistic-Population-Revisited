@@ -101,7 +101,7 @@ namespace RealPop2
                 if ((ushort)(unitFlags & CitizenUnit.Flags.Home) != 0)
                 {
                     // Residential unit; are we still allocating homes, and if we're preserving occupied units, is it empty?
-                    if (homeCount <= 0 && (citizenUnits[currentUnit].m_citizen0 + citizenUnits[currentUnit].m_citizen1 + citizenUnits[currentUnit].m_citizen2 + citizenUnits[currentUnit].m_citizen3 + citizenUnits[currentUnit].m_citizen4 == 0))
+                    if (homeCount <= 0 && (!preserveOccupied || (citizenUnits[currentUnit].m_citizen0 + citizenUnits[currentUnit].m_citizen1 + citizenUnits[currentUnit].m_citizen2 + citizenUnits[currentUnit].m_citizen3 + citizenUnits[currentUnit].m_citizen4 == 0)))
                     {
                         // Already have the maximum number of households, therefore this workplace unit is surplus to requirements - remove it.
                         removingFlag = true;

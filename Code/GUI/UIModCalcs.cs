@@ -583,8 +583,8 @@ namespace RealPop2
         {
             // Update building setting and save - multiplier first!
             Multipliers.instance.UpdateMultiplier(currentBuilding, currentMult);
-            PopData.instance.UpdateBuildingPack(currentBuilding, currentPopPack);
-            FloorData.instance.UpdateBuildingPack(currentBuilding, currentFloorPack);
+            PopData.instance.UpdateBuildingPack(currentBuilding, currentPopPack, false);
+            FloorData.instance.UpdateBuildingPack(currentBuilding, currentFloorPack, false);
 
             // Update multiplier.
             if (multCheck.isChecked)
@@ -599,8 +599,11 @@ namespace RealPop2
             }
 
             // Make sure SchoolData is called AFTER student count is settled via Pop and Floor packs, so it can work from updated data.
-            SchoolData.instance.UpdateBuildingPack(currentBuilding, currentSchoolPack);
+            SchoolData.instance.UpdateBuildingPack(currentBuilding, currentSchoolPack, false);
             ConfigUtils.SaveSettings();
+
+            // Update all existing buildings.
+            CitizenUnitUtils.UpdateCitizenUnits(currentBuilding.name, currentBuilding.GetService(), currentBuilding.GetSubService(), false);
 
             // Refresh the selection list (to make sure settings checkboxes reflect new state).
             BuildingDetailsPanel.Panel.RefreshList();
