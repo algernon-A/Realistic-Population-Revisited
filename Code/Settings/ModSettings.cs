@@ -58,9 +58,6 @@ namespace RealPop2
 
                     // Update value.
                     thisSaveDefaultRes = value;
-
-                    // Update exiting buildings.
-                    CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Residential, ItemClass.SubService.None, true);
                 }
             }
         }
@@ -86,9 +83,6 @@ namespace RealPop2
 
                     // Update value.
                     thisSaveDefaultCom = value;
-
-                    // Update exiting buildings.
-                    CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Commercial, ItemClass.SubService.None, true);
                 }
             }
         }
@@ -114,9 +108,6 @@ namespace RealPop2
 
                     // Update value.
                     thisSaveDefaultInd = value;
-
-                    // Update exiting buildings.
-                    CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Industrial, ItemClass.SubService.None, true);
                 }
             }
         }
@@ -142,9 +133,6 @@ namespace RealPop2
 
                     // Update value.
                     thisSaveDefaultOff = value;
-
-                    // Update exiting buildings.
-                    CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Office, ItemClass.SubService.None, true);
                 }
             }
         }
