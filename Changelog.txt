@@ -1,5 +1,6 @@
 Version 2.0.4.2 -
 
+- Fix initial calculation mode vanilla choice sometimes not ensuring vanilla maximum populations
 - Ensure manual population changes always force eviction of households if required
 - Fix overlapping dropdown menus on population pack panel
 

@@ -48,9 +48,13 @@ namespace RealPop2.MessageBox
             ModSettings.ThisSaveDefaultCom = DefaultMode.New;
             ModSettings.ThisSaveDefaultInd = DefaultMode.New;
             ModSettings.ThisSaveDefaultOff = DefaultMode.New;
-            RealisticVisitplaceCount.SetVisitModes = (int)RealisticVisitplaceCount.ComVisitModes.legacy;
-            RealisticIndustrialProduction.SetProdModes = (int)RealisticIndustrialProduction.ProdModes.legacy;
-            RealisticExtractorProduction.SetProdModes = (int)RealisticExtractorProduction.ProdModes.legacy;
+            RealisticVisitplaceCount.SetVisitModes = (int)RealisticVisitplaceCount.ComVisitModes.popCalcs;
+            RealisticIndustrialProduction.SetProdModes = (int)RealisticIndustrialProduction.ProdModes.popCalcs;
+            RealisticExtractorProduction.SetProdModes = (int)RealisticExtractorProduction.ProdModes.popCalcs;
+
+            // Update exiting buildings.
+            UpdateBuildings();
+
             Close();
         }
 
@@ -67,6 +71,10 @@ namespace RealPop2.MessageBox
             RealisticVisitplaceCount.SetVisitModes = (int)RealisticVisitplaceCount.ComVisitModes.legacy;
             RealisticIndustrialProduction.SetProdModes = (int)RealisticIndustrialProduction.ProdModes.legacy;
             RealisticExtractorProduction.SetProdModes = (int)RealisticExtractorProduction.ProdModes.legacy;
+
+            // Update exiting buildings.
+            UpdateBuildings();
+
             Close();
         }
 
@@ -83,7 +91,23 @@ namespace RealPop2.MessageBox
             RealisticVisitplaceCount.SetVisitModes = (int)RealisticVisitplaceCount.ComVisitModes.legacy;
             RealisticIndustrialProduction.SetProdModes = (int)RealisticIndustrialProduction.ProdModes.legacy;
             RealisticExtractorProduction.SetProdModes = (int)RealisticExtractorProduction.ProdModes.legacy;
+
+            // Update exiting buildings.
+            UpdateBuildings();
+
             Close();
+        }
+
+
+        /// <summary>
+        /// Updates all buildings to ensure that they match the selected option, without any force-eviction.
+        /// </summary>
+        private void UpdateBuildings()
+        {
+            CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Residential, ItemClass.SubService.None, true);
+            CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Commercial, ItemClass.SubService.None, true);
+            CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Industrial, ItemClass.SubService.None, true);
+            CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.Office, ItemClass.SubService.None, true);
         }
     }
 }
