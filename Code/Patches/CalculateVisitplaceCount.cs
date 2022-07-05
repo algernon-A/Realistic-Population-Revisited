@@ -240,6 +240,9 @@ namespace RealPop2
                 {
                     comVisitModes[i] = value;
                 }
+
+                // Clear visitplace cache.
+                PopData.instance.visitplaceCache.Clear();
             }
         }
 
@@ -254,6 +257,9 @@ namespace RealPop2
                 {
                     comVisitMults[i] = value;
                 }
+
+                // Clear visitplace cache.
+                PopData.instance.visitplaceCache.Clear();
             }
         }
 
