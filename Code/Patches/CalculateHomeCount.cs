@@ -2,10 +2,6 @@
 using HarmonyLib;
 
 
-#pragma warning disable IDE0079 // Remove unnecessary suppression
-#pragma warning disable IDE0060 // Remove unused parameter
-
-
 namespace RealPop2
 {
     /// <summary>
@@ -49,5 +45,3 @@ namespace RealPop2
         }
     }
 }
-
-#pragma warning restore IDE0060 // Remove unused parameter

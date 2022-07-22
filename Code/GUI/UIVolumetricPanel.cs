@@ -201,7 +201,8 @@ namespace RealPop2
             numFloorsLabel.text = floors.Count.ToString();
 
             // Get total units.
-            int totalUnits = PopData.instance.VolumetricPopulation(building.m_generatedInfo, levelData, floorData, multiplier, floors, totalArea);
+            List<KeyValuePair<ushort, ushort>> perFloor = new List<KeyValuePair<ushort, ushort>>();
+            int totalUnits = PopData.instance.VolumetricPopulation(building.m_generatedInfo, levelData, floorData, multiplier, floors, totalArea, perFloor);
 
             // Floor labels list.
             List<string> floorLabels = new List<string>();
@@ -228,30 +229,25 @@ namespace RealPop2
             if (levelData.areaPer > 0)
             {
                 // Determine area percentage to use for calculations (inverse of empty area percentage).
+                float emptyArea = levelData.emptyArea;
                 float areaPercent = 1 - (levelData.emptyPercent / 100f);
 
                 // Create new floor area labels by iterating through each floor.
-                for (int i = 0; i < floors.Count; ++i)
+                //for (int i = 0; i < floors.Count; ++i)
+                foreach (KeyValuePair<ushort, ushort> floor in perFloor)
                 {
                     // StringBuilder, because we're doing a fair bit of manipulation here.
                     StringBuilder floorString = new StringBuilder("Floor ");
 
                     // Floor number.
-                    floorString.Append(i + 1);
-                    floorString.Append(" " + Translations.Translate("RPR_CAL_VOL_ARA") + " ");
-                    floorString.Append(Measures.AreaString(floors[i], "N0"));
+                    floorString.Append(floor.Key + 1);
 
                     // See if we're calculating units per individual floor.
                     if (!levelData.multiFloorUnits)
                     {
-                        // Number of units on this floor - always rounded down.
-                        int floorUnits = (int)((floors[i] * areaPercent) / levelData.areaPer);
-                        // Adjust by multiplier (after rounded calculation above).
-                        floorUnits = (int)(floorUnits * multiplier);
-
-                        // Add extra info to label.
+                        // Add unit count to label.
                         floorString.Append(" (");
-                        floorString.Append(floorUnits.ToString("N0"));
+                        floorString.Append(floor.Value.ToString("N0"));
                         floorString.Append(" ");
                         floorString.Append(unitName);
                         floorString.Append(")");

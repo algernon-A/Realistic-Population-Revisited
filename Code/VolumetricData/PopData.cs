@@ -196,11 +196,12 @@ namespace RealPop2
         /// <param name="buildingInfoGen">Building info record</param>
         /// <param name="levelData">LevelData record to use for calculations</param>
         /// <param name="floorData">FloorDataPack record to use for calculations</param>
-        /// <param name="multiplier"Population multiplier</param>
+        /// <param name="multiplier">Population multiplier</param>
         /// <param name="floorList">Optional precalculated list of calculated floors (to save time; will be generated if not provided)</param>
         /// <param name="totalArea">Optional precalculated total building area  (to save time; will be generated if not provided)</param>
-        /// <returns>Calcularted population</returns>
-        internal ushort VolumetricPopulation(BuildingInfoGen buildingInfoGen, LevelData levelData, FloorDataPack floorData, float multiplier, SortedList<int, float> floorList = null, float totalArea = 0)
+        /// <param name="perFloor">Ccalculated per-floor population values will be added to this list if provided (null to ignore)</param>
+        /// <returns>Calculated population</returns>
+        internal ushort VolumetricPopulation(BuildingInfoGen buildingInfoGen, LevelData levelData, FloorDataPack floorData, float multiplier, SortedList<int, float> floorList = null, float totalArea = 0, List<KeyValuePair<ushort, ushort>> perFloor = null)
         {
             // Return value.
             ushort totalUnits = 0;
@@ -235,7 +236,7 @@ namespace RealPop2
                 {
                     // Calculating per floor.
                     // Iterate through each floor, assigning population as we go.
-                    for (int i = 0; i < floors.Count; ++i)
+                    for (ushort i = 0; i < floors.Count; ++i)
                     {
                         // Subtract any unallocated empty space.
                         if (emptyArea > 0)
@@ -253,6 +254,12 @@ namespace RealPop2
                         // Adjust by multiplier (after rounded calculation above).
                         floorUnits = (ushort)(floorUnits * multiplier);
                         totalUnits += floorUnits;
+
+                        // Add to per-floor units list, if one was provided.
+                        if (perFloor != null)
+                        {
+                            perFloor.Add(new KeyValuePair<ushort, ushort>(i, floorUnits));
+                        }
                     }
                 }
             }
