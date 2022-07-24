@@ -1,275 +1,31 @@
-﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FCCDBBE3-8BA0-47E8-A66E-3B6B6874F2AD}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>RealPopRevisited</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <RootNamespace>RealPop2</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="CitiesHarmony.API, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\CitiesHarmony.API.2.1.0\lib\net35\CitiesHarmony.API.dll</HintPath>
-    </Reference>
-    <Reference Include="CitiesHarmony.Harmony, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\CitiesHarmony.Harmony.2.2.0\lib\net35\CitiesHarmony.Harmony.dll</HintPath>
-    </Reference>
-    <Reference Include="ColossalManaged">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll</HintPath>
-    </Reference>
-    <Reference Include="ICities">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\ICities.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include=".gitignore" />
-    <None Include=".git\config" />
-    <None Include=".git\description" />
-    <None Include=".git\HEAD" />
-    <None Include=".git\hooks\applypatch-msg.sample" />
-    <None Include=".git\hooks\commit-msg.sample" />
-    <None Include=".git\hooks\fsmonitor-watchman.sample" />
-    <None Include=".git\hooks\post-update.sample" />
-    <None Include=".git\hooks\pre-applypatch.sample" />
-    <None Include=".git\hooks\pre-commit.sample" />
-    <None Include=".git\hooks\pre-push.sample" />
-    <None Include=".git\hooks\pre-rebase.sample" />
-    <None Include=".git\hooks\pre-receive.sample" />
-    <None Include=".git\hooks\prepare-commit-msg.sample" />
-    <None Include=".git\hooks\update.sample" />
-    <None Include=".git\index" />
-    <None Include=".git\info\exclude" />
-    <None Include=".git\logs\HEAD" />
-    <None Include=".git\logs\refs\heads\master" />
-    <None Include=".git\logs\refs\remotes\origin\HEAD" />
-    <None Include=".git\objects\pack\pack-7d3004662bdef3ead075193a9ca85bddfe529e17.idx" />
-    <None Include=".git\objects\pack\pack-7d3004662bdef3ead075193a9ca85bddfe529e17.pack" />
-    <None Include=".git\packed-refs" />
-    <None Include=".git\refs\heads\master" />
-    <None Include=".git\refs\remotes\origin\HEAD" />
-    <None Include=".vs\Realistic-Population-Revisited\v16\.suo" />
-    <None Include=".vs\slnx.sqlite" />
-    <None Include=".vs\VSWorkspaceState.json" />
-    <None Include="LICENSE" />
-    <None Include="packages.config" />
-    <None Include="README.md" />
-    <None Include="Translations\da-DK.csv" />
-    <None Include="Translations\de-DE.csv" />
-    <None Include="Translations\en.csv" />
-    <None Include="Translations\es-ES.csv" />
-    <None Include="Translations\fr-FR.csv" />
-    <None Include="Translations\ja-JP.csv" />
-    <None Include="Translations\nl-NL.csv" />
-    <None Include="Translations\pt-BR.csv" />
-    <None Include="Translations\ru-RU.csv" />
-    <None Include="Translations\zh-CN.csv" />
-    <None Include="Translations\zh-TW.csv" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Changelog.txt" />
-    <Content Include="Images\OptionsPanel\CalculationsConsumption.png" />
-    <Content Include="Images\OptionsPanel\CalculationsDefaults.png" />
-    <Content Include="Images\OptionsPanel\CalculationsLegacy.png" />
-    <Content Include="Images\OptionsPanel\CalculationsPopulation.png" />
-    <Content Include="Images\OptionsPanel\CalculationsStories.png" />
-    <Content Include="Images\OptionsPanel\Crime.png" />
-    <Content Include="Images\OptionsPanel\Schools.png" />
-    <Content Include="Images\PreviewImage_old.png" />
-    <Content Include="Images\PreviewImage_WG.png" />
-    <Content Include="Images\PreviewImage_Beta.png" />
-    <Content Include="Images\PreviewImage.png" />
-    <Content Include="Images\RP2screen1.png" />
-    <Content Include="Images\Screen_1x1HRes.jpg" />
-    <Content Include="Images\Screen_CustomHCom.jpg" />
-    <Content Include="Images\Screen_HCom.jpg" />
-    <Content Include="Images\Screen_HRes.jpg" />
-    <Content Include="Images\Screen_Ind.jpg" />
-    <Content Include="Images\Screen_LCom.jpg" />
-    <Content Include="Images\Screen_LRes.jpg" />
-    <Content Include="Images\Screen_Office.jpg" />
-    <Content Include="Images\Screen_PloppableRICO.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Code\GUI\UIVanillaCalcs.cs" />
-    <Compile Include="Code\Patches\StudentCount.cs" />
-    <Compile Include="Code\GUI\UIModCalcs.cs" />
-    <Compile Include="Code\GUI\UIPreviewPanel.cs" />
-    <Compile Include="Code\Notifications\DontShowAgainMessageBox.cs" />
-    <Compile Include="Code\Notifications\MessageBoxBase.cs" />
-    <Compile Include="Code\Notifications\LegacyChoiceMessageBox.cs" />
-    <Compile Include="Code\Notifications\ListMessageBox.cs" />
-    <Compile Include="Code\Notifications\WhatsNew.cs" />
-    <Compile Include="Code\Notifications\WhatsNewMessageBox.cs" />
-    <Compile Include="Code\Patches\BuildingUpgraded.cs" />
-    <Compile Include="Code\Patches\CalculateHomeCount.cs" />
-    <Compile Include="Code\Patches\CommercialConsumption.cs" />
-    <Compile Include="Code\Patches\ExtractorConsumption.cs" />
-    <Compile Include="Code\Patches\ExtractorProductionCapacity.cs" />
-    <Compile Include="Code\Patches\IndustrialConsumption.cs" />
-    <Compile Include="Code\Patches\IndustrialProductionCapacity.cs" />
-    <Compile Include="Code\Patches\OfficeConsumption.cs" />
-    <Compile Include="Code\Patches\OfficeProductionCapacity.cs" />
-    <Compile Include="Code\Patches\CalculateVisitplaceCount.cs" />
-    <Compile Include="Code\Patches\CalculateWorkplaceCount.cs" />
-    <Compile Include="Code\Patches\HandleCrimeTranspiler.cs" />
-    <Compile Include="Code\Patches\Patcher.cs" />
-    <Compile Include="Code\Patches\ResidentialConsumption.cs" />
-    <Compile Include="Code\Patches\SimulationStepImpl.cs" />
-    <Compile Include="Code\Patches\ModifyMaterialBuffer.cs" />
-    <Compile Include="Code\Patches\VanillaPopMethods.cs" />
-    <Compile Include="Code\Patches\WorldInfoPanel.cs" />
-    <Compile Include="Code\Patches\ZonedBuildingWorldInfoPanel.cs" />
-    <Compile Include="Code\Serialization.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\CalculationsPanelBase.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\GoodsTabs\IndGoodsPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\GoodsTabs\OffGoodsPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\PackPanelBase.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\CalculationsTabBase.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\DefaultsTabs\ComDefaultsPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\ConsumptionTabs\ComConsumptionPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\ConsumptionTabs\ConsumptionPanelBase.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\ConsumptionTabs\IndConsumptionPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\ConsumptionTabs\OffConsumptionPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\ConsumptionTabs\TextfieldPanelBase.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\ConsumptionTabs\ResConsumptionPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\DefaultsTabs\DefaultsPanelBase.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\FloorPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\GoodsTabs\ComGoodsPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\GoodsTabs\GoodsPanelBase.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\DefaultsTabs\IndDefaultsPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\DefaultsTabs\OffDefaultsPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\DefaultsTabs\ResDefaultsPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\IndustrialTab.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\OfficeTab.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\ResidentialTab.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\DefaultsTabs\RICODefaultsPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\DefaultsTabs\SchDefaultsPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\CommercialTab.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\SchoolTab.cs" />
-    <Compile Include="Code\Settings\ModSettings.cs" />
-    <Compile Include="Code\Settings\OptionsPanelTabs\CalculationsPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\LegacyPanel.cs" />
-    <Compile Include="Code\Settings\OptionsPanelTabs\CrimePanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\DefaultsTabs\EmpDefaultsPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\PopulationPanel.cs" />
-    <Compile Include="Code\Settings\OptionsPanelTabs\OptionsPanelTab.cs" />
-    <Compile Include="Code\Settings\OptionsPanelTabs\SchoolsPanel.cs" />
-    <Compile Include="Code\Utils\CitizenUnitUtils.cs" />
-    <Compile Include="Code\Utils\GoodsUtils.cs" />
-    <Compile Include="Code\Utils\Measures.cs" />
-    <Compile Include="Code\Utils\TextureUtils.cs" />
-    <Compile Include="Code\Utils\TooltipUtils.cs" />
-    <Compile Include="Code\Utils\UIControls.cs" />
-    <Compile Include="Code\VolumetricData\CalcData.cs" />
-    <Compile Include="Code\VolumetricData\ConfigurationUtils.cs" />
-    <Compile Include="Code\VolumetricData\ConfigurationXML.cs" />
-    <Compile Include="Code\VolumetricData\CalcPacks.cs" />
-    <Compile Include="Code\VolumetricData\DataMapping.cs" />
-    <Compile Include="Code\VolumetricData\DataStructures.cs" />
-    <Compile Include="Code\VolumetricData\EmploymentData.cs" />
-    <Compile Include="Code\VolumetricData\Multipliers.cs" />
-    <Compile Include="Code\VolumetricData\PopData.cs" />
-    <Compile Include="Code\GUI\UIEditPanel.cs" />
-    <Compile Include="Code\GUI\UIFloorList.cs" />
-    <Compile Include="Code\GUI\UILegacyCalcs.cs" />
-    <Compile Include="Code\GUI\UIBuildingDetails.cs" />
-    <Compile Include="Code\GUI\UIBuildingFilter.cs" />
-    <Compile Include="Code\GUI\UIBuildingRow.cs" />
-    <Compile Include="Code\GUI\UIPreview.cs" />
-    <Compile Include="Code\GUI\UIPreviewRenderer.cs" />
-    <Compile Include="Code\GUI\UITitleBar.cs" />
-    <Compile Include="Code\GUI\UIFastList.cs" />
-    <Compile Include="Code\GUI\UIThreading.cs" />
-    <Compile Include="Code\GUI\UIUtils.cs" />
-    <Compile Include="Code\GUI\UIVolumetricPanel.cs" />
-    <Compile Include="Code\Settings\OptionsKeymapping.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\LegacyConsumptionTabs\LegacyCommercialPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\LegacyConsumptionTabs\LegacyIndustrialPanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\LegacyConsumptionTabs\LegacyOfficePanel.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\LegacyConsumptionTabs\LegacyPanelBase.cs" />
-    <Compile Include="Code\Settings\CalculationTabs\LegacyConsumptionTabs\LegacyResidentialPanel.cs" />
-    <Compile Include="Code\Settings\PanelUtils.cs" />
-    <Compile Include="Code\Settings\OptionsPanel.cs" />
-    <Compile Include="Code\Settings\OptionsPanelTabs\ModOptionsPanel.cs" />
-    <Compile Include="Code\Settings\SettingsXML.cs" />
-    <Compile Include="Code\TranslationFramework\TranslationFramework.cs" />
-    <Compile Include="Code\TranslationFramework\Language.cs" />
-    <Compile Include="Code\Utils\ModUtils.cs" />
-    <Compile Include="Code\VolumetricData\FloorData.cs" />
-    <Compile Include="Code\VolumetricData\SchoolData.cs" />
-    <Compile Include="Code\XML\XML_UtilsWG.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Code\AI_Files\AI_Commercial.cs" />
-    <Compile Include="Code\AI_Files\AI_Industrial.cs" />
-    <Compile Include="Code\AI_Files\AI_IndustrialExtractor.cs" />
-    <Compile Include="Code\AI_Files\AI_Office.cs" />
-    <Compile Include="Code\AI_Files\AI_Residential.cs" />
-    <Compile Include="Code\DataStore.cs" />
-    <Compile Include="Code\Logging.cs" />
-    <Compile Include="Code\Mod.cs" />
-    <Compile Include="Code\Loading.cs" />
-    <Compile Include="Code\Utils\LegacyAIUtils.cs" />
-    <Compile Include="Code\Utils\OverrideUtils.cs" />
-    <Compile Include="Code\XML\WG_XMLBaseVersion.cs" />
-    <Compile Include="Code\XML\XML_VerisonFive.cs" />
-    <Compile Include="Code\XML\XML_VerisonSix.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include=".git\objects\info\" />
-    <Folder Include=".git\refs\tags\" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
-  <ProjectExtensions>
-    <VisualStudio AllowExistingFolder="true" />
-  </ProjectExtensions>
-  <PropertyGroup>
-    <PostBuildEvent>mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)"
-del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\*.dll"
-xcopy /y "$(TargetPath)" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)"
-
-
-xcopy /y "$(SolutionDir)packages\CitiesHarmony.API.2.1.0\lib\net35\CitiesHarmony.API.dll" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)"
-
-
-mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Translations"
-del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Translations\*.csv"
-xcopy /y "$(SolutionDir)\Translations\" "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Translations" /s /e
-</PostBuildEvent>
-  </PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net35</TargetFramework>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Description>A Cities: Skylines mod.</Description>
+		<Version>2.0.4.2</Version>
+		<ManagedDLLPath>$(MSBuildProgramFiles32)/Steam/steamapps/common/Cities_Skylines/Cities_Data/Managed</ManagedDLLPath>
+		<AssemblySearchPaths>
+			$(AssemblySearchPaths);
+			$(ManagedDLLPath);
+		</AssemblySearchPaths>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="CitiesHarmony.API" Version="2.1.0" />
+		<Reference Include="Assembly-CSharp" />
+		<Reference Include="ColossalManaged" />
+		<Reference Include="ICities" />
+		<Reference Include="UnityEngine" />
+	</ItemGroup>
+	<ItemGroup>
+		<_Translations Include="$(ProjectDir)/Translations/*.csv" />
+	</ItemGroup>
+	<Target Name="DeployToModDirectory" AfterTargets="Build">
+		<PropertyGroup>
+			<DeployDir>$(LOCALAPPDATA)/Colossal Order/Cities_Skylines/Addons/Mods/$(SolutionName)/</DeployDir>
+		</PropertyGroup>
+		<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DeployDir)" />
+		<Copy SourceFiles="$(TargetDir)/CitiesHarmony.API.dll" DestinationFolder="$(DeployDir)" />
+		<Copy SourceFiles="@(_Translations)" DestinationFolder="$(DeployDir)/Translations" />
+	</Target>
 </Project>
