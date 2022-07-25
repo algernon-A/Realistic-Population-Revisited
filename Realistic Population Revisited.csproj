@@ -9,6 +9,7 @@
 			$(AssemblySearchPaths);
 			$(ManagedDLLPath);
 		</AssemblySearchPaths>
+		<AssemblyName>RealPopRevisited</AssemblyName>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="CitiesHarmony.API" Version="2.1.0" />

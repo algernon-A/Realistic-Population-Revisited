@@ -79,7 +79,7 @@ namespace RealPop2
             {
                 // Show messagebox.
                 WhatsNewMessageBox messageBox = MessageBoxBase.ShowModal<WhatsNewMessageBox>();
-                messageBox.Title = RealPopMod.ModName + " " + RealPopMod.Version;
+                messageBox.Title = Mod.ModName + " " + Mod.Version;
                 messageBox.DSAButton.eventClicked += (component, clickEvent) => DontShowAgain();
                 messageBox.SetMessages(whatsNewVersion, WhatsNewMessages);
             }

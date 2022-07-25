@@ -1,315 +1,314 @@
-CODE,en
-NAME,English
-RPR_NAME,Realistic Population 2
-RPR_DESC,More realistic building populations (based on building size) and utility needs.
-RPR_REALPOP,Realistic Population
-RPR_INF_VIS,visitors
-RPR_PCK_DEF, (default)
-RPR_PCK_NAM,Calculations
-RPR_PCK_VAN_NAM,Vanilla (base game)
-RPR_PCK_VAN_DES,Calculations as used by the base (unmodded) game.
-RPR_PCK_LEG_NAM,Legacy WG calculations
-RPR_PCK_LEG_DES,Old calculations used by versions 1.x of this mod and Whitefang Greytail's original Realistic Population and Consumption mod.
-RPR_PCK_RLS_NAM,Single dwellings
-RPR_PCK_RLS_DES,One household per building.
-RPR_PCK_RLD_NAM,Duplexes
-RPR_PCK_RLD_DES,Two households per building.
-RPR_PCK_RUH_NAM,US highrise
-RPR_PCK_RUH_DES,Average US apartments and condos.
-RPR_PCK_REM_NAM,European apartments (modern)
-RPR_PCK_REM_DES,European mid-rise and wall-to-wall apartments (medium density; modern buildings).
-RPR_PCK_REO_NAM,European apartments (older)
-RPR_PCK_REO_DES,European mid-rise and wall-to-wall apartments (high density; older buildings).
-RPR_PCK_CUS_NAM,US retail
-RPR_PCK_CUS_DES,General commercial retail density typical of USA.
-RPR_PCK_CUK_NAM,UK retail
-RPR_PCK_CUK_DES,General commercial retail density typical of UK.
-RPR_PCK_CRW_NAM,Superstores
-RPR_PCK_CRW_DES,Non-food superstores and retail warehouses.
-RPR_PCK_THT_NAM,Hotels
-RPR_PCK_THT_DES,Hotels and motels.
-RPR_PCK_LFD_NAM,Food service
-RPR_PCK_LFD_DES,Restaurants and cafes.
-RPR_PCK_LEN_NAM,Entertainment
-RPR_PCK_LEN_DES,"Amusement, fitness, and entertainment centers."
-RPR_PCK_LCN_NAM,Cinemas
-RPR_PCK_LCN_DES,Cinemas and theaters.
-RPR_PCK_ILG_NAM,Light industry
-RPR_PCK_ILG_DES,Light industries and business parks.
-RPR_PCK_IMN_NAM,Manufacturing
-RPR_PCK_IMN_DES,Industrial manufacturing.
-RPR_PCK_IWL_NAM,Small warehouses
-RPR_PCK_IWL_DES,Warehouses for local distribution - lots of storage and low employment density.
-RPR_PCK_IWN_NAM,Large warehouses
-RPR_PCK_IWN_DES,Warehouses for national distribution - lots of storage and very low employment density.
-RPR_PCK_OCP_NAM,Corporate offices
-RPR_PCK_OCP_DES,"Corporate, professional services, and public sector offices."
-RPR_PCK_OFN_NAM,Finance offices
-RPR_PCK_OFN_DES,Financial offices; higher density than typical corporate offices
-RPR_PCK_OCS_NAM,Call centers
-RPR_PCK_OCS_DES,Call centers and other tightly-packed offices
-RPR_PCK_ODT_NAM,Datacenters
-RPR_PCK_ODT_DES,Datacenters with co-location facilities
-RPR_PCK_SSB_NAM,Surburban school
-RPR_PCK_SSB_DES,Suburban schools
-RPR_PCK_SML_NAM,MN low
-RPR_PCK_SML_DES,Minnesota Dept of Education guide - lowest density
-RPR_PCK_SMM_NAM,MN medium
-RPR_PCK_SMM_DES,Minnesota Dept of Education guide - medium density
-RPR_PCK_SMH_NAM,MN high
-RPR_PCK_SMH_DES,Minnesota Dept of Education guide - highest density
-RPR_PCK_SUK_NAM,UK standard
-RPR_PCK_SUK_DES,Standard planning densities for the UK.
-RPR_PCK_FDF_NAM,Generic
-RPR_PCK_FDF_DES,Standard 3m floor height.
-RPR_PCK_FHO_NAM,Standalone houses
-RPR_PCK_FHO_DES,Detached residential dwellings.
-RPR_PCK_FDL_NAM,Lobbies
-RPR_PCK_FDL_DES,Buildings with lobbies and/or elevated first floors.
-RPR_PCK_FCM_NAM,Commercial
-RPR_PCK_FCM_DES,"Commercial, office, educational and industrial buildings with higher floor heights."
-RPR_PCK_FWH_NAM,Warehouse
-RPR_PCK_FWH_DES,"Retail, commercial and industrial warehouses."
-RPR_PCK_FHB_NAM,High-bay warehouse
-RPR_PCK_FHB_DES,High-bay industrial and commercial warehouses.
-RPR_PCK_FEX_NAM,Primary industry
-RPR_PCK_FEX_DES,Industrial extractors and processors
-RPR_PCK_SVE_NAM,Vanilla elementary
-RPR_PCK_SVE_DES,Scaling according to the vanilla elementary school
-RPR_PCK_SVH_NAM,Vanilla high school
-RPR_PCK_SVH_DES,Scaling according to the vanilla high school
-RPR_PCK_SVC_NAM,Vanilla community
-RPR_PCK_SVC_DES,Scaling according to the vanilla community school
-RPR_PCK_SVA_NAM,Vanilla art school
-RPR_PCK_SVA_DES,Scaling according to the vanilla art school
-RPR_CAT_ALL,All categories
-RPR_CAT_RES,Residential
-RPR_CAT_RLO,Residential low
-RPR_CAT_RHI,Residential high
-RPR_CAT_COM,Commercial
-RPR_CAT_CLO,Commercial low
-RPR_CAT_CHI,Commercial high
-RPR_CAT_OFF,Office
-RPR_CAT_GEN,Generic
-RPR_CAT_ITC,IT Cluster
-RPR_CAT_IND,Industrial
-RPR_CAT_FAR,Farming
-RPR_CAT_FOR,Forestry
-RPR_CAT_OIL,Oil
-RPR_CAT_ORE,Ore
-RPR_CAT_EXT,Extractor
-RPR_CAT_PRO,Processor
-RPR_CAT_TOU,Tourism
-RPR_CAT_LEI,Leisure
-RPR_CAT_ORG,Organic and local produce
-RPR_CAT_ECO,Eco shops
-RPR_CAT_SSH,Self-sufficient homes
-RPR_CAT_ERL,Eco residential low
-RPR_CAT_ERH,Eco residential high
-RPR_CAT_SIN,Specialized industry
-RPR_CAT_SCH,Schools
-RPR_FIL_NAME,Name:
-RPR_FIL_SET,Filter by settings (see tooltips)
-RPR_EDT_POP,Override population
-RPR_EDT_FLR,Override floors
-RPR_FTR_ANY,Has custom override and/or non-default calculation pack
-RPR_FTR_OVR,Has population and/or floor override
-RPR_FTR_NDC,Has non-default calculation pack and/or custom population multiplier
-RPR_CUS_TITLE,Custom settings
-RPR_CUS_ADD,Add custom settings
-RPR_CUS_ADD_TIP,Adds (or updates) a custom setting for the selected building
-RPR_CUS_DEL,Delete custom settings
-RPR_CUS_DEL_TIP,Removes the custom setting from the selected building
-RPR_CUS_UPD,Update custom settings
-RPR_ERR_ZERO,ERROR: value needs to be greater than zero
-RPR_ERR_INV,ERROR: invalid value
-RPR_LBL_HOM,Homes:
-RPR_LBL_JOB,Jobs:
-RPR_LBL_STU,Students:
-RPR_LBL_OFF,First floor height
-RPR_LBL_OFH,Other floor height
-RPR_PRV_SFL,Show calculated floors
-RPR_CAL_MOD,Mod calculations
-RPR_CAL_DEN,Population density
-RPR_CAL_BFL,Building floors
-RPR_CAL_FOV,Using custom override
-RPR_CAL_FLG,Floor calculation selection is not available when using legacy calculations
-RPR_CAL_SAT,Save and apply to:
-RPR_CAL_NBD,New buildings only
-RPR_CAL_ABD,All buildings
-RPR_CAL_VOL_FLR,Floors
-RPR_CAL_VOL_FLR_TIP,The number of floors (stories) for this building calculated using the above settings.
-RPR_CAL_VOL_TFA,Total floor area
-RPR_CAL_VOL_TFA_TIP,The total floor area for this building calculated using the above settings.
-RPR_CAL_VOL_UTS,Total units
-RPR_CAL_VOL_UTS_TIP,The total population (households or workplaces) for this building calculated using the above settings.
-RPR_CAL_VOL_VIS,Visitor count
-RPR_CAL_VOL_VIS_TIP,The maximum number of simultaneous customers supported by this building.
-RPR_CAL_VOL_PRD,Production rate
-RPR_CAL_VOL_PRD_TIP,This building's maximum rate of production.
-RPR_CAL_VOL_FLH,Floor height
-RPR_CAL_VOL_FLH_TIP,"The typical floor-to-floor height, in meters, of each story in this building (the first floor has additional options below)."
-RPR_CAL_VOL_FMN,First floor height min
-RPR_CAL_VOL_FMN_TIP,The minimum building height required for an area of the building to count as having at least one story.
-RPR_CAL_VOL_FMX,First floor extra height
-RPR_CAL_VOL_FMX_TIP,The first floor height will be extended upwards by this many meters (on top of the typical floor height above) before additional floors are added above.
-RPR_CAL_VOL_IGF,Ignore first floor
-RPR_CAL_VOL_IGF_TIP,"If this is set, the first floor of the building is treated as empty space (e.g. a lobby or foyer area) with no households or workers."
-RPR_CAL_VOL_EPC,Empty area (%)
-RPR_CAL_VOL_EPC_TIP,This percentage of each floor area will be treated as empty area and will not be included when calculating households or worker counts.
-RPR_CAL_VOL_EMP,Empty area (fixed)
-RPR_CAL_VOL_EMP_TIP,A fixed amount of space that will be deducted from each floor area before households or workers are calculated (treated as empty area).
-RPR_CAL_VOL_FXP,Fixed population?
-RPR_CAL_VOL_FXP_TIP,"If this is set, a fixed figure for household or worker counts will be used, regardless of building size (e.g. one household per building)."
-RPR_CAL_VOL_UNI,Units
-RPR_CAL_VOL_HOU,Households
-RPR_CAL_VOL_WOR,Workplaces
-RPR_CAL_VOL_STU,Students
-RPR_CAL_VOL_UNI_TIP,Fixed number of households or workers per building.
-RPR_CAL_VOL_APU,Area per unit
-RPR_CAL_VOL_APU_TIP,The area (in square meters) required for each household or worker (after empty area has been deducted).
-RPR_CAL_VOL_MFU,Multi-floor units
-RPR_CAL_VOL_MFU_TIP,"If this is not set, then household or worker counts will be calculated for each individual floor in the building. If this is set, only the building total will be used to calculate household or worker counts."
-RPR_CAL_VOL_ARA,area
-RPR_CAL_UNI_HOU,homes
-RPR_CAL_UNI_WOR,workers
-RPR_CAL_UNI_STU,students
-RPR_CAL_HOM_CALC,Calculated homes:
-RPR_CAL_HOM_CUST,Customised homes:
-RPR_CAL_HOM_APPL,Applied homes:
-RPR_CAL_JOB_CALC,Calculated jobs:
-RPR_CAL_JOB_CUST,Customised jobs:
-RPR_CAL_JOB_APPL,Applied jobs:
-RPR_CAL_BLD_X,Building width (m):
-RPR_CAL_BLD_Z,Building length (m):
-RPR_CAL_LOT_X,Lot width (squares):
-RPR_CAL_LOT_Z,Lot length (squares):
-RPR_CAL_BLD_Y,Scaffolding height (m):
-RPR_CAL_BLD_M2,m2 per person:
-RPR_CAL_FLR_Y,Floor height (m):
-RPR_CAL_FLR_M,Floor mod
-RPR_CAL_FLR,Calculated floors:
-RPR_CAL_M2,Calculated area:
-RPR_CAL_OVR,(Overridden)
-RPR_CAL_OVM,Population calculation is overriden by manual setting
-RPR_CAL_RICO,Ploppable RICO Revisited is controlling the figures for this building.
-RPR_CAL_CAP_OVR,Custom capacity multiplier
-RPR_CAL_CAP_DEF,Default multiplier:
-RPR_CAL_SCH_PRO,Staff and cost scaling
-RPR_CAL_SCH_WKR,School workers
-RPR_CAL_SCH_WKR_TIP,The number and level of workplaces available at this school calculated using the above settings
-RPR_CAL_SCH_CST,Cost/maintenance
-RPR_CAL_SCH_CST_TIP,The school's construction cost and weekly maintenance cost calculated using the above settings
-RPR_TIT_RDF,Residential calculation defaults
-RPR_TIT_CDF,Commercial calculation defaults
-RPR_TIT_IDF,Industrial calculation defaults
-RPR_TIT_EDF,Extractor calculation defaults
-RPR_TIT_ODF,Office calculation defaults
-RPR_TIT_SDF,School calculation defaults
-RPR_TIT_CGO,Commercial goods settings
-RPR_TIT_IGO,Industrial production settings
-RPR_TIT_EGO,Extractor production settings
-RPR_TIT_OGO,Office production settings
-RPR_OPT_MOD,Mod settings
-RPR_OPT_KEY,Hotkey for building options screen
-RPR_OPT_PRS,Press any key
-RPR_OPT_LEG,Legacy
-RPR_OPT_CON,Consumption
-RPR_OPT_LVL,Level
-RPR_OPT_APH,Area per household (m2)
-RPR_OPT_APW,Area per worker (m2)
-RPR_OPT_FLR,Floor height (m)
-RPR_OPT_POW,Power
-RPR_OPT_WAT,Water
-RPR_OPT_SEW,Sewage
-RPR_OPT_GAR,Garbage
-RPR_OPT_POL,Pollution
-RPR_OPT_NOI,Noise
-RPR_OPT_MAI,Mail
-RPR_OPT_PRO,Production
-RPR_OPT_WEA,Wealth
-RPR_OPT_RTD,Reset to defaults
-RPR_OPT_RTS,Revert to saved
-RPR_OPT_SAA,Save and apply
-RPR_OPT_SCH,Schools
-RPR_OPT_SEN,Enable realistic school student capacities
-RPR_OPT_SEJ,"Enable realistic school properties (jobs, costs) - requires restart"
-RPR_OPT_SDM,Default school capacity multiplier
-RPR_OPT_JB0,Uneducated jobs
-RPR_OPT_JB1,Educated jobs
-RPR_OPT_JB2,Well-educated jobs
-RPR_OPT_JB3,Highly-educated jobs
-RPR_OPT_SHE,Elementary schools
-RPR_OPT_SHH,High schools
-RPR_OPT_SJB,Base jobs
-RPR_OPT_SJX,Extra job per # students
-RPR_OPT_CRI,Crime
-RPR_OPT_CML,Crime multiplier
-RPR_OPT_CML_TIP,The base crime accumulation for the city will be multiplied by this amount
-RPR_OPT_POP,Population calculation packs
-RPR_OPT_STO,Floor calculation packs
-RPR_OPT_DEF,Default calculation packs
-RPR_OPT_PSI,"Production, sales and inventory settings"
-RPR_OPT_EDT_NAM,Pack name
-RPR_OPT_SVC,Service
-RPR_OPT_CPK,Calculation pack
-RPR_OPT_NEW,Add new
-RPR_OPT_DEL,Delete pack
-RPR_OPT_NPK,New pack
-RPR_OPT_MEA,Display figures in US Customary units (instead of metric)
-RPR_OPT_LDT,Enable detailed debugging logging
-RPR_DEF_DMR,Default residential building calculation mode:
-RPR_DEF_DMC,Default commercial building calculation mode:
-RPR_DEF_DMI,Default industrial building calculation mode:
-RPR_DEF_DMO,Default office building calculation mode:
-RPR_DEF_LTS,This save
-RPR_DEF_LAS,New saves
-RPR_DEF_VIS,Customer (visitor) capacity
-RPR_DEF_VIS_TIP,"The basis for calculating the number of customers this building can handle at once. The old method was to use the size of the building's lot, and the new method is to use the number of workplaces in the building."
-RPR_DEF_VNE,New method (population)
-RPR_DEF_VOL,Old method (lot size)
-RPR_DEF_VMU,Customer count multiplier
-RPR_DEF_VMU_TIP,The calculated customer capacity will be multiplied by this amount
-RPR_DEF_CGM,Sales multiplier
-RPR_DEF_CGM_TIP,"The amount of goods sold by this building per customer will be multiplied by this amount; reduced rates will mean fewer goods are required, but tax revenue will also be reduced"
-RPR_DEF_IDC,Inventory demand cap
-RPR_DEF_IDC_TIP,Sets the maximum building inventory level that will trigger the ordering of more goods (does not affect buildings with calculated inventory order trigger levels that are already lower than this cap).
-RPR_DEF_PMD,Calculation mode
-RPR_DEF_PMD_TIP,"The basis for calculating the production rate of this building. The old method was to use the size of the building's lot, and the new method is to use the number of workplaces in the building."
-RPR_DEF_PRD,Production multiplier
-RPR_DEF_PRD_TIP,The amount of goods produced by this building will be muliplied by this amount
-TRN_CHOICE,Set language
-TRN_SYS,Use system language
-MES_CLS,Close
-MES_DSA,Don't show again
-MES_PAGE,Please refer to the mod's Steam Workshop page for further information.
-RPR_OLD_0,This savefile has not been saved with Realistic Population 2.
-RPR_OLD_1,Please be aware that applying different population calculations to an existing city can temporarily disrupt city balance.
-RPR_OLD_3,"Note that in any case, existing residential buildings will retain their existing capacities and households and will NOT be affected, and workers with existing jobs will NOT be immediately displaced from those jobs, so there will be no immediate impact on your city's population."
-RPR_OLD_4,"Choose new calculations to immediately apply the mod's standard calculations."
-RPR_OLD_5,"Choose vanilla calculations to continue using the game's default calculations.  You can change to the mod's calculations later."
-RPR_OLD_6,"Choose legacy calculations to use the calculations used by earlier versions of this mod (the Realistic Population and Consumption mod and Realistic Population Revisited version 1).  Only choose this if your savefile used one of these earlier versions."
-RPR_OLD_VAN,Vanilla calculations
-RPR_OLD_LEG,Legacy calculations
-RPR_OLD_NEW,New calculations
-RPR_ERR_FAT,This means that Realistic Population 2 is not able to operate properly and has shut down.
-RPR_ERR_HAR,Realistic Population 2 was unable to complete its required Harmony patches.
-ERR_HAR0,Harmony patching error!
-ERR_HAR1,Possible causes of this problem include:
-ERR_HAR2,The required Harmony 2 mod dependency was not installed
-ERR_HAR3,An old and/or broken mod is preventing Harmony 2 from operating properly
-ERR_CON0,Mod conflict detected!
-ERR_CON1,The conflicting mods are:
-RPR_ERR_CON0,Realistic Population 2 detected a conflict with at least one other mod.
-RPR_ERR_CON1,These mods must be removed before Realistic Population 2 can operate.
-RPR_200_0,Renaming from 'Realistic Population Revisited' to 'Realistic Population 2' to reflect the extent of the changes
-RPR_200_1,"MAJOR NEW FEATURE: new building population calculations based on actual building shapes and sizes with realistically calculated floorspace, with the option to choose between the new or old ('legacy') calculations"
-RPR_200_2,"MAJOR NEW FEATURE: separate calculation presets for building floorspace and population, along with optional manual overrides for either or both"
-RPR_200_3,MAJOR NEW FEATURE: selectable configuration presets for each building service type
-RPR_200_4,"MAJOR NEW FEATURE: optional realistic student capacity calculations for elementary and high schools, with configurable multiplier for when realistically-sized school buildings aren't available"
-RPR_200_5,MAJOR NEW FEATURE: adjustable crime rate
-RPR_200_6,Upgrade to Harmony 2 (boformer's Harmony 2 mod required)
-RPR_200_7,Various enhancements to the building details panel
-RPR_200_8,Improved mod conflict detection and notification
-RPR_200_9,"Significant overhaul, cleanup and restructure of the mod's codebase"
-RPR_201_0,"Add option to use US customary measures (feet and square feet) in place of metric measurements"
+"LANGUAGE","English"
+"RPR_NAME","Realistic Population 2"
+"RPR_DESC","More realistic building populations (based on building size) and utility needs."
+"RPR_REALPOP","Realistic Population"
+"RPR_INF_VIS","visitors"
+"RPR_PCK_DEF"," (default)"
+"RPR_PCK_NAM","Calculations"
+"RPR_PCK_VAN_NAM","Vanilla (base game)"
+"RPR_PCK_VAN_DES","Calculations as used by the base (unmodded) game."
+"RPR_PCK_LEG_NAM","Legacy WG calculations"
+"RPR_PCK_LEG_DES","Old calculations used by versions 1.x of this mod and Whitefang Greytail's original Realistic Population and Consumption mod."
+"RPR_PCK_RLS_NAM","Single dwellings"
+"RPR_PCK_RLS_DES","One household per building."
+"RPR_PCK_RLD_NAM","Duplexes"
+"RPR_PCK_RLD_DES","Two households per building."
+"RPR_PCK_RUH_NAM","US highrise"
+"RPR_PCK_RUH_DES","Average US apartments and condos."
+"RPR_PCK_REM_NAM","European apartments (modern)"
+"RPR_PCK_REM_DES","European mid-rise and wall-to-wall apartments (medium density; modern buildings)."
+"RPR_PCK_REO_NAM","European apartments (older)"
+"RPR_PCK_REO_DES","European mid-rise and wall-to-wall apartments (high density; older buildings)."
+"RPR_PCK_CUS_NAM","US retail"
+"RPR_PCK_CUS_DES","General commercial retail density typical of USA."
+"RPR_PCK_CUK_NAM","UK retail"
+"RPR_PCK_CUK_DES","General commercial retail density typical of UK."
+"RPR_PCK_CRW_NAM","Superstores"
+"RPR_PCK_CRW_DES","Non-food superstores and retail warehouses."
+"RPR_PCK_THT_NAM","Hotels"
+"RPR_PCK_THT_DES","Hotels and motels."
+"RPR_PCK_LFD_NAM","Food service"
+"RPR_PCK_LFD_DES","Restaurants and cafes."
+"RPR_PCK_LEN_NAM","Entertainment"
+"RPR_PCK_LEN_DES","Amusement, fitness, and entertainment centers."
+"RPR_PCK_LCN_NAM","Cinemas"
+"RPR_PCK_LCN_DES","Cinemas and theaters."
+"RPR_PCK_ILG_NAM","Light industry"
+"RPR_PCK_ILG_DES","Light industries and business parks."
+"RPR_PCK_IMN_NAM","Manufacturing"
+"RPR_PCK_IMN_DES","Industrial manufacturing."
+"RPR_PCK_IWL_NAM","Small warehouses"
+"RPR_PCK_IWL_DES","Warehouses for local distribution - lots of storage and low employment density."
+"RPR_PCK_IWN_NAM","Large warehouses"
+"RPR_PCK_IWN_DES","Warehouses for national distribution - lots of storage and very low employment density."
+"RPR_PCK_OCP_NAM","Corporate offices"
+"RPR_PCK_OCP_DES","Corporate, professional services, and public sector offices."
+"RPR_PCK_OFN_NAM","Finance offices"
+"RPR_PCK_OFN_DES","Financial offices; higher density than typical corporate offices"
+"RPR_PCK_OCS_NAM","Call centers"
+"RPR_PCK_OCS_DES","Call centers and other tightly-packed offices"
+"RPR_PCK_ODT_NAM","Datacenters"
+"RPR_PCK_ODT_DES","Datacenters with co-location facilities"
+"RPR_PCK_SSB_NAM","Surburban school"
+"RPR_PCK_SSB_DES","Suburban schools"
+"RPR_PCK_SML_NAM","MN low"
+"RPR_PCK_SML_DES","Minnesota Dept of Education guide - lowest density"
+"RPR_PCK_SMM_NAM","MN medium"
+"RPR_PCK_SMM_DES","Minnesota Dept of Education guide - medium density"
+"RPR_PCK_SMH_NAM","MN high"
+"RPR_PCK_SMH_DES","Minnesota Dept of Education guide - highest density"
+"RPR_PCK_SUK_NAM","UK standard"
+"RPR_PCK_SUK_DES","Standard planning densities for the UK."
+"RPR_PCK_FDF_NAM","Generic"
+"RPR_PCK_FDF_DES","Standard 3m floor height."
+"RPR_PCK_FHO_NAM","Standalone houses"
+"RPR_PCK_FHO_DES","Detached residential dwellings."
+"RPR_PCK_FDL_NAM","Lobbies"
+"RPR_PCK_FDL_DES","Buildings with lobbies and/or elevated first floors."
+"RPR_PCK_FCM_NAM","Commercial"
+"RPR_PCK_FCM_DES","Commercial, office, educational and industrial buildings with higher floor heights."
+"RPR_PCK_FWH_NAM","Warehouse"
+"RPR_PCK_FWH_DES","Retail, commercial and industrial warehouses."
+"RPR_PCK_FHB_NAM","High-bay warehouse"
+"RPR_PCK_FHB_DES","High-bay industrial and commercial warehouses."
+"RPR_PCK_FEX_NAM","Primary industry"
+"RPR_PCK_FEX_DES","Industrial extractors and processors"
+"RPR_PCK_SVE_NAM","Vanilla elementary"
+"RPR_PCK_SVE_DES","Scaling according to the vanilla elementary school"
+"RPR_PCK_SVH_NAM","Vanilla high school"
+"RPR_PCK_SVH_DES","Scaling according to the vanilla high school"
+"RPR_PCK_SVC_NAM","Vanilla community"
+"RPR_PCK_SVC_DES","Scaling according to the vanilla community school"
+"RPR_PCK_SVA_NAM","Vanilla art school"
+"RPR_PCK_SVA_DES","Scaling according to the vanilla art school"
+"RPR_CAT_ALL","All categories"
+"RPR_CAT_RES","Residential"
+"RPR_CAT_RLO","Residential low"
+"RPR_CAT_RHI","Residential high"
+"RPR_CAT_COM","Commercial"
+"RPR_CAT_CLO","Commercial low"
+"RPR_CAT_CHI","Commercial high"
+"RPR_CAT_OFF","Office"
+"RPR_CAT_GEN","Generic"
+"RPR_CAT_ITC","IT Cluster"
+"RPR_CAT_IND","Industrial"
+"RPR_CAT_FAR","Farming"
+"RPR_CAT_FOR","Forestry"
+"RPR_CAT_OIL","Oil"
+"RPR_CAT_ORE","Ore"
+"RPR_CAT_EXT","Extractor"
+"RPR_CAT_PRO","Processor"
+"RPR_CAT_TOU","Tourism"
+"RPR_CAT_LEI","Leisure"
+"RPR_CAT_ORG","Organic and local produce"
+"RPR_CAT_ECO","Eco shops"
+"RPR_CAT_SSH","Self-sufficient homes"
+"RPR_CAT_ERL","Eco residential low"
+"RPR_CAT_ERH","Eco residential high"
+"RPR_CAT_SIN","Specialized industry"
+"RPR_CAT_SCH","Schools"
+"RPR_FIL_NAME","Name:"
+"RPR_FIL_SET","Filter by settings (see tooltips)"
+"RPR_EDT_POP","Override population"
+"RPR_EDT_FLR","Override floors"
+"RPR_FTR_ANY","Has custom override and/or non-default calculation pack"
+"RPR_FTR_OVR","Has population and/or floor override"
+"RPR_FTR_NDC","Has non-default calculation pack and/or custom population multiplier"
+"RPR_CUS_TITLE","Custom settings"
+"RPR_CUS_ADD","Add custom settings"
+"RPR_CUS_ADD_TIP","Adds (or updates) a custom setting for the selected building"
+"RPR_CUS_DEL","Delete custom settings"
+"RPR_CUS_DEL_TIP","Removes the custom setting from the selected building"
+"RPR_CUS_UPD","Update custom settings"
+"RPR_ERR_ZERO","ERROR: value needs to be greater than zero"
+"RPR_ERR_INV","ERROR: invalid value"
+"RPR_LBL_HOM","Homes:"
+"RPR_LBL_JOB","Jobs:"
+"RPR_LBL_STU","Students:"
+"RPR_LBL_OFF","First floor height"
+"RPR_LBL_OFH","Other floor height"
+"RPR_PRV_SFL","Show calculated floors"
+"RPR_CAL_MOD","Mod calculations"
+"RPR_CAL_DEN","Population density"
+"RPR_CAL_BFL","Building floors"
+"RPR_CAL_FOV","Using custom override"
+"RPR_CAL_FLG","Floor calculation selection is not available when using legacy calculations"
+"RPR_CAL_SAT","Save and apply to:"
+"RPR_CAL_NBD","New buildings only"
+"RPR_CAL_ABD","All buildings"
+"RPR_CAL_VOL_FLR","Floors"
+"RPR_CAL_VOL_FLR_TIP","The number of floors (stories) for this building calculated using the above settings."
+"RPR_CAL_VOL_TFA","Total floor area"
+"RPR_CAL_VOL_TFA_TIP","The total floor area for this building calculated using the above settings."
+"RPR_CAL_VOL_UTS","Total units"
+"RPR_CAL_VOL_UTS_TIP","The total population (households or workplaces) for this building calculated using the above settings."
+"RPR_CAL_VOL_VIS","Visitor count"
+"RPR_CAL_VOL_VIS_TIP","The maximum number of simultaneous customers supported by this building."
+"RPR_CAL_VOL_PRD","Production rate"
+"RPR_CAL_VOL_PRD_TIP","This building's maximum rate of production."
+"RPR_CAL_VOL_FLH","Floor height"
+"RPR_CAL_VOL_FLH_TIP","The typical floor-to-floor height, in meters, of each story in this building (the first floor has additional options below)."
+"RPR_CAL_VOL_FMN","First floor height min"
+"RPR_CAL_VOL_FMN_TIP","The minimum building height required for an area of the building to count as having at least one story."
+"RPR_CAL_VOL_FMX","First floor extra height"
+"RPR_CAL_VOL_FMX_TIP","The first floor height will be extended upwards by this many meters (on top of the typical floor height above) before additional floors are added above."
+"RPR_CAL_VOL_IGF","Ignore first floor"
+"RPR_CAL_VOL_IGF_TIP","If this is set, the first floor of the building is treated as empty space (e.g. a lobby or foyer area) with no households or workers."
+"RPR_CAL_VOL_EPC","Empty area (%)"
+"RPR_CAL_VOL_EPC_TIP","This percentage of each floor area will be treated as empty area and will not be included when calculating households or worker counts."
+"RPR_CAL_VOL_EMP","Empty area (fixed)"
+"RPR_CAL_VOL_EMP_TIP","A fixed amount of space that will be deducted from each floor area before households or workers are calculated (treated as empty area)."
+"RPR_CAL_VOL_FXP","Fixed population?"
+"RPR_CAL_VOL_FXP_TIP","If this is set, a fixed figure for household or worker counts will be used, regardless of building size (e.g. one household per building)."
+"RPR_CAL_VOL_UNI","Units"
+"RPR_CAL_VOL_HOU","Households"
+"RPR_CAL_VOL_WOR","Workplaces"
+"RPR_CAL_VOL_STU","Students"
+"RPR_CAL_VOL_UNI_TIP","Fixed number of households or workers per building."
+"RPR_CAL_VOL_APU","Area per unit"
+"RPR_CAL_VOL_APU_TIP","The area (in square meters) required for each household or worker (after empty area has been deducted)."
+"RPR_CAL_VOL_MFU","Multi-floor units"
+"RPR_CAL_VOL_MFU_TIP","If this is not set, then household or worker counts will be calculated for each individual floor in the building. If this is set, only the building total will be used to calculate household or worker counts."
+"RPR_CAL_VOL_ARA","area"
+"RPR_CAL_UNI_HOU","homes"
+"RPR_CAL_UNI_WOR","workers"
+"RPR_CAL_UNI_STU","students"
+"RPR_CAL_HOM_CALC","Calculated homes:"
+"RPR_CAL_HOM_CUST","Customised homes:"
+"RPR_CAL_HOM_APPL","Applied homes:"
+"RPR_CAL_JOB_CALC","Calculated jobs:"
+"RPR_CAL_JOB_CUST","Customised jobs:"
+"RPR_CAL_JOB_APPL","Applied jobs:"
+"RPR_CAL_BLD_X","Building width (m):"
+"RPR_CAL_BLD_Z","Building length (m):"
+"RPR_CAL_LOT_X","Lot width (squares):"
+"RPR_CAL_LOT_Z","Lot length (squares):"
+"RPR_CAL_BLD_Y","Scaffolding height (m):"
+"RPR_CAL_BLD_M2","m2 per person:"
+"RPR_CAL_FLR_Y","Floor height (m):"
+"RPR_CAL_FLR_M","Floor mod"
+"RPR_CAL_FLR","Calculated floors:"
+"RPR_CAL_M2","Calculated area:"
+"RPR_CAL_OVR","(Overridden)"
+"RPR_CAL_OVM","Population calculation is overriden by manual setting"
+"RPR_CAL_RICO","Ploppable RICO Revisited is controlling the figures for this building."
+"RPR_CAL_CAP_OVR","Custom capacity multiplier"
+"RPR_CAL_CAP_DEF","Default multiplier:"
+"RPR_CAL_SCH_PRO","Staff and cost scaling"
+"RPR_CAL_SCH_WKR","School workers"
+"RPR_CAL_SCH_WKR_TIP","The number and level of workplaces available at this school calculated using the above settings"
+"RPR_CAL_SCH_CST","Cost/maintenance"
+"RPR_CAL_SCH_CST_TIP","The school's construction cost and weekly maintenance cost calculated using the above settings"
+"RPR_TIT_RDF","Residential calculation defaults"
+"RPR_TIT_CDF","Commercial calculation defaults"
+"RPR_TIT_IDF","Industrial calculation defaults"
+"RPR_TIT_EDF","Extractor calculation defaults"
+"RPR_TIT_ODF","Office calculation defaults"
+"RPR_TIT_SDF","School calculation defaults"
+"RPR_TIT_CGO","Commercial goods settings"
+"RPR_TIT_IGO","Industrial production settings"
+"RPR_TIT_EGO","Extractor production settings"
+"RPR_TIT_OGO","Office production settings"
+"RPR_OPT_MOD","Mod settings"
+"RPR_OPT_KEY","Hotkey for building options screen"
+"RPR_OPT_PRS","Press any key"
+"RPR_OPT_LEG","Legacy"
+"RPR_OPT_CON","Consumption"
+"RPR_OPT_LVL","Level"
+"RPR_OPT_APH","Area per household (m2)"
+"RPR_OPT_APW","Area per worker (m2)"
+"RPR_OPT_FLR","Floor height (m)"
+"RPR_OPT_POW","Power"
+"RPR_OPT_WAT","Water"
+"RPR_OPT_SEW","Sewage"
+"RPR_OPT_GAR","Garbage"
+"RPR_OPT_POL","Pollution"
+"RPR_OPT_NOI","Noise"
+"RPR_OPT_MAI","Mail"
+"RPR_OPT_PRO","Production"
+"RPR_OPT_WEA","Wealth"
+"RPR_OPT_RTD","Reset to defaults"
+"RPR_OPT_RTS","Revert to saved"
+"RPR_OPT_SAA","Save and apply"
+"RPR_OPT_SCH","Schools"
+"RPR_OPT_SEN","Enable realistic school student capacities"
+"RPR_OPT_SEJ","Enable realistic school properties (jobs, costs) - requires restart"
+"RPR_OPT_SDM","Default school capacity multiplier"
+"RPR_OPT_JB0","Uneducated jobs"
+"RPR_OPT_JB1","Educated jobs"
+"RPR_OPT_JB2","Well-educated jobs"
+"RPR_OPT_JB3","Highly-educated jobs"
+"RPR_OPT_SHE","Elementary schools"
+"RPR_OPT_SHH","High schools"
+"RPR_OPT_SJB","Base jobs"
+"RPR_OPT_SJX","Extra job per # students"
+"RPR_OPT_CRI","Crime"
+"RPR_OPT_CML","Crime multiplier"
+"RPR_OPT_CML_TIP","The base crime accumulation for the city will be multiplied by this amount"
+"RPR_OPT_POP","Population calculation packs"
+"RPR_OPT_STO","Floor calculation packs"
+"RPR_OPT_DEF","Default calculation packs"
+"RPR_OPT_PSI","Production, sales and inventory settings"
+"RPR_OPT_EDT_NAM","Pack name"
+"RPR_OPT_SVC","Service"
+"RPR_OPT_CPK","Calculation pack"
+"RPR_OPT_NEW","Add new"
+"RPR_OPT_DEL","Delete pack"
+"RPR_OPT_NPK","New pack"
+"RPR_OPT_MEA","Display figures in US Customary units (instead of metric)"
+"RPR_OPT_LDT","Enable detailed debugging logging"
+"RPR_DEF_DMR","Default residential building calculation mode:"
+"RPR_DEF_DMC","Default commercial building calculation mode:"
+"RPR_DEF_DMI","Default industrial building calculation mode:"
+"RPR_DEF_DMO","Default office building calculation mode:"
+"RPR_DEF_LTS","This save"
+"RPR_DEF_LAS","New saves"
+"RPR_DEF_VIS","Customer (visitor) capacity"
+"RPR_DEF_VIS_TIP","The basis for calculating the number of customers this building can handle at once. The old method was to use the size of the building's lot, and the new method is to use the number of workplaces in the building."
+"RPR_DEF_VNE","New method (population)"
+"RPR_DEF_VOL","Old method (lot size)"
+"RPR_DEF_VMU","Customer count multiplier"
+"RPR_DEF_VMU_TIP","The calculated customer capacity will be multiplied by this amount"
+"RPR_DEF_CGM","Sales multiplier"
+"RPR_DEF_CGM_TIP","The amount of goods sold by this building per customer will be multiplied by this amount; reduced rates will mean fewer goods are required, but tax revenue will also be reduced"
+"RPR_DEF_IDC","Inventory demand cap"
+"RPR_DEF_IDC_TIP","Sets the maximum building inventory level that will trigger the ordering of more goods (does not affect buildings with calculated inventory order trigger levels that are already lower than this cap)."
+"RPR_DEF_PMD","Calculation mode"
+"RPR_DEF_PMD_TIP","The basis for calculating the production rate of this building. The old method was to use the size of the building's lot, and the new method is to use the number of workplaces in the building."
+"RPR_DEF_PRD","Production multiplier"
+"RPR_DEF_PRD_TIP","The amount of goods produced by this building will be muliplied by this amount"
+"TRN_CHOICE","Set language"
+"TRN_SYS","Use system language"
+"MES_CLS","Close"
+"MES_DSA","Don't show again"
+"MES_PAGE","Please refer to the mod's Steam Workshop page for further information."
+"RPR_OLD_0","This savefile has not been saved with Realistic Population 2."
+"RPR_OLD_1","Please be aware that applying different population calculations to an existing city can temporarily disrupt city balance."
+"RPR_OLD_3","Note that in any case, existing residential buildings will retain their existing capacities and households and will NOT be affected, and workers with existing jobs will NOT be immediately displaced from those jobs, so there will be no immediate impact on your city's population."
+"RPR_OLD_4","Choose new calculations to immediately apply the mod's standard calculations."
+"RPR_OLD_5","Choose vanilla calculations to continue using the game's default calculations.  You can change to the mod's calculations later."
+"RPR_OLD_6","Choose legacy calculations to use the calculations used by earlier versions of this mod (the Realistic Population and Consumption mod and Realistic Population Revisited version 1).  Only choose this if your savefile used one of these earlier versions."
+"RPR_OLD_VAN","Vanilla calculations"
+"RPR_OLD_LEG","Legacy calculations"
+"RPR_OLD_NEW","New calculations"
+"RPR_ERR_FAT","This means that Realistic Population 2 is not able to operate properly and has shut down."
+"RPR_ERR_HAR","Realistic Population 2 was unable to complete its required Harmony patches."
+"ERR_HAR0","Harmony patching error!"
+"ERR_HAR1","Possible causes of this problem include:"
+"ERR_HAR2","The required Harmony 2 mod dependency was not installed"
+"ERR_HAR3","An old and/or broken mod is preventing Harmony 2 from operating properly"
+"ERR_CON0","Mod conflict detected!"
+"ERR_CON1","The conflicting mods are:"
+"RPR_ERR_CON0","Realistic Population 2 detected a conflict with at least one other mod."
+"RPR_ERR_CON1","These mods must be removed before Realistic Population 2 can operate."
+"RPR_200_0","Renaming from 'Realistic Population Revisited' to 'Realistic Population 2' to reflect the extent of the changes"
+"RPR_200_1","MAJOR NEW FEATURE: new building population calculations based on actual building shapes and sizes with realistically calculated floorspace, with the option to choose between the new or old ('legacy') calculations"
+"RPR_200_2","MAJOR NEW FEATURE: separate calculation presets for building floorspace and population, along with optional manual overrides for either or both"
+"RPR_200_3","MAJOR NEW FEATURE: selectable configuration presets for each building service type"
+"RPR_200_4","MAJOR NEW FEATURE: optional realistic student capacity calculations for elementary and high schools, with configurable multiplier for when realistically-sized school buildings aren't available"
+"RPR_200_5","MAJOR NEW FEATURE: adjustable crime rate"
+"RPR_200_6","Upgrade to Harmony 2 (boformer's Harmony 2 mod required)"
+"RPR_200_7","Various enhancements to the building details panel"
+"RPR_200_8","Improved mod conflict detection and notification"
+"RPR_200_9","Significant overhaul, cleanup and restructure of the mod's codebase"
+"RPR_201_0","Add option to use US customary measures (feet and square feet) in place of metric measurements"

@@ -71,7 +71,7 @@ namespace RealPop2
             if (HarmonyHelper.IsHarmonyInstalled)
             {
                 // Try to get ABLC method.
-                MethodInfo ablcCustomUpgraded = ModUtils.ABLCCustomUpgraded();
+                MethodInfo ablcCustomUpgraded = AssemblyUtils.ABLCCustomUpgraded();
                 if (ablcCustomUpgraded != null)
                 {
                     // Got method - apply patch.

@@ -8,18 +8,17 @@ namespace RealPop2
     /// </summary>
     public class Language
     {
-        // Translation file keywords - language code and readable name.
-        public static readonly string CodeKey = "CODE";
-        public static readonly string NameKey = "NAME";
+        // Translation file keywords - readable name.
+        public static readonly string NameKey = "LANGUAGE";
 
 
         // Dictionary of translations for this language.
         public Dictionary<string, string> translationDictionary = new Dictionary<string, string>();
 
-        // Language unique name.
-        public string uniqueName = null;
+        // Language code.
+        public string code = null;
 
-        // Language human-readable name.
+        // Language human-readable display name.
         public string readableName = null;
     }
 }

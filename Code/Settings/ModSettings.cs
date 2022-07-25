@@ -252,9 +252,9 @@ namespace RealPop2
             PopData.instance.visitplaceCache.Clear();
 
             // Clear RICO cache too.
-            if (ModUtils.ricoClearAllWorkplaces != null)
+            if (AssemblyUtils.ricoClearAllWorkplaces != null)
             {
-                ModUtils.ricoClearAllWorkplaces.Invoke(null, null);
+                AssemblyUtils.ricoClearAllWorkplaces.Invoke(null, null);
             }
         }
     }

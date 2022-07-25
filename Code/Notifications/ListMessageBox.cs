@@ -22,7 +22,7 @@ namespace RealPop2.MessageBox
         public ListMessageBox()
         {
             // Set title.
-            Title = RealPopMod.ModName;
+            Title = Mod.ModName;
 
             // Add buttons.
             AddButtons();

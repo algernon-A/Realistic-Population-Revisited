@@ -362,7 +362,7 @@ namespace RealPop2
             }
 
             // Show override labels if population is being overriden (population message text will clobber any previous floor override message, which is by design).
-            if (ModUtils.CheckRICOPopControl(building))
+            if (AssemblyUtils.CheckRICOPopControl(building))
             {
                 // Overridden by Ploppable RICO Revisited.
                 overridePopLabel.Show();

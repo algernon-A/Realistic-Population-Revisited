@@ -5,7 +5,7 @@ using CitiesHarmony.API;
 
 namespace RealPop2
 {
-    public class RealPopMod : IUserMod
+    public class Mod : IUserMod
     {
         // Public mod name and description.
         public string Name => ModName + " " + Version;
@@ -13,7 +13,7 @@ namespace RealPop2
 
         // Internal and private name and version components.
         internal static string ModName => "Realistic Population 2";
-        internal static string Version => "2.0.4.2";
+        internal static string Version => AssemblyUtils.CurrentVersion;
 
 
         /// <summary>

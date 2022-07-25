@@ -404,9 +404,9 @@ namespace RealPop2
                 PopData.instance.visitplaceCache.Remove(prefab);
 
                 // Force RICO refresh, if we're using Ploppable RICO Revisited.
-                if (ModUtils.ricoClearWorkplace != null)
+                if (AssemblyUtils.ricoClearWorkplace != null)
                 {
-                    ModUtils.ricoClearWorkplace.Invoke(null, new object[] { prefab });
+                    AssemblyUtils.ricoClearWorkplace.Invoke(null, new object[] { prefab });
                 }
             }
 

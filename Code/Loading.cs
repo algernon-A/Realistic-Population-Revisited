@@ -49,7 +49,7 @@ namespace RealPop2
             }
 
             // Check for mod conflicts.
-            if (ModUtils.IsModConflict())
+            if (AssemblyUtils.IsModConflict())
             {
                 // Conflict detected.
                 conflictingMod = true;
@@ -64,13 +64,13 @@ namespace RealPop2
             if (!isModEnabled)
             {
                 isModEnabled = true;
-                Logging.KeyMessage("version v", RealPopMod.Version, " loading");
+                Logging.KeyMessage("version v", Mod.Version, " loading");
 
                 // Perform legacy datastore setup.
                 XMLUtilsWG.Setup();
 
                 // Check for Ploppable RICO Revisited.
-                ModUtils.RICOReflection();
+                AssemblyUtils.RICOReflection();
 
                 // Initialise volumetric datastores.
                 EmploymentData.Setup();
@@ -118,7 +118,7 @@ namespace RealPop2
                 modConflictBox.AddParas(Translations.Translate("ERR_CON0"), Translations.Translate("RPR_ERR_CON0"), Translations.Translate("RPR_ERR_FAT"), Translations.Translate("ERR_CON1"));
 
                 // Add conflicting mod name(s).
-                modConflictBox.AddList(ModUtils.conflictingModNames.ToArray());
+                modConflictBox.AddList(AssemblyUtils.conflictingModNames.ToArray());
 
                 // Closing para.
                 modConflictBox.AddParas(Translations.Translate("RPR_ERR_CON1"));

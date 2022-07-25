@@ -1,3 +1,11 @@
+
+- Ensure manual population changes always force eviction of households if required
+- Don't force-update buildings on default changes
+= Clear visitplace cache on global commercial changes
+- Refactor per-floor population preview calcs
+- Update translation framework
+
+
 Version 2.0.4.2 -
 
 - Fix initial calculation mode vanilla choice sometimes not ensuring vanilla maximum populations

@@ -91,7 +91,7 @@ namespace RealPop2.MessageBox
             public void SetText(WhatsNewMessage message)
             {
                 // Set version header and message text.
-                versionTitle = RealPopMod.ModName + " " + message.version.ToString(message.version.Build > 0 ? 3 : 2) + message.versionHeader;
+                versionTitle = Mod.ModName + " " + message.version.ToString(message.version.Build > 0 ? 3 : 2) + message.versionHeader;
 
                 // Add message elements as separate list items.
                 for (int i = 0; i < message.messages.Length; ++i)

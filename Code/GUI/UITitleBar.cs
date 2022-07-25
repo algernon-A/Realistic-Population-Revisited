@@ -46,7 +46,7 @@ namespace RealPop2
             // Titlebar label.
             titleLabel = AddUIComponent<UILabel>();
             titleLabel.relativePosition = new Vector2(50, 13);
-            titleLabel.text = RealPopMod.ModName;
+            titleLabel.text = Mod.ModName;
 
             // Close button.
             closeButton = AddUIComponent<UIButton>();
