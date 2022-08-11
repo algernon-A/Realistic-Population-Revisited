@@ -1,71 +1,89 @@
-﻿using System;
-using UnityEngine;
-using ICities;
-
+﻿// <copyright file="UIThreading.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System;
+    using AlgernonCommons;
+    using AlgernonCommons.Keybinding;
+    using AlgernonCommons.UI;
+    using ICities;
+    using UnityEngine;
+
+    /// <summary>
+    /// Threading to capture hotkeys.
+    /// </summary>
     public class UIThreading : ThreadingExtensionBase
     {
-        // Key settings.
-        public static KeyCode hotKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "E");
-        public static bool hotCtrl = false;
-        public static bool hotAlt = true;
-        public static bool hotShift = false;
+        // Instance reference.
+        private static UIThreading s_instance;
+
+        // Hotkey.
+        private static Keybinding s_hotKey = new Keybinding(KeyCode.E, false, false, true);
 
         // Flags.
-        internal static bool operating = true;
+        private bool _operating = true;
         private bool _processed = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UIThreading"/> class.
+        /// </summary>
+        public UIThreading()
+        {
+            // Set instance reference.
+            s_instance = this;
+        }
+
+        /// <summary>
+        /// Sets a value indicating whether hotkey detection is active.
+        /// </summary>
+        internal static bool Operating
+        {
+            set
+            {
+                if (s_instance != null)
+                {
+                    s_instance._operating = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the hotkey.
+        /// </summary>
+        internal static Keybinding HotKey { get => s_hotKey; set => s_hotKey = value; }
 
         /// <summary>
         /// Look for keypress to open GUI.
         /// </summary>
-        /// <param name="realTimeDelta"></param>
-        /// <param name="simulationTimeDelta"></param>
+        /// <param name="realTimeDelta">Real-time delta since last update.</param>
+        /// <param name="simulationTimeDelta">Simulation time delta since last update.</param>
         public override void OnUpdate(float realTimeDelta, float simulationTimeDelta)
         {
             // Don't do anything if not active.
-            if (operating)
+            if (_operating)
             {
                 // Has hotkey been pressed?
-                if (hotKey != KeyCode.None && Input.GetKey(hotKey))
+                if (s_hotKey.IsPressed())
                 {
-                    // Check modifier keys according to settings.
-                    bool altPressed = Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt) || Input.GetKey(KeyCode.AltGr);
-                    bool ctrlPressed = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
-                    bool shiftPressed = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+                    // Cancel if key input is already queued for processing.
+                    if (_processed) return;
 
-                    // Modifiers have to *exactly match* settings, e.g. "alt-E" should not trigger on "ctrl-alt-E".
-                    bool altOkay = altPressed == hotAlt;
-                    bool ctrlOkay = ctrlPressed == hotCtrl;
-                    bool shiftOkay = shiftPressed == hotShift;
+                    _processed = true;
 
-                    // Process keystroke.
-                    if (altOkay && ctrlOkay && shiftOkay)
+                    try
                     {
-                        // Cancel if key input is already queued for processing.
-                        if (_processed) return;
-
-                        _processed = true;
-
-                        try
+                        // Is options panel open?  If so, we ignore this and don't do anything.
+                        if (!OptionsPanelManager<OptionsPanel>.IsOpen)
                         {
-                            // Is options panel open?  If so, we ignore this and don't do anything.
-                            if (!OptionsPanel.IsOpen)
-                            {
-                                BuildingDetailsPanel.Open();
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Logging.LogException(e, "exception opening building details panel");
+                            BuildingDetailsPanel.Open();
                         }
                     }
-                    else
+                    catch (Exception e)
                     {
-                        // Relevant keys aren't pressed anymore; this keystroke is over, so reset and continue.
-                        _processed = false;
+                        Logging.LogException(e, "exception opening building details panel");
                     }
                 }
                 else
@@ -76,5 +94,4 @@ namespace RealPop2
             }
         }
     }
-
 }

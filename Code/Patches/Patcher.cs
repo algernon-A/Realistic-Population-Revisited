@@ -1,82 +1,62 @@
-﻿using System.Reflection;
-using HarmonyLib;
-using CitiesHarmony.API;
-
+﻿// <copyright file="Patcher.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System.Reflection;
+    using AlgernonCommons;
+    using AlgernonCommons.Patching;
+    using CitiesHarmony.API;
+    using HarmonyLib;
+
     /// <summary>
     /// Class to manage the mod's Harmony patches.
     /// </summary>
-    public static class Patcher
+    public class Patcher : PatcherBase
     {
-        // Unique harmony identifier.
-        private const string harmonyID = "algernon-A.csl.realpop2";
-
-        // Flag.
-        internal static bool Patched => _patched;
-        private static bool _patched = false;
-
-
         /// <summary>
-        /// Apply all Harmony patches.
+        /// Initializes a new instance of the <see cref="Patcher"/> class.
         /// </summary>
-        public static void PatchAll()
+        /// <param name="harmonyID">This mod's unique Harmony identifier.</param>
+        public Patcher(string harmonyID)
+            : base(harmonyID)
         {
-            // Don't do anything if already patched.
-            if (!_patched)
-            {
-                // Ensure Harmony is ready before patching.
-                if (HarmonyHelper.IsHarmonyInstalled)
-                {
-                    Logging.Message("deploying Harmony patches");
-
-                    // Apply all annotated patches and update flag.
-                    Harmony harmonyInstance = new Harmony(harmonyID);
-                    harmonyInstance.PatchAll();
-                    _patched = true;
-                }
-                else
-                {
-                    Logging.Message("Harmony not ready");
-                }
-            }
         }
 
-
         /// <summary>
-        /// Remove all Harmony patches.
+        /// Gets the active instance reference.
         /// </summary>
-        public static void UnpatchAll()
+        public static new Patcher Instance
         {
-            // Only unapply if patches appplied.
-            if (_patched)
+            get
             {
-                Logging.Message("reverting Harmony patches");
+                // Auto-initializing getter.
+                if (s_instance == null)
+                {
+                    s_instance = new Patcher(PatcherMod.Instance.HarmonyID);
+                }
 
-                // Unapply patches, but only with our HarmonyID.
-                Harmony harmonyInstance = new Harmony(harmonyID);
-                harmonyInstance.UnpatchAll(harmonyID);
-                _patched = false;
+                return s_instance as Patcher;
             }
         }
-
 
         /// <summary>
         /// Patch Advanced Building Level Control's 'CustomBuildingUpgraded' method.
         /// </summary>
-        internal static void PatchABLC()
+        internal void PatchABLC()
         {
             // Ensure Harmony is ready before patching.
             if (HarmonyHelper.IsHarmonyInstalled)
             {
                 // Try to get ABLC method.
-                MethodInfo ablcCustomUpgraded = AssemblyUtils.ABLCCustomUpgraded();
+                MethodInfo ablcCustomUpgraded = ModUtils.ABLCCustomUpgraded();
                 if (ablcCustomUpgraded != null)
                 {
                     // Got method - apply patch.
                     Logging.Message("patching ABLC.LevelUtils.CustomBuildingUpgraded");
-                    Harmony harmonyInstance = new Harmony(harmonyID);
+                    Harmony harmonyInstance = new Harmony(HarmonyID);
                     harmonyInstance.Patch(ablcCustomUpgraded, postfix: new HarmonyMethod(typeof(ABLCBuildingUpgradedPatch).GetMethod("Postfix")));
                 }
             }

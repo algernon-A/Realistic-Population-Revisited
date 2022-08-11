@@ -1,12 +1,19 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-
+﻿// <copyright file="ConfigurationUtils.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Xml.Serialization;
+    using AlgernonCommons;
+    using Realistic_Population_Revisited.Code.Patches.Population;
+    using Realistic_Population_Revisited.Code.Patches.Production;
+
     /// <summary>
     /// XML serialization/deserialization utilities class.
     /// </summary>
@@ -16,10 +23,8 @@ namespace RealPop2
         internal static readonly string ConfigFileName = "RealisticPopulationConfig.xml";
         internal static readonly string UserDirPath = ColossalFramework.IO.DataLocation.localApplicationData;
 
-
         // Read flag.
         internal static bool configRead = false;
-
 
         /// <summary>
         /// Load settings from XML file.
@@ -47,36 +52,36 @@ namespace RealPop2
                 // Read it.
                 using (StreamReader reader = new StreamReader(fileName))
                 {
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(XMLConfigurationFile));
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(Configuration));
 
-                    if (!(xmlSerializer.Deserialize(reader) is XMLConfigurationFile configFile))
+                    if (!(xmlSerializer.Deserialize(reader) is Configuration configFile))
                     {
                         Logging.Error("couldn't deserialize configuration file");
                     }
                     else
                     {
                         // Deserialise population calculation packs.
-                        foreach (PopPackXML xmlPack in configFile.popPacks)
+                        foreach (Configuration.PopPackXML xmlPack in configFile.PopPacks)
                         {
                             // Convert to volumetric pack.
                             VolumetricPopPack volPack = new VolumetricPopPack()
                             {
-                                name = xmlPack.name,
-                                service = xmlPack.service,
+                                name = xmlPack.Name,
+                                service = xmlPack.Service,
                                 version = DataVersion.customOne,
-                                levels = new LevelData[xmlPack.calculationLevels.Count]
+                                levels = new LevelData[xmlPack.CalculationLevels.Count]
                             };
 
                             // Iterate through each level in the xml and add to our volumetric pack.
-                            foreach (PopLevel calculationLevel in xmlPack.calculationLevels)
+                            foreach (Configuration.PopLevel calculationLevel in xmlPack.CalculationLevels)
                             {
-                                volPack.levels[calculationLevel.level] = new LevelData()
+                                volPack.levels[calculationLevel.Level] = new LevelData()
                                 {
                                     //floorHeight = calculationLevel.floorHeight,
-                                    emptyArea = calculationLevel.emptyArea,
-                                    emptyPercent = calculationLevel.emptyPercent,
-                                    areaPer = calculationLevel.areaPer,
-                                    multiFloorUnits = calculationLevel.multiLevel
+                                    emptyArea = calculationLevel.EmptyArea,
+                                    emptyPercent = calculationLevel.EmptyPercent,
+                                    areaPer = calculationLevel.AreaPer,
+                                    multiFloorUnits = calculationLevel.MultiLevel
                                 };
                             }
 
@@ -85,17 +90,17 @@ namespace RealPop2
                         }
 
                         // Deserialise floor calculation packs.
-                        foreach (FloorPackXML xmlPack in configFile.floorPacks)
+                        foreach (Configuration.FloorPackXML xmlPack in configFile.FloorPacks)
                         {
                             // Convert to floor pack.
                             FloorDataPack floorPack = new FloorDataPack()
                             {
-                                name = xmlPack.name,
+                                name = xmlPack.Name,
                                 version = DataVersion.customOne,
-                                floorHeight = xmlPack.floorHeight,
-                                firstFloorMin = xmlPack.firstMin,
-                                firstFloorExtra = xmlPack.firstExtra,
-                                firstFloorEmpty = xmlPack.firstEmpty
+                                floorHeight = xmlPack.FloorHeight,
+                                firstFloorMin = xmlPack.FirstMin,
+                                firstFloorExtra = xmlPack.FirstExtra,
+                                firstFloorEmpty = xmlPack.FirstEmpty
                             };
 
                             // Add new pack to our dictionary.
@@ -105,64 +110,64 @@ namespace RealPop2
 
                         // Deserialise consumption records.
                         DataMapping mapper = new DataMapping();
-                        foreach (ConsumptionRecord consumptionRecord in configFile.consumption)
+                        foreach (Configuration.ConsumptionRecord consumptionRecord in configFile.Consumption)
                         {
                             // Get relevant DataStore array for this record.
-                            int[][] dataArray = mapper.GetArray(consumptionRecord.service, consumptionRecord.subService);
+                            int[][] dataArray = mapper.GetArray(consumptionRecord.Service, consumptionRecord.SubService);
 
                             // Iterate through each consumption line and populate relevant DataStore fields.
-                            foreach (ConsumptionLine consumptionLine in consumptionRecord.levels)
+                            foreach (Configuration.ConsumptionLine consumptionLine in consumptionRecord.Levels)
                             {
-                                int level = (int)consumptionLine.level;
-                                dataArray[level][DataStore.POWER] = consumptionLine.power;
-                                dataArray[level][DataStore.WATER] = consumptionLine.water;
-                                dataArray[level][DataStore.SEWAGE] = consumptionLine.sewage;
-                                dataArray[level][DataStore.GARBAGE] = consumptionLine.garbage;
-                                dataArray[level][DataStore.GROUND_POLLUTION] = consumptionLine.pollution;
-                                dataArray[level][DataStore.NOISE_POLLUTION] = consumptionLine.noise;
-                                dataArray[level][DataStore.MAIL] = consumptionLine.mail;
-                                dataArray[level][DataStore.INCOME] = consumptionLine.income;
+                                int level = (int)consumptionLine.Level;
+                                dataArray[level][DataStore.POWER] = consumptionLine.Power;
+                                dataArray[level][DataStore.WATER] = consumptionLine.Water;
+                                dataArray[level][DataStore.SEWAGE] = consumptionLine.Sewage;
+                                dataArray[level][DataStore.GARBAGE] = consumptionLine.Garbage;
+                                dataArray[level][DataStore.GROUND_POLLUTION] = consumptionLine.Pollution;
+                                dataArray[level][DataStore.NOISE_POLLUTION] = consumptionLine.Noise;
+                                dataArray[level][DataStore.MAIL] = consumptionLine.Mail;
+                                dataArray[level][DataStore.INCOME] = consumptionLine.Income;
                             }
                         }
 
                         // Deserialise default pack lists.
-                        PopData.instance.DeserializeDefaults(configFile.popDefaults);
-                        FloorData.instance.DeserializeDefaults(configFile.floorDefaults);
+                        PopData.instance.DeserializeDefaults(configFile.PopDefaults);
+                        FloorData.instance.DeserializeDefaults(configFile.FloorDefaults);
 
                         // Deserialise building pack lists.
-                        PopData.instance.DeserializeBuildings(configFile.buildings);
-                        FloorData.instance.DeserializeBuildings(configFile.buildings);
-                        SchoolData.instance.DeserializeBuildings(configFile.buildings);
-                        Multipliers.instance.DeserializeBuildings(configFile.buildings);
+                        PopData.instance.DeserializeBuildings(configFile.Buildings);
+                        FloorData.instance.DeserializeBuildings(configFile.Buildings);
+                        SchoolData.instance.DeserializeBuildings(configFile.Buildings);
+                        Multipliers.instance.DeserializeBuildings(configFile.Buildings);
 
                         // Deserialise building population overrides.
-                        PopData.instance.DeserializeOverrides(configFile.popOverrides);
+                        PopData.instance.DeserializeOverrides(configFile.PopOverrides);
 
                         // Deserialize floor overrides.
-                        foreach (FloorCalcOverride floorOverride in configFile.floors)
+                        foreach (Configuration.FloorCalcOverride floorOverride in configFile.Floors)
                         {
-                            FloorData.instance.SetOverride(floorOverride.prefab, new FloorDataPack
+                            FloorData.instance.SetOverride(floorOverride.Prefab, new FloorDataPack
                             {
-                                firstFloorMin = floorOverride.firstHeight,
-                                floorHeight = floorOverride.floorHeight
+                                firstFloorMin = floorOverride.FirstHeight,
+                                floorHeight = floorOverride.FloorHeight
                             });
                         }
 
                         // Deserialise visit modes.
-                        RealisticVisitplaceCount.DeserializeVisits(configFile.visitorModes);
+                        Visitors.DeserializeVisits(configFile.VisitorModes);
 
                         // Deserialise commercial sales multipliers.
-                        GoodsUtils.DeserializeSalesMults(configFile.salesMults);
+                        GoodsUtils.DeserializeSalesMults(configFile.SalesMults);
 
                         // Deserialise office production multipliers.
-                        RealisticOfficeProduction.DeserializeProdMults(configFile.offProdMults);
+                        OfficeProduction.DeserializeProdMults(configFile.OffProdMults);
 
                         // Deserialize industrial production calculation modes.
-                        RealisticIndustrialProduction.DeserializeProds(configFile.indProdModes);
-                        RealisticExtractorProduction.DeserializeProds(configFile.extProdModes);
+                        IndustrialProduction.DeserializeProds(configFile.IndProdModes);
+                        ExtractorProduction.DeserializeProds(configFile.ExtProdModes);
 
                         // Deserialise commercial inventory caps.
-                        GoodsUtils.DeserializeInvCaps(configFile.comIndCaps);
+                        GoodsUtils.DeserializeInvCaps(configFile.ComIndCaps);
                     }
                 }
 
@@ -175,7 +180,6 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Save settings to XML file.
         /// </summary>
@@ -186,11 +190,11 @@ namespace RealPop2
                 // Pretty straightforward.  Serialisation is within settings file class.
                 using (StreamWriter writer = new StreamWriter(Path.Combine(UserDirPath, ConfigFileName)))
                 {
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(XMLConfigurationFile));
-                    XMLConfigurationFile configFile = new XMLConfigurationFile
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(Configuration));
+                    Configuration configFile = new Configuration
                     {
                         // Serialise custom packs.
-                        popPacks = new List<PopPackXML>()
+                        PopPacks = new List<Configuration.PopPackXML>()
                     };
 
                     // Iterate through all calculation packs in our dictionary.
@@ -203,37 +207,37 @@ namespace RealPop2
                             if (volPack.version == DataVersion.customOne)
                             {
                                 // Found one - serialise it.
-                                PopPackXML xmlPack = new PopPackXML()
+                                Configuration.PopPackXML xmlPack = new Configuration.PopPackXML()
                                 {
-                                    name = volPack.name,
-                                    service = volPack.service,
-                                    calculationLevels = new List<PopLevel>()
+                                    Name = volPack.name,
+                                    Service = volPack.service,
+                                    CalculationLevels = new List<Configuration.PopLevel>()
                                 };
 
                                 // Iterate through each level and add it to our serialisation.
                                 for (int i = 0; i < volPack.levels.Length; ++i)
                                 {
-                                    PopLevel xmlLevel = new PopLevel()
+                                    Configuration.PopLevel xmlLevel = new Configuration.PopLevel()
                                     {
-                                        level = i,
-                                        emptyArea = volPack.levels[i].emptyArea,
-                                        emptyPercent = volPack.levels[i].emptyPercent,
-                                        areaPer = volPack.levels[i].areaPer,
-                                        multiLevel = volPack.levels[i].multiFloorUnits
+                                        Level = i,
+                                        EmptyArea = volPack.levels[i].emptyArea,
+                                        EmptyPercent = volPack.levels[i].emptyPercent,
+                                        AreaPer = volPack.levels[i].areaPer,
+                                        MultiLevel = volPack.levels[i].multiFloorUnits
                                     };
 
-                                    xmlPack.calculationLevels.Add(xmlLevel);
+                                    xmlPack.CalculationLevels.Add(xmlLevel);
                                 }
 
                                 // Add to file.
-                                configFile.popPacks.Add(xmlPack);
+                                configFile.PopPacks.Add(xmlPack);
                             }
                         }
                     }
 
                     // Serialise custom packs.
                     // TODO method with above
-                    configFile.floorPacks = new List<FloorPackXML>();
+                    configFile.FloorPacks = new List<Configuration.FloorPackXML>();
 
                     // Iterate through all calculation packs in our dictionary.
                     foreach (DataPack calcPack in FloorData.instance.calcPacks)
@@ -245,65 +249,65 @@ namespace RealPop2
                             if (floorPack.version == DataVersion.customOne)
                             {
                                 // Found one - serialise it.
-                                FloorPackXML xmlPack = new FloorPackXML()
+                                Configuration.FloorPackXML xmlPack = new Configuration.FloorPackXML()
                                 {
-                                    name = floorPack.name,
-                                    floorHeight = floorPack.floorHeight,
-                                    firstMin = floorPack.firstFloorMin,
-                                    firstExtra = floorPack.firstFloorExtra,
-                                    firstEmpty = floorPack.firstFloorEmpty
+                                    Name = floorPack.name,
+                                    FloorHeight = floorPack.floorHeight,
+                                    FirstMin = floorPack.firstFloorMin,
+                                    FirstExtra = floorPack.firstFloorExtra,
+                                    FirstEmpty = floorPack.firstFloorEmpty
                                 };
 
                                 // Add to file.
-                                configFile.floorPacks.Add(xmlPack);
+                                configFile.FloorPacks.Add(xmlPack);
                             }
                         }
                     }
 
                     // Serialise consumption information.
-                    configFile.consumption = GetConsumptionRecords();
+                    configFile.Consumption = GetConsumptionRecords();
 
                     // Serialise default dictionaries.
-                    configFile.popDefaults = PopData.instance.SerializeDefaults();
-                    configFile.floorDefaults = FloorData.instance.SerializeDefaults();
+                    configFile.PopDefaults = PopData.instance.SerializeDefaults();
+                    configFile.FloorDefaults = FloorData.instance.SerializeDefaults();
 
                     // Serialise building pack dictionaries, in order.
-                    SortedList<string, BuildingRecord> buildingList = PopData.instance.SerializeBuildings();
+                    SortedList<string, Configuration.BuildingRecord> buildingList = PopData.instance.SerializeBuildings();
                     buildingList = FloorData.instance.SerializeBuildings(buildingList);
                     buildingList = SchoolData.instance.SerializeBuildings(buildingList);
                     buildingList = Multipliers.instance.SerializeBuildings(buildingList);
-                    configFile.buildings = buildingList.Values.ToList();
+                    configFile.Buildings = buildingList.Values.ToList();
 
                     // Serialise building population overrides.
-                    configFile.popOverrides = PopData.instance.SerializeOverrides();
+                    configFile.PopOverrides = PopData.instance.SerializeOverrides();
 
                     // Serialise floor overrides.
-                    configFile.floors = new List<FloorCalcOverride>();
+                    configFile.Floors = new List<Configuration.FloorCalcOverride>();
                     foreach (KeyValuePair<string, FloorDataPack> floorOverride in FloorData.instance.overrides)
                     {
-                        configFile.floors.Add(new FloorCalcOverride
+                        configFile.Floors.Add(new Configuration.FloorCalcOverride
                         {
-                            prefab = floorOverride.Key,
-                            firstHeight = floorOverride.Value.firstFloorMin,
-                            floorHeight = floorOverride.Value.floorHeight
+                            Prefab = floorOverride.Key,
+                            FirstHeight = floorOverride.Value.firstFloorMin,
+                            FloorHeight = floorOverride.Value.floorHeight
                         });
                     }
 
                     // Serialise visit modes.
-                    configFile.visitorModes = RealisticVisitplaceCount.SerializeVisits();
+                    configFile.VisitorModes = Visitors.SerializeVisits();
 
                     // Serialise commercial sales multipliers.
-                    configFile.salesMults = GoodsUtils.SerializeSalesMults();
+                    configFile.SalesMults = GoodsUtils.SerializeSalesMults();
 
                     // Serialise office production multipliers.
-                    configFile.offProdMults = RealisticOfficeProduction.SerializeProdMults();
+                    configFile.OffProdMults = OfficeProduction.SerializeProdMults();
 
                     // Serialize industrial production calculation modes.
-                    configFile.indProdModes = RealisticIndustrialProduction.SerializeProds();
-                    configFile.extProdModes = RealisticExtractorProduction.SerializeProds();
+                    configFile.IndProdModes = IndustrialProduction.SerializeProds();
+                    configFile.ExtProdModes = ExtractorProduction.SerializeProds();
 
                     // Serialise commercial inventory caps.
-                    configFile.comIndCaps = GoodsUtils.SerializeInvCaps();
+                    configFile.ComIndCaps = GoodsUtils.SerializeInvCaps();
 
                     // Write to file.
                     xmlSerializer.Serialize(writer, configFile);
@@ -321,14 +325,13 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Returns a list of serialised consumption records from available DataStore arrays.
         /// </summary>
-        /// <returns>New list of consumption records</returns>
-        private static List<ConsumptionRecord> GetConsumptionRecords()
+        /// <returns>New list of consumption records.</returns>
+        private static List<Configuration.ConsumptionRecord> GetConsumptionRecords()
         {
-            List<ConsumptionRecord> list = new List<ConsumptionRecord>(DataMapping.numData);
+            List<Configuration.ConsumptionRecord> list = new List<Configuration.ConsumptionRecord>(DataMapping.numData);
             DataMapping mapper = new DataMapping();
 
 
@@ -336,11 +339,11 @@ namespace RealPop2
             for (int i = 0; i < DataMapping.numData; ++i)
             {
                 // Create new consumption record with relevant data and add it to our list.
-                ConsumptionRecord newRecord = new ConsumptionRecord()
+                Configuration.ConsumptionRecord newRecord = new Configuration.ConsumptionRecord()
                 {
-                    service = mapper.services[i],
-                    subService = mapper.subServices[i],
-                    levels = SerializeConsumption(mapper.dataArrays[i])
+                    Service = mapper.services[i],
+                    SubService = mapper.subServices[i],
+                    Levels = SerializeConsumption(mapper.dataArrays[i])
                 };
                 list.Add(newRecord);
             }
@@ -348,31 +351,30 @@ namespace RealPop2
             return list;
         }
 
-
         /// <summary>
         /// Serialise consumption levels for provided service/subservice data.
         /// </summary>
-        /// <param name="data">DataStore integer array to serialise</param>
-        /// <returns>New list of serialised consumption data level records</returns>
-        private static List<ConsumptionLine> SerializeConsumption(int[][] dataArray)
+        /// <param name="dataArray">DataStore integer array to serialise.</param>
+        /// <returns>New list of serialised consumption data level records.</returns>
+        private static List<Configuration.ConsumptionLine> SerializeConsumption(int[][] dataArray)
         {
-            List<ConsumptionLine> lines = new List<ConsumptionLine>();
+            List<Configuration.ConsumptionLine> lines = new List<Configuration.ConsumptionLine>();
 
             // Iterate through each row in the provided data array.
             for (int i = 0; i < dataArray.Length; ++i)
             {
                 // Create new consumption line record from data array row.
-                ConsumptionLine newLine = new ConsumptionLine()
+                Configuration.ConsumptionLine newLine = new Configuration.ConsumptionLine()
                 {
-                    level = (ItemClass.Level)i,
-                    power = dataArray[i][DataStore.POWER],
-                    water = dataArray[i][DataStore.WATER],
-                    sewage = dataArray[i][DataStore.SEWAGE],
-                    garbage = dataArray[i][DataStore.GARBAGE],
-                    pollution = dataArray[i][DataStore.GROUND_POLLUTION],
-                    noise = dataArray[i][DataStore.NOISE_POLLUTION],
-                    mail = dataArray[i][DataStore.MAIL],
-                    income = dataArray[i][DataStore.INCOME],
+                    Level = (ItemClass.Level)i,
+                    Power = dataArray[i][DataStore.POWER],
+                    Water = dataArray[i][DataStore.WATER],
+                    Sewage = dataArray[i][DataStore.SEWAGE],
+                    Garbage = dataArray[i][DataStore.GARBAGE],
+                    Pollution = dataArray[i][DataStore.GROUND_POLLUTION],
+                    Noise = dataArray[i][DataStore.NOISE_POLLUTION],
+                    Mail = dataArray[i][DataStore.MAIL],
+                    Income = dataArray[i][DataStore.INCOME],
                 };
 
                 // Add new record to the return list.

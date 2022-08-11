@@ -1,9 +1,16 @@
-﻿using UnityEngine;
-using ColossalFramework.UI;
-
+﻿// <copyright file="UIEditPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons;
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using ColossalFramework.UI;
+    using UnityEngine;
+
     /// <summary>
     /// Panel for editing and creating building settings.
     /// </summary>
@@ -24,7 +31,6 @@ namespace RealPop2
         private const float TextFieldX = UIBuildingDetails.MiddleWidth - TextFieldWidth - 20f - Margin;
         private const float ButtonWidth = UIBuildingDetails.MiddleWidth - (Margin * 2f);
 
-
         // Panel components
         private UITextField homeJobsCount, firstFloorField, floorHeightField;
         private UICheckBox popCheck, floorCheck;
@@ -35,7 +41,6 @@ namespace RealPop2
 
         // Currently selected building.
         private BuildingInfo currentSelection;
-
 
         /// <summary>
         /// Create the panel; we no longer use Start() as that's not sufficiently reliable (race conditions), and is no longer needed, with the new create/destroy process.
@@ -72,24 +77,24 @@ namespace RealPop2
             titleLabel.relativePosition = new Vector2((this.width - titleLabel.width) /2f, TitleY);
 
             // Checkboxes.
-            popCheck = UIControls.LabelledCheckBox(this, 20f, PopCheckY, Translations.Translate("RPR_EDT_POP"), textScale: 1.0f);
-            floorCheck = UIControls.LabelledCheckBox(this, 20f, FloorCheckY, Translations.Translate("RPR_EDT_FLR"), textScale: 1.0f);
+            popCheck = UICheckBoxes.AddLabelledCheckBox(this, 20f, PopCheckY, Translations.Translate("RPR_EDT_POP"), textScale: 1.0f);
+            floorCheck = UICheckBoxes.AddLabelledCheckBox(this, 20f, FloorCheckY, Translations.Translate("RPR_EDT_FLR"), textScale: 1.0f);
 
             // Text fields.
-            homeJobsCount = UIControls.SmallLabelledTextField(this, TextFieldX, HomeJobY, Translations.Translate("RPR_LBL_HOM"), TextFieldWidth);
+            homeJobsCount = UITextFields.AddSmallLabelledTextField(this, TextFieldX, HomeJobY, Translations.Translate("RPR_LBL_HOM"), TextFieldWidth);
             homeJobLabel = homeJobsCount.Find<UILabel>("label");
-            firstFloorField = UIControls.SmallLabelledTextField(this, TextFieldX, FirstFloorY, Translations.Translate("RPR_LBL_OFF"), TextFieldWidth);
-            UIControls.AddLabel(firstFloorField, TextFieldWidth + Margin, 3f, Measures.LengthMeasure, textScale: 0.9f);
-            floorHeightField = UIControls.SmallLabelledTextField(this, TextFieldX, FloorHeightY, Translations.Translate("RPR_LBL_OFH"), TextFieldWidth);
-            UIControls.AddLabel(floorHeightField, TextFieldWidth + Margin, 3f, Measures.LengthMeasure, textScale: 0.9f);
+            firstFloorField = UITextFields.AddSmallLabelledTextField(this, TextFieldX, FirstFloorY, Translations.Translate("RPR_LBL_OFF"), TextFieldWidth);
+            UILabels.AddLabel(firstFloorField, TextFieldWidth + Margin, 3f, Measures.LengthMeasure, textScale: 0.9f);
+            floorHeightField = UITextFields.AddSmallLabelledTextField(this, TextFieldX, FloorHeightY, Translations.Translate("RPR_LBL_OFH"), TextFieldWidth);
+            UILabels.AddLabel(floorHeightField, TextFieldWidth + Margin, 3f, Measures.LengthMeasure, textScale: 0.9f);
 
             // Save button.
-            saveButton = UIControls.AddButton(this, Margin, SaveY, Translations.Translate("RPR_CUS_ADD"), ButtonWidth, scale: 0.8f);
+            saveButton = UIButtons.AddButton(this, Margin, SaveY, Translations.Translate("RPR_CUS_ADD"), ButtonWidth, scale: 0.8f);
             saveButton.tooltip = Translations.Translate("RPR_CUS_ADD_TIP");
             saveButton.Disable();
 
             // Delete button.
-            deleteButton = UIControls.AddButton(this, Margin, DeleteY, Translations.Translate("RPR_CUS_DEL"), ButtonWidth, scale: 0.8f);
+            deleteButton = UIButtons.AddButton(this, Margin, DeleteY, Translations.Translate("RPR_CUS_DEL"), ButtonWidth, scale: 0.8f);
             deleteButton.tooltip = Translations.Translate("RPR_CUS_DEL_TIP");
             deleteButton.Disable();
 
@@ -128,7 +133,6 @@ namespace RealPop2
             // Delete button event handler.
             deleteButton.eventClick += (component, clickEvent) => DeleteOverride();
         }
-
 
         /// <summary>
         /// Called whenever the currently selected building is changed to update the panel display.
@@ -217,12 +221,10 @@ namespace RealPop2
             saveButton.Enable();
         }
 
-
         /// <summary>
         /// Clears the override checkbox (for when the user subsequently selects a floor pack override or legacy calcs).
         /// </summary>
         internal void ClearOverride() => floorCheck.isChecked = false;
-
 
         /// <summary>
         /// Saves and applies settings - save button event handler.
@@ -321,7 +323,6 @@ namespace RealPop2
             BuildingDetailsPanel.Panel.Refresh();
         }
 
-
         /// <summary>
         /// Removes and deletes a custom override.
         /// </summary>
@@ -364,7 +365,6 @@ namespace RealPop2
             BuildingDetailsPanel.Panel.Refresh();
             homeJobsCount.text = string.Empty;
         }
-
 
         /// <summary>
         /// Attempts to parse floor data fields into a valid override floor pack.

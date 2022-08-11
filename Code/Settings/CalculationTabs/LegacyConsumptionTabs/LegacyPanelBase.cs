@@ -1,8 +1,14 @@
-﻿using ColossalFramework.UI;
-
+﻿// <copyright file="LegacyPanelBase.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using ColossalFramework.UI;
+
     /// <summary>
     /// Base class for options panel consumption settings (sub-)tabs (legacy configuration).
     /// </summary>
@@ -22,7 +28,6 @@ namespace RealPop2
         protected const float Column8 = Column7 + Column8Width + Margin;
         protected const float Column9 = Column8 + Column8Width + Margin;
 
-
         // Textfield array.
         protected UITextField[][] areaFields, floorFields, extraFloorFields, productionFields;
 
@@ -32,16 +37,14 @@ namespace RealPop2
         protected string extraFloorLabel;
         protected string productionLabel;
 
-
         // Tab title translation key.
         protected abstract string TabNameKey { get; }
-
 
         /// <summary>
         /// Constructor - adds tab to tabstrip.
         /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
+        /// <param name="tabStrip">Tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
         internal LegacyPanelBase(UITabstrip tabStrip, int tabIndex)
         {
             // Add tab.
@@ -51,11 +54,9 @@ namespace RealPop2
             tabStrip.tabs[tabIndex].objectUserData = this;
         }
 
-
         /// <summary>
         /// Saves the current legacy config.
         /// </summary>
-        /// <param name="panel">UI panel instance</param>
         protected void SaveLegacy()
         {
             // Set flag to show that user has instructed to save legacy file.
@@ -68,11 +69,10 @@ namespace RealPop2
             ConfigUtils.SaveSettings();
         }
 
-
         /// <summary>
         /// Initialises array structure.
         /// </summary>
-        /// <param name="numSubServices">Number of sub-services to initialise for</param>
+        /// <param name="numSubServices">Number of sub-services to initialise for.</param>
         protected void SetupArrays(int numSubServices)
         {
             // Initialise textfield array.
@@ -87,11 +87,10 @@ namespace RealPop2
             productionFields = new UITextField[numSubServices][];
         }
 
-
         /// <summary>
         /// Adds column headings.
         /// </summary>
-        /// <param name="panel">UI panel instance</param>
+        /// <param name="panel">UI panel instance.</param>
         protected void AddHeadings(UIPanel panel)
         {
             // Set string references (we'll reference these multiple times with the textfields, so this saves calling translate each time).
@@ -122,35 +121,33 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Adds control buttons to the bottom of the panel.
         /// </summary>
-        /// <param name="panel">UI panel instance</param>
+        /// <param name="panel">UI panel instance.</param>
         protected void AddButtons(UIPanel panel)
         {
             // Add extra space.
             currentY += Margin;
 
             // Reset button.
-            UIButton resetButton = UIControls.AddButton(panel, Button1X, currentY, Translations.Translate("RPR_OPT_RTD"), ButtonWidth);
+            UIButton resetButton = UIButtons.AddButton(panel, Button1X, currentY, Translations.Translate("RPR_OPT_RTD"), ButtonWidth);
             resetButton.eventClicked += (component, clickEvent) => ResetToDefaults();
 
-            UIButton revertToSaveButton = UIControls.AddButton(panel, Button2X, currentY, Translations.Translate("RPR_OPT_RTS"), ButtonWidth);
+            UIButton revertToSaveButton = UIButtons.AddButton(panel, Button2X, currentY, Translations.Translate("RPR_OPT_RTS"), ButtonWidth);
             revertToSaveButton.eventClicked += (component, clickEvent) => { XMLUtilsWG.ReadFromXML(); PopulateFields(); };
 
-            UIButton saveButton = UIControls.AddButton(panel, Button3X, currentY, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
+            UIButton saveButton = UIButtons.AddButton(panel, Button3X, currentY, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
             saveButton.eventClicked += (component, clickEvent) => ApplyFields();
         }
-
 
         /// <summary>
         /// Adds a sub-service field group to the panel.
         /// </summary>
-        /// <param name="panel">UI panel instance</param>
-        /// <param name="subService">Subservice reference number</param>
-        /// <param name="isExtract">Set this to true (and label to null) to add extractor/processor labels (default false, which is plain level labels)</param>
-        /// <param name="label">Text label base for each row; null (default) to use level numbers or extractor/prcessor</param>
+        /// <param name="panel">UI panel instance.</param>
+        /// <param name="subService">Subservice reference number.</param>
+        /// <param name="isExtract">Set this to true (and label to null) to add extractor/processor labels (default false, which is plain level labels).</param>
+        /// <param name="label">Text label base for each row; null (default) to use level numbers or extractor/prcessor.</param>
         protected void AddSubService(UIPanel panel, int subService, bool isExtract = false, string label = null)
         {
             // Add a row for each level within this subservice.
@@ -182,13 +179,12 @@ namespace RealPop2
             // Add an extra bit of space at the end.
             currentY += Margin;
         }
-
-
+        
         /// <summary>
         /// Populates the text fields for a given subservice with information from the DataStore.
         /// </summary>
-        /// <param name="dataArray">DataStore data array for the SubService</param>
-        /// <param name="subService">SubService reference number</param>
+        /// <param name="dataArray">DataStore data array for the SubService.</param>
+        /// <param name="subService">SubService reference number.</param>
         protected void PopulateSubService(int[][] dataArray, int subService)
         {
             // Iterate though each level, populating each row as we go.
@@ -211,12 +207,11 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Updates the DataStore for a given SubService with information from text fields. 
         /// </summary>
-        /// <param name="dataArray">DataStore data array for the SubService</param>
-        /// <param name="subService">SubService reference number</param>
+        /// <param name="dataArray">DataStore data array for the SubService.</param>
+        /// <param name="subService">SubService reference number.</param>
         protected void ApplySubService(int[][] dataArray, int subService)
         {
             // Iterate though each level, populating each row as we go.

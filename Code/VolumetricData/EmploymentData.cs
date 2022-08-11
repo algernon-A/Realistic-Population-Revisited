@@ -1,8 +1,12 @@
-﻿using UnityEngine;
-
+﻿// <copyright file="EmploymentData.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons;
+
     /// <summary>
     /// Centralised store and management of employment calculation data.
     /// </summary>
@@ -12,24 +16,22 @@ namespace RealPop2
         private static int[][] commercialLow, commercialHigh, office, industry, industryFarm, industryForest, industryOre, industryOil;
         private static int[] commercialEco, commercialLeisure, commercialTourist, officeHightech;
 
-
         /// <summary>
         /// Returns the workplace breakdown for the given building prefab and level.
         /// </summary>
-        /// <param name="prefab">Building prefab</param>
-        /// <param name="level">Building level</param>
-        /// <returns>Workplace breakdown by employment level</returns>
-        internal static WorkplaceLevels CalculateWorkplaces(BuildingInfo prefab, int level) => CalculateWorkplaces(prefab, level, PopData.instance.Population(prefab, level));
-
+        /// <param name="prefab">Building prefab.</param>
+        /// <param name="level">Building level.</param>
+        /// <returns>Workplace breakdown by employment level.</returns>
+        internal static PopData.WorkplaceLevels CalculateWorkplaces(BuildingInfo prefab, int level) => CalculateWorkplaces(prefab, level, PopData.instance.Population(prefab, level));
 
         /// <summary>
         /// Returns the workplace breakdown for the given building prefab, level, and population total.
         /// </summary>
-        /// <param name="prefab">Building prefab</param>
-        /// <param name="level">Building level</param>
-        /// <param name="totalJobs">Total number of jobs</param>
-        /// <returns>Workplace breakdown by employment level</returns>
-        internal static WorkplaceLevels CalculateWorkplaces(BuildingInfo prefab, int level, int totalJobs)
+        /// <param name="prefab">Building prefab.</param>
+        /// <param name="level">Building level.</param>
+        /// <param name="totalJobs">Total number of jobs.</param>
+        /// <returns>Workplace breakdown by employment level.</returns>
+        internal static PopData.WorkplaceLevels CalculateWorkplaces(BuildingInfo prefab, int level, int totalJobs)
         {
             int[] workplaces = new int[4];
 
@@ -75,15 +77,14 @@ namespace RealPop2
             // Allocate any remainder at this point to top-level jobs.
             workplaces[3] += totalJobs;
 
-            return new WorkplaceLevels
+            return new PopData.WorkplaceLevels
             {
-                level0 = (ushort)workplaces[0],
-                level1 = (ushort)workplaces[1],
-                level2 = (ushort)workplaces[2],
-                level3 = (ushort)workplaces[3]
+                Level0 = (ushort)workplaces[0],
+                Level1 = (ushort)workplaces[1],
+                Level2 = (ushort)workplaces[2],
+                Level3 = (ushort)workplaces[3]
             };
         }
-
 
         /// <summary>
         /// Initialises arrays with default values.
@@ -152,14 +153,13 @@ namespace RealPop2
             officeHightech = new int[] { 1, 2, 3, 94, 0, 0 };
         }
 
-
         /// <summary>
         /// Returns the workplace distribution for the given service/subservice/level combination.
         /// </summary>
-        /// <param name="service">Service</param>
-        /// <param name="subService">Sub-service</param>
-        /// <param name="level">Level (ignored if a single-level service/subservice combination has been provided)</param>
-        /// <returns>Workplace distribution by level as an array of four percentages (cumulative 100%)</returns>
+        /// <param name="service">Service.</param>
+        /// <param name="subService">Sub-service.</param>
+        /// <param name="level">Level (ignored if a single-level service/subservice combination has been provided).</param>
+        /// <returns>Workplace distribution by level as an array of four percentages (cumulative 100%).</returns>
         private static int[] WorkplaceDistribution(ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
         {
             // Maximum levels for generic workplaces and specialized industry (zero-based).
@@ -209,13 +209,12 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Checks the level of a building to make sure it's valid.
         /// </summary>
-        /// <param name="level">Building level to check</param>
-        /// <param name="maxLevel">Maximum level permitted</param>
-        /// <returns>Minimum of provided building level or maximem level permitted</returns>
+        /// <param name="level">Building level to check.</param>
+        /// <param name="maxLevel">Maximum level permitted.</param>
+        /// <returns>Minimum of provided building level or maximem level permitted.</returns>
         private static int CheckBuildingLevel(ItemClass.Level level, ItemClass.Level maxLevel)
         {
             ItemClass.Level checkedLevel = level;

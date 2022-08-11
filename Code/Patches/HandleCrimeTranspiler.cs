@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-
+﻿// <copyright file="HandleCrimeTranspiler.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
     
 namespace RealPop2
 {
+    using System.Collections.Generic;
+    using System.Reflection;
+    using System.Reflection.Emit;
+    using AlgernonCommons;
+    using HarmonyLib;
+
     /// <summary>
     /// Transpiler to patch CommonBuildingAI.HandleCrime.
     /// This implements the mods custom crime settings.
@@ -29,10 +34,10 @@ namespace RealPop2
         /// <summary>
         /// StartConnectionTransferImpl transpiler.
         /// </summary>
-        /// <param name="original">Original method to patch</param>
-        /// <param name="instructions">Original ILCode</param>
-        /// <param name="generator">ILCode generator</param>
-        /// <returns>Replacement ILCode</returns>
+        /// <param name="original">Original method to patch.</param>
+        /// <param name="instructions">Original ILCode.</param>
+        /// <param name="generator">ILCode generator.</param>
+        /// <returns>Replacement ILCode.</returns>
         public static IEnumerable<CodeInstruction> Transpiler(MethodBase original, IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
             // Transpiler meta.
@@ -85,13 +90,12 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Adjusts crime accumulation for mod calculations.
         /// </summary>
-        /// <param name="crimeAccumulation"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="crimeAccumulation">Raw crime accumulation.</param>
+        /// <param name="data">Building data.</param>
+        /// <returns>Modified crime accumulation.</returns>
         public static int RealisticCrime(int crimeAccumulation, ref Building data)
         {
             int pereentageFactor = 10;

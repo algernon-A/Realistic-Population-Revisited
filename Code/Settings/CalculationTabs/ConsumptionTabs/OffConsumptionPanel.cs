@@ -1,8 +1,14 @@
-﻿using ColossalFramework.UI;
-
+﻿// <copyright file="GoodsPanelBase.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons;
+    using AlgernonCommons.Translation;
+    using ColossalFramework.UI;
+
     /// <summary>
     /// Options panel (sub)-tab for office building consumption configuration.
     /// </summary>
@@ -22,16 +28,14 @@ namespace RealPop2
             "RPR_CAT_ITC"
         };
 
-
         /// <summary>
         /// Adds commercial options tab to tabstrip.
         /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
+        /// <param name="tabStrip">Tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
         internal OffConsumptionPanel(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
         {
         }
-
 
         /// <summary>
         /// Performs initial setup; called via event when tab is first selected.
@@ -62,9 +66,9 @@ namespace RealPop2
 
                 // Create residential per-person area textfields and labels.
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate(subServiceLables[Office]), "ZoningOffice", "Thumbnails");
-                AddSubService(panel, true, Office);
+                AddSubService(panel, Office);
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate(subServiceLables[HighTech]), "IconPolicyHightech", "Ingame");
-                AddSubService(panel, false, HighTech, label: Translations.Translate(subServiceLables[HighTech]));
+                AddSubService(panel, HighTech, label: Translations.Translate(subServiceLables[HighTech]));
 
                 // Populate initial values.
                 PopulateFields();
@@ -73,7 +77,6 @@ namespace RealPop2
                 AddButtons(panel);
             }
         }
-
 
         /// <summary>
         /// Populates the text fields with information from the DataStore.
@@ -84,7 +87,6 @@ namespace RealPop2
             PopulateSubService(DataStore.office, Office);
             PopulateSubService(DataStore.officeHighTech, HighTech);
         }
-
 
         /// <summary>
         /// Updates the DataStore with the information from the text fields.
@@ -104,7 +106,6 @@ namespace RealPop2
             // Refresh settings.
             PopulateFields();
         }
-
 
         /// <summary>
         /// Resets all textfields to mod default values.

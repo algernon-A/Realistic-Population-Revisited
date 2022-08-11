@@ -1,9 +1,15 @@
-﻿using ColossalFramework.UI;
-using UnityEngine;
-
+﻿// <copyright file="UIPreview.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using ColossalFramework.UI;
+    using UnityEngine;
+
     /// <summary>
     /// Building preview image.
     /// </summary>
@@ -22,7 +28,6 @@ namespace RealPop2
         private FloorDataPack floorPack, overrideFloors;
         private bool renderFloors, hideFloors;
 
-
         /// <summary>
         /// Suppresses floor preview rendering (e.g. when legacy calculations have been selected).
         /// </summary>
@@ -34,7 +39,6 @@ namespace RealPop2
                 RenderPreview();
             }
         }
-
 
         /// <summary>
         /// Updates the floor calculation pack to preview.
@@ -60,7 +64,6 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Toggles floor previewing on or off.
         /// </summary>
@@ -72,7 +75,6 @@ namespace RealPop2
                 RenderPreview();
             }
         }
-
 
         /// <summary>
         /// Render and show a preview of a building.
@@ -120,23 +122,22 @@ namespace RealPop2
                 // Set and show building name.
                 buildingName.isVisible = true;
                 buildingName.text = UIBuildingDetails.GetDisplayName(currentSelection.name);
-                UIUtils.TruncateLabel(buildingName, width - 45);
+                UILabels.TruncateLabel(buildingName, width - 45);
                 buildingName.autoHeight = true;
 
                 // Set and show building level.
                 buildingLevel.isVisible = true;
                 buildingLevel.text = Translations.Translate("RPR_OPT_LVL") + " " + Mathf.Min((int)currentSelection.GetClassLevel() + 1, MaxLevelOf(currentSelection.GetSubService()));
-                UIUtils.TruncateLabel(buildingLevel, width - 45);
+                UILabels.TruncateLabel(buildingLevel, width - 45);
                 buildingLevel.autoHeight = true;
 
                 // Set and show building size.
                 buildingSize.isVisible = true;
                 buildingSize.text = currentSelection.GetWidth() + "x" + currentSelection.GetLength();
-                UIUtils.TruncateLabel(buildingSize, width - 45);
+                UILabels.TruncateLabel(buildingSize, width - 45);
                 buildingSize.autoHeight = true;
             }
         }
-
 
         /// <summary>
         /// Performs initial setup for the panel; we no longer use Start() as that's not sufficiently reliable (race conditions), and is no longer needed, with the new create/destroy process.
@@ -209,7 +210,6 @@ namespace RealPop2
             buildingSize.relativePosition = new Vector2(width - 50, height - 20);
         }
 
-
         /// <summary>
         /// Rotates the preview camera (model rotation) in accordance with mouse movement.
         /// </summary>
@@ -223,7 +223,6 @@ namespace RealPop2
             // Render updated image.
             RenderPreview();
         }
-
 
         /// <summary>
         /// Returns the maximum level permitted for each subservice.
@@ -249,7 +248,6 @@ namespace RealPop2
 
             }
         }
-
 
         /// <summary>
         /// Render the preview image.

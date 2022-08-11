@@ -1,8 +1,14 @@
-﻿using ColossalFramework.UI;
-
+﻿// <copyright file="LegacyOfficePanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons;
+    using AlgernonCommons.Translation;
+    using ColossalFramework.UI;
+
     /// <summary>
     /// Options panel (sub)-tab for legacy office building consumption configuration.
     /// </summary>
@@ -14,14 +20,12 @@ namespace RealPop2
         private const int NumSubServices = 2;
         private const int NumLevels = 3;
 
-
         // Label constants.
         private readonly string[] subServiceLables =
         {
             "RPR_CAT_OFF",
             "RPR_CAT_ITC"
         };
-
 
         // Tab title.
         protected override string TabNameKey => "RPR_CAT_OFF";
@@ -30,12 +34,11 @@ namespace RealPop2
         /// <summary>
         /// Adds commercial options tab to tabstrip.
         /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
+        /// <param name="tabStrip">Tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
         internal LegacyOfficePanel(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
         {
         }
-
 
         /// <summary>
         /// Performs initial setup; called via event when tab is first selected.
@@ -84,7 +87,6 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Populates the text fields with information from the DataStore.
         /// </summary>
@@ -94,7 +96,6 @@ namespace RealPop2
             PopulateSubService(DataStore.office, Office);
             PopulateSubService(DataStore.officeHighTech, HighTech);
         }
-
 
         /// <summary>
         /// Updates the DataStore with the information from the text fields.
@@ -114,7 +115,6 @@ namespace RealPop2
             // Refresh settings.
             PopulateFields();
         }
-
 
         /// <summary>
         /// Resets all textfields to mod default values.

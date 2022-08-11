@@ -1,26 +1,15 @@
-﻿using ColossalFramework.Math;
-using ColossalFramework.UI;
-using UnityEngine;
-
+﻿// <copyright file="UILegacyCalcs.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
-    /// <summary>
-    /// Different mod calculations shown (in text labels) by this panel.
-    /// </summary>
-    public enum LegacyDetails : int
-    {
-        width,
-        length,
-        area,
-        personArea,
-        height,
-        floorHeight,
-        floors,
-        extraFloors,
-        numDetails
-    }
-
+    using AlgernonCommons;
+    using AlgernonCommons.Translation;
+    using ColossalFramework.Math;
+    using ColossalFramework.UI;
+    using UnityEngine;
 
     /// <summary>
     /// Panel to display the mod's calculations for jobs/workplaces.
@@ -39,6 +28,21 @@ namespace RealPop2
         private UILabel homesJobsCalcLabel, homesJobsCustomLabel, homesJobsActualLabel;
         private UILabel visitCountLabel, productionLabel;
 
+        /// <summary>
+        /// Different mod calculations shown (in text labels) by this panel.
+        /// </summary>
+        private enum LegacyDetails : int
+        {
+            Width,
+            Length,
+            Area,
+            PersonArea,
+            Height,
+            FloorHeight,
+            Floors,
+            ExtraFloors,
+            NumDetails
+        }
 
         /// <summary>
         /// Create the mod calcs panel; we no longer use Start() as that's not sufficiently reliable (race conditions), and is no longer needed, with the new create/destroy process.
@@ -57,8 +61,8 @@ namespace RealPop2
             clipChildren = true;
 
             // Set up detail fields.
-            detailLabels = new UILabel[(int)LegacyDetails.numDetails];
-            for (int i = 0; i < (int)LegacyDetails.numDetails; i++)
+            detailLabels = new UILabel[(int)LegacyDetails.NumDetails];
+            for (int i = 0; i < (int)LegacyDetails.NumDetails; i++)
             {
                 detailLabels[i] = this.AddUIComponent<UILabel>();
                 detailLabels[i].relativePosition = new Vector2(LeftPadding, (i * LineHeight) + LineHeight);
@@ -68,33 +72,33 @@ namespace RealPop2
 
             // Homes/jobs labels.
             homesJobsCalcLabel = this.AddUIComponent<UILabel>();
-            homesJobsCalcLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.numDetails + 1) * LineHeight);
+            homesJobsCalcLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 1) * LineHeight);
             homesJobsCalcLabel.width = 270;
             homesJobsCalcLabel.textAlignment = UIHorizontalAlignment.Left;
 
             homesJobsCustomLabel = this.AddUIComponent<UILabel>();
-            homesJobsCustomLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.numDetails + 2) * LineHeight);
+            homesJobsCustomLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 2) * LineHeight);
             homesJobsCustomLabel.width = 270;
             homesJobsCustomLabel.textAlignment = UIHorizontalAlignment.Left;
 
             homesJobsActualLabel = this.AddUIComponent<UILabel>();
-            homesJobsActualLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.numDetails + 4) * LineHeight);
+            homesJobsActualLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 4) * LineHeight);
             homesJobsActualLabel.width = 270;
             homesJobsActualLabel.textAlignment = UIHorizontalAlignment.Left;
 
             visitCountLabel = this.AddUIComponent<UILabel>();
-            visitCountLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.numDetails + 5) * LineHeight);
+            visitCountLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 5) * LineHeight);
             visitCountLabel.width = 270;
             visitCountLabel.textAlignment = UIHorizontalAlignment.Left;
 
             productionLabel = this.AddUIComponent<UILabel>();
-            productionLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.numDetails + 5) * LineHeight);
+            productionLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 5) * LineHeight);
             productionLabel.width = 270;
             productionLabel.textAlignment = UIHorizontalAlignment.Left;
 
             // Message label (initially hidden).
             messageLabel = this.AddUIComponent<UILabel>();
-            messageLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.numDetails + 7) * LineHeight);
+            messageLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 7) * LineHeight);
             messageLabel.textAlignment = UIHorizontalAlignment.Left;
             messageLabel.autoSize = false;
             messageLabel.autoHeight = true;
@@ -104,11 +108,10 @@ namespace RealPop2
             messageLabel.isVisible = false;
         }
 
-
         /// <summary>
         /// Called whenever the currently selected building is changed to update the panel display.
         /// </summary>
-        /// <param name="building">Newly selected building</param>
+        /// <param name="building">Newly selected building.</param>
         public void SelectionChanged(BuildingInfo building)
         {
             // Make sure we have a valid selection before proceeding.
@@ -259,26 +262,26 @@ namespace RealPop2
             }
 
             // Display calculated (and retrieved) details.
-            detailLabels[(int)LegacyDetails.width].text = Translations.Translate("RPR_CAL_BLD_X") + " " + calcWidth;
-            detailLabels[(int)LegacyDetails.length].text = Translations.Translate("RPR_CAL_BLD_Z") + " " + calcLength;
-            detailLabels[(int)LegacyDetails.height].text = Translations.Translate("RPR_CAL_BLD_Y") + " " + (int)buildingSize.y;
-            detailLabels[(int)LegacyDetails.personArea].text = Translations.Translate("RPR_CAL_BLD_M2") + " " + array[DataStore.PEOPLE];
-            detailLabels[(int)LegacyDetails.floorHeight].text = Translations.Translate("RPR_CAL_FLR_Y") + " " + array[DataStore.LEVEL_HEIGHT];
-            detailLabels[(int)LegacyDetails.floors].text = Translations.Translate("RPR_CAL_FLR") + " " + floorCount;
+            detailLabels[(int)LegacyDetails.Width].text = Translations.Translate("RPR_CAL_BLD_X") + " " + calcWidth;
+            detailLabels[(int)LegacyDetails.Length].text = Translations.Translate("RPR_CAL_BLD_Z") + " " + calcLength;
+            detailLabels[(int)LegacyDetails.Height].text = Translations.Translate("RPR_CAL_BLD_Y") + " " + (int)buildingSize.y;
+            detailLabels[(int)LegacyDetails.PersonArea].text = Translations.Translate("RPR_CAL_BLD_M2") + " " + array[DataStore.PEOPLE];
+            detailLabels[(int)LegacyDetails.FloorHeight].text = Translations.Translate("RPR_CAL_FLR_Y") + " " + array[DataStore.LEVEL_HEIGHT];
+            detailLabels[(int)LegacyDetails.Floors].text = Translations.Translate("RPR_CAL_FLR") + " " + floorCount;
 
             // Area calculation - will need this later.
             int calculatedArea = calcWidth * calcLength;
-            detailLabels[(int)LegacyDetails.area].text = Translations.Translate("RPR_CAL_M2") + " " + calculatedArea;
+            detailLabels[(int)LegacyDetails.Area].text = Translations.Translate("RPR_CAL_M2") + " " + calculatedArea;
 
             // Show or hide extra floor modifier as appropriate (hide for zero or less, otherwise show).
             if (array[DataStore.DENSIFICATION] > 0)
             {
-                detailLabels[(int)LegacyDetails.extraFloors].text = Translations.Translate("RPR_CAL_FLR_M") + " " + array[DataStore.DENSIFICATION];
-                detailLabels[(int)LegacyDetails.extraFloors].isVisible = true;
+                detailLabels[(int)LegacyDetails.ExtraFloors].text = Translations.Translate("RPR_CAL_FLR_M") + " " + array[DataStore.DENSIFICATION];
+                detailLabels[(int)LegacyDetails.ExtraFloors].isVisible = true;
             }
             else
             {
-                detailLabels[(int)LegacyDetails.extraFloors].isVisible = false;
+                detailLabels[(int)LegacyDetails.ExtraFloors].isVisible = false;
             }
 
             // Set minimum residences for high density.
@@ -299,7 +302,7 @@ namespace RealPop2
             }
 
             // Check to see if Ploppable RICO Revisited is controlling this building's population.
-            if (AssemblyUtils.CheckRICOPopControl(building))
+            if (ModUtils.CheckRICOPopControl(building))
             {
                 messageLabel.text = Translations.Translate("RPR_CAL_RICO");
                 messageLabel.Show();

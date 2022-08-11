@@ -1,9 +1,14 @@
-﻿using UnityEngine;
-using ColossalFramework.UI;
-
+﻿// <copyright file="UITitleBar.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons.UI;
+    using ColossalFramework.UI;
+    using UnityEngine;
+
     /// <summary>
     /// Titlebar for the building details screen.
     /// </summary>
@@ -14,7 +19,6 @@ namespace RealPop2
         private UIDragHandle dragHandle;
         private UISprite iconSprite;
         private UIButton closeButton;
-
 
         /// <summary>
         /// Create the titlebar; we no longer use Start() as that's not sufficiently reliable (race conditions), and is no longer needed, with the new create/destroy process.
@@ -40,13 +44,13 @@ namespace RealPop2
             iconSprite = AddUIComponent<UISprite>();
             iconSprite.relativePosition = new Vector2(10, 5);
             iconSprite.spriteName = "ToolbarIconZoomOutCity";
-            UIUtils.ResizeIcon(iconSprite, new Vector2(30, 30));
+            UISprites.ResizeSprite(iconSprite, 30f, 30f);
             iconSprite.relativePosition = new Vector2(10, 5);
 
             // Titlebar label.
             titleLabel = AddUIComponent<UILabel>();
             titleLabel.relativePosition = new Vector2(50, 13);
-            titleLabel.text = Mod.ModName;
+            titleLabel.text = Mod.Instance.BaseName;
 
             // Close button.
             closeButton = AddUIComponent<UIButton>();

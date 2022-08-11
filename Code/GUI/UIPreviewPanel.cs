@@ -1,9 +1,15 @@
-﻿using UnityEngine;
-using ColossalFramework.UI;
-
+﻿// <copyright file="UIPreviewPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using ColossalFramework.UI;
+    using UnityEngine;
+
     /// <summary>
     /// Panel showing the building preview.
     /// </summary>
@@ -14,24 +20,20 @@ namespace RealPop2
         private UICheckBox showFloorsCheck;
         private static bool lastFloorCheckState;
 
-
         /// <summary>
         /// Handles changes to selected floor data pack (for previewing).
         /// </summary>
         internal FloorDataPack FloorPack { set => preview.FloorPack = value; }
-
 
         /// <summary>
         /// Suppresses floor preview rendering (e.g. when legacy calculations have been selected).
         /// </summary>
         internal bool HideFloors { set => preview.HideFloors = value; }
 
-
         /// <summary>
         /// Handles changes to selected floor data override pack (for previewing).
         /// </summary>
         internal FloorDataPack OverrideFloors { set => preview.OverrideFloors = value; }
-
 
         /// <summary>
         /// Render and show a preview of a building.
@@ -41,7 +43,6 @@ namespace RealPop2
         {
             preview.Show(building);
         }
-
 
         /// <summary>
         /// Performs initial setup for the panel.
@@ -56,7 +57,7 @@ namespace RealPop2
             preview.Setup();
 
             // 'Show floors' checkbox.
-            showFloorsCheck = UIControls.LabelledCheckBox(this, 20f, height - 30f, Translations.Translate("RPR_PRV_SFL"));
+            showFloorsCheck = UICheckBoxes.AddLabelledCheckBox(this, 20f, height - 30f, Translations.Translate("RPR_PRV_SFL"));
             showFloorsCheck.eventCheckChanged += (control, isChecked) =>
             {
                 preview.RenderFloors = isChecked;

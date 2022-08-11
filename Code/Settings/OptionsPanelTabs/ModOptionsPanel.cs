@@ -1,8 +1,16 @@
-﻿using ColossalFramework.UI;
-
+﻿// <copyright file="ModOptionsPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons;
+    using AlgernonCommons.Keybinding;
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using ColossalFramework.UI;
+
     /// <summary>
     /// Options panel for setting basic mod options.
     /// </summary>
@@ -21,33 +29,34 @@ namespace RealPop2
             panel.autoLayout = true;
 
             // Language dropdown.
-            UIDropDown languageDrop = UIControls.AddPlainDropDown(panel, 0f, 0f, Translations.Translate("TRN_CHOICE"), Translations.LanguageList, Translations.Index);
-            languageDrop.eventSelectedIndexChanged += (control, index) =>
+            UIDropDown languageDrop = UIDropDowns.AddPlainDropDown(panel, 0f, 0f, Translations.Translate("TRN_CHOICE"), Translations.LanguageList, Translations.Index);
+            languageDrop.eventSelectedIndexChanged += (c, index) =>
             {
                 Translations.Index = index;
-                OptionsPanel.LocaleChanged();
+                OptionsPanelManager<OptionsPanel>.LocaleChanged();
             };
 
             // Hotkey control.
-            panel.gameObject.AddComponent<OptionsKeymapping>();
+            OptionsKeymapping keyMapping = panel.gameObject.AddComponent<OptionsKeymapping>();
+            keyMapping.Label = Translations.Translate("KEY_KEY");
+            keyMapping.Binding = UIThreading.HotKey;
 
-
-            UICheckBox usMeasureCheck = UIControls.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_MEA"));
+            UICheckBox usMeasureCheck = UICheckBoxes.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_MEA"));
             usMeasureCheck.isChecked = !Measures.UsingMetric;
-            usMeasureCheck.eventCheckChanged += (control, isChecked) =>
+            usMeasureCheck.eventCheckChanged += (c, isChecked) =>
             {
                 Measures.UsingMetric = !isChecked;
-                OptionsPanel.LocaleChanged();
+                OptionsPanelManager<OptionsPanel>.LocaleChanged();
             };
 
             // Detail logging option.
-            UICheckBox logCheckBox = UIControls.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_LDT"));
-            logCheckBox.isChecked = Logging.detailLogging;
-            logCheckBox.eventCheckChanged += (control, isChecked) =>
+            UICheckBox logCheckBox = UICheckBoxes.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_LDT"));
+            logCheckBox.isChecked = Logging.DetailLogging;
+            logCheckBox.eventCheckChanged += (c, isChecked) =>
             {
                 // Update mod settings.
-                Logging.detailLogging = isChecked;
-                Logging.KeyMessage("detailed logging ", Logging.detailLogging ? "enabled" : "disabled");
+                Logging.DetailLogging = isChecked;
+                Logging.KeyMessage("detailed logging ", Logging.DetailLogging ? "enabled" : "disabled");
             };
         }
     }

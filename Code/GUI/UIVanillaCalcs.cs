@@ -1,10 +1,17 @@
-﻿using ColossalFramework.Math;
-using ColossalFramework.UI;
-using UnityEngine;
-
+﻿// <copyright file="UIVanillaCalcs.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons;
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using ColossalFramework.Math;
+    using ColossalFramework.UI;
+    using UnityEngine;
+
     /// <summary>
     /// Panel to display the mod's calculations for jobs/workplaces.
     /// </summary>
@@ -31,14 +38,12 @@ namespace RealPop2
         // Number of columns.
         private const int NumColumns = 4;
 
-
         // Panel components.
         private UILabel messageLabel;
 
         // Labels.
         private UILabel[] titleLabel = new UILabel[(int)LabelIndex.NumIndexes];
         private UILabel[][] figLabels = new UILabel[NumColumns][];
-
 
         /// <summary>
         /// Create the mod calcs panel; we no longer use Start() as that's not sufficiently reliable (race conditions), and is no longer needed, with the new create/destroy process.
@@ -58,13 +63,13 @@ namespace RealPop2
 
 
             // Add title labels.
-            titleLabel[(int)LabelIndex.Width] = UIControls.AddLabel(this, LeftPadding, LineHeight * 1f, Translations.Translate("RPR_CAL_LOT_X"));
-            titleLabel[(int)LabelIndex.Length] = UIControls.AddLabel(this, LeftPadding, LineHeight * 2f, Translations.Translate("RPR_CAL_LOT_Z"));
-            titleLabel[(int)LabelIndex.PopCalc] = UIControls.AddLabel(this, LeftPadding, LineHeight * 4f, Translations.Translate("RPR_CAL_JOB_CALC"));
-            titleLabel[(int)LabelIndex.PopCustom] = UIControls.AddLabel(this, LeftPadding, LineHeight * 5f, Translations.Translate("RPR_CAL_JOB_CUST"));
-            titleLabel[(int)LabelIndex.AppliedPop] = UIControls.AddLabel(this, LeftPadding, LineHeight * 6f, Translations.Translate("RPR_CAL_JOB_APPL"));
-            titleLabel[(int)LabelIndex.Visit] = UIControls.AddLabel(this, LeftPadding, LineHeight * 8f, Translations.Translate("RPR_CAL_VOL_VIS"));
-            titleLabel[(int)LabelIndex.Production] = UIControls.AddLabel(this, LeftPadding, LineHeight * 8f, Translations.Translate("RPR_CAL_VOL_PRD"));
+            titleLabel[(int)LabelIndex.Width] = UILabels.AddLabel(this, LeftPadding, LineHeight * 1f, Translations.Translate("RPR_CAL_LOT_X"));
+            titleLabel[(int)LabelIndex.Length] = UILabels.AddLabel(this, LeftPadding, LineHeight * 2f, Translations.Translate("RPR_CAL_LOT_Z"));
+            titleLabel[(int)LabelIndex.PopCalc] = UILabels.AddLabel(this, LeftPadding, LineHeight * 4f, Translations.Translate("RPR_CAL_JOB_CALC"));
+            titleLabel[(int)LabelIndex.PopCustom] = UILabels.AddLabel(this, LeftPadding, LineHeight * 5f, Translations.Translate("RPR_CAL_JOB_CUST"));
+            titleLabel[(int)LabelIndex.AppliedPop] = UILabels.AddLabel(this, LeftPadding, LineHeight * 6f, Translations.Translate("RPR_CAL_JOB_APPL"));
+            titleLabel[(int)LabelIndex.Visit] = UILabels.AddLabel(this, LeftPadding, LineHeight * 8f, Translations.Translate("RPR_CAL_VOL_VIS"));
+            titleLabel[(int)LabelIndex.Production] = UILabels.AddLabel(this, LeftPadding, LineHeight * 8f, Translations.Translate("RPR_CAL_VOL_PRD"));
 
             // Set up figure columns.
             for (int i = 0; i < NumColumns; ++i)
@@ -78,7 +83,7 @@ namespace RealPop2
                 // Set up figures in column
                 for (int j = 0; j < (int)LabelIndex.NumIndexes; ++j)
                 {
-                    figLabels[i][j] = UIControls.AddLabel(titleLabel[j], xPos, 0f, string.Empty);
+                    figLabels[i][j] = UILabels.AddLabel(titleLabel[j], xPos, 0f, string.Empty);
                 }
             }
 
@@ -96,7 +101,6 @@ namespace RealPop2
             messageLabel.text = "No message to display";
             messageLabel.isVisible = false;
         }
-
 
         /// <summary>
         /// Called whenever the currently selected building is changed to update the panel display.
@@ -165,7 +169,7 @@ namespace RealPop2
             }
 
             // Check to see if Ploppable RICO Revisited is controlling this building's population.
-            if (AssemblyUtils.CheckRICOPopControl(building))
+            if (ModUtils.CheckRICOPopControl(building))
             {
                 messageLabel.text = Translations.Translate("RPR_CAL_RICO");
                 messageLabel.Show();
@@ -177,15 +181,14 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Sets the figures for a given column.
         /// </summary>
-        /// <param name="labels">Column label array</param>
-        /// <param name="building">Selected BuildingInfo</param>
-        /// <param name="privateAI">Building AI as PrivateBuildingAI</param>
-        /// <param name="width">Building lot width</param>
-        /// <param name="length">Building lot length</param>
+        /// <param name="labels">Column label array.</param>
+        /// <param name="building">Selected BuildingInfo.</param>
+        /// <param name="privateAI">Building AI as PrivateBuildingAI.</param>
+        /// <param name="width">Building lot width.</param>
+        /// <param name="length">Building lot length.</param>
         private void SetFigures(UILabel[] labels, BuildingInfo building, PrivateBuildingAI privateAI, int width, int length)
         {
             // Calculated totals.

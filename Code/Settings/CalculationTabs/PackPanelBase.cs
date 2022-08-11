@@ -1,10 +1,16 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using ColossalFramework.UI;
-
+﻿// <copyright file="PackPanelBase.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System.Collections.Generic;
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using ColossalFramework.UI;
+    using UnityEngine;
+
     /// <summary>
     /// Options panel for creating and editing calculation packs.
     /// </summary>
@@ -18,7 +24,6 @@ namespace RealPop2
         protected const float FirstItem = 110f;
         protected const float RowHeight = 27f;
         protected const float MeasurementLabelY = -20f;
-
 
         // Panel components.
         protected UIDropDown packDropDown;
@@ -34,14 +39,12 @@ namespace RealPop2
         // Pack name field.
         protected UITextField PackNameField { get; private set; }
 
-
         /// <summary>
         /// 'Add new pack' button event handler.
         /// </summary>
         /// <param name="control">Calling component (unused)</param>
         /// <param name="mouseEvent">Mouse event (unused)</param>
         protected abstract void AddPack(UIComponent control, UIMouseEventParameter mouseEvent);
-
 
         /// <summary>
         /// 'Delete pack' button event handler.
@@ -50,13 +53,11 @@ namespace RealPop2
         /// <param name="mouseEvent">Mouse event (unused)</param>
         protected abstract void DeletePack(UIComponent control, UIMouseEventParameter mouseEvent);
 
-
         /// <summary>
         /// Updates the given calculation pack with data from the panel.
         /// </summary>
         /// <param name="pack">Pack to update</param>
         protected abstract void UpdatePack(DataPack pack);
-
 
         /// <summary>
         /// Constructor - adds editing options tab to tabstrip.
@@ -75,19 +76,18 @@ namespace RealPop2
             tabStrip.tabs[tabIndex].objectUserData = this;
         }
 
-
         /// <summary>
         /// Adds panel footer controls (pack name textfield and buttons).
         /// </summary>
-        /// <param name="yPos">Reference Y position</param>
+        /// <param name="yPos">Reference Y position.</param>
         protected void PanelFooter(float yPos)
         {
             // Additional space before name textfield.
             float currentY = yPos + RowHeight;
 
             // Pack name textfield.
-            PackNameField = UIControls.BigTextField(panel, 200f, currentY);
-            UILabel packNameLabel = UIControls.AddLabel(PackNameField, -100f, (PackNameField.height - 18f) / 2, Translations.Translate("RPR_OPT_EDT_NAM"));
+            PackNameField = UITextFields.AddBigTextField(panel, 200f, currentY);
+            UILabel packNameLabel = UILabels.AddLabel(PackNameField, -100f, (PackNameField.height - 18f) / 2, Translations.Translate("RPR_OPT_EDT_NAM"));
 
             // Adjsut pack name textfield position to accomodate longer translation strings.
             float excessWidth = packNameLabel.width - 95f;
@@ -102,23 +102,22 @@ namespace RealPop2
             currentY += 50f;
 
             // 'Add new' button.
-            UIButton addNewButton = UIControls.AddButton(panel, 20f, currentY, Translations.Translate("RPR_OPT_NEW"));
+            UIButton addNewButton = UIButtons.AddButton(panel, 20f, currentY, Translations.Translate("RPR_OPT_NEW"));
             addNewButton.eventClicked += AddPack;
 
             // Save pack button.
-            saveButton = UIControls.AddButton(panel, 250f, currentY, Translations.Translate("RPR_OPT_SAA"));
+            saveButton = UIButtons.AddButton(panel, 250f, currentY, Translations.Translate("RPR_OPT_SAA"));
             saveButton.eventClicked += Save;
 
             // Delete pack button.
-            deleteButton = UIControls.AddButton(panel, 480f, currentY, Translations.Translate("RPR_OPT_DEL"));
+            deleteButton = UIButtons.AddButton(panel, 480f, currentY, Translations.Translate("RPR_OPT_DEL"));
             deleteButton.eventClicked += DeletePack;
         }
-
 
         /// <summary>
         /// Sets button and textfield enabled/disabled states.
         /// </summary>
-        /// <param name="index">Selected pack list index</param>
+        /// <param name="index">Selected pack list index.</param>
         protected void ButtonStates(int index)
         {
             // Enable save and delete buttons and name textfield if this is a custom pack, otherwise disable.
@@ -134,13 +133,12 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Adds a row text label.
         /// </summary>
-        /// <param name="panel">UI panel instance</param>
-        /// <param name="yPos">Reference Y position</param>
-        /// <param name="text">Label text</param>
+        /// <param name="panel">UI panel instance.</param>
+        /// <param name="yPos">Reference Y position.</param>
+        /// <param name="text">Label text.</param>
         protected UILabel RowLabel(UIPanel panel, float yPos, string text)
         {
             // Text label.
@@ -160,14 +158,13 @@ namespace RealPop2
 
             return lineLabel;
         }
-
-
+        
         /// <summary>
         /// Save button event handler.
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="mouseEvent">Mouse event (unused)</param>
+        /// <param name="c">Calling component (unused.)</param>
+        /// <param name="p">Mouse event (unused).</param>
         /// </summary>
-        protected virtual void Save(UIComponent control, UIMouseEventParameter mouseEvent)
+        protected virtual void Save(UIComponent c, UIMouseEventParameter p)
         {
             // Update currently selected pack with information from the panel.
             UpdatePack(packList[packDropDown.selectedIndex]);

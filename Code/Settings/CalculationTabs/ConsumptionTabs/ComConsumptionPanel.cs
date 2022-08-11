@@ -1,8 +1,14 @@
-﻿using ColossalFramework.UI;
-
+﻿// <copyright file="ComConsumptionPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons;
+    using AlgernonCommons.Translation;
+    using ColossalFramework.UI;
+
     /// <summary>
     /// Options panel (sub)-tab for commercial building consumption configuration.
     /// </summary>
@@ -17,7 +23,6 @@ namespace RealPop2
         private const int NumSubServices = 5;
         private const int NumLevels = 3;
 
-
         // Label constants.
         private readonly string[] subServiceLables =
         {
@@ -28,16 +33,14 @@ namespace RealPop2
             "RPR_CAT_TOU"
         };
 
-
         /// <summary>
         /// Adds commercial options tab to tabstrip.
         /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
+        /// <param name="tabStrip">Tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
         internal ComConsumptionPanel(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
         {
         }
-
 
         /// <summary>
         /// Performs initial setup; called via event when tab is first selected.
@@ -68,15 +71,15 @@ namespace RealPop2
 
                 // Create residential per-person area textfields and labels.
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate(subServiceLables[LowCom]), "ZoningCommercialLow", "Thumbnails");
-                AddSubService(panel, true, LowCom);
+                AddSubService(panel, LowCom);
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate(subServiceLables[HighCom]), "ZoningCommercialHigh", "Thumbnails");
-                AddSubService(panel, true, HighCom);
+                AddSubService(panel, HighCom);
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate(subServiceLables[EcoCom]), "IconPolicyOrganic", "Ingame");
-                AddSubService(panel, false, EcoCom, label: Translations.Translate("RPR_CAT_ECO"));
+                AddSubService(panel, EcoCom, label: Translations.Translate("RPR_CAT_ECO"));
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate(subServiceLables[Leisure]), "IconPolicyLeisure", "Ingame");
-                AddSubService(panel, false, Leisure, label: Translations.Translate(subServiceLables[Leisure]));
+                AddSubService(panel, Leisure, label: Translations.Translate(subServiceLables[Leisure]));
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate(subServiceLables[Tourist]), "IconPolicyTourist", "Ingame");
-                AddSubService(panel, false, Tourist, label: Translations.Translate(subServiceLables[Tourist]));
+                AddSubService(panel, Tourist, label: Translations.Translate(subServiceLables[Tourist]));
 
                 // Populate initial values.
                 PopulateFields();
@@ -85,7 +88,6 @@ namespace RealPop2
                 AddButtons(panel);
             }
         }
-
 
         /// <summary>
         /// Populates the text fields with information from the DataStore.
@@ -99,7 +101,6 @@ namespace RealPop2
             PopulateSubService(DataStore.commercialLeisure, Leisure);
             PopulateSubService(DataStore.commercialTourist, Tourist);
         }
-
 
         /// <summary>
         /// Updates the DataStore with the information from the text fields.
@@ -122,7 +123,6 @@ namespace RealPop2
             // Refresh settings.
             PopulateFields();
         }
-
 
         /// <summary>
         /// Resets all textfields to mod default values.

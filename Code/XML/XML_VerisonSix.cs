@@ -1,11 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml;
-using System.Security;
-
 namespace RealPop2
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Security;
+    using System.Xml;
+    using AlgernonCommons;
+
     public class XML_VersionSix : WG_XMLBaseVersion
     {
         private const string popNodeName = "population";
@@ -91,9 +92,6 @@ namespace RealPop2
             }
         } // end readXML
 
-
-        /// <param name="fullPathFileName"></param>
-        /// <returns></returns>
         public override bool WriteXML(string fullPathFileName)
         {
             Logging.Message("writing legacy XML");
@@ -313,9 +311,6 @@ namespace RealPop2
             return true;
         } // end writeXML
 
-
-        /// <param name="xmlDoc"></param>
-        /// <param name="rootNode"></param>
         private void CreatePopulationNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
         {
             XmlComment comment = xmlDoc.CreateComment("space_pp = Square metres per person");
@@ -330,25 +325,18 @@ namespace RealPop2
             rootNode.AppendChild(comment);
         }
 
-
-        /// <param name="xmlDoc"></param>
-        /// <param name="rootNode"></param>
         private void CreateConsumptionNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
         {
             XmlComment comment = xmlDoc.CreateComment("Consumption values are per household, or per production unit");
             rootNode.AppendChild(comment);
         }
 
-        /// <param name="xmlDoc"></param>
-        /// <param name="rootNode"></param>
         private void CreateVisitNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
         {
             XmlComment comment = xmlDoc.CreateComment("Visitor Values are multiplies of 100th of a person per cell.");
             rootNode.AppendChild(comment);
         }
 
-        /// <param name="xmlDoc"></param>
-        /// <param name="rootNode"></param>
         private void CreatePollutionNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
         {
             XmlComment comment = xmlDoc.CreateComment("Ground pollution is not used by residential, commercial and offices.");
@@ -357,9 +345,6 @@ namespace RealPop2
             rootNode.AppendChild(comment);
         }
 
-
-        /// <param name="xmlDoc"></param>
-        /// <param name="rootNode"></param>
         private void CreateProductionNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
         {
             XmlComment comment = xmlDoc.CreateComment("Production for offices is number of employees per production unit.");
@@ -368,13 +353,6 @@ namespace RealPop2
             rootNode.AppendChild(comment);
         }
 
-
-        /// <param name="xmlDoc"></param>
-        /// <param name="buildingType"></param>
-        /// <param name="array"></param>
-        /// <param name="rootPopNode"></param>
-        /// <param name="consumNode"></param>
-        /// <param name="pollutionNode"></param>
         private void MakeNodes(XmlDocument xmlDoc, String buildingType, int[][] array, XmlNode rootPopNode, XmlNode consumNode, XmlNode visitNode, XmlNode pollutionNode, XmlNode productionNode)
         {
             for (int i = 0; i < array.GetLength(0); i++)
@@ -383,14 +361,6 @@ namespace RealPop2
             }
         }
 
-
-        /// <param name="xmlDoc"></param>
-        /// <param name="buildingType"></param>
-        /// <param name="array"></param>
-        /// <param name="level"></param>
-        /// <param name="rootPopNode"></param>
-        /// <param name="consumNode"></param>
-        /// <param name="pollutionNode"></param>
         private void MakeNodes(XmlDocument xmlDoc, String buildingType, int[] array, int level, XmlNode rootPopNode, XmlNode consumNode, XmlNode visitNode, XmlNode pollutionNode, XmlNode productionNode)
         {
             MakePopNode(rootPopNode, xmlDoc, buildingType, level, array);
@@ -400,12 +370,6 @@ namespace RealPop2
             MakeProductionNode(productionNode, xmlDoc, buildingType, level, array[DataStore.PRODUCTION]);
         }
 
-
-        /// <param name="root"></param>
-        /// <param name="xmlDoc"></param>
-        /// <param name="buildingType"></param>
-        /// <param name="level"></param>
-        /// <param name="array"></param>
         private void MakePopNode(XmlNode root, XmlDocument xmlDoc, String buildingType, int level, int[] array)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
@@ -438,7 +402,6 @@ namespace RealPop2
 
             root.AppendChild(node);
         }
-
 
         /// <param name="root"></param>
         /// <param name="xmlDoc"></param>
@@ -496,14 +459,6 @@ namespace RealPop2
             root.AppendChild(node);
         }
 
-
-        /// <param name="root"></param>
-        /// <param name="root"></param>
-        /// <param name="xmlDoc"></param>
-        /// <param name="buildingType"></param>
-        /// <param name="level"></param>
-        /// <param name="ground"></param>
-        /// <param name="noise"></param>
         private void MakePollutionNode(XmlNode root, XmlDocument xmlDoc, String buildingType, int level, int ground, int noise)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
@@ -612,8 +567,6 @@ namespace RealPop2
             } // end foreach
         }
 
-
-        /// <param name="consumeNode"></param>
         private void ReadConsumptionNode(XmlNode consumeNode)
         {
             foreach (XmlNode node in consumeNode.ChildNodes)
@@ -639,7 +592,6 @@ namespace RealPop2
                 }
             }
         }
-
 
         /// <param name="popNode"></param>
         private void ReadPopulationNode(XmlNode popNode)
@@ -723,11 +675,6 @@ namespace RealPop2
             } // end foreach
         }
 
-
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        /// <param name="toXML">Transformation into XML value</param>
-        /// <returns></returns>
         private int TransformPopulationModifier(string name, int value, bool toXML)
         {
             int dividor = 1;
@@ -752,8 +699,6 @@ namespace RealPop2
             }
         }
 
-
-        /// <param name="node"></param>
         private void ReadOverrideHouseNode(XmlNode parent)
         {
             try
@@ -806,7 +751,6 @@ namespace RealPop2
             }
         }
 
-        /// <param name="node"></param>
         private void ReadOverrideWorkers(XmlNode parent)
         {
             try
@@ -859,7 +803,6 @@ namespace RealPop2
             }
         }
 
-        /// <param name="node"></param>
         private void ReadBonusHouseNode(XmlNode parent)
         {
             foreach (XmlNode node in parent.ChildNodes)
@@ -890,7 +833,6 @@ namespace RealPop2
             }
         }
 
-        /// <param name="node"></param>
         private void ReadBonusWorkers(XmlNode parent)
         {
             foreach (XmlNode node in parent.ChildNodes)
@@ -921,7 +863,6 @@ namespace RealPop2
             }
         }
 
-        /// <param name="node"></param>
         private void ReadPrintHouseNode(XmlNode parent)
         {
             foreach (XmlNode node in parent.ChildNodes)
@@ -952,7 +893,6 @@ namespace RealPop2
             }
         }
 
-        /// <param name="node"></param>
         private void ReadPrintWorkers(XmlNode parent)
         {
             foreach (XmlNode node in parent.ChildNodes)
@@ -1036,11 +976,6 @@ namespace RealPop2
             }
         }
 
-
-        /// <param name="name"></param>
-        /// <param name="level"></param>
-        /// <param name="callingFunction">For debug purposes</param>
-        /// <returns></returns>
         private static int[] GetArray(string name, int level, string callingFunction)
         {
             int[] array = new int[14];
@@ -1118,13 +1053,6 @@ namespace RealPop2
             return array;
         } // end getArray
 
-
-        /// <param name="p"></param>
-        /// <param name="power"></param>
-        /// <param name="water"></param>
-        /// <param name="sewage"></param>
-        /// <param name="garbage"></param>
-        /// <param name="wealth"></param>
         private void SetConsumptionRates(int[] p, int power, int water, int sewage, int garbage, int wealth)
         {
             p[DataStore.POWER] = power;
@@ -1134,10 +1062,6 @@ namespace RealPop2
             p[DataStore.INCOME] = wealth;
         }
 
-
-        /// <param name="p"></param>
-        /// <param name="ground"></param>
-        /// <param name="noise"></param>
         private void SetPollutionRates(int[] p, int ground, int noise)
         {
             p[DataStore.GROUND_POLLUTION] = ground;

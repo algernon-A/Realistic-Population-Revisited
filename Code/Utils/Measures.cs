@@ -100,6 +100,7 @@ namespace RealPop2
         private static float LengthMult => metric ? 1f : LengthFeet;
 
 
+        /// <summary>
         /// Current area measure multiplier (from square metres).
         /// </summary>
         private static float AreaMult => metric ? 1f : AreaFeet;

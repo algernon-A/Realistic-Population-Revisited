@@ -1,8 +1,15 @@
-﻿using ColossalFramework.UI;
-
+﻿// <copyright file="DefaultsPanelBase.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons;
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using ColossalFramework.UI;
+
     /// <summary>
     /// Options panel for setting default employment calculation packs.
     /// </summary>
@@ -11,7 +18,6 @@ namespace RealPop2
         // Layout constants.
         private const float MenuWidth = 300f;
         protected const float RowAdditionX = LeftColumn + MenuWidth + (Margin * 2);
-
 
         // Tab icons.
         protected readonly string[] tabIconNames =
@@ -25,16 +31,13 @@ namespace RealPop2
             "ingame"
         };
 
-
         // Tab icons.
         protected override string TabName => Translations.Translate(TitleKey);
         protected override string[] TabIconNames => tabIconNames;
         protected override string[] TabAtlasNames => tabAtlasNames;
 
-
         // Title key.
         protected abstract string TitleKey { get; }
-
 
         // Dropdown menus.
         protected UIDropDown[] PopMenus { get; private set; }
@@ -44,16 +47,14 @@ namespace RealPop2
         protected PopDataPack[][] AvailablePopPacks { get; private set; }
         protected DataPack[] AvailableFloorPacks { get; private set; }
 
-
         /// <summary>
         /// Constructor - adds default options tab to tabstrip.
         /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
+        /// <param name="tabStrip">Tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
         internal DefaultsPanelBase(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
         {
         }
-
 
         /// <summary>
         /// Updates control values.
@@ -122,7 +123,6 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Performs initial setup; called via event when tab is first selected.
         /// </summary>
@@ -157,7 +157,6 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Sets up the defaults dropdown menus.
         /// </summary>
@@ -179,7 +178,7 @@ namespace RealPop2
                 PanelUtils.RowHeaderIcon(panel, ref currentY, SubServiceNames[i], IconNames[i], AtlasNames[i]);
 
                 // Pop pack dropdown.
-                PopMenus[i] = UIControls.AddLabelledDropDown(panel, LeftColumn, currentY, Translations.Translate("RPR_CAL_DEN"), MenuWidth, height: 20f, itemVertPadding: 6, accomodateLabel: false);
+                PopMenus[i] = UIDropDowns.AddLabelledDropDown(panel, LeftColumn, currentY, Translations.Translate("RPR_CAL_DEN"), MenuWidth, height: 20f, itemVertPadding: 6, accomodateLabel: false);
 
                 // Save current index in object user data.
                 PopMenus[i].objectUserData = i;
@@ -191,7 +190,7 @@ namespace RealPop2
                 currentY += RowHeight;
 
                 // Floor pack dropdown.
-                FloorMenus[i] = UIControls.AddLabelledDropDown(panel, LeftColumn, currentY, Translations.Translate("RPR_CAL_BFL"), MenuWidth, height: 20f, itemVertPadding: 6, accomodateLabel: false);
+                FloorMenus[i] = UIDropDowns.AddLabelledDropDown(panel, LeftColumn, currentY, Translations.Translate("RPR_CAL_BFL"), MenuWidth, height: 20f, itemVertPadding: 6, accomodateLabel: false);
 
                 // Add any additional controls.
                 currentY = RowAdditions(currentY, i);
@@ -205,36 +204,33 @@ namespace RealPop2
             return currentY;
         }
 
-
         /// <summary>
         /// Adds header controls to the panel.
         /// </summary>
-        /// <param name="yPos">Relative Y position for buttons</param>
-        /// <returns>Relative Y coordinate below the finished setup</returns>
+        /// <param name="yPos">Relative Y position for buttons.</param>
+        /// <returns>Relative Y coordinate below the finished setup.</returns>
         protected virtual float PanelHeader(float yPos)
         {
             return yPos;
         }
 
-
         /// <summary>
         /// Adds any additional controls to each row.
         /// </summary>
-        /// <param name="yPos">Relative Y position at top of row items</param>
-        /// <param name="index">Index number of this row</param>
-        /// <returns>Relative Y coordinate below the finished setup</returns>
+        /// <param name="yPos">Relative Y position at top of row items.</param>
+        /// <param name="index">Index number of this row.</param>
+        /// <returns>Relative Y coordinate below the finished setup.</returns>
         protected virtual float RowAdditions(float yPos, int index)
         {
             return yPos;
         }
 
-
         /// <summary>
         /// 'Revert to defaults' button event handler.
         /// </summary>
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="mouseEvent">Mouse event (unused)</param>
-        protected override void ResetDefaults(UIComponent control, UIMouseEventParameter mouseEvent)
+        /// <param name="c">Calling component (unused).</param>
+        /// <param name="p">Mouse event (unused).</param>
+        protected override void ResetDefaults(UIComponent c, UIMouseEventParameter p)
         {
             // Iterate through each sub-service menu.
             for (int i = 0; i < SubServiceNames.Length; ++i)
@@ -267,13 +263,12 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// 'Save and apply' button event handler.
         /// </summary>
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="mouseEvent">Mouse event (unused)</param>
-        protected virtual void Apply(UIComponent control, UIMouseEventParameter mouseEvent)
+        /// <param name="c">Calling component (unused).</param>
+        /// <param name="p">Mouse event (unused).</param>
+        protected virtual void Apply(UIComponent c, UIMouseEventParameter p)
         {
             // Iterate through each sub-service menu.
             for (int i = 0; i < SubServiceNames.Length; ++i)
@@ -305,24 +300,22 @@ namespace RealPop2
             ConfigUtils.SaveSettings();
         }
 
-
         /// <summary>
         /// 'Revert to saved' button event handler.
         /// </summary>
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="mouseEvent">Mouse event (unused)</param>
-        protected override void ResetSaved(UIComponent control, UIMouseEventParameter mouseEvent) => UpdateControls();
-
+        /// <param name="c">Calling component (unused).</param>
+        /// <param name="p">Mouse event (unused).</param>
+        protected override void ResetSaved(UIComponent c, UIMouseEventParameter p) => UpdateControls();
 
         /// <summary>
         /// Population pack menu changed event handler.
-        /// <param name="control">Calling component</param>
-        /// <param name="index">New selected index</param>
+        /// <param name="c">Calling component.</param>
+        /// <param name="index">New selected index.</param>
         /// </summary>
-        private void PopMenuChanged(UIComponent control, int index)
+        private void PopMenuChanged(UIComponent c, int index)
         {
             // Retrieve stored index.
-            int serviceIndex = (int)control.objectUserData;
+            int serviceIndex = (int)c.objectUserData;
 
             // Hide floor menu if we've selected legacy or vanilla calcs, otherwise show it.
             DataVersion version = AvailablePopPacks[serviceIndex][index].version;

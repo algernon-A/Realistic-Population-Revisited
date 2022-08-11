@@ -1,12 +1,17 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using ICities;
-using ColossalFramework;
-using ColossalFramework.IO;
-
+﻿// <copyright file="Serialization.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
+    using AlgernonCommons;
+    using ColossalFramework;
+    using ColossalFramework.IO;
+    using ICities;
+
     /// <summary>
     /// Handles savegame data saving and loading.
     /// </summary>
@@ -39,7 +44,6 @@ namespace RealPop2
                 Logging.Message("wrote ", stream.Length);
             }
         }
-
 
         /// <summary>
         /// Deserializes data from a savegame (or initialises new data structures when none available).
@@ -90,7 +94,6 @@ namespace RealPop2
         }
     }
 
-
     /// <summary>
     ///  Savegame (de)serialisation for settings.
     /// </summary>
@@ -113,7 +116,6 @@ namespace RealPop2
             serializer.WriteUInt8((byte)ModSettings.ThisSaveDefaultInd);
             serializer.WriteUInt8((byte)ModSettings.ThisSaveDefaultOff);
         }
-
 
         /// <summary>
         /// Deseralise from savegame.
@@ -205,7 +207,6 @@ namespace RealPop2
                 Logging.Message("error deserializing data");
             }
         }
-
 
         /// <summary>
         /// Performs post-serialization data management.  Nothing to do here (yet).

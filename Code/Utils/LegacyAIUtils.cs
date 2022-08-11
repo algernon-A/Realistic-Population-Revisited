@@ -1,21 +1,24 @@
-﻿using System;
-using UnityEngine;
-
+﻿// <copyright file="OfficeBuildingAIPatches.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard) and Whitefang Greytail. All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System;
+    using UnityEngine;
+
     internal class LegacyAIUtils
     {
         /// <summary>
-        /// 
+        /// Calculate workers for this prefab.
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="length"></param>
-        /// <param name="item"></param>
-        /// <param name="minWorkers"></param>
-        /// <param name="array"></param>
-        /// <param name="output"></param>
-        internal static WorkplaceLevels CalculatePrefabWorkers(int width, int length, ref BuildingInfo item, int minWorkers, ref int[] array)
+        /// <param name="width">Prefab lot width.</param>
+        /// <param name="length">Prefab lot length.</param>
+        /// <param name="item">Buiding prefab.</param>
+        /// <param name="minWorkers">Minimum number of workers to allocate.</param>
+        /// <param name="array">Workplace level array.</param>
+        internal static PopData.WorkplaceLevels CalculatePrefabWorkers(int width, int length, ref BuildingInfo item, int minWorkers, ref int[] array)
         {
             // Prefabs are tied to a level
 
@@ -28,12 +31,12 @@ namespace RealPop2
             int num2 = level0 + level1 + level2 + level3;
 
             // Output.
-            WorkplaceLevels output = new WorkplaceLevels
+            PopData.WorkplaceLevels output = new PopData.WorkplaceLevels
             {
-                level0 = 1,
-                level1 = 0,
-                level2 = 0,
-                level3 = 0
+                Level0 = 1,
+                Level1 = 0,
+                Level2 = 0,
+                Level3 = 0
             };
 
             if (num > 0 && num2 > 0)
@@ -78,11 +81,11 @@ namespace RealPop2
 
                 num = Mathf.Max(minWorkers, value);
 
-                output.level1 = (ushort)((num * level1) / num2);
-                output.level2 = (ushort)((num * level2) / num2);
-                output.level3 = (ushort)((num * level3) / num2);
+                output.Level1 = (ushort)((num * level1) / num2);
+                output.Level2 = (ushort)((num * level2) / num2);
+                output.Level3 = (ushort)((num * level3) / num2);
 
-                output.level0 = (ushort)(Mathf.Max(0, num - output.level1 - output.level2 - output.level3));  // Whatever is left
+                output.Level0 = (ushort)(Mathf.Max(0, num - output.Level1 - output.Level2 - output.Level3));  // Whatever is left
             }
 
             return output;
@@ -95,14 +98,13 @@ namespace RealPop2
             //output.visitors = value;
         } // end calculateprefabWorkerVisit
 
-
         /// <summary>
-        /// 
+        /// Calculate households for this prefab.
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="length"></param>
-        /// <param name="item"></param>
-        /// <param name="returnValue"></param>
+        /// <param name="width">Prefab lot width.</param>
+        /// <param name="length">Prefab lot length.</param>
+        /// <param name="item">Buiding prefab.</param>
+        /// <param name="array">Workplace level array.</param>
         internal static ushort CalculatePrefabHousehold(int width, int length, ref BuildingInfo item, ref int[] array)
         {
             Vector2 v = item.m_size;
@@ -149,12 +151,11 @@ namespace RealPop2
             return (ushort)returnValue;
         }  // end calculatePrefabHousehold
 
-
         /// <summary>
-        /// 
+        /// Gets the land value compinent of income for this building.
         /// </summary>
-        /// <param name="seed"></param>
-        /// <returns></returns>
+        /// <param name="seed">Random seed.</param>
+        /// <returns>Land value income component.</returns>
         internal static int GetLandValueIncomeComponent(ulong seed)
         {
             int landValue = 0;
@@ -168,14 +169,13 @@ namespace RealPop2
             return landValue;
         }
 
-
         /// <summary>
-        /// 
+        /// Calculates a building's base area in squre metres.
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="length"></param>
-        /// <param name="array"></param>
-        /// <param name="v"></param>
+        /// <param name="width">Building lot width.</param>
+        /// <param name="length">Buiding lot length.</param>
+        /// <param name="array">Building data array.</param>
+        /// <param name="v">Building prefab size.</param>
         private static int CalcBase(int width, int length, ref int[] array, Vector3 v)
         {
             if (array[DataStore.CALC_METHOD] == 0)
@@ -207,7 +207,6 @@ namespace RealPop2
 
             return width * length;
         }
-
 
         /// <summary>
         /// Returns the datastore array for residential buildings.
@@ -248,13 +247,12 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Returns the datastore array for industry buildings.
         /// </summary>
-        /// <param name="item">Building prefab</param>
-        /// <param name="level">Building level</param>
-        /// <returns>Datastore array</returns>
+        /// <param name="item">Building prefab.</param>
+        /// <param name="level">Building level.</param>
+        /// <returns>Datastore array.</returns>
         public static int[] GetIndustryArray(BuildingInfo item, int level)
         {
             int tempLevel;
@@ -300,12 +298,11 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Returns the datastore array for extractor buildings.
         /// </summary>
-        /// <param name="item">Building prefab</param>
-        /// <returns>Datastore array</returns>
+        /// <param name="item">Building prefab.</param>
+        /// <returns>Datastore array.</returns>
         public static int[] GetExtractorArray(BuildingInfo item)
         {
             int[][] array = DataStore.industry;
@@ -344,14 +341,12 @@ namespace RealPop2
             }
         }
 
-
-
         /// <summary>
         /// Returns the datastore array for commercial buildings.
         /// </summary>
-        /// <param name="item">Building prefab</param>
-        /// <param name="level">Building level</param>
-        /// <returns>Datastore array</returns>
+        /// <param name="item">Building prefab.</param>
+        /// <param name="level">Building level.</param>
+        /// <returns>Datastore array.</returns>
         public static int[] GetCommercialArray(BuildingInfo item, int level)
         {
             int[][] array = DataStore.commercialLow;
@@ -389,13 +384,12 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Returns the datastore array for office buildings.
         /// </summary>
-        /// <param name="item">Building prefab</param>
-        /// <param name="level">Building level</param>
-        /// <returns>Datastore array</returns>
+        /// <param name="item">Building prefab.</param>
+        /// <param name="level">Building level.</param>
+        /// <returns>Datastore array.</returns>
         public static int[] GetOfficeArray(BuildingInfo item, int level)
         {
             int[][] array = DataStore.office;

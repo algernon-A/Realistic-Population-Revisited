@@ -1,9 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿// <copyright file="PopData.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System;
+    using System.Collections.Generic;
+    using AlgernonCommons;
+    using Realistic_Population_Revisited.Code.Patches.Population;
+
     /// <summary>
     /// Centralised store and management of population calculation data.
     /// </summary>
@@ -16,48 +22,45 @@ namespace RealPop2
         private readonly Dictionary<string, ushort> overrides;
 
         // Household, workplace, and visitplace calculation result caches (so we don't have to do the full calcs every SimulationStep for every building....).
-        internal readonly Dictionary<BuildingInfo, HouseholdCache> householdCache;
-        internal readonly Dictionary<BuildingInfo, WorkplaceCache> workplaceCache;
-        internal readonly Dictionary<BuildingInfo, VisitplaceCache> visitplaceCache;
-
+        internal readonly Dictionary<BuildingInfo, HouseholdCacheEntry> householdCache;
+        internal readonly Dictionary<BuildingInfo, WorkplaceCacheEntry> workplaceCache;
+        internal readonly Dictionary<BuildingInfo, VisitplaceCacheEntry> visitplaceCache;
 
         /// <summary>
         /// Returns the workplace breakdowns and visitor count for the given building prefab and level.
         /// </summary>
-        /// <param name="prefab">Building prefab</param>
-        /// <param name="level">Building level</param>
-        /// <returns>Workplace breakdowns and visitor count </returns>
+        /// <param name="buildingPrefab">Building prefab.</param>
+        /// <param name="level">Building level.</param>
+        /// <returns>Workplace breakdowns and visitor count.</returns>
         internal WorkplaceLevels Workplaces(BuildingInfo buildingPrefab, int level) => ((PopDataPack)ActivePack(buildingPrefab)).Workplaces(buildingPrefab, level);
-
 
         /// <summary>
         /// Returns the student count for the given building prefab.
         /// </summary>
-        /// <param name="prefab">Building prefab</param>
+        /// <param name="buildingPrefab">Building prefab.</param>
         /// <returns>Student count</returns>
         internal int Students(BuildingInfo buildingPrefab) => ((PopDataPack)ActivePack(buildingPrefab)).Students(buildingPrefab);
-
 
         /// <summary>
         /// Adds or updates cached housholds for the specified building prefab and level.
         /// </summary>
-        /// <param name="info">BuildingInfo to cache for</param>
-        /// <param name="level">Building level to cache for</param>
-        /// <returns>Calculated population</returns>
+        /// <param name="info">BuildingInfo to cache for.</param>
+        /// <param name="level">Building level to cache for.</param>
+        /// <returns>Calculated population.</returns>
         internal int HouseholdCache(BuildingInfo info, int level)
         {
             // Check if key is already in cache.
-            if (!householdCache.TryGetValue(info, out HouseholdCache cacheEntry))
+            if (!householdCache.TryGetValue(info, out HouseholdCacheEntry cacheEntry))
             {
                 // No - create new record.
-                cacheEntry = new HouseholdCache
+                cacheEntry = new HouseholdCacheEntry
                 {
                     // Calculate results for each of the five levels.
-                    level0 = Math.Max((ushort)1, Population(info, 0)),
-                    level1 = Math.Max((ushort)1, Population(info, 1)),
-                    level2 = Math.Max((ushort)1, Population(info, 2)),
-                    level3 = Math.Max((ushort)1, Population(info, 3)),
-                    level4 = Math.Max((ushort)1, Population(info, 4))
+                    Level0 = Math.Max((ushort)1, Population(info, 0)),
+                    Level1 = Math.Max((ushort)1, Population(info, 1)),
+                    Level2 = Math.Max((ushort)1, Population(info, 2)),
+                    Level3 = Math.Max((ushort)1, Population(info, 3)),
+                    Level4 = Math.Max((ushort)1, Population(info, 4))
                 };
 
                 // Add new key to cache
@@ -68,37 +71,36 @@ namespace RealPop2
             switch (level)
             {
                 case 0:
-                    return cacheEntry.level0;
+                    return cacheEntry.Level0;
                 case 1:
-                    return cacheEntry.level1;
+                    return cacheEntry.Level1;
                 case 2:
-                    return cacheEntry.level2;
+                    return cacheEntry.Level2;
                 case 3:
-                    return cacheEntry.level3;
+                    return cacheEntry.Level3;
                 default:
-                    return cacheEntry.level4;
+                    return cacheEntry.Level4;
             }
         }
-
 
         /// <summary>
         /// Returns the cached workplaces for the specified building prefab and level, adding to the cache if the record isn't already there.
         /// </summary>
-        /// <param name="info">BuildingInfo to cache for</param>
-        /// <param name="level">Building level to cache for</param>
-        /// <returns>Calculated workplaces</returns>
+        /// <param name="info">BuildingInfo to cache for.</param>
+        /// <param name="level">Building level to cache for.</param>
+        /// <returns>Calculated workplaces.</returns>
         internal WorkplaceLevels WorkplaceCache(BuildingInfo info, int level)
         {
             // Check if key is already in cache.
-            if (!workplaceCache.TryGetValue(info, out WorkplaceCache cacheEntry))
+            if (!workplaceCache.TryGetValue(info, out WorkplaceCacheEntry cacheEntry))
             {
                 // No - create new record.
-                cacheEntry = new WorkplaceCache
+                cacheEntry = new WorkplaceCacheEntry
                 {
                     // Calculate results for each of the three levels.
-                    level0 = Workplaces(info, 0),
-                    level1 = Workplaces(info, 1),
-                    level2 = Workplaces(info, 2),
+                    Level0 = Workplaces(info, 0),
+                    Level1 = Workplaces(info, 1),
+                    Level2 = Workplaces(info, 2),
                 };
 
                 // Add new key to cache
@@ -109,46 +111,45 @@ namespace RealPop2
             switch (level)
             {
                 case 0:
-                    return cacheEntry.level0;
+                    return cacheEntry.Level0;
                 case 1:
-                    return cacheEntry.level1;
+                    return cacheEntry.Level1;
                 default:
-                    return cacheEntry.level2;
+                    return cacheEntry.Level2;
             }
         }
-
 
         /// <summary>
         /// Returns the cached workplaces for the specified building prefab and level, adding to the cache if the record isn't already there.
         /// </summary>
-        /// <param name="info">BuildingInfo to cache for</param>
-        /// <param name="level">Building level to cache for</param>
-        /// <returns>Calculated workplaces</returns>
+        /// <param name="info">BuildingInfo to cache for.</param>
+        /// <param name="level">Building level to cache for.</param>
+        /// <returns>Calculated workplaces.</returns>
         internal ushort VisitplaceCache(BuildingInfo info, int level)
         {
             // Check if key is already in cache.
-            if (!visitplaceCache.TryGetValue(info, out VisitplaceCache cacheEntry))
+            if (!visitplaceCache.TryGetValue(info, out VisitplaceCacheEntry cacheEntry))
             {
                 // No - create new record.
-                cacheEntry = new VisitplaceCache();
+                cacheEntry = new VisitplaceCacheEntry();
 
                 // Check for vanilla calcs.
                 WorkplaceLevels workplaces = WorkplaceCache(info, 0);
-                if (workplaces.level0 == ushort.MaxValue)
+                if (workplaces.Level0 == ushort.MaxValue)
                 {
                     // Vanilla calcs - set all entries to ushort.MaxValue; the Prefix patch will detect this and fall through to game code.
-                    cacheEntry.level0 = ushort.MaxValue;
-                    cacheEntry.level1 = ushort.MaxValue;
-                    cacheEntry.level2 = ushort.MaxValue;
+                    cacheEntry.Level0 = ushort.MaxValue;
+                    cacheEntry.Level1 = ushort.MaxValue;
+                    cacheEntry.Level2 = ushort.MaxValue;
                 }
                 else
                 {
                     // Not vanulla - calculate results for each of the three levels.
-                    cacheEntry.level0 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
+                    cacheEntry.Level0 = (ushort)Visitors.CalculateVisitCount(info, workplaces.Level0 + workplaces.Level1 + workplaces.Level2 + workplaces.Level3);
                     workplaces = WorkplaceCache(info, 1);
-                    cacheEntry.level1 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
+                    cacheEntry.Level1 = (ushort)Visitors.CalculateVisitCount(info, workplaces.Level0 + workplaces.Level1 + workplaces.Level2 + workplaces.Level3);
                     workplaces = WorkplaceCache(info, 2);
-                    cacheEntry.level2 = (ushort)RealisticVisitplaceCount.CalculateVisitCount(info, workplaces.level0 + workplaces.level1 + workplaces.level2 + workplaces.level3);
+                    cacheEntry.Level2 = (ushort)Visitors.CalculateVisitCount(info, workplaces.Level0 + workplaces.Level1 + workplaces.Level2 + workplaces.Level3);
                 }
 
                 // Add new key to cache
@@ -159,21 +160,20 @@ namespace RealPop2
             switch (level)
             {
                 case 0:
-                    return cacheEntry.level0;
+                    return cacheEntry.Level0;
                 case 1:
-                    return cacheEntry.level1;
+                    return cacheEntry.Level1;
                 default:
-                    return cacheEntry.level2;
+                    return cacheEntry.Level2;
             }
         }
-
 
         /// <summary>
         /// Returns the population of the given building prefab and level.
         /// </summary>
-        /// <param name="buildingPrefab">Building prefab record</param>
-        /// <param name="level">Building level</param>
-        /// <param name="multiplier">Optional population multiplier (default 1.0)</param>
+        /// <param name="buildingPrefab">Building prefab record.</param>
+        /// <param name="level">Building level.</param>
+        /// <param name="multiplier">Optional population multiplier (default 1.0).</param>
         /// <returns>Population</returns>
         internal ushort Population(BuildingInfo buildingPrefab, int level, float multiplier = 1.0f)
         {
@@ -189,17 +189,16 @@ namespace RealPop2
             return ((PopDataPack)ActivePack(buildingPrefab)).Population(buildingPrefab, level, multiplier);
         }
 
-
         /// <summary>
         /// Calculates the population for the given building using the given LevelData and FloorDataPack.
         /// </summary>
-        /// <param name="buildingInfoGen">Building info record</param>
-        /// <param name="levelData">LevelData record to use for calculations</param>
-        /// <param name="floorData">FloorDataPack record to use for calculations</param>
-        /// <param name="multiplier">Population multiplier</param>
-        /// <param name="floorList">Optional precalculated list of calculated floors (to save time; will be generated if not provided)</param>
-        /// <param name="totalArea">Optional precalculated total building area  (to save time; will be generated if not provided)</param>
-        /// <param name="perFloor">Ccalculated per-floor population values will be added to this list if provided (null to ignore)</param>
+        /// <param name="buildingInfoGen">Building info record.</param>
+        /// <param name="levelData">LevelData record to use for calculations.</param>
+        /// <param name="floorData">FloorDataPack record to use for calculations.</param>
+        /// <param name="multiplier">Population multiplier.</param>
+        /// <param name="floorList">Optional precalculated list of calculated floors (to save time; will be generated if not provided).</param>
+        /// <param name="totalArea">Optional precalculated total building area  (to save time; will be generated if not provided).</param>
+        /// <param name="perFloor">Ccalculated per-floor population values will be added to this list if provided (null to ignore).</param>
         /// <returns>Calculated population</returns>
         internal ushort VolumetricPopulation(BuildingInfoGen buildingInfoGen, LevelData levelData, FloorDataPack floorData, float multiplier, SortedList<int, float> floorList = null, float totalArea = 0, List<KeyValuePair<ushort, ushort>> perFloor = null)
         {
@@ -278,14 +277,13 @@ namespace RealPop2
             return totalUnits;
         }
 
-
         /// <summary>
         /// Returns a list of floors and populations for the given building.
         /// </summary>
-        /// <param name="buildingInfoGen">Building info record</param>
-        /// <param name="floorData">Floor calculation pack to use for calculations</param>
-        /// <param name="total">Total area of all floors</param>
-        /// <returns>Sorted list of floors (key = floor number, value = floor area)</returns>
+        /// <param name="buildingInfoGen">Building info record.</param>
+        /// <param name="floorData">Floor calculation pack to use for calculations.</param>
+        /// <param name="totalArea">Total area of all floors.</param>
+        /// <returns>Sorted list of floors (key = floor number, value = floor area).</returns>
         internal SortedList<int, float> VolumetricFloors(BuildingInfoGen buildingInfoGen, FloorDataPack floorData, out float totalArea)
         {
             // Initialise required fields.
@@ -345,16 +343,15 @@ namespace RealPop2
             return floors;
         }
 
-
         /// <summary>
         /// Constructor - initializes inbuilt default calculation packs and performs other setup tasks.
         /// </summary>
         public PopData()
         {
             // Create caches.
-            householdCache = new Dictionary<BuildingInfo, HouseholdCache>();
-            workplaceCache = new Dictionary<BuildingInfo, WorkplaceCache>();
-            visitplaceCache = new Dictionary<BuildingInfo, VisitplaceCache>();
+            householdCache = new Dictionary<BuildingInfo, HouseholdCacheEntry>();
+            workplaceCache = new Dictionary<BuildingInfo, WorkplaceCacheEntry>();
+            visitplaceCache = new Dictionary<BuildingInfo, VisitplaceCacheEntry>();
 
             // Legacy residential.
             calcPacks.Add(new LegacyResPack
@@ -826,13 +823,12 @@ namespace RealPop2
             ConvertOverrides(DataStore.workerCache);
         }
 
-
         /// <summary>
         /// Returns the inbuilt default calculation pack for the given service/subservice combination.
         /// </summary>
-        /// <param name="service">Service</param>
-        /// <param name="subService">Sub-service</param>
-        /// <returns>Default calculation data pack</returns>
+        /// <param name="service">Service.</param>
+        /// <param name="subService">Sub-service.</param>
+        /// <returns>Default calculation data pack.</returns>
         internal override DataPack BaseDefaultPack(ItemClass.Service service, ItemClass.SubService subService)
         {
             string defaultName;
@@ -939,14 +935,12 @@ namespace RealPop2
             return calcPacks.Find(pack => pack.name.Equals(defaultName));
         }
 
-
         /// <summary>
         /// Returns a list of calculation packs available for the given prefab.
         /// </summary>
-        /// <param name="prefab">BuildingInfo prefab</param>
-        /// <returns>Array of available calculation packs</returns>
+        /// <param name="prefab">BuildingInfo prefab.</param>
+        /// <returns>Array of available calculation packs.</returns>
         internal PopDataPack[] GetPacks(BuildingInfo prefab) => GetPacks(prefab.GetService());
-
 
         /// <summary>
         /// Returns a list of calculation packs available for the given service/subservice combination.
@@ -972,14 +966,12 @@ namespace RealPop2
             return list.ToArray();
         }
 
-
         /// <summary>
         /// Sets a manual population override for the given building prefab, but does NOT update live prefab data or save the configuration file.
         /// Used to populate dictionary when the prefab isn't available (e.g. before loading is complete).
         /// </summary>
-        /// <param name="prefabName">Building prefab/param>
-        /// <param name="popOverride">Manual population override</param>
-        /// <param name="saveConfig">True (default) to save configuration file afterwards, false to not save</param>
+        /// <param name="prefabName">Building prefab.</param>
+        /// <param name="popOverride">Manual population override.</param>
         internal void SetOverride(string prefabName, ushort popOverride)
         {
             // Override needs to be at least 1.
@@ -1003,13 +995,12 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Sets a manual population override for the given building prefab, and saves the updated configuration; and also UPDATES live prefab data.
         /// Used to add an entry in-game after prefabs have loaded.
         /// </summary>
-        /// <param name="prefab">Building prefab/param>
-        /// <param name="popOverride">Manual population override</param>
+        /// <param name="prefab">Building prefab.</param>
+        /// <param name="popOverride">Manual population override.</param>
         internal void SetOverride(BuildingInfo prefab, ushort popOverride)
         {
             // Override needs to be at least 1.
@@ -1036,11 +1027,10 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Removes any manual population override for the given building prefab, and saves the updated configuration if an override was actually removed (i.e. one actually existed).
         /// </summary>
-        /// <param name="prefab">Building prefab/param>
+        /// <param name="prefab">Building prefab.</param>
         internal void DeleteOverride(BuildingInfo prefab)
         {
             // Remove prefab record from dictionary.
@@ -1060,12 +1050,11 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Gets the manual population override in effect for the given building prefab, if any.
         /// </summary>
-        /// <param name="prefabName">Building prefab name</param>
-        /// <returns>Manual population override if one exists; otherwise 0</returns>
+        /// <param name="prefabName">Building prefab name.</param>
+        /// <returns>Manual population override if one exists; otherwise 0.</returns>
         internal ushort GetOverride(string prefabName)
         {
             // Check for entry.
@@ -1079,20 +1068,19 @@ namespace RealPop2
             return 0;
         }
 
-
         /// <summary>
         /// Serializes manual population overrides to XCML.
         /// </summary>
-        /// <returns>Serialized list of population overrides suitable for writing to XML</returns>
-        internal List<PopCountOverride> SerializeOverrides()
+        /// <returns>Serialized list of population overrides suitable for writing to XML.</returns>
+        internal List<Configuration.PopCountOverride> SerializeOverrides()
         {
             // Return list.
-            List<PopCountOverride> returnList = new List<PopCountOverride>();
+            List<Configuration.PopCountOverride> returnList = new List<Configuration.PopCountOverride>();
 
             // Iterate through each entry in population override dictionary, converting into PopCountOverride XML record and adding to list.
             foreach (KeyValuePair<string, ushort> popOverride in overrides)
             {
-                returnList.Add(new PopCountOverride
+                returnList.Add(new Configuration.PopCountOverride
                 {
                     prefab = popOverride.Key,
                     population = popOverride.Value
@@ -1102,14 +1090,13 @@ namespace RealPop2
             return returnList;
         }
 
-
         /// <summary>
         /// Deserializes manual population overrides from XML.  Note: does not apply settings, merely populates dictionary.
         /// </summary>
-        /// <param name="popCountOverrides">List of population count overrides to deserialize</param>
-        internal void DeserializeOverrides(List<PopCountOverride> popCountOverrides)
+        /// <param name="popCountOverrides">List of population count overrides to deserialize.</param>
+        internal void DeserializeOverrides(List<Configuration.PopCountOverride> popCountOverrides)
         {
-            foreach (PopCountOverride popOverride in popCountOverrides)
+            foreach (Configuration.PopCountOverride popOverride in popCountOverrides)
             {
                 try
                 {
@@ -1117,51 +1104,147 @@ namespace RealPop2
                 }
                 catch (Exception e)
                 {
-                    Logging.LogException(e, " exception deserializing pop override for prefab ", popOverride?.prefab ?? "null");
+                    Logging.LogException(e, " exception deserializing pop override for prefab ", popOverride.prefab ?? "null");
                 }
             }
         }
 
-
         /// <summary>
         /// Serializes building pack settings to XML.  Intended to be passed directly to FloorData.SerializeBuildings.
         /// </summary>
-        /// <returns>New sorted list with building pack settings</returns>
-        internal SortedList<string, BuildingRecord> SerializeBuildings()
+        /// <returns>New sorted list with building pack settings.</returns>
+        internal SortedList<string, Configuration.BuildingRecord> SerializeBuildings()
         {
             // Return list.
-            SortedList<string, BuildingRecord> returnList = new SortedList<string, BuildingRecord>();
+            SortedList<string, Configuration.BuildingRecord> returnList = new SortedList<string, Configuration.BuildingRecord>();
 
             // Iterate through each key (BuildingInfo) in our dictionary.
             foreach (string prefabName in buildingDict.Keys)
             {
                 // Serialise it into a BuildingRecord and add it to the list.
-                BuildingRecord newRecord = new BuildingRecord { prefab = prefabName, popPack = buildingDict[prefabName].name };
+                Configuration.BuildingRecord newRecord = new Configuration.BuildingRecord { Prefab = prefabName, PopPack = buildingDict[prefabName].name };
                 returnList.Add(prefabName, newRecord);
             }
 
             return returnList;
         }
 
-
         /// <summary>
         /// Extracts the relevant pack name (floor or pop) from a building line record.
         /// </summary>
-        /// <param name="buildingRecord">Building record to extract from</param>
+        /// <param name="buildingRecord">Building record to extract from.</param>
         /// <returns>Floor pack name (if any)</returns>
-        protected override string BuildingPack(BuildingRecord buildingRecord) => buildingRecord.popPack;
-
+        protected override string BuildingPack(Configuration.BuildingRecord buildingRecord) => buildingRecord.PopPack;
 
         /// <summary>
         /// Converts population overrides from old WG dictionaries (loaded from legacy WG files) to new-format PopData overrides.
         /// </summary>
-        /// <param name="dictionary">Legacy override dictionary to convert</param>
+        /// <param name="dictionary">Legacy override dictionary to convert.</param>
         private void ConvertOverrides(Dictionary<string, int> dictionary)
         {
             foreach (KeyValuePair<string, int> entry in dictionary)
             {
                 SetOverride(entry.Key, (ushort)entry.Value);
             }
+        }
+
+        /// <summary>
+        /// Household cache data structure.
+        /// </summary>
+        internal struct HouseholdCacheEntry
+        {
+            /// <summary>
+            /// Household count for building level 1.
+            /// </summary>
+            public ushort Level0;
+
+            /// <summary>
+            /// Household count for building level 2.
+            /// </summary>
+            public ushort Level1;
+
+            /// <summary>
+            /// Household count for building level 3.
+            /// </summary>
+            public ushort Level2;
+
+            /// <summary>
+            /// Household count for building level 4.
+            /// </summary>
+            public ushort Level3;
+
+            /// <summary>
+            /// Household count for building level 5.
+            /// </summary>
+            public ushort Level4;
+        }
+
+        /// <summary>
+        /// Workplace cache data structure.
+        /// </summary>
+        internal struct WorkplaceCacheEntry
+        {
+            /// <summary>
+            /// Workpace count for building level 1.
+            /// </summary>
+            public WorkplaceLevels Level0;
+
+            /// <summary>
+            /// Workpace count for building level 2.
+            /// </summary>
+            public WorkplaceLevels Level1;
+
+            /// <summary>
+            /// Workpace count for building level 3.
+            /// </summary>
+            public WorkplaceLevels Level2;
+        }
+
+        /// <summary>
+        /// Workplace education levels data structure.
+        /// </summary>
+        internal struct WorkplaceLevels
+        {
+            /// <summary>
+            /// Uneducated workplaces count.
+            /// </summary>
+            public ushort Level0;
+
+            /// <summary>
+            /// Educated workplaces count.
+            /// </summary>
+            public ushort Level1;
+
+            /// <summary>
+            /// Well=-ducated workplaces count.
+            /// </summary>
+            public ushort Level2;
+
+            /// <summary>
+            /// Highly-educated workplaces count.
+            /// </summary>
+            public ushort Level3;
+        }
+
+        /// <summary>
+        /// Visitplace cache data structure.
+        /// </summary>
+        internal struct VisitplaceCacheEntry
+        {
+            /// <summary>
+            /// Visitor count for building level 1.
+            /// </summary>
+            public ushort Level0;
+
+            /// <summary>
+            /// Visitor count for building level 2.
+            /// </summary>
+            public ushort Level1;
+
+            /// <summary>
+            /// Visitor count for building level 3.
+            /// </summary>
+            public ushort Level2;
         }
     }
 }

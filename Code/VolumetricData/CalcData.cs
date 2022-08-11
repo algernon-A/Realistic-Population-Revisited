@@ -1,9 +1,15 @@
-﻿using System.Collections.Generic;
-using ColossalFramework;
+﻿// <copyright file="CalcData.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 
 namespace RealPop2
 {
+    using System.Collections.Generic;
+    using AlgernonCommons;
+
+    using ColossalFramework;
     /// <summary>
     /// Static data management utility class.
     /// </summary>
@@ -46,7 +52,6 @@ namespace RealPop2
         }
     }
 
-
     /// <summary>
     /// Centralised store and management of floor calculation data.
     /// </summary>
@@ -64,7 +69,7 @@ namespace RealPop2
 
         // Methods that should generally be overriden.
         internal virtual DataPack BaseDefaultPack(ItemClass.Service service, ItemClass.SubService subService) => null;
-        protected abstract string BuildingPack(BuildingRecord buildingRecord);
+        protected abstract string BuildingPack(Configuration.BuildingRecord buildingRecord);
 
 
         /// <summary>
@@ -79,7 +84,6 @@ namespace RealPop2
             defaultsDict = new Dictionary<ItemClass.Service, Dictionary<ItemClass.SubService, DataPack>>();
             buildingDict = new Dictionary<string, DataPack>();
         }
-
 
         /// <summary>
         /// Updates our building setting dictionary for the selected building prefab to the indicated calculation pack.
@@ -125,19 +129,17 @@ namespace RealPop2
             RefreshPrefab(prefab);
         }
 
-
         /// <summary>
         /// Returns the currently active calculation data pack record for the given prefab.
         /// </summary>
-        /// <param name="building">Selected prefab</param>
-        /// <returns>Currently active size pack</returns>
+        /// <param name="building">Selected prefab.</param>
+        /// <returns>Currently active size pack.</returns>
         internal virtual DataPack ActivePack(BuildingInfo building) => HasPackOverride(building.name) ?? CurrentDefaultPack(building);
-
 
         /// <summary>
         /// Returns the currently active calculation data pack record for the given prefab if an override is in place, or null if none (using the default).
         /// </summary>
-        /// <param name="buildingName">Name of selected prefab</param>
+        /// <param name="buildingName">Name of selected prefab.</param>
         /// <returns>Currently active calculation pack override for the building if one exists, otherwise null.</returns>
         internal DataPack HasPackOverride(string buildingName)
         {
@@ -154,27 +156,24 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Clears all default pack overrides (effectively restoring default settings).
         /// </summary>
         internal void ClearDefaultPacks() => defaultsDict.Clear();
 
-
         /// <summary>
         /// Returns the currently set default calculation pack for the given prefab's service/subservice.
         /// </summary>
-        /// <param name="building">Building prefab</param>
-        /// <returns>Default calculation data pack</returns>
+        /// <param name="building">Building prefab.</param>
+        /// <returns>Default calculation data pack.</returns>
         internal virtual DataPack CurrentDefaultPack(BuildingInfo building) => CurrentDefaultPack(building.GetService(), building.GetSubService());
-
 
         /// <summary>
         /// Returns the currently set default calculation pack for the given service/subservice combination.
         /// </summary>
-        /// <param name="service">Service</param>
-        /// <param name="subService">Sub-service</param>
-        /// <returns>Default calculation data pack</returns>
+        /// <param name="service">Service.</param>
+        /// <param name="subService">Sub-service.</param>
+        /// <returns>Default calculation data pack.</returns>
         internal DataPack CurrentDefaultPack(ItemClass.Service service, ItemClass.SubService subService)
         {
             // See if we've got an entry for this service.
@@ -192,13 +191,12 @@ namespace RealPop2
             return BaseDefaultPack(service, subService);
         }
 
-
         /// <summary>
         /// Adds/replaces default dictionary entry for the given service/subservice combination.
         /// </summary>
-        /// <param name="service">Service</param>
-        /// <param name="subService">Sub-service</param>
-        /// <param name="calcPack">New default calculation pack to apply</param>
+        /// <param name="service">Service.</param>
+        /// <param name="subService">Sub-service.</param>
+        /// <param name="calcPack">New default calculation pack to apply.</param>
         internal void ChangeDefault(ItemClass.Service service, ItemClass.SubService subService, DataPack calcPack)
         {
             // Get base default pack.
@@ -248,48 +246,46 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Deserializes the provided XML default list.
         /// </summary>
-        /// <param name="list">XML DefaultPack list to deserialize</param>
-        internal void DeserializeDefaults(List<DefaultPack> list)
+        /// <param name="list">XML DefaultPack list to deserialize.</param>
+        internal void DeserializeDefaults(List<Configuration.DefaultPack> list)
         {
             // Deserialise default pop pack list into dictionary.
             for (int i = 0; i < list.Count; ++i)
             {
-                DefaultPack defaultPack = list[i];
+                Configuration.DefaultPack defaultPack = list[i];
 
                 // Find target preset.
-                DataPack calcPack = calcPacks?.Find(pack => (pack?.name != null && pack.name.Equals(defaultPack.pack)));
+                DataPack calcPack = calcPacks?.Find(pack => (pack?.name != null && pack.name.Equals(defaultPack.Pack)));
                 if (calcPack?.name == null)
                 {
-                    Logging.Error("Couldn't find pop calculation pack ", defaultPack.pack, " for sub-service ", defaultPack.subService);
+                    Logging.Error("Couldn't find pop calculation pack ", defaultPack.Pack, " for sub-service ", defaultPack.SubService);
                     continue;
                 }
 
                 // Add service to our dictionary.
-                ChangeDefault(defaultPack.service, defaultPack.subService, calcPack);
+                ChangeDefault(defaultPack.Service, defaultPack.SubService, calcPack);
             }
         }
-
 
         /// <summary>
         /// Deserializes a provided building record list.
         /// </summary>
-        /// <param name="recordList">List to deserialize</param>
-        internal void DeserializeBuildings(List<BuildingRecord> recordList)
+        /// <param name="recordList">List to deserialize.</param>
+        internal void DeserializeBuildings(List<Configuration.BuildingRecord> recordList)
         {
             // Iterate through each record in list.
             for (int i = 0; i < recordList.Count; ++i)
             {
-                BuildingRecord buildingRecord = recordList[i];
+                Configuration.BuildingRecord buildingRecord = recordList[i];
 
                 // Get relevant pack (pop or floor) name.
                 string packName = BuildingPack(buildingRecord);
 
                 // Safety first!
-                if (buildingRecord.prefab.IsNullOrWhiteSpace() || packName.IsNullOrWhiteSpace())
+                if (buildingRecord.Prefab.IsNullOrWhiteSpace() || packName.IsNullOrWhiteSpace())
                 {
                     continue;
                 }
@@ -298,24 +294,23 @@ namespace RealPop2
                 DataPack calcPack = calcPacks?.Find(pack => (pack?.name != null && pack.name.Equals(packName)));
                 if (calcPack?.name == null)
                 {
-                    Logging.Error("Couldn't find calculation pack ", packName," for ", buildingRecord.prefab);
+                    Logging.Error("Couldn't find calculation pack ", packName," for ", buildingRecord.Prefab);
                     continue;
                 }
 
                 // Add building to our dictionary.
-                buildingDict.Add(buildingRecord.prefab, calcPack);
+                buildingDict.Add(buildingRecord.Prefab, calcPack);
             }
         }
-
 
         /// <summary>
         /// Serializes the current list of defaults to XML.
         /// </summary>
-        /// <returns>New list of serialized defaults</returns>
-        internal List<DefaultPack> SerializeDefaults()
+        /// <returns>New list of serialized defaults.</returns>
+        internal List<Configuration.DefaultPack> SerializeDefaults()
         {
             // Return list.
-            List<DefaultPack> defaultList = new List<DefaultPack>();
+            List<Configuration.DefaultPack> defaultList = new List<Configuration.DefaultPack>();
 
 
             // Iterate through each key (ItemClass.Service) in our dictionary.
@@ -324,11 +319,11 @@ namespace RealPop2
                 // Iterate through each key (ItemClass.SubService) in our sub-dictionary and serialise it into a DefaultPack.
                 foreach (ItemClass.SubService subService in defaultsDict[service].Keys)
                 {
-                    DefaultPack defaultPack = new DefaultPack
+                    Configuration.DefaultPack defaultPack = new Configuration.DefaultPack
                     {
-                        service = service,
-                        subService = subService,
-                        pack = defaultsDict[service][subService].name
+                        Service = service,
+                        SubService = subService,
+                        Pack = defaultsDict[service][subService].name
                     };
 
                     // Add new building record to return list.e.
@@ -339,11 +334,10 @@ namespace RealPop2
             return defaultList;
         }
 
-
         /// <summary>
         /// Adds or updates a calculation pack entry to our list.
         /// </summary>
-        /// <param name="calcPack">Calculation pack to add</param>
+        /// <param name="calcPack">Calculation pack to add.</param>
         internal void AddCalculationPack(DataPack calcPack)
         {
             // Iterate through the list of packs, looking for a name match.
@@ -361,11 +355,10 @@ namespace RealPop2
             calcPacks.Add(calcPack);
         }
 
-
         /// <summary>
         /// Triggers recalculation of buildings in-game when the pack changes.
         /// </summary>
-        /// <param name="calcPack">Pack that's been changed</param>
+        /// <param name="calcPack">Pack that's been changed.</param>
         internal void CalcPackChanged(DataPack calcPack)
         {
             // Iterate through each loaded BuildingInfo.
@@ -382,11 +375,10 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Refreshes a prefab's population settings to reflect changes.
         /// </summary>
-        /// <param name="prefab">Prefab to refresh</param>
+        /// <param name="prefab">Prefab to refresh.</param>
         protected void RefreshPrefab(BuildingInfo prefab)
         {
             // Clear out any cached calculations for households.workplaces (depending on whether or not this is residential).
@@ -404,9 +396,9 @@ namespace RealPop2
                 PopData.instance.visitplaceCache.Remove(prefab);
 
                 // Force RICO refresh, if we're using Ploppable RICO Revisited.
-                if (AssemblyUtils.ricoClearWorkplace != null)
+                if (ModUtils.ricoClearWorkplace != null)
                 {
-                    AssemblyUtils.ricoClearWorkplace.Invoke(null, new object[] { prefab });
+                    ModUtils.ricoClearWorkplace.Invoke(null, new object[] { prefab });
                 }
             }
 

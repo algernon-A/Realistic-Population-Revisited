@@ -1,89 +1,127 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using ColossalFramework;
-
+﻿// <copyright file="UIPreviewRenderer.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+    using ColossalFramework;
+
     /// <summary>
     /// Render a 3d image of a given mesh.
     /// </summary>
-    public class UIPreviewRenderer : MonoBehaviour
+    internal class UIPreviewRenderer : MonoBehaviour
     {
         // Rendering settings.
-        private readonly Camera renderCamera;
-        private Mesh currentMesh;
-        private Bounds currentBounds;
-        private float currentRotation;
-        private float currentZoom;
+        private readonly Camera _renderCamera;
+        private Mesh _mesh;
+        private Bounds _bounds;
+        private float _rotation;
+        private float _zoom;
         private Material _material;
 
         // Rendering sub-components.
-        private List<BuildingInfo.MeshInfo> subMeshes;
-        private List<BuildingInfo.SubInfo> subBuildings;
+        private List<BuildingInfo.MeshInfo> _subMeshes;
+        private List<BuildingInfo.SubInfo> _subBuildings;
 
         // Floor preview rendering.
-        private readonly Texture2D floorTexture;
-
-
-        /// <summary>
-        /// Sets material to render.
-        /// </summary>
-        public Material Material { set => _material = value; }
-
-
+        private readonly Texture2D _floorTexture;
         /// <summary>
         /// Initialise the new renderer object.
         /// </summary>
-        public UIPreviewRenderer()
+        internal UIPreviewRenderer()
         {
             // Set up camera.
-            renderCamera = new GameObject("Camera").AddComponent<Camera>();
-            renderCamera.transform.SetParent(transform);
-            renderCamera.targetTexture = new RenderTexture(512, 512, 24, RenderTextureFormat.ARGB32);
-            renderCamera.allowHDR = true;
-            renderCamera.enabled = false;
+            _renderCamera = new GameObject("Camera").AddComponent<Camera>();
+            _renderCamera.transform.SetParent(transform);
+            _renderCamera.targetTexture = new RenderTexture(512, 512, 24, RenderTextureFormat.ARGB32);
+            _renderCamera.allowHDR = true;
+            _renderCamera.enabled = false;
 
             // Basic defaults.
-            renderCamera.pixelRect = new Rect(0f, 0f, 512, 512);
-            renderCamera.backgroundColor = new Color(0, 0, 0, 0);
-            renderCamera.fieldOfView = 30f;
-            renderCamera.nearClipPlane = 1f;
-            renderCamera.farClipPlane = 1000f;
+            _renderCamera.pixelRect = new Rect(0f, 0f, 512, 512);
+            _renderCamera.backgroundColor = new Color(0, 0, 0, 0);
+            _renderCamera.fieldOfView = 30f;
+            _renderCamera.nearClipPlane = 1f;
+            _renderCamera.farClipPlane = 1000f;
 
             // Create foor preview texture.
 
             // Create a new 2x2 texture ARGB32 (32 bit with alpha) and no mipmaps
-            floorTexture = new Texture2D(2, 2, TextureFormat.ARGB32, false);
+            _floorTexture = new Texture2D(2, 2, TextureFormat.ARGB32, false);
 
             // Set individual pixel colours.
             Color32 newColor = new Color32(255, 0, 255, 127);
-            floorTexture.SetPixel(0, 0, newColor);
-            floorTexture.SetPixel(1, 0, newColor);
-            floorTexture.SetPixel(0, 1, newColor);
-            floorTexture.SetPixel(1, 1, newColor);
+            _floorTexture.SetPixel(0, 0, newColor);
+            _floorTexture.SetPixel(1, 0, newColor);
+            _floorTexture.SetPixel(0, 1, newColor);
+            _floorTexture.SetPixel(1, 1, newColor);
 
             // Apply all SetPixel calls
-            floorTexture.Apply();
+            _floorTexture.Apply();
         }
 
+        /// <summary>
+        /// Sets material to render.
+        /// </summary>
+        internal Material Material { set => _material = value; }
 
         /// <summary>
-        /// Image size.
+        /// Gets or sets the preview image size.
         /// </summary>
-        public Vector2 Size
+        internal Vector2 Size
         {
-            get => new Vector2(renderCamera.targetTexture.width, renderCamera.targetTexture.height);
+            get => new Vector2(_renderCamera.targetTexture.width, _renderCamera.targetTexture.height);
 
             set
             {
                 if (Size != value)
                 {
                     // New size; set camera output sizes accordingly.
-                    renderCamera.targetTexture = new RenderTexture((int)value.x, (int)value.y, 24, RenderTextureFormat.ARGB32);
-                    renderCamera.pixelRect = new Rect(0f, 0f, value.x, value.y);
+                    _renderCamera.targetTexture = new RenderTexture((int)value.x, (int)value.y, 24, RenderTextureFormat.ARGB32);
+                    _renderCamera.pixelRect = new Rect(0f, 0f, value.x, value.y);
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the mesh to be rendered.
+        /// </summary>
+        internal Mesh Mesh
+        {
+            get => _mesh;
+
+            set => _mesh = value;
+        }
+
+        /// <summary>
+        /// Gets the target texture.
+        /// </summary>
+        internal RenderTexture Texture
+        {
+            get => _renderCamera.targetTexture;
+        }
+
+        /// <summary>
+        /// Gets or sets the preview camera rotation (degrees).
+        /// </summary>
+        internal float CameraRotation
+        {
+            get => _rotation;
+
+            set => _rotation = value % 360f;
+        }
+
+        /// <summary>
+        /// Gets or sets the preview zoom level.
+        /// </summary>
+        internal float Zoom
+        {
+            get => _zoom;
+
+            set => _zoom = Mathf.Clamp(value, 0.5f, 5f);
         }
 
         /// <summary>
@@ -91,20 +129,20 @@ namespace RealPop2
         /// </summary>
         /// <param name="prefab">Prefab to render</param>
         /// <returns>True if the target was valid (prefab or at least one subbuilding contains a valid material, and the prefab has at least one primary mesh, submesh, or subbuilding)</returns>
-        public bool SetTarget(BuildingInfo prefab)
+        internal bool SetTarget(BuildingInfo prefab)
         {
             // Assign main mesh and material.
             Mesh = prefab.m_mesh;
             _material = prefab.m_material;
 
             // Set up or clear submesh list.
-            if (subMeshes == null)
+            if (_subMeshes == null)
             {
-                subMeshes = new List<BuildingInfo.MeshInfo>();
+                _subMeshes = new List<BuildingInfo.MeshInfo>();
             }
             else
             {
-                subMeshes.Clear();
+                _subMeshes.Clear();
             }
 
             // Add any submeshes to our submesh list.
@@ -112,25 +150,25 @@ namespace RealPop2
             {
                 for (int i = 0; i < prefab.m_subMeshes.Length; i++)
                 {
-                    subMeshes.Add(prefab.m_subMeshes[i]);
+                    _subMeshes.Add(prefab.m_subMeshes[i]);
                 }
             }
 
             // Set up or clear sub-building list.
-            if (subBuildings == null)
+            if (_subBuildings == null)
             {
-                subBuildings = new List<BuildingInfo.SubInfo>();
+                _subBuildings = new List<BuildingInfo.SubInfo>();
             }
             else
             {
-                subBuildings.Clear();
+                _subBuildings.Clear();
             }
 
             if (prefab.m_subBuildings != null && prefab.m_subBuildings.Length > 0)
             {
                 for (int i = 0; i < prefab.m_subBuildings.Length; i++)
                 {
-                    subBuildings.Add(prefab.m_subBuildings[i]);
+                    _subBuildings.Add(prefab.m_subBuildings[i]);
 
                     // If we don't already have a valid material, grab this one.
                     if (_material == null)
@@ -140,73 +178,29 @@ namespace RealPop2
                 }
             }
 
-            return _material != null && (currentMesh != null || subBuildings.Count > 0 || subMeshes.Count > 0);
+            return _material != null && (_mesh != null || _subBuildings.Count > 0 || _subMeshes.Count > 0);
         }
 
-
         /// <summary>
-        /// Currently rendered mesh.
+        /// Renders the current mesh.
         /// </summary>
-        public Mesh Mesh
-        {
-            get => currentMesh;
-
-            set => currentMesh = value;
-        }
-
-
-        /// <summary>
-        /// Current building texture.
-        /// </summary>
-        public RenderTexture Texture
-        {
-            get => renderCamera.targetTexture;
-        }
-
-
-        /// <summary>
-        /// Preview camera rotation (degrees).
-        /// </summary>
-        public float CameraRotation
-        {
-            get { return currentRotation; }
-            set { currentRotation = value % 360f; }
-        }
-
-
-        /// <summary>
-        /// Zoom level.
-        /// </summary>
-        public float Zoom
-        {
-            get { return currentZoom; }
-            set
-            {
-                currentZoom = Mathf.Clamp(value, 0.5f, 5f);
-            }
-        }
-
-
-        /// <summary>
-        /// Render the current mesh.
-        /// </summary>
-        /// <param name="renderFloors">True to render floor previews, false otherwise</param>
-        /// <param name="floorPack">Floor data to render (ignored if renderFloors is false)</param>
-        public void Render(bool renderFloors, FloorDataPack floorDataPack)
+        /// <param name="renderFloors">True to render floor previews, false otherwise.</param>
+        /// <param name="floorDataPack">Floor data to render (ignored if renderFloors is false).</param>
+        internal void Render(bool renderFloors, FloorDataPack floorDataPack)
         {
             // Check to see if we have submeshes or sub-buildings.
-            bool hasSubMeshes = subMeshes != null && subMeshes.Count > 0;
-            bool hasSubBuildings = subBuildings != null && subBuildings.Count > 0;
+            bool hasSubMeshes = _subMeshes != null && _subMeshes.Count > 0;
+            bool hasSubBuildings = _subBuildings != null && _subBuildings.Count > 0;
 
             // If no primary mesh and no other meshes, don't do anything here.
-            if (currentMesh == null && !hasSubBuildings && !hasSubMeshes)
+            if (_mesh == null && !hasSubBuildings && !hasSubMeshes)
             {
                 return;
             }
 
             // Use solid color background.
-            renderCamera.clearFlags = CameraClearFlags.SolidColor;
-            renderCamera.backgroundColor = new Color32(33, 151, 199, 255);
+            _renderCamera.clearFlags = CameraClearFlags.SolidColor;
+            _renderCamera.backgroundColor = new Color32(33, 151, 199, 255);
 
             // Back up current game InfoManager mode.
             InfoManager infoManager = Singleton<InfoManager>.instance;
@@ -235,18 +229,18 @@ namespace RealPop2
 
             // Reset the bounding box to be the smallest that can encapsulate all verticies of the new mesh.
             // That way the preview image is the largest size that fits cleanly inside the preview size.
-            currentBounds = new Bounds(Vector3.zero, Vector3.zero);
+            _bounds = new Bounds(Vector3.zero, Vector3.zero);
             Vector3[] vertices;
 
             // Set default model position.
             Vector3 modelPosition = new Vector3(0f, 0f, 0f);
 
             // Add our main mesh, if any (some are null, because they only 'appear' through subbuildings - e.g. Boston Residence Garage).
-            if (currentMesh != null && _material != null)
+            if (_mesh != null && _material != null)
             {
                 // Use separate verticies instance instead of accessing Mesh.vertices each time (which is slow).
                 // >10x measured performance improvement by doing things this way instead.
-                vertices = currentMesh.vertices;
+                vertices = _mesh.vertices;
 
                 // Initialize minimum and maximum coordinate markers for floor previewing.
                 float maxX = 0, maxZ = 0, minX = 0, minZ = 0;
@@ -256,7 +250,7 @@ namespace RealPop2
                     // Exclude vertices with large negative Y values (underground) from our bounds (e.g. SoCal Laguna houses), otherwise the result doesn't look very good.
                     if (vertices[i].y > -2)
                     {
-                        currentBounds.Encapsulate(vertices[i]);
+                        _bounds.Encapsulate(vertices[i]);
                     }
 
                     // Shift minimum and maxmimum coordinates, if and as appropriate.
@@ -279,7 +273,7 @@ namespace RealPop2
                     // Create new material using building shader.
                     Material testMaterial = new Material(_material.shader)
                     {
-                        mainTexture = floorTexture
+                        mainTexture = _floorTexture,
                     };
 
                     // Coordinates using current bounds.
@@ -292,7 +286,7 @@ namespace RealPop2
                     List<Vector3> vectorList = new List<Vector3>();
                     List<int> triList = new List<int>();
                     List<Vector2> uvList = new List<Vector2>();
-                    ;
+                    
                     // Draw ground floor.
                     AddFloor(left, right, front, back, 0f, vectorList, triList, uvList);
 
@@ -300,7 +294,7 @@ namespace RealPop2
                     float floorHeight = floorDataPack.firstFloorMin + floorDataPack.firstFloorExtra;
 
                     // Draw addtional floors, incrementing transformation matrix, until we reach the top of the building.  Increment height once at start to avoid fencepost error.
-                    while (floorHeight <= currentBounds.max.y - floorDataPack.floorHeight)
+                    while (floorHeight <= _bounds.max.y - floorDataPack.floorHeight)
                     {
                         AddFloor(left, right, front, back, floorHeight, vectorList, triList, uvList);
                         floorHeight += floorDataPack.floorHeight;
@@ -312,18 +306,17 @@ namespace RealPop2
                     floorMesh.SetVertices(vectorList);
                     floorMesh.uv = uvList.ToArray();
                     floorMesh.triangles = triList.ToArray();
-                    Graphics.DrawMesh(floorMesh, matrix, testMaterial, 0, renderCamera, 0, null, false, false);
+                    Graphics.DrawMesh(floorMesh, matrix, testMaterial, 0, _renderCamera, 0, null, false, false);
                 }
 
                 // Add building mesh to scene.
-                Graphics.DrawMesh(currentMesh, matrix, _material, 0, renderCamera, 0, null, true, true);
-
+                Graphics.DrawMesh(_mesh, matrix, _material, 0, _renderCamera, 0, null, true, true);
             }
 
             // Render submeshes, if any.
             if (hasSubMeshes)
             {
-                foreach (BuildingInfo.MeshInfo subMesh in subMeshes)
+                foreach (BuildingInfo.MeshInfo subMesh in _subMeshes)
                 {
                     // Get local reference.
                     BuildingInfoBase subInfo = subMesh?.m_subInfo;
@@ -346,7 +339,7 @@ namespace RealPop2
                         Matrix4x4 matrix = Matrix4x4.TRS(relativePosition + modelPosition, relativeRotation, Vector3.one);
 
                         // Add submesh to scene.
-                        Graphics.DrawMesh(subInfo.m_mesh, matrix, subInfo.m_material, 0, renderCamera, 0, null, true, true);
+                        Graphics.DrawMesh(subInfo.m_mesh, matrix, subInfo.m_material, 0, _renderCamera, 0, null, true, true);
 
                         // Expand our bounds to encapsulate the submesh.
                         vertices = subInfo.m_mesh.vertices;
@@ -356,7 +349,7 @@ namespace RealPop2
                             if (vertices[i].y + relativePosition.y > -2)
                             {
                                 // Transform coordinates to our model rotation before encapsulating, otherwise we tend to cut off corners.
-                                currentBounds.Encapsulate(relativeRotation * (vertices[i] + subMesh.m_position));
+                                _bounds.Encapsulate(relativeRotation * (vertices[i] + subMesh.m_position));
                             }
                         }
                     }
@@ -366,7 +359,7 @@ namespace RealPop2
             // Render subbuildings, if any.
             if (hasSubBuildings)
             {
-                foreach (BuildingInfo.SubInfo subBuilding in subBuildings)
+                foreach (BuildingInfo.SubInfo subBuilding in _subBuildings)
                 {
                     // Get local reference.
                     BuildingInfo subInfo = subBuilding?.m_buildingInfo;
@@ -384,7 +377,7 @@ namespace RealPop2
                         Matrix4x4 matrix = Matrix4x4.TRS(relativePosition + modelPosition, relativeRotation, Vector3.one);
 
                         // Add subbuilding to scene.
-                        Graphics.DrawMesh(subInfo.m_mesh, matrix, subInfo.m_material, 0, renderCamera, 0, null, true, true);
+                        Graphics.DrawMesh(subInfo.m_mesh, matrix, subInfo.m_material, 0, _renderCamera, 0, null, true, true);
 
                         // Expand our bounds to encapsulate the submesh.
                         vertices = subInfo.m_mesh.vertices;
@@ -393,7 +386,7 @@ namespace RealPop2
                             // Exclude vertices with large negative Y values (underground) from our bounds (e.g. SoCal Laguna houses), otherwise the result doesn't look very good.
                             if (vertices[i].y + relativePosition.y > -2)
                             {
-                                currentBounds.Encapsulate(vertices[i] + relativePosition);
+                                _bounds.Encapsulate(vertices[i] + relativePosition);
                             }
                         }
                     }
@@ -401,19 +394,19 @@ namespace RealPop2
             }
 
             // Set zoom to encapsulate entire model.
-            float magnitude = currentBounds.extents.magnitude;
+            float magnitude = _bounds.extents.magnitude;
             float clipExtent = (magnitude + 16f) * 1.5f;
-            float clipCenter = magnitude * currentZoom;
+            float clipCenter = magnitude * _zoom;
 
             // Clip planes.
-            renderCamera.nearClipPlane = Mathf.Max(clipCenter - clipExtent, 0.01f);
-            renderCamera.farClipPlane = clipCenter + clipExtent;
+            _renderCamera.nearClipPlane = Mathf.Max(clipCenter - clipExtent, 0.01f);
+            _renderCamera.farClipPlane = clipCenter + clipExtent;
 
             // Camera position and rotation - directly behind the model, facing the centre of the model's bounds.
-            renderCamera.transform.position = (-Vector3.forward * clipCenter) + currentBounds.center;
-            renderCamera.transform.RotateAround(currentBounds.center, Vector3.right, 20f);
-            renderCamera.transform.RotateAround(currentBounds.center, Vector3.up, -currentRotation);
-            renderCamera.transform.LookAt(currentBounds.center);
+            _renderCamera.transform.position = (-Vector3.forward * clipCenter) + _bounds.center;
+            _renderCamera.transform.RotateAround(_bounds.center, Vector3.right, 20f);
+            _renderCamera.transform.RotateAround(_bounds.center, Vector3.up, -_rotation);
+            _renderCamera.transform.LookAt(_bounds.center);
 
             // If game is currently in nighttime, enable sun and disable moon lighting.
             if (gameMainLight == DayNightProperties.instance.moonLightSource)
@@ -423,12 +416,12 @@ namespace RealPop2
             }
 
             // Light settings.
-            renderLight.transform.eulerAngles = new Vector3(55f, -currentRotation-20f, 0f);
+            renderLight.transform.eulerAngles = new Vector3(55f, --_rotation-20f, 0f);
             renderLight.intensity = 2f;
             renderLight.color = Color.white;
 
             // Render!
-            renderCamera.RenderWithShader(_material.shader, "");
+            _renderCamera.RenderWithShader(_material.shader, "");
 
             // Restore game lighting.
             RenderManager.instance.MainLight = gameMainLight;
@@ -454,14 +447,14 @@ namespace RealPop2
         /// <summary>
         /// Adds a dynamically-generated floor preview to the specified vector, triangle and UV lists.
         /// </summary>
-        /// <param name="left">Minimum X coordinate of floor preview</param>
-        /// <param name="right">Maximum X coordinate of floor preview</param>
-        /// <param name="front">Minimum Z coordinate of floor preview</param>
-        /// <param name="back">Maximum Z coordinate of floor preview</param>
-        /// <param name="top">Y coordinate of floor (top of preview)</param>
-        /// <param name="vectorList">List of vectors to add to</param>
-        /// <param name="triList">List of tris to add to</param>
-        /// <param name="uvList">List of UV coordinates to add to</param>
+        /// <param name="left">Minimum X coordinate of floor preview.</param>
+        /// <param name="right">Maximum X coordinate of floor preview.</param>
+        /// <param name="front">Minimum Z coordinate of floor preview.</param>
+        /// <param name="back">Maximum Z coordinate of floor preview.</param>
+        /// <param name="top">Y coordinate of floor (top of preview).</param>
+        /// <param name="vectorList">List of vectors to add to.</param>
+        /// <param name="triList">List of tris to add to.</param>
+        /// <param name="uvList">List of UV coordinates to add to.</param>
         private void AddFloor(float left, float right, float front, float back, float top, List<Vector3> vectorList, List<int> triList, List<Vector2> uvList)
         {
             // Bottom of rendered floor.
@@ -494,12 +487,12 @@ namespace RealPop2
         /// <summary>
         /// Adds a triangle with the specified vertices to the provided lists of vectors, tris and UV coordinates.
         /// </summary>
-        /// <param name="vert1">First vertice</param>
-        /// <param name="vert2">Second vertice</param>
-        /// <param name="vert3">Third vertice</param>
-        /// <param name="vectorList">List of vectors to add to</param>
-        /// <param name="triList">List of tris to add to</param>
-        /// <param name="uvList">List of UV coordinates to add to</param>
+        /// <param name="vert1">First vertice.</param>
+        /// <param name="vert2">Second vertice.</param>
+        /// <param name="vert3">Third vertice.</param>
+        /// <param name="vectors">List of vectors to add to.</param>
+        /// <param name="tris">List of tris to add to.</param>
+        /// <param name="uv">List of UV coordinates to add to.</param>
         private void AddTri(Vector3 vert1, Vector3 vert2, Vector3 vert3, List<Vector3> vectors, List<int> tris, List<Vector2> uv)
         {
             // Base triangle count, for triangle mapping.

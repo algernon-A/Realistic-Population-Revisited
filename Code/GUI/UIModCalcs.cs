@@ -1,10 +1,20 @@
-﻿using UnityEngine;
-using ICities;
-using ColossalFramework.UI;
-
+﻿// <copyright file="UIModCalcs.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons;
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using ColossalFramework.UI;
+    using ICities;
+    using UnityEngine;
+
+    /// <summary>
+    /// Showd mod calculations to the user.
+    /// </summary>
     public class UIModCalcs : UIPanel
     {
         // Layout constants.
@@ -56,7 +66,6 @@ namespace RealPop2
         // Pop multiplier.
         private float currentMult;
 
-
         /// <summary>
         /// Sets the a floor data manual override for previewing.
         /// </summary>
@@ -102,7 +111,6 @@ namespace RealPop2
             }
         }
         
-
         /// <summary>
         /// /// Returns the level data record from the current floor pack that's relevant to the selected building's level.
         /// /// </summary>
@@ -122,7 +130,6 @@ namespace RealPop2
                 return levels[level];
             }
         }
-
 
         /// <summary>
         /// Create the mod calcs panel; we no longer use Start() as that's not sufficiently reliable (race conditions), and is no longer needed, with the new create/destroy process.
@@ -179,12 +186,12 @@ namespace RealPop2
             floorPanel.Show();
 
             // Floor override label (for when floor dropdown menu is hidden).
-            floorOverrideLabel = UIControls.AddLabel(this, RightColumnX, MenuY, Translations.Translate("RPR_CAL_FOV"), this.width - RightColumnX, 0.7f);
+            floorOverrideLabel = UILabels.AddLabel(this, RightColumnX, MenuY, Translations.Translate("RPR_CAL_FOV"), this.width - RightColumnX, 0.7f);
             floorOverrideLabel.Hide();
 
             // Pack dropdowns.
-            popMenu = UIControls.AddDropDown(this, Margin, MenuY, ComponentWidth);
-            floorMenu = UIControls.AddDropDown(floorPanel, 0f, 0f, ComponentWidth);
+            popMenu = UIDropDowns.AddDropDown(this, Margin, MenuY, ComponentWidth);
+            floorMenu = UIDropDowns.AddDropDown(floorPanel, 0f, 0f, ComponentWidth);
 
             // School dropdown panel.
             schoolPanel = this.AddUIComponent<UIPanel>();
@@ -197,7 +204,7 @@ namespace RealPop2
 
             // School panel title and dropdown menu.
             UILabel schoolTitle = ColumnLabel(schoolPanel, Translations.Translate("RPR_CAL_SCH_PRO"), 0, 0);
-            schoolMenu = UIControls.AddDropDown(schoolPanel, 0f, LabelHeight, ComponentWidth);
+            schoolMenu = UIDropDowns.AddDropDown(schoolPanel, 0f, LabelHeight, ComponentWidth);
             schoolPanel.Hide();
 
             // Pack descriptions.
@@ -206,7 +213,7 @@ namespace RealPop2
             schoolDescription = Description(schoolPanel, 0f, LabelHeight + DescriptionY - MenuY);
 
             // Apply button.
-            applyButton = UIControls.AddButton(this, ApplyX, BaseSaveY, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
+            applyButton = UIButtons.AddButton(this, ApplyX, BaseSaveY, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
             applyButton.eventClicked += (control, clickEvent) => ApplySettings();
 
             // Dropdown event handlers.
@@ -220,20 +227,19 @@ namespace RealPop2
             multSlider.parent.Hide();
 
             // Muliplier checkbox.
-            multCheck = UIControls.LabelledCheckBox(schoolPanel, RightColumnX, 18f, Translations.Translate("RPR_CAL_CAP_OVR"));
+            multCheck = UICheckBoxes.AddLabelledCheckBox(schoolPanel, RightColumnX, 18f, Translations.Translate("RPR_CAL_CAP_OVR"));
 
             // Multiplier default label.
-            multDefaultLabel = UIControls.AddLabel(schoolPanel, RightColumnX + 21f, 40f, Translations.Translate("RPR_CAL_CAP_DEF") + " x" + ModSettings.DefaultSchoolMult, textScale: 0.8f);
+            multDefaultLabel = UILabels.AddLabel(schoolPanel, RightColumnX + 21f, 40f, Translations.Translate("RPR_CAL_CAP_DEF") + " x" + ModSettings.DefaultSchoolMult, textScale: 0.8f);
 
             // Multplier checkbox event handler.
             multCheck.eventCheckChanged += (control, isChecked) => MultiplierCheckChanged(isChecked);
         }
 
-
         /// <summary>
         /// Called whenever the currently selected building is changed to update the panel display.
         /// </summary>
-        /// <param name="building">Newly selected building</param>
+        /// <param name="building">Newly selected building.</param>
         internal void SelectionChanged(BuildingInfo building)
         {
             // Set current building.
@@ -379,18 +385,16 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Updates the population calculation pack selection to the selected calculation pack.
         /// </summary>
-        /// <param name="index">Index number (from menu) of selection pack</param>
+        /// <param name="index">Index number (from menu) of selection pack.</param>
         private void UpdatePopSelection(int index) => UpdatePopSelection(popPacks[index]);
-
 
         /// <summary>
         /// Updates the population calculation pack selection to the selected pack.
         /// </summary>
-        /// <param name="index">Index number (from menu) of selection pack</param>
+        /// <param name="popPack">New population data pack.</param>
         private void UpdatePopSelection(PopDataPack popPack)
         {
             // Update selected pack.
@@ -477,11 +481,10 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Updates the floor calculation pack selection to the selected calculation pack.
         /// </summary>
-        /// <param name="index">Index number (from menu) of selection pack</param>
+        /// <param name="index">Index number (from menu) of selection pack.</param>
         private void UpdateFloorSelection(int index)
         {
             // Update selected pack.
@@ -501,11 +504,10 @@ namespace RealPop2
             BuildingDetailsPanel.Panel.FloorDataPack = currentFloorPack;
         }
 
-
         /// <summary>
         /// Updates the school calculation pack selection to the selected calculation pack.
         /// </summary>
-        /// <param name="index">Index number (from menu) of selection pack</param>
+        /// <param name="index">Index number (from menu) of selection pack.</param>
         private void UpdateSchoolSelection(int index)
         {
             // Update selected pack.
@@ -523,12 +525,11 @@ namespace RealPop2
             // School selections aren't used anywhere else, so no need to communicate change to rest of panel.
         }
 
-
         /// <summary>
         /// Updates the current multiplier and regenerates calculations if necesssary when the multiplier slider is changed.
         /// Should only be called from multSlider onValueChanged.
         /// </summary>
-        /// <param name="multiplier">New multiplier</param>
+        /// <param name="multiplier">New multiplier.</param>
         private void UpdateMultiplier(float multiplier)
         {
             // Set multiplier.
@@ -541,12 +542,11 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Updates the current multiplier and regenerates calculations if necessary when the custom multiplier check changes.
         /// Should only be called from multCheck onCheckChanged.
         /// </summary>
-        /// <param name="isCustom">Custom multiplier enabled state</param>
+        /// <param name="isCustom">Custom multiplier enabled state.</param>
         private void MultiplierCheckChanged(bool isCustom)
         {
             // Toggle slider and default label visibility.
@@ -574,7 +574,6 @@ namespace RealPop2
                 volumetricPanel.CalculateVolumetric(currentBuilding, CurrentLevelData, currentFloorPack, currentSchoolPack, currentMult);
             }
         }
-
 
         /// <summary>
         /// Applies current settings and saves the updated configuration to file.
@@ -612,14 +611,13 @@ namespace RealPop2
             BuildingDetailsPanel.Panel.RefreshList();
         }
 
-
         /// <summary>
         /// Adds a column header label.
         /// </summary>
-        /// <param name="parent">Parent component</param>
-        /// <param name="text">Label text</param>
-        /// <param name="xPos">Label x-position</param>
-        /// <param name="xPos">Label y-position</param>
+        /// <param name="parent">Parent component.</param>
+        /// <param name="text">Label text.</param>
+        /// <param name="xPos">Label x-position.</param>
+        /// <param name="yPos">Label y-position.</param>
         /// <returns>New column label</returns>
         private UILabel ColumnLabel(UIComponent parent, string text, float xPos, float yPos)
         {
@@ -634,13 +632,12 @@ namespace RealPop2
             return newLabel;
         }
 
-
         /// <summary>
         /// Adds a pack description text label.
         /// </summary>
-        /// <param name="parent">Parent component</param>
-        /// <param name="xPos">Label x-position</param>
-        /// <param name="xPos">Label y-position</param>
+        /// <param name="parent">Parent component.</param>
+        /// <param name="xPos">Label x-position.</param>
+        /// <param name="yPos">Label y-position.</param>
         /// <returns></returns>
         private UILabel Description(UIComponent parent, float xPos, float yPos)
         {
@@ -655,29 +652,28 @@ namespace RealPop2
             return newLabel;
         }
 
-
         /// <summary>
         /// Adds a slider with a multiplier label below.
         /// </summary>
-        /// <param name="parent">Panel to add the control to</param>
-        /// <param name="text">Descriptive label text</param>
-        /// <param name="min">Slider minimum value</param>
-        /// <param name="max">Slider maximum value</param>
-        /// <param name="step">Slider minimum step</param>
-        /// <param name="defaultValue">Slider initial value</param>
-        /// <param name="eventCallback">Slider event handler</param>
-        /// <param name="width">Slider width (excluding value label to right) (default 600)</param>
-        /// <returns>New UI slider with attached labels</returns>
+        /// <param name="parent">Panel to add the control to.</param>
+        /// <param name="text">Descriptive label text.</param>
+        /// <param name="min">Slider minimum value.</param>
+        /// <param name="max">Slider maximum value.</param>
+        /// <param name="step">Slider minimum step.</param>
+        /// <param name="defaultValue">Slider initial value.</param>
+        /// <param name="eventCallback">Slider event handler.</param>
+        /// <param name="width">Slider width (excluding value label to right) (default 600).</param>
+        /// <returns>New UI slider with attached labels.</returns>
         private UISlider AddSliderWithMultipler(UIComponent parent, string text, float min, float max, float step, float defaultValue, OnValueChanged eventCallback, float width = 600f)
         {
             // Add slider component.
-            UISlider newSlider = UIControls.AddSlider(parent, 0f, 0f, text, min, max, step, defaultValue, width);
+            UISlider newSlider = UISliders.AddPlainSlider(parent, 0f, 0f, text, min, max, step, defaultValue, width);
             UIPanel sliderPanel = (UIPanel)newSlider.parent;
 
             // Value label.
             UILabel valueLabel = sliderPanel.AddUIComponent<UILabel>();
             valueLabel.name = "ValueLabel";
-            valueLabel.relativePosition = UIControls.PositionUnder(newSlider, 2, 0f);
+            valueLabel.relativePosition = UILayout.PositionUnder(newSlider, 2, 0f);
             valueLabel.text = "x" + newSlider.value.ToString();
 
             // Event handler to update value label.

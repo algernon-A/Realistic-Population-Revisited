@@ -1,8 +1,13 @@
-﻿using ColossalFramework.UI;
-
+﻿// <copyright file="IndDefaultsPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons.Translation;
+    using ColossalFramework.UI;
+
     /// <summary>
     /// Options panel for setting default employment calculation packs.
     /// </summary>
@@ -54,29 +59,25 @@ namespace RealPop2
             "Ingame"
         };
 
-
         protected override string[] SubServiceNames => subServiceNames;
         protected override ItemClass.Service[] Services => services;
         protected override ItemClass.SubService[] SubServices => subServices;
         protected override string[] IconNames => iconNames;
         protected override string[] AtlasNames => atlasNames;
 
-
         // Title key.
         protected override string TitleKey => "RPR_TIT_IDF";
-
 
         // Default mode references.
         protected override DefaultMode ThisDefaultMode { get => ModSettings.ThisSaveDefaultInd; set => ModSettings.ThisSaveDefaultInd = value; }
         protected override DefaultMode NewDefaultMode { get => ModSettings.newSaveDefaultInd; set => ModSettings.newSaveDefaultInd = value; }
         protected override string DefaultModeLabel => "RPR_DEF_DMI";
 
-
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
+        /// <param name="tabStrip">Tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
         internal IndDefaultsPanel(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
         {
         }

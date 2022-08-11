@@ -1,11 +1,17 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using ColossalFramework;
-using ColossalFramework.UI;
-
+﻿// <copyright file="FloorPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System.Collections.Generic;
+    using AlgernonCommons;
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using ColossalFramework;
+    using ColossalFramework.UI;
+
     /// <summary>
     /// Options panel for creating and editing calculation packs.
     /// </summary>
@@ -22,21 +28,18 @@ namespace RealPop2
         protected UITextField floorHeightField, firstMinField, firstExtraField;
         protected UICheckBox firstEmptyCheck;
 
-
         // Tab sprite name and tooltip key.
         protected override string TabSprite => "ToolbarIconZoomOutCity";
         protected override string TabTooltipKey => "RPR_OPT_STO";
 
-
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
+        /// <param name="tabStrip">Tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
         internal FloorPanel(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
         {
         }
-
 
         /// <summary>
         /// Performs initial setup; called via event when tab is first selected.
@@ -60,7 +63,7 @@ namespace RealPop2
                 firstEmptyCheck = new UICheckBox();
 
                 // Pack selection dropdown.
-                packDropDown = UIControls.AddPlainDropDown(panel, 20f, currentY, Translations.Translate("RPR_OPT_CPK"), new string[0], -1);
+                packDropDown = UIDropDowns.AddPlainDropDown(panel, 20f, currentY, Translations.Translate("RPR_OPT_CPK"), new string[0], -1);
                 packDropDown.eventSelectedIndexChanged += PackChanged;
 
                 // Headings.
@@ -72,18 +75,18 @@ namespace RealPop2
                 PanelUtils.ColumnLabel(panel, FirstEmptyX, currentY, ColumnWidth, Translations.Translate("RPR_CAL_VOL_IGF"), Translations.Translate("RPR_CAL_VOL_IGF_TIP"), 1.0f);
 
                 // Add level textfields.
-                floorHeightField = UIControls.AddTextField(panel, FloorHeightX + Margin, currentY, width: TextFieldWidth, tooltip: Translations.Translate("RPR_CAL_VOL_FLH_TIP"));
+                floorHeightField = UITextFields.AddTextField(panel, FloorHeightX + Margin, currentY, width: TextFieldWidth, tooltip: Translations.Translate("RPR_CAL_VOL_FLH_TIP"));
                 floorHeightField.eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
 
-                firstMinField = UIControls.AddTextField(panel, FirstMinX + Margin, currentY, width: TextFieldWidth, tooltip: Translations.Translate("RPR_CAL_VOL_FMN_TIP"));
+                firstMinField = UITextFields.AddTextField(panel, FirstMinX + Margin, currentY, width: TextFieldWidth, tooltip: Translations.Translate("RPR_CAL_VOL_FMN_TIP"));
                 firstMinField.eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
-                firstMinField.tooltipBox = TooltipUtils.TooltipBox;
+                firstMinField.tooltipBox = UIToolTips.WordWrapToolTip;
 
-                firstExtraField = UIControls.AddTextField(panel, FirstMaxX + Margin, currentY, width: TextFieldWidth, tooltip: Translations.Translate("RPR_CAL_VOL_FMX_TIP"));
+                firstExtraField = UITextFields.AddTextField(panel, FirstMaxX + Margin, currentY, width: TextFieldWidth, tooltip: Translations.Translate("RPR_CAL_VOL_FMX_TIP"));
                 firstExtraField.eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
-                firstExtraField.tooltipBox = TooltipUtils.TooltipBox;
-                firstEmptyCheck = UIControls.AddCheckBox(panel, FirstEmptyX + (ColumnWidth / 2), currentY, tooltip: Translations.Translate("RPR_CAL_VOL_IGF_TIP"));
-                firstEmptyCheck.tooltipBox = TooltipUtils.TooltipBox;
+                firstExtraField.tooltipBox = UIToolTips.WordWrapToolTip;
+                firstEmptyCheck = UICheckBoxes.AddCheckBox(panel, FirstEmptyX + (ColumnWidth / 2), currentY, tooltip: Translations.Translate("RPR_CAL_VOL_IGF_TIP"));
+                firstEmptyCheck.tooltipBox = UIToolTips.WordWrapToolTip;
 
                 // Add space before footer.
                 currentY += RowHeight;
@@ -97,31 +100,29 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Save button event handler.
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="mouseEvent">Mouse event (unused)</param>
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event.</param>
         /// </summary>
-        protected override void Save(UIComponent control, UIMouseEventParameter mouseEvent)
+        protected override void Save(UIComponent c, UIMouseEventParameter p)
         {
             // Basic sanity check - need a valid name to proceed.
             if (!PackNameField.text.IsNullOrWhiteSpace())
             {
-                base.Save(control, mouseEvent);
+                base.Save(c, p);
 
                 // Apply update.
                 FloorData.instance.CalcPackChanged(packList[packDropDown.selectedIndex]);
             }
         }
 
-
         /// <summary>
         /// 'Add new pack' button event handler.
         /// </summary>
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="mouseEvent">Mouse event (unused)</param>
-        protected override void AddPack(UIComponent control, UIMouseEventParameter mouseEvent)
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event.</param>
+        protected override void AddPack(UIComponent c, UIMouseEventParameter p)
         {
             // Initial pack name.
             string newPackName = PackNameField.text;
@@ -170,13 +171,12 @@ namespace RealPop2
             ConfigUtils.SaveSettings();
         }
 
-
         /// <summary>
         /// 'Delete pack' button event handler.
         /// </summary>
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="mouseEvent">Mouse event (unused)</param>
-        protected override void DeletePack(UIComponent control, UIMouseEventParameter mouseEvent)
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event.</param>
+        protected override void DeletePack(UIComponent c, UIMouseEventParameter p)
         {
             // Make sure it's not an inbuilt pack before proceeding.
             if (packList[packDropDown.selectedIndex].version == DataVersion.customOne)
@@ -192,11 +192,10 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Updates the given calculation pack with data from the panel.
         /// </summary>
-        /// <param name="pack">Pack to update</param>
+        /// <param name="pack">Pack to update.</param>
         protected override void UpdatePack(DataPack pack)
         {
             if (pack is FloorDataPack floorPack)
@@ -215,13 +214,12 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Calculation pack dropdown change handler.
         /// </summary>
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="index">New selected index (unused)</param>
-        private void PackChanged(UIComponent control, int index)
+        /// <param name="c">Calling component (unused).</param>
+        /// <param name="index">New selected index (unused).</param>
+        private void PackChanged(UIComponent c, int index)
         {
             // Populate text fields.
             PopulateTextFields(index);
@@ -230,11 +228,10 @@ namespace RealPop2
             ButtonStates(index);
         }
 
-
         /// <summary>
         /// Populates the textfields with data from the selected calculation pack.
         /// </summary>
-        /// <param name="index">Index number of calculation pack</param>
+        /// <param name="index">Index number of calculation pack.</param>
         private void PopulateTextFields(int index)
         {
             // Get local reference.
@@ -250,11 +247,10 @@ namespace RealPop2
             firstEmptyCheck.isChecked = floorPack.firstFloorEmpty;
         }
 
-
         /// <summary>
         /// (Re)builds the list of available packs.
         /// </summary>
-        /// <returns>String array of custom pack names, in order (suitable for use as dropdown menu items)</returns>
+        /// <returns>String array of custom pack names, in order (suitable for use as dropdown menu items).</returns>
         private string[] PackList()
         {
             // Re-initialise pack list.

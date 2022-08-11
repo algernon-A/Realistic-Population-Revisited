@@ -1,18 +1,32 @@
-﻿using ColossalFramework;
-
+﻿// <copyright file="ModSettings.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using ColossalFramework;
+
     /// <summary>
     /// Default calculation modes.
     /// </summary>
     public enum DefaultMode : byte
     {
+        /// <summary>
+        /// Use new (volumetric) calculations by default.
+        /// </summary>
         New = 0,
+
+        /// <summary>
+        /// USe vanilla calculations by default.
+        /// </summary>
         Vanilla = 1,
+
+        /// <summary>
+        /// Use legacy calcuations by default.
+        /// </summary>
         Legacy = 2
     }
-
 
     /// <summary>
     /// Static class to hold global mod settings.
@@ -38,7 +52,6 @@ namespace RealPop2
         // What's new notification version.
         internal static string whatsNewVersion = "0.0";
 
-
         /// <summary>
         /// Default calculation mode for residential buildings for this save.
         /// </summary>
@@ -62,7 +75,6 @@ namespace RealPop2
             }
         }
         private static DefaultMode thisSaveDefaultRes = DefaultMode.New;
-
 
         /// <summary>
         /// Default calculation mode for commercial buildings for this save.
@@ -88,7 +100,6 @@ namespace RealPop2
         }
         private static DefaultMode thisSaveDefaultCom = DefaultMode.New;
 
-
         /// <summary>
         /// Default calculation mode for industrial buildings for this save.
         /// </summary>
@@ -112,7 +123,6 @@ namespace RealPop2
             }
         }
         private static DefaultMode thisSaveDefaultInd = DefaultMode.New;
-
 
         /// <summary>
         /// Default calculation mode for commercial buildings for this save.
@@ -138,7 +148,6 @@ namespace RealPop2
         }
         private static DefaultMode thisSaveDefaultOff = DefaultMode.New;
 
-
         /// <summary>
         /// Old 'use legacy by default for residential' option.
         /// </summary>
@@ -150,7 +159,6 @@ namespace RealPop2
             // Setter only toggles between legacy and new (vanilla setting wasn't implemented for this).
             set => ThisSaveDefaultRes = value ? DefaultMode.Legacy : DefaultMode.New;
         }
-
 
         /// <summary>
         /// Old 'use legacy by default for commercial' option.
@@ -164,7 +172,6 @@ namespace RealPop2
             set => ThisSaveDefaultCom = value ? DefaultMode.Legacy : DefaultMode.New;
         }
 
-
         /// <summary>
         /// Old 'use legacy by default for industrial' option.
         /// </summary>
@@ -177,7 +184,6 @@ namespace RealPop2
             set => ThisSaveDefaultInd = value ? DefaultMode.Legacy : DefaultMode.New;
         }
 
-
         /// <summary>
         /// Old 'use legacy by default for office' option.
         /// </summary>
@@ -189,7 +195,6 @@ namespace RealPop2
             // Setter only toggles between legacy and new (vanilla setting wasn't implemented for this).
             set => ThisSaveDefaultOff = value ? DefaultMode.Legacy : DefaultMode.New;
         }
-
 
         /// <summary>
         /// Enables/disables custom school population counts.
@@ -207,7 +212,6 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Handles current default multiplier for schools.
         /// </summary>
@@ -224,11 +228,10 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Triggers an update of existing school buildings to current settings, if loading is complete.
         /// </summary>
-        /// <param name="schoolPrefab>Building prefab to update (null to update all schools)</param>
+        /// <param name="schoolPrefab">Building prefab to update (null to update all schools)</param>
         private static void UpdateSchools(BuildingInfo schoolPrefab)
         {
             // Check for loading complete.
@@ -238,7 +241,6 @@ namespace RealPop2
                 Singleton<SimulationManager>.instance.AddAction(delegate { SchoolData.instance.UpdateSchoolPrefabs(); });
             }
         }
-
 
         /// <summary>
         /// Clears all workplace caches.
@@ -252,9 +254,9 @@ namespace RealPop2
             PopData.instance.visitplaceCache.Clear();
 
             // Clear RICO cache too.
-            if (AssemblyUtils.ricoClearAllWorkplaces != null)
+            if (ModUtils.ricoClearAllWorkplaces != null)
             {
-                AssemblyUtils.ricoClearAllWorkplaces.Invoke(null, null);
+                ModUtils.ricoClearAllWorkplaces.Invoke(null, null);
             }
         }
     }

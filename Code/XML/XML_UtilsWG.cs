@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Xml;
-using System.Collections.Generic;
-using ColossalFramework.Math;
-
-
-namespace RealPop2
+﻿namespace RealPop2
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Xml;
+    using AlgernonCommons;
+    using ColossalFramework.Math;
+
     /// <summary>
     /// Class for XML configuration file utility methods.
     /// </summary>

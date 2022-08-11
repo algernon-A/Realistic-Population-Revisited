@@ -1,9 +1,12 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-
+﻿// <copyright file="FloorData.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Centralised store and management of floor calculation data.
     /// </summary>
@@ -22,11 +25,10 @@ namespace RealPop2
         /// <returns>Array of available calculation packs</returns>
         internal DataPack[] Packs => calcPacks.ToArray();
 
-
         /// <summary>
         /// Constructor - initializes inbuilt default calculation packs and performs other setup tasks.
         /// </summary>
-        public FloorData()
+        internal FloorData()
         {
             // Default; standard 3m stories.
             FloorDataPack newPack = new FloorDataPack
@@ -130,7 +132,6 @@ namespace RealPop2
             overrides = new Dictionary<string, FloorDataPack>();
         }
 
-
         /// <summary>
         /// Checks to see if a builing has a custom floor override, and if so, returns it.
         /// </summary>
@@ -138,12 +139,11 @@ namespace RealPop2
         /// <returns>Override floor pack if the building has one, othewise null</returns>
         internal FloorDataPack HasOverride(string buildingName) => overrides.ContainsKey(buildingName) ? overrides[buildingName] : null;
 
-
         /// <summary>
         /// Adds a custom floor override to a building prefab, but does NOT update live prefab data or save the configuration file.
         /// Used to populate dictionary when the prefab isn't available (e.g. before loading is complete).
         /// </summary>
-        /// <param name="building">Name of building prefab to add</param>
+        /// <param name="buildingName">Name of building prefab to add</param>
         /// <param name="overridePack">Override floor pack to set</param>
         internal void SetOverride(string buildingName, FloorDataPack overridePack)
         {
@@ -160,12 +160,11 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Sets a custom floor override override for the given building prefab, and saves the updated configuration; and also UPDATES live prefab data.
         /// Used to add an entry in-game after prefabs have loaded.
         /// </summary>
-        /// <param name="prefab">Building prefab/param>
+        /// <param name="prefab">Building prefab</param>
         /// <param name="overridePack">Override floor pack to set</param>
         internal void SetOverride(BuildingInfo prefab, FloorDataPack overridePack)
         {
@@ -185,11 +184,10 @@ namespace RealPop2
             RefreshPrefab(prefab);
         }
 
-
         /// <summary>
         /// Removes any manual population override for the given building prefab, and saves the updated configuration if an override was actually removed (i.e. one actually existed).
         /// </summary>
-        /// <param name="prefab">Building prefab/param>
+        /// <param name="prefab">Building prefab</param>
         internal void DeleteOverride(BuildingInfo prefab)
         {
             // Remove prefab record from dictionary.
@@ -209,14 +207,12 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Returns the currently active floor pack for a building prefab.
         /// </summary>
         /// <param name="building">Building prefab to get floor pack for</param>
         /// <returns></returns>
         internal override DataPack ActivePack(BuildingInfo building) => HasOverride(building.name) ?? base.ActivePack(building);
-
 
         /// <summary>
         /// Returns the inbuilt default calculation pack for the given service/subservice combination.
@@ -267,16 +263,15 @@ namespace RealPop2
             return calcPacks.Find(pack => pack.name.Equals(defaultName));
         }
 
-
         /// <summary>
         /// Serializes building pack settings to XML.
         /// </summary>
         /// <param name="existingList">Existing list to modify, from population pack serialization (null if none)</param>
         /// <returns>New sorted list with building pack settings</returns>
-        internal SortedList<string, BuildingRecord> SerializeBuildings(SortedList<string, BuildingRecord> existingList)
+        internal SortedList<string, Configuration.BuildingRecord> SerializeBuildings(SortedList<string, Configuration.BuildingRecord> existingList)
         {
             // Return list.
-            SortedList<string, BuildingRecord> returnList = existingList ?? new SortedList<string, BuildingRecord>();
+            SortedList<string, Configuration.BuildingRecord> returnList = existingList ?? new SortedList<string, Configuration.BuildingRecord>();
 
             // Iterate through each key (BuildingInfo) in our dictionary and serialise it into a BuildingRecord.
             foreach (string prefabName in buildingDict.Keys)
@@ -287,12 +282,12 @@ namespace RealPop2
                 if (returnList.ContainsKey(prefabName))
                 {
                     // Yes; update that record to include this floor pack.
-                    returnList[prefabName].floorPack = packName;
+                    returnList[prefabName].FloorPack = packName;
                 }
                 else
                 {
                     // No; add a new record with this floor pack.
-                    BuildingRecord newRecord = new BuildingRecord { prefab = prefabName, floorPack = packName };
+                    Configuration.BuildingRecord newRecord = new Configuration.BuildingRecord { Prefab = prefabName, FloorPack = packName };
                     returnList.Add(prefabName, newRecord);
                 }
             }
@@ -300,12 +295,11 @@ namespace RealPop2
             return returnList;
         }
 
-
         /// <summary>
         /// Extracts the relevant pack name (floor or pop pack) from a building line record.
         /// </summary>
         /// <param name="buildingRecord">Building record to extract from</param>
         /// <returns>Floor pack name (if any)</returns>
-        protected override string BuildingPack(BuildingRecord buildingRecord) => buildingRecord.floorPack;
+        protected override string BuildingPack(Configuration.BuildingRecord buildingRecord) => buildingRecord.FloorPack;
     }
 }

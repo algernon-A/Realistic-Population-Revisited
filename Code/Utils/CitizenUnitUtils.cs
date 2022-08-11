@@ -1,12 +1,17 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using ColossalFramework;
-using ColossalFramework.Math;
-using HarmonyLib;
-
+﻿// <copyright file="CitizenUnitUtils.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System;
+    using System.Runtime.CompilerServices;
+    using AlgernonCommons;
+    using ColossalFramework;
+    using ColossalFramework.Math;
+    using HarmonyLib;
+
     /// <summary>
     /// Utility class for dealing with CitizenUnits.
     /// </summary>
@@ -16,9 +21,13 @@ namespace RealPop2
         /// <summary>
         /// Reverse patch for CitizenManager.EnsureCitizenUnits to access private method of original instance.
         /// </summary>
-        /// <param name="instance">Object instance</param>
-        /// <param name="citizenID">ID of this citizen (for game method)</param>
-        /// <param name="data">Citizen data (for game method)</param>
+        /// <param name="instance">Object instance.</param>
+        /// <param name="buildingID">ID of this building.</param>
+        /// <param name="data">Building data.</param>
+        /// <param name="homeCount">Building residential household count.</param>
+        /// <param name="workCount">Building workplace count.</param>
+        /// <param name="visitCount">Building vistor count.</param>
+        /// <param name="studentCount">Building studetn count.</param>
         [HarmonyReversePatch]
         [HarmonyPatch((typeof(BuildingAI)), "EnsureCitizenUnits")]
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -29,13 +38,12 @@ namespace RealPop2
             throw new NotImplementedException(message);
         }
 
-
         /// <summary>
         /// Reverse patch for CitizenManager.ReleaseUnitImplementation to access private method of original instance.
         /// </summary>
-        /// <param name="instance">Object instance</param>
-        /// <param name="citizenID">ID of this citizen (for game method)</param>
-        /// <param name="data">Citizen data (for game method)</param>
+        /// <param name="instance">Object instance.</param>
+        /// <param name="unit">CitizenUnit ID.</param>
+        /// <param name="data">CitizenUnit data.</param>
         [HarmonyReversePatch]
         [HarmonyPatch((typeof(CitizenManager)), "ReleaseUnitImplementation")]
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -46,15 +54,14 @@ namespace RealPop2
             throw new NotImplementedException(message);
         }
 
-
         /// <summary>
         /// Updates the CitizenUnits of already existing (placed/grown) building instances of the specified prefab, or all buildings of the specified service or subservice if prefab name is null.
         /// Called after updating a prefab's household/worker/visitor count, or when applying new default calculations, in order to apply changes to existing buildings.
         /// </summary>
-        /// <param name="prefabName">The (raw BuildingInfo) name of the prefab (null to ignore name match)</param>
-        /// <param name="service">The service to apply to (ignored if 'none')</param>
-        /// <param name="subService">The subservice to apply to (ignored if 'none')</param>
-        /// <param name="preserveOccupied">Set to true to preserve occupied residential households from removal, false otherwise</param>
+        /// <param name="prefabName">The (raw BuildingInfo) name of the prefab (null to ignore name match).</param>
+        /// <param name="service">The service to apply to (ignored if 'none').</param>
+        /// <param name="subService">The subservice to apply to (ignored if 'none').</param>
+        /// <param name="preserveOccupied">Set to true to preserve occupied residential households from removal, false otherwise.</param>
         internal static void UpdateCitizenUnits(string prefabName, ItemClass.Service service, ItemClass.SubService subService, bool preserveOccupied)
         {
             // Don't do anything if we're not in-game.
@@ -70,16 +77,15 @@ namespace RealPop2
             Singleton<SimulationManager>.instance.AddAction(delegate { RecalculateCitizenUnits(prefabName, thisService, thisSubService, thisPreserveOccupied); });
         }
 
-
         /// <summary>
         /// Removes CitizenUnits that are surplus to requirements from the specified building.
         /// </summary>
-        /// <param name="building">Building reference</param>
-        /// <param name="homeCount">Number of households to apply</param>
-        /// <param name="workCount">Number of workplaces to apply</param>
-        /// <param name="visitCount">Number of visitplaces to apply</param>
-        /// <param name="studentCount">Number of student places to apply</param>
-        /// <param name="preserveOccupied">Preserve occupied residential households</param>
+        /// <param name="building">Building reference.</param>
+        /// <param name="homeCount">Number of households to apply.</param>
+        /// <param name="workCount">Number of workplaces to apply.</param>
+        /// <param name="visitCount">Number of visitplaces to apply.</param>
+        /// <param name="studentCount">Number of student places to apply.</param>
+        /// <param name="preserveOccupied">Preserve occupied residential households.</param>
         internal static void RemoveCitizenUnits(ref Building building, int homeCount, int workCount, int visitCount, int studentCount, bool preserveOccupied)
         {
             // Local references.
@@ -198,15 +204,14 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Updates the CitizenUnits of already existing (placed/grown) building instances of the specified prefab, or all buildings of the specified service or subservice if prefab name is null.
         /// Called after updating a prefab's household/worker/visitor count, or when applying new default calculations, in order to apply changes to existing buildings.
         /// </summary>
-        /// <param name="prefabName">The (raw BuildingInfo) name of the prefab (null to ignore name match)</param>
-        /// <param name="service">The service to apply to (ignored if 'none')</param>
-        /// <param name="subService">The subservice to apply to (ignored if 'none')</param>
-        /// <param name="preserveOccupied">Set to true to preserve occupied residential households from removal, false otherwise</param>
+        /// <param name="prefabName">The (raw BuildingInfo) name of the prefab (null to ignore name match).</param>
+        /// <param name="service">The service to apply to (ignored if 'none').</param>
+        /// <param name="subService">The subservice to apply to (ignored if 'none').</param>
+        /// <param name="preserveOccupied">Set to true to preserve occupied residential households from removal, false otherwise.</param>
         private static void RecalculateCitizenUnits(string prefabName, ItemClass.Service service, ItemClass.SubService subService, bool preserveOccupied)
         {
             // Local references.
@@ -257,12 +262,11 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Counts the number of CitizenUnits attached to the given building.
         /// </summary>
-        /// <param name="building"></param>
-        /// <returns></returns>
+        /// <param name="building">Building record.</param>
+        /// <returns>CitizenUnit count.</returns>
         private static uint CountCitizenUnits(ref Building building)
         {
             uint unitCount = 0;

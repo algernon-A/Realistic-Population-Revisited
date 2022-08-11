@@ -1,32 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using ColossalFramework;
-using ColossalFramework.UI;
-
+﻿// <copyright file="UIBuildingDetails.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using AlgernonCommons;
+    using AlgernonCommons.UI;
+    using AlgernonCommons.Translation;
+    using ColossalFramework;
+    using ColossalFramework.UI;
+    using UnityEngine;
+
     /// <summary>
     /// Buidling details panel manager static class.
     /// </summary>
     public static class BuildingDetailsPanel
     {
         // Instance references.
-        private static GameObject uiGameObject;
-        private static UIBuildingDetails _panel;
-        public static UIBuildingDetails Panel => _panel;
+        private static GameObject s_uiGameObject;
+        private static UIBuildingDetails s_panel;
 
         // Previous selection.
         private static BuildingInfo lastSelection;
         private static bool[] lastFilter;
-        private static float lastPostion;
+        private static int lastPostion = 0;
         private static int lastIndex = -1;
 
         // Info panel buttons.
         private static UIButton zonedButton, serviceButton;
 
+        /// <summary>
+        /// Gets the current panel instance.
+        /// </summary>
+        public static UIBuildingDetails Panel => s_panel;
 
         /// <summary>
         /// Creates the panel object in-game and displays it.
@@ -36,13 +46,13 @@ namespace RealPop2
             try
             {
                 // If no instance already set, create one.
-                if (uiGameObject == null)
+                if (s_uiGameObject == null)
                 {
                     // Give it a unique name for easy finding with ModTools.
-                    uiGameObject = new GameObject("RealPopBuildingDetails");
-                    uiGameObject.transform.parent = UIView.GetAView().transform;
+                    s_uiGameObject = new GameObject("RealPopBuildingDetails");
+                    s_uiGameObject.transform.parent = UIView.GetAView().transform;
 
-                    _panel = uiGameObject.AddComponent<UIBuildingDetails>();
+                    s_panel = s_uiGameObject.AddComponent<UIBuildingDetails>();
 
                     // Set up panel.
                     Panel.Setup();
@@ -76,24 +86,22 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Closes the panel by destroying the object (removing any ongoing UI overhead).
         /// </summary>
         internal static void Close()
         {
             // Save current selection for next time.
-            lastSelection = Panel?.currentSelection;
+            lastSelection = Panel?._currentSelection;
             lastFilter = Panel?.GetFilter();
             Panel?.GetListPosition(out lastIndex, out lastPostion);
 
             // Destroy objects and nullify for GC.
-            GameObject.Destroy(_panel);
-            GameObject.Destroy(uiGameObject);
-            _panel = null;
-            uiGameObject = null;
+            GameObject.Destroy(s_panel);
+            GameObject.Destroy(s_uiGameObject);
+            s_panel = null;
+            s_uiGameObject = null;
         }
-
 
         /// <summary>
         /// Adds button to access building details from building info panels.
@@ -102,7 +110,7 @@ namespace RealPop2
         {
             // Zoned building panel - get parent panel and add button.
             ZonedBuildingWorldInfoPanel infoPanel = UIView.library.Get<ZonedBuildingWorldInfoPanel>(typeof(ZonedBuildingWorldInfoPanel).Name);
-            zonedButton = UIControls.AddButton(infoPanel.component, infoPanel.component.width - 133f - 10, 120, Translations.Translate("RPR_REALPOP"), 133f, 19.5f, 0.65f);
+            zonedButton = UIButtons.AddButton(infoPanel.component, infoPanel.component.width - 133f - 10, 120, Translations.Translate("RPR_REALPOP"), 133f, 19.5f, 0.65f);
             zonedButton.textPadding = new RectOffset(2, 2, 4, 0);
 
             // Just in case other mods are interfering.
@@ -117,7 +125,7 @@ namespace RealPop2
 
             // Service building panel - get parent panel and add button.
             CityServiceWorldInfoPanel servicePanel = UIView.library.Get<CityServiceWorldInfoPanel>(typeof(CityServiceWorldInfoPanel).Name);
-            serviceButton = UIControls.AddButton(servicePanel.component, servicePanel.component.width - 133f - 10, 120, Translations.Translate("RPR_REALPOP"), 133f, 19.5f, 0.65f);
+            serviceButton = UIButtons.AddButton(servicePanel.component, servicePanel.component.width - 133f - 10, 120, Translations.Translate("RPR_REALPOP"), 133f, 19.5f, 0.65f);
             serviceButton.textPadding = new RectOffset(2, 2, 4, 0);
 
             // Event handler.
@@ -127,7 +135,6 @@ namespace RealPop2
                 Open(InstanceManager.GetPrefabInfo(WorldInfoPanel.GetCurrentInstanceID()) as BuildingInfo);
             };
         }
-
 
         /// <summary>
         /// Updates the state of the service panel Realistic Population button - should only be visible and enabled when looking at elementary and high schools.
@@ -157,7 +164,6 @@ namespace RealPop2
         }
     }
 
-
     /// <summary>
     /// Base class of the building details screen.  Based (via AJ3D's Ploppable RICO) ultimately on SamsamTS's Building Themes panel; many thanks to him for his work.
     /// </summary>
@@ -175,34 +181,34 @@ namespace RealPop2
         private const float CheckFilterHeight = 30f;
 
         // Panel components.
-        private UITitleBar titleBar;
-        private UIBuildingFilter filterBar;
-        private UIFastList buildingSelection;
-        private UIPreviewPanel previewPanel;
-        private UIEditPanel editPanel;
-        private UIModCalcs calcsPanel;
+        private UITitleBar _titleBar;
+        private UIBuildingFilter _filterBar;
+        private UIList _buildingSelection;
+        private UIPreviewPanel _previewPanel;
+        private UIEditPanel _editPanel;
+        private UIModCalcs _calcsPanel;
 
         // Current selections.
-        internal BuildingInfo currentSelection;
+        internal BuildingInfo _currentSelection;
 
 
         /// <summary>
         /// Refreshes the building selection list.
         /// </summary>
-        internal void RefreshList() => buildingSelection.Refresh();
+        internal void RefreshList() => _buildingSelection.Refresh();
 
 
         /// <summary>
         /// Gets the current filter state as a boolean array.
         /// </summary>
         /// <returns>Current filter toggle settings</returns>
-        internal bool[] GetFilter() => filterBar.GetFilter();
+        internal bool[] GetFilter() => _filterBar.GetFilter();
 
 
         /// <summary>
         /// Sets the filter state to match a boolean array.
         /// </summary>
-        internal void SetFilter(bool[] filterState) => filterBar.SetFilter(filterState);
+        internal void SetFilter(bool[] filterState) => _filterBar.SetFilter(filterState);
 
 
         /// <summary>
@@ -210,10 +216,10 @@ namespace RealPop2
         /// </summary>
         /// <param name="selectedIndex">Index of currently selected item</param>
         /// <param name="listPosition">Current list position</param>
-        internal void GetListPosition(out int selectedIndex, out float listPosition)
+        internal void GetListPosition(out int selectedIndex, out int listPosition)
         {
-            listPosition = buildingSelection.listPosition;
-            selectedIndex = buildingSelection.selectedIndex;
+            listPosition = _buildingSelection.CurrentPosition;
+            selectedIndex = _buildingSelection.SelectedIndex;
         }
 
 
@@ -222,23 +228,23 @@ namespace RealPop2
         /// </summary>
         /// <param name="selectedIndex">Selected item index to set</param>
         /// <param name="listPosition">List position to set</param>
-        internal void SetListPosition(int selectedIndex, float listPosition)
+        internal void SetListPosition(int selectedIndex, int listPosition)
         {
-            buildingSelection.listPosition = listPosition;
-            buildingSelection.selectedIndex = selectedIndex;
+            _buildingSelection.CurrentPosition = listPosition;
+            _buildingSelection.SelectedIndex = selectedIndex;
         }
 
 
         /// <summary>
         /// Communicates floor calculation pack changes to previewer and edit panel.
         /// </summary>
-        internal FloorDataPack FloorDataPack { set => previewPanel.FloorPack = value; }
+        internal FloorDataPack FloorDataPack { set => _previewPanel.FloorPack = value; }
 
 
         /// <summary>
         /// Suppresses floor preview rendering (e.g. when legacy calculations have been selected).
         /// </summary>
-        internal bool HideFloors { set => previewPanel.HideFloors = value; }
+        internal bool HideFloors { set => _previewPanel.HideFloors = value; }
 
 
         /// <summary>
@@ -248,30 +254,28 @@ namespace RealPop2
         {
             set
             {
-                previewPanel.OverrideFloors = value;
-                calcsPanel.OverrideFloors = value;
+                _previewPanel.OverrideFloors = value;
+                _calcsPanel.OverrideFloors = value;
             }
         }
-
 
         /// <summary>
         /// Called when the building selection changes to update other panels.
         /// </summary>
-        /// <param name="building">Newly selected building</param>
+        /// <param name="building">Newly selected building.</param>
         public void UpdateSelectedBuilding(BuildingInfo building)
         {
             if (building != null)
             {
                 // Update building preview.
-                currentSelection = building;
-                previewPanel.Show(currentSelection);
+                _currentSelection = building;
+                _previewPanel.Show(_currentSelection);
             }
 
             // Update mod calculations and edit panels.
-            calcsPanel.SelectionChanged(building);
-            editPanel.SelectionChanged(building);
+            _calcsPanel.SelectionChanged(building);
+            _editPanel.SelectionChanged(building);
         }
-
 
         /// <summary>
         /// Refreshes the building selection list.
@@ -280,12 +284,11 @@ namespace RealPop2
         public void Refresh()
         {
             // Refresh the building list.
-            buildingSelection.Refresh();
+            _buildingSelection.Refresh();
 
             // Update mod calculations and edit panels.
-            UpdateSelectedBuilding(currentSelection);
+            UpdateSelectedBuilding(_currentSelection);
         }
-
 
         /// <summary>
         /// Create the building editor panel; we no longer use Start() as that's not sufficiently reliable (race conditions), and is no longer needed, with the new create/destroy process.
@@ -304,25 +307,25 @@ namespace RealPop2
                 backgroundSprite = "UnlockingPanel2";
 
                 // Titlebar.
-                titleBar = AddUIComponent<UITitleBar>();
-                titleBar.Setup();
+                _titleBar = AddUIComponent<UITitleBar>();
+                _titleBar.Setup();
 
                 // Filter.
-                filterBar = AddUIComponent<UIBuildingFilter>();
-                filterBar.width = width - (Spacing * 2);
-                filterBar.height = FilterHeight;
-                filterBar.relativePosition = new Vector2(Spacing, TitleHeight);
+                _filterBar = AddUIComponent<UIBuildingFilter>();
+                _filterBar.width = width - (Spacing * 2);
+                _filterBar.height = FilterHeight;
+                _filterBar.relativePosition = new Vector2(Spacing, TitleHeight);
 
-                filterBar.EventFilteringChanged += (c, i) =>
+                _filterBar.EventFilteringChanged += (c, i) =>
                 {
                     if (i == -1) return;
 
-                    int listCount = buildingSelection.rowsData.m_size;
-                    float position = buildingSelection.listPosition;
+                    int listCount = _buildingSelection.Data.m_size;
+                    float position = _buildingSelection.CurrentPosition;
 
-                    buildingSelection.selectedIndex = -1;
+                    _buildingSelection.SelectedIndex = -1;
 
-                    buildingSelection.rowsData = GenerateFastList();
+                    _buildingSelection.Data = GenerateFastList();
                 };
 
                 // Set up panels.
@@ -338,42 +341,41 @@ namespace RealPop2
                 middlePanel.height = PanelHeight;
                 middlePanel.relativePosition = new Vector2(LeftWidth + (Spacing * 2), TitleHeight + FilterHeight + Spacing);
 
-                previewPanel = middlePanel.AddUIComponent<UIPreviewPanel>();
-                previewPanel.width = middlePanel.width;
-                previewPanel.height = (PanelHeight - Spacing) / 2;
-                previewPanel.relativePosition = Vector2.zero;
-                previewPanel.Setup();
+                _previewPanel = middlePanel.AddUIComponent<UIPreviewPanel>();
+                _previewPanel.width = middlePanel.width;
+                _previewPanel.height = (PanelHeight - Spacing) / 2;
+                _previewPanel.relativePosition = Vector2.zero;
+                _previewPanel.Setup();
 
-                editPanel = middlePanel.AddUIComponent<UIEditPanel>();
-                editPanel.width = middlePanel.width;
-                editPanel.height = (PanelHeight - Spacing) / 2;
-                editPanel.relativePosition = new Vector2(0, previewPanel.height + Spacing);
-                editPanel.Setup();
+                _editPanel = middlePanel.AddUIComponent<UIEditPanel>();
+                _editPanel.width = middlePanel.width;
+                _editPanel.height = (PanelHeight - Spacing) / 2;
+                _editPanel.relativePosition = new Vector2(0, _previewPanel.height + Spacing);
+                _editPanel.Setup();
 
                 // Right panel - mod calculations.
-                calcsPanel = this.AddUIComponent<UIModCalcs>();
-                calcsPanel.width = RightWidth;
-                calcsPanel.height = PanelHeight;
-                calcsPanel.relativePosition = new Vector2(LeftWidth + MiddleWidth + (Spacing * 3), TitleHeight + FilterHeight + Spacing);
-                calcsPanel.Setup();
+                _calcsPanel = this.AddUIComponent<UIModCalcs>();
+                _calcsPanel.width = RightWidth;
+                _calcsPanel.height = PanelHeight;
+                _calcsPanel.relativePosition = new Vector2(LeftWidth + MiddleWidth + (Spacing * 3), TitleHeight + FilterHeight + Spacing);
+                _calcsPanel.Setup();
 
                 // Building selection list.
-                buildingSelection = UIFastList.Create<UIBuildingRow>(leftPanel);
-                buildingSelection.backgroundSprite = "UnlockingPanel";
-                buildingSelection.width = leftPanel.width;
-                buildingSelection.height = leftPanel.height;
-                buildingSelection.canSelect = true;
-                buildingSelection.rowHeight = 30f;
-                buildingSelection.autoHideScrollbar = true;
-                buildingSelection.relativePosition = Vector2.zero;
-                buildingSelection.rowsData = new FastList<object>();
-                buildingSelection.selectedIndex = -1;
+                _buildingSelection = UIList.AddUIList<UIBuildingRow>(leftPanel);
+                _buildingSelection.width = leftPanel.width;
+                _buildingSelection.height = leftPanel.height;
+                _buildingSelection.RowHeight = 30f;
+                _buildingSelection.relativePosition = Vector2.zero;
+                _buildingSelection.Data = new FastList<object>();
+                _buildingSelection.SelectedIndex = -1;
+
+                _buildingSelection.EventSelectionChanged += (c, item) => UpdateSelectedBuilding(item as BuildingInfo);
 
                 // Set up filterBar to make sure selection filters are properly initialised before calling GenerateFastList.
-                filterBar.Setup();
+                _filterBar.Setup();
 
                 // Populate the list.
-                buildingSelection.rowsData = GenerateFastList();
+                _buildingSelection.Data = GenerateFastList();
             }
             catch (Exception e)
             {
@@ -381,33 +383,31 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Called to select a building from 'outside' the building details editor (e.g. by button on building info panel).
         /// Sets the filter to only display the relevant category for the relevant building, and makes that building selected in the list.
         /// </summary>
-        /// <param name="building"></param>
+        /// <param name="building">Selected building.</param>
         internal void SelectBuilding(BuildingInfo building)
         {
             // Ensure the fastlist is filtered to include this building.
-            filterBar.SelectBuildingCategory(building.m_class);
-            buildingSelection.rowsData = GenerateFastList();
+            _filterBar.SelectBuildingCategory(building.m_class);
+            _buildingSelection.Data = GenerateFastList();
 
             // Clear the name filter.
-            filterBar.nameFilter.text = String.Empty;
+            _filterBar.nameFilter.text = String.Empty;
 
             // Find and select the building in the fastlist.
-            buildingSelection.FindBuilding(building.name);
+            _buildingSelection.FindItem(building);
 
             // Update the selected building to the current.
             UpdateSelectedBuilding(building);
         }
 
-
         /// <summary>
         /// Generates the list of buildings depending on current filter settings.
         /// </summary>
-        /// <returns>List of buildings</returns>
+        /// <returns>List of buildings.</returns>
         private FastList<object> GenerateFastList()
         {
             // List to store all building prefabs that pass the filter.
@@ -430,37 +430,37 @@ namespace RealPop2
                 ItemClass.SubService subService = item.GetSubService();
 
                 // Laid out this way for clear visibility.
-                if (subService == ItemClass.SubService.ResidentialLow && filterBar.categoryToggles[(int)BuildingCategories.ResidentialLow].isChecked)
+                if (subService == ItemClass.SubService.ResidentialLow && _filterBar.categoryToggles[(int)UIBuildingFilter.BuildingCategories.ResidentialLow].isChecked)
                 {
                 }
-                else if (subService == ItemClass.SubService.ResidentialHigh && filterBar.categoryToggles[(int)BuildingCategories.ResidentialHigh].isChecked)
+                else if (subService == ItemClass.SubService.ResidentialHigh && _filterBar.categoryToggles[(int)UIBuildingFilter.BuildingCategories.ResidentialHigh].isChecked)
                 {
                 }
-                else if (subService == ItemClass.SubService.CommercialLow && filterBar.categoryToggles[(int)BuildingCategories.CommercialLow].isChecked)
+                else if (subService == ItemClass.SubService.CommercialLow && _filterBar.categoryToggles[(int)UIBuildingFilter.BuildingCategories.CommercialLow].isChecked)
                 {
                 }
-                else if (subService == ItemClass.SubService.CommercialHigh && filterBar.categoryToggles[(int)BuildingCategories.CommercialHigh].isChecked)
+                else if (subService == ItemClass.SubService.CommercialHigh && _filterBar.categoryToggles[(int)UIBuildingFilter.BuildingCategories.CommercialHigh].isChecked)
                 {
                 }
-                else if (service == ItemClass.Service.Office && filterBar.categoryToggles[(int)BuildingCategories.Office].isChecked)
+                else if (service == ItemClass.Service.Office && _filterBar.categoryToggles[(int)UIBuildingFilter.BuildingCategories.Office].isChecked)
                 {
                 }
-                else if (service == ItemClass.Service.Industrial && filterBar.categoryToggles[(int)BuildingCategories.Industrial].isChecked)
+                else if (service == ItemClass.Service.Industrial && _filterBar.categoryToggles[(int)UIBuildingFilter.BuildingCategories.Industrial].isChecked)
                 {
                 }
-                else if (subService == ItemClass.SubService.CommercialTourist && filterBar.categoryToggles[(int)BuildingCategories.Tourism].isChecked)
+                else if (subService == ItemClass.SubService.CommercialTourist && _filterBar.categoryToggles[(int)UIBuildingFilter.BuildingCategories.Tourism].isChecked)
                 {
                 }
-                else if (subService == ItemClass.SubService.CommercialLeisure && filterBar.categoryToggles[(int)BuildingCategories.Leisure].isChecked)
+                else if (subService == ItemClass.SubService.CommercialLeisure && _filterBar.categoryToggles[(int)UIBuildingFilter.BuildingCategories.Leisure].isChecked)
                 {
                 }
-                else if (subService == ItemClass.SubService.CommercialEco && filterBar.categoryToggles[(int)BuildingCategories.Organic].isChecked)
+                else if (subService == ItemClass.SubService.CommercialEco && _filterBar.categoryToggles[(int)UIBuildingFilter.BuildingCategories.Organic].isChecked)
                 {
                 }
-                else if ((subService == ItemClass.SubService.ResidentialLowEco || subService == ItemClass.SubService.ResidentialHighEco) && filterBar.categoryToggles[(int)BuildingCategories.Selfsufficient].isChecked)
+                else if ((subService == ItemClass.SubService.ResidentialLowEco || subService == ItemClass.SubService.ResidentialHighEco) && _filterBar.categoryToggles[(int)UIBuildingFilter.BuildingCategories.Selfsufficient].isChecked)
                 {
                 }
-                else if (service == ItemClass.Service.Education && filterBar.categoryToggles[(int)BuildingCategories.Education].isChecked && item.GetClassLevel() < ItemClass.Level.Level3)
+                else if (service == ItemClass.Service.Education && _filterBar.categoryToggles[(int)UIBuildingFilter.BuildingCategories.Education].isChecked && item.GetClassLevel() < ItemClass.Level.Level3)
                 {
                 }
                 else
@@ -470,7 +470,7 @@ namespace RealPop2
                 }
 
                 // Filter by name.
-                if (!filterBar.nameFilter.text.Trim().IsNullOrWhiteSpace() && !GetDisplayName(item.name).ToLower().Contains(filterBar.nameFilter.text.Trim().ToLower()))
+                if (!_filterBar.nameFilter.text.Trim().IsNullOrWhiteSpace() && !GetDisplayName(item.name).ToLower().Contains(_filterBar.nameFilter.text.Trim().ToLower()))
                 {
                     continue;
                 }
@@ -479,9 +479,9 @@ namespace RealPop2
                 bool hasOverride = OverrideUtils.GetResidential(item) != 0 || OverrideUtils.GetWorker(item) != 0 || FloorData.instance.HasOverride(itemName) != null;
                 bool hasNonDefault = PopData.instance.HasPackOverride(itemName) != null || FloorData.instance.HasPackOverride(itemName) != null || SchoolData.instance.HasPackOverride(itemName) != null || Multipliers.instance.HasOverride(itemName);
 
-                if (filterBar.SettingsFilter[(int)FilterCategories.HasOverride].isChecked && !hasOverride) continue;
-                if (filterBar.SettingsFilter[(int)FilterCategories.HasNonDefault].isChecked && !hasNonDefault) continue;
-                if (filterBar.SettingsFilter[(int)FilterCategories.Any].isChecked && !(hasOverride || hasNonDefault)) continue;
+                if (_filterBar.SettingsFilter[(int)UIBuildingFilter.FilterCategories.HasOverride].isChecked && !hasOverride) continue;
+                if (_filterBar.SettingsFilter[(int)UIBuildingFilter.FilterCategories.HasNonDefault].isChecked && !hasNonDefault) continue;
+                if (_filterBar.SettingsFilter[(int)UIBuildingFilter.FilterCategories.Any].isChecked && !(hasOverride || hasNonDefault)) continue;
 
                 // Finally!  We've got an item that's passed all filters; add it to the list.
                 filteredList.Add(item);
@@ -496,12 +496,11 @@ namespace RealPop2
             return fastList;
         }
 
-
         /// <summary>
         /// Returns the name of the building prefab cleaned up for display.
         /// </summary>
-        /// <param name="fullName">Raw prefab name</param>
-        /// <returns></returns>
+        /// <param name="fullName">Raw prefab name.</param>
+        /// <returns>Cleaned-up display name.</returns>
         public static string GetDisplayName(string fullName)
         {
             // Filter out leading package number and trailing '_Data'.

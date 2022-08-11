@@ -1,8 +1,14 @@
-﻿using ColossalFramework.UI;
-
+﻿// <copyright file="IndConsumptionPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons;
+    using AlgernonCommons.Translation;
+    using ColossalFramework.UI;
+
     /// <summary>
     /// Options panel (sub)-tab for industrial building consumption configuration.
     /// </summary>
@@ -17,7 +23,6 @@ namespace RealPop2
         private const int NumSubServices = 5;
         private const int NumLevels = 3;
 
-
         // Label constants.
         private readonly string[] subServiceLables =
         {
@@ -28,7 +33,6 @@ namespace RealPop2
             "RPR_CAT_ORE"
         };
 
-
         /// <summary>
         /// Adds industrial options tab to tabstrip.
         /// </summary>
@@ -37,7 +41,6 @@ namespace RealPop2
         internal IndConsumptionPanel(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
         {
         }
-
 
         /// <summary>
         /// Performs initial setup; called via event when tab is first selected.
@@ -68,15 +71,15 @@ namespace RealPop2
 
                 // Create residential per-person area textfields and labels.
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate(subServiceLables[Generic]), "ZoningIndustrial", "Thumbnails");
-                AddSubService(panel, true, Generic);
+                AddSubService(panel, Generic);
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate(subServiceLables[Farming]), "IconPolicyFarming", "Ingame");
-                AddSubService(panel, false, Farming, true);
+                AddSubService(panel, Farming, true);
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate(subServiceLables[Forestry]), "IconPolicyForest", "Ingame");
-                AddSubService(panel, false, Forestry, true);
+                AddSubService(panel, Forestry, true);
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate(subServiceLables[Oil]), "IconPolicyOil", "Ingame");
-                AddSubService(panel, false, Oil, true);
+                AddSubService(panel, Oil, true);
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate(subServiceLables[Ore]), "IconPolicyOre", "Ingame");
-                AddSubService(panel, false, Ore, true);
+                AddSubService(panel, Ore, true);
 
                 // Populate initial values.
                 PopulateFields();
@@ -85,7 +88,6 @@ namespace RealPop2
                 AddButtons(panel);
             }
         }
-
 
         /// <summary>
         /// Populates the text fields with information from the DataStore.
@@ -99,7 +101,6 @@ namespace RealPop2
             PopulateSubService(DataStore.industry_oil, Oil);
             PopulateSubService(DataStore.industry_ore, Ore);
         }
-
 
         /// <summary>
         /// Updates the DataStore with the information from the text fields.
@@ -122,7 +123,6 @@ namespace RealPop2
             // Refresh settings.
             PopulateFields();
         }
-
 
         /// <summary>
         /// Resets all textfields to mod default values.

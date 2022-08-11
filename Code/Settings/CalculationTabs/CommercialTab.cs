@@ -1,8 +1,13 @@
-﻿using ColossalFramework.UI;
-
+﻿// <copyright file="CommercialTab.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons.Translation;
+    using ColossalFramework.UI;
+
     /// <summary>
     /// Options panel for setting basic mod options.
     /// </summary>
@@ -31,7 +36,6 @@ namespace RealPop2
         protected override string[] AtlasNames => atlasNames;
         protected override string Tooltip => Translations.Translate("RPR_CAT_COM");
 
-
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -40,7 +44,6 @@ namespace RealPop2
         internal CommercialTab(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
         {
         }
-
 
         /// <summary>
         /// Adds required sub-tabs.

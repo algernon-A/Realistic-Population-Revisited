@@ -1,73 +1,91 @@
-﻿using ICities;
-using ColossalFramework.UI;
-using CitiesHarmony.API;
-
+﻿// <copyright file="Mod.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
-    public class Mod : IUserMod
+    using AlgernonCommons.Patching;
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using CitiesHarmony.API;
+    using ColossalFramework.UI;
+    using ICities;
+
+    /// <summary>
+    /// The base mod class for instantiation by the game.
+    /// </summary>
+    public class Mod : PatcherMod, IUserMod
     {
-        // Public mod name and description.
-        public string Name => ModName + " " + Version;
+        /// <summary>
+        /// Gets the mod's base display name (name only).
+        /// </summary>
+        public override string BaseName => "Realistic Population 2";
+
+        /// <summary>
+        /// Gets the mod's unique Harmony identfier.
+        /// </summary>
+        public override string HarmonyID => "algernon-A.csl.realpop2";
+
+        /// <summary>
+        /// Gets the mod's description for display in the content manager.
+        /// </summary>
         public string Description => Translations.Translate("RPR_DESC");
-
-        // Internal and private name and version components.
-        internal static string ModName => "Realistic Population 2";
-        internal static string Version => AssemblyUtils.CurrentVersion;
-
-
-        /// <summary>
-        /// Called by the game when the mod options panel is setup.
-        /// </summary>
-        public void OnSettingsUI(UIHelperBase helper)
-        {
-            // Setup options panel reference.
-            OptionsPanel.optionsPanel = ((UIHelper)helper).self as UIScrollablePanel;
-            OptionsPanel.optionsPanel.autoLayout = false;
-        }
-
-
-        /// <summary>
-        /// Called by the game when the mod is disabled.
-        /// </summary>
-        public void OnDisabled()
-        {
-            // Unapply Harmony patches via Cities Harmony.
-            if (HarmonyHelper.IsHarmonyInstalled)
-            {
-                Patcher.UnpatchAll();
-            }
-        }
-
 
         /// <summary>
         /// Called by the game when the mod is enabled.
         /// </summary>
-        public void OnEnabled()
+        public override void OnEnabled()
         {
-            // Load settings file first (includes logging detail setting).
-            XMLSettingsFile.Load();
-
-            // Apply Harmony patches via Cities Harmony.
-            // Called here instead of OnCreated to allow the auto-downloader to do its work prior to launch.
-            HarmonyHelper.DoOnHarmonyReady(() => Patcher.PatchAll());
-
             // Populate (legacy) Datastore from configuration file.
             // Make sure this happens before loading the new configuration file, which will overwrite any settings here.
             // This establishes the correct priority (new over legacy).
             XMLUtilsWG.ReadFromXML();
 
-            // Attaching options panel event hook - check to see if UIView is ready.
+            base.OnEnabled();
+
+            // Add the options panel event handler for the start screen (to enable/disable options panel based on visibility).
+            // First, check to see if UIView is ready.
             if (UIView.GetAView() != null)
             {
                 // It's ready - attach the hook now.
-                OptionsPanel.OptionsEventHook();
+                OptionsPanelManager<OptionsPanel>.OptionsEventHook();
             }
             else
             {
                 // Otherwise, queue the hook for when the intro's finished loading.
-                LoadingManager.instance.m_introLoaded += OptionsPanel.OptionsEventHook;
+                LoadingManager.instance.m_introLoaded += OptionsPanelManager<OptionsPanel>.OptionsEventHook;
             }
         }
+
+        /// <summary>
+        /// Called by the game when the mod options panel is setup.
+        /// </summary>
+        /// <param name="helper">UI helper instance.</param>
+        public void OnSettingsUI(UIHelperBase helper)
+        {
+            // Create options panel.
+            OptionsPanelManager<OptionsPanel>.Setup(helper);
+        }
+
+        /// <summary>
+        /// Saves settings file.
+        /// </summary>
+        public override void SaveSettings() => XMLSettingsFile.Save();
+
+        /// <summary>
+        /// Loads settings file.
+        /// </summary>
+        public override void LoadSettings() => XMLSettingsFile.Load();
+
+        /// <summary>
+        /// Apply Harmony patches.
+        /// </summary>
+        protected override void ApplyPatches() => Patcher.Instance.PatchAll();
+
+        /// <summary>
+        /// Remove Harmony patches.
+        /// </summary>
+        protected override void RemovePatches() => Patcher.Instance.UnpatchAll();
     }
 }

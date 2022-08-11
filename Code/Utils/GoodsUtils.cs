@@ -1,9 +1,13 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-
+﻿// <copyright file="GoodsUtils.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+
     /// <summary>
     /// Static utilities class for handling goods production and consumption.
     /// </summary>
@@ -21,36 +25,32 @@ namespace RealPop2
         // Internal inventory caps;
         private static int lowComInv = DefaultInventory, highComInv = DefaultInventory, ecoComInv = DefaultInventory, touristInv = DefaultInventory, leisureInv = DefaultInventory;
 
-
         /// <summary>
-        /// Returns the current commercial sales multiplier for the given commercial building.
+        /// Gets the current commercial sales multiplier for the given commercial building.
         /// </summary>
-        /// <param name="building">Specified building</param>
-        /// <returns>Current sales multiplier as integer pecentage</returns>
+        /// <param name="building">Specified building.</param>
+        /// <returns>Current sales multiplier as integer pecentage.</returns>
         public static int GetComMult(ref Building building) => GetComMult(building.Info.GetSubService());
 
-
         /// <summary>
-        /// Returns the current inventory cap for the given commercial building.
+        /// Gets the current inventory cap for the given commercial building.
         /// </summary>
-        /// <param name="building">Specified building</param>
-        /// <returns>Current sales multiplier as integer pecentage</returns>
+        /// <param name="building">Specified building.</param>
+        /// <returns>Current sales multiplier as integer pecentage.</returns>
         public static int GetInventoryCap(ref Building building) => GetInventoryCap(building.Info.GetSubService());
 
-
         /// <summary>
-        /// Returns the current inventory cap for the given commercial building ai.
+        /// Gets the current inventory cap for the given commercial building ai.
         /// </summary>
-        /// <param name="building">Specified building</param>
-        /// <returns>Current sales multiplier as integer pecentage</returns>
+        /// <param name="ai">CommercialBuildingAI instance.</param>
+        /// <returns>Current sales multiplier as integer pecentage.</returns>
         public static int GetInventoryCap(CommercialBuildingAI ai) => GetInventoryCap(ai.m_info.GetSubService());
 
-
         /// <summary>
-        /// Returns the current commercial sales multiplier for the given commercial subservice.
+        /// Gets the current commercial sales multiplier for the given commercial subservice.
         /// </summary>
-        /// <param name="subService">Specified subservice</param>
-        /// <returns>Current sales multiplier as integer pecentage</returns>
+        /// <param name="subService">Specified subservice.</param>
+        /// <returns>Current sales multiplier as integer pecentage.</returns>
         internal static int GetComMult(ItemClass.SubService subService)
         {
             switch (subService)
@@ -68,12 +68,11 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Returns the current inventory cap for the given commercial subservice.
         /// </summary>
-        /// <param name="subService">Specified subservice</param>
-        /// <returns>Current inventory cap</returns>
+        /// <param name="subService">Specified subservice.</param>
+        /// <returns>Current inventory cap.</returns>
         public static int GetInventoryCap(ItemClass.SubService subService)
         {
 
@@ -92,12 +91,11 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Sets the current commercial sales multiplier for the given commercial subservice.
         /// </summary>
-        /// <param name="subService">Sub-service to set</param>
-        /// <param name="value">Value to set</param>
+        /// <param name="subService">Sub-service to set.</param>
+        /// <param name="value">Value to set.</param>
         internal static void SetComMult(ItemClass.SubService subService, int value)
         {
             int cleanValue = Mathf.Clamp(value, 0, 100);
@@ -122,12 +120,11 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Sets the current inventory cap for the given commercial subservice.
         /// </summary>
-        /// <param name="subService">Sub-service to set</param>
-        /// <param name="value">Value to set</param>
+        /// <param name="subService">Sub-service to set.</param>
+        /// <param name="value">Value to set.</param>
         internal static void SetInventoryCap(ItemClass.SubService subService, int value)
         {
             int cleanValue = Mathf.Clamp(value, MinInventory, MaxInventory);
@@ -152,105 +149,101 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Serializes the current sales multiplier settings ready for XML.
         /// </summary>
-        /// <returns>New list of sub-service entries ready for serialization</returns>
-        internal static List<SubServiceValue> SerializeSalesMults()
+        /// <returns>New list of sub-service entries ready for serialization.</returns>
+        internal static List<Configuration.SubServiceValue> SerializeSalesMults()
         {
-            return new List<SubServiceValue>
+            return new List<Configuration.SubServiceValue>
             {
-                new SubServiceValue
+                new Configuration.SubServiceValue
                 {
-                    subService = ItemClass.SubService.CommercialLow,
-                    value = lowComMult
+                    SubService = ItemClass.SubService.CommercialLow,
+                    Value = lowComMult
                 },
-                new SubServiceValue
+                new Configuration.SubServiceValue
                 {
-                    subService = ItemClass.SubService.CommercialHigh,
-                    value = highComMult
+                    SubService = ItemClass.SubService.CommercialHigh,
+                    Value = highComMult
                 },
-                new SubServiceValue
+                new Configuration.SubServiceValue
                 {
-                    subService = ItemClass.SubService.CommercialEco,
-                    value = ecoComMult
+                    SubService = ItemClass.SubService.CommercialEco,
+                    Value = ecoComMult
                 },
-                new SubServiceValue
+                new Configuration.SubServiceValue
                 {
-                    subService = ItemClass.SubService.CommercialLeisure,
-                    value = leisureMult
+                    SubService = ItemClass.SubService.CommercialLeisure,
+                    Value = leisureMult
                 },
-                new SubServiceValue
+                new Configuration.SubServiceValue
                 {
-                    subService = ItemClass.SubService.CommercialTourist,
-                    value = touristMult
+                    SubService = ItemClass.SubService.CommercialTourist,
+                    Value = touristMult
                 }
             };
         }
-
 
         /// <summary>
         /// Serializes the current inventory demand caps ready for XML.
         /// </summary>
-        /// <returns>New list of sub-service entries ready for serialization</returns>
-        internal static List<SubServiceValue> SerializeInvCaps()
+        /// <returns>New list of sub-service entries ready for serialization.</returns>
+        internal static List<Configuration.SubServiceValue> SerializeInvCaps()
         {
-            return new List<SubServiceValue>
+            return new List<Configuration.SubServiceValue>
             {
-                new SubServiceValue
+                new Configuration.SubServiceValue
                 {
-                    subService = ItemClass.SubService.CommercialLow,
-                    value = lowComInv
+                    SubService = ItemClass.SubService.CommercialLow,
+                    Value = lowComInv,
                 },
-                new SubServiceValue
+                new Configuration.SubServiceValue
                 {
-                    subService = ItemClass.SubService.CommercialHigh,
-                    value = highComInv
+                    SubService = ItemClass.SubService.CommercialHigh,
+                    Value = highComInv,
                 },
-                new SubServiceValue
+                new Configuration.SubServiceValue
                 {
-                    subService = ItemClass.SubService.CommercialEco,
-                    value = ecoComInv
+                    SubService = ItemClass.SubService.CommercialEco,
+                    Value = ecoComInv,
                 },
-                new SubServiceValue
+                new Configuration.SubServiceValue
                 {
-                    subService = ItemClass.SubService.CommercialLeisure,
-                    value = leisureInv
+                    SubService = ItemClass.SubService.CommercialLeisure,
+                    Value = leisureInv,
                 },
-                new SubServiceValue
+                new Configuration.SubServiceValue
                 {
-                    subService = ItemClass.SubService.CommercialTourist,
-                    value = touristInv
+                    SubService = ItemClass.SubService.CommercialTourist,
+                    Value = touristInv,
                 }
             };
         }
 
-
         /// <summary>
         /// Deserializes XML sub-service entries for sales multipliers.
         /// </summary>
-        /// <param name="entries">List of sub-service entries to deserialize</param>
-        /// <returns>New list of sub-service entries ready for serialization</returns>
-        internal static void DeserializeSalesMults(List<SubServiceValue> entries)
+        /// <param name="entries">List of sub-service entries to deserialize.</param>
+        /// <returns>New list of sub-service entries ready for serialization.</returns>
+        internal static void DeserializeSalesMults(List<Configuration.SubServiceValue> entries)
         {
-            foreach (SubServiceValue entry in entries)
+            foreach (Configuration.SubServiceValue entry in entries)
             {
-                SetComMult(entry.subService, entry.value);
+                SetComMult(entry.SubService, entry.Value);
             }
         }
-
 
         /// <summary>
         /// Deserializes XML sub-service entries for inventory demand caps.
         /// </summary>
-        /// <param name="entries">List of sub-service entries to deserialize</param>
-        /// <returns>New list of sub-service entries ready for serialization</returns>
-        internal static void DeserializeInvCaps(List<SubServiceValue> entries)
+        /// <param name="entries">List of sub-service entries to deserialize.</param>
+        /// <returns>New list of sub-service entries ready for serialization.</returns>
+        internal static void DeserializeInvCaps(List<Configuration.SubServiceValue> entries)
         {
-            foreach (SubServiceValue entry in entries)
+            foreach (Configuration.SubServiceValue entry in entries)
             {
-                SetInventoryCap(entry.subService, entry.value);
+                SetInventoryCap(entry.SubService, entry.Value);
             }
         }
     }

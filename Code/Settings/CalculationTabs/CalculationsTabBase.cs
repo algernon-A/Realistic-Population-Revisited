@@ -1,9 +1,14 @@
-﻿using UnityEngine;
-using ColossalFramework.UI;
-
+﻿// <copyright file="CalculationsTabBase.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons;
+    using ColossalFramework.UI;
+    using UnityEngine;
+
     /// <summary>
     /// Options panel tab for calculations for a particular service group.
     /// </summary>
@@ -20,13 +25,11 @@ namespace RealPop2
         // Tab width.
         protected virtual float TabWidth => 100f;
 
-
-
         /// <summary>
         /// Adds options tab to tabstrip.
         /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
+        /// <param name="parentTabStrip">Parent tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
         internal CalculationsTabBase(UITabstrip parentTabStrip, int tabIndex)
         {
             // Add tab and helper.
@@ -36,19 +39,16 @@ namespace RealPop2
             parentTabStrip.tabs[tabIndex].objectUserData = this;
         }
 
-
         /// <summary>
         /// Updates control values for relevant defaults panel.
         /// </summary>
         internal void UpdateControls() => defaultsPanel?.UpdateControls();
-
 
         /// <summary>
         /// Adds required sub-tabs.
         /// </summary>
         /// <param name="tabStrip">Tabstrip reference</param>
         protected abstract void AddTabs(UITabstrip tabStrip);
-
 
         /// <summary>
         /// Performs initial setup; called via event when tab is first selected.

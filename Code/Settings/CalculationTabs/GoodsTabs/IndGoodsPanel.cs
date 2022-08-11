@@ -1,8 +1,15 @@
-﻿using ColossalFramework.UI;
-
+﻿// <copyright file="IndGoodsPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using ColossalFramework.UI;
+    using Realistic_Population_Revisited.Code.Patches.Production;
+
     /// <summary>
     /// Options panel for setting industry goods calculations.
     /// </summary>
@@ -64,17 +71,14 @@ namespace RealPop2
         // Title key.
         protected override string TitleKey => "RPR_TIT_IGO";
 
-
         // Panel components.
         private UISlider[] procProdMultSliders, extProdMultSliders;
         private UIDropDown[] procProdModeMenus, extProdModeMenus;
-
 
         /// <summary>
         /// Legacy settings link.
         /// </summary>
         protected bool ThisLegacyCategory { get => ModSettings.ThisSaveLegacyInd; set => ModSettings.ThisSaveLegacyInd = value; }
-
 
         /// <summary>
         /// Constructor.
@@ -85,8 +89,7 @@ namespace RealPop2
         {
         }
 
-
-        // <summary>
+        /// <summary>
         /// Updates pack selection menu items.
         /// </summary>
         internal override void UpdateControls()
@@ -97,29 +100,28 @@ namespace RealPop2
             for (int i = 0; i < procProdMultSliders.Length; ++i)
             {
                 // Reset visit multiplier slider values.
-                procProdMultSliders[i].value = RealisticIndustrialProduction.GetProdMult(subServices[i]);
-                extProdMultSliders[i].value = RealisticExtractorProduction.GetProdMult(subServices[i]);
+                procProdMultSliders[i].value = IndustrialProduction.GetProdMult(subServices[i]);
+                extProdMultSliders[i].value = ExtractorProduction.GetProdMult(subServices[i]);
 
                 // Reset visit mode menu selections.
-                procProdModeMenus[i].selectedIndex = RealisticIndustrialProduction.GetProdMode(subServices[i]);
-                extProdModeMenus[i].selectedIndex = RealisticExtractorProduction.GetProdMode(subServices[i]);
+                procProdModeMenus[i].selectedIndex = IndustrialProduction.GetProdMode(subServices[i]);
+                extProdModeMenus[i].selectedIndex = ExtractorProduction.GetProdMode(subServices[i]);
             }
         }
-
 
         /// <summary>
         /// Adds controls for each sub-service.
         /// </summary>
-        /// <param name="yPos">Relative Y position at top of row items</param>
-        /// <param name="index">Index number of this row</param>
-        /// <returns>Relative Y coordinate below the finished setup</returns>
+        /// <param name="yPos">Relative Y position at top of row items.</param>
+        /// <param name="index">Index number of this row.</param>
+        /// <returns>Relative Y coordinate below the finished setup.</returns>
         protected override float SubServiceControls(float yPos, int index)
         {
             float currentY = yPos;
 
             // Header labels.
-            UIControls.AddLabel(panel, LeftColumn, currentY - 19f, Translations.Translate("RPR_DEF_PMD"), -1, 0.8f);
-            UIControls.AddLabel(panel, RightColumn, currentY - 19f, Translations.Translate("RPR_DEF_PRD"), -1, 0.8f);
+            UILabels.AddLabel(panel, LeftColumn, currentY - 19f, Translations.Translate("RPR_DEF_PMD"), -1, 0.8f);
+            UILabels.AddLabel(panel, RightColumn, currentY - 19f, Translations.Translate("RPR_DEF_PRD"), -1, 0.8f);
 
             // SubServiceControls is called as part of parent constructor, so we need to initialise them here if they aren't already.
             if (procProdMultSliders == null)
@@ -131,8 +133,8 @@ namespace RealPop2
             }
 
             // Processor production mode menus.
-            procProdModeMenus[index] = UIControls.AddLabelledDropDown(panel, LeftColumn, currentY, Translations.Translate("RPR_CAT_PRO"), ControlWidth, height: 20f, itemVertPadding: 6, accomodateLabel: false, tooltip: Translations.Translate("RPR_DEF_PMD_TIP"));
-            procProdModeMenus[index].tooltipBox = TooltipUtils.TooltipBox;
+            procProdModeMenus[index] = UIDropDowns.AddLabelledDropDown(panel, LeftColumn, currentY, Translations.Translate("RPR_CAT_PRO"), ControlWidth, height: 20f, itemVertPadding: 6, accomodateLabel: false, tooltip: Translations.Translate("RPR_DEF_PMD_TIP"));
+            procProdModeMenus[index].tooltipBox = UIToolTips.WordWrapToolTip;
             procProdModeMenus[index].objectUserData = index;
             procProdModeMenus[index].items = new string[]
             {
@@ -143,14 +145,14 @@ namespace RealPop2
             // Processor production multiplication sliders.
             procProdMultSliders[index] = AddSlider(panel, RightColumn, currentY, ControlWidth, "RPR_DEF_PRD_TIP");
             procProdMultSliders[index].objectUserData = index;
-            procProdMultSliders[index].maxValue = RealisticIndustrialProduction.MaxProdMult;
-            procProdMultSliders[index].value = RealisticIndustrialProduction.GetProdMult(subServices[index]);
+            procProdMultSliders[index].maxValue = IndustrialProduction.MaxProdMult;
+            procProdMultSliders[index].value = IndustrialProduction.GetProdMult(subServices[index]);
             PercentSliderText(procProdMultSliders[index], procProdMultSliders[index].value);
 
             // Extractor production mode menus.
             currentY += RowHeight;
-            extProdModeMenus[index] = UIControls.AddLabelledDropDown(panel, LeftColumn, currentY, Translations.Translate("RPR_CAT_EXT"), ControlWidth, height: 20f, itemVertPadding: 6, accomodateLabel: false, tooltip: Translations.Translate("RPR_DEF_PMD_TIP"));
-            extProdModeMenus[index].tooltipBox = TooltipUtils.TooltipBox;
+            extProdModeMenus[index] = UIDropDowns.AddLabelledDropDown(panel, LeftColumn, currentY, Translations.Translate("RPR_CAT_EXT"), ControlWidth, height: 20f, itemVertPadding: 6, accomodateLabel: false, tooltip: Translations.Translate("RPR_DEF_PMD_TIP"));
+            extProdModeMenus[index].tooltipBox = UIToolTips.WordWrapToolTip;
             extProdModeMenus[index].objectUserData = index;
             extProdModeMenus[index].items = new string[]
             {
@@ -161,8 +163,8 @@ namespace RealPop2
             // Extractor production multiplication sliders.
             extProdMultSliders[index] = AddSlider(panel, RightColumn, currentY, ControlWidth, "RPR_DEF_PRD_TIP");
             extProdMultSliders[index].objectUserData = index;
-            extProdMultSliders[index].maxValue = RealisticExtractorProduction.MaxProdMult;
-            extProdMultSliders[index].value = RealisticExtractorProduction.GetProdMult(subServices[index]);
+            extProdMultSliders[index].maxValue = ExtractorProduction.MaxProdMult;
+            extProdMultSliders[index].value = ExtractorProduction.GetProdMult(subServices[index]);
 
             // Always hide generic industrial extractor (index 0) controls.
             if (index == 0)
@@ -180,93 +182,89 @@ namespace RealPop2
             extProdModeMenus[index].eventSelectedIndexChanged += ExtProdDefaultIndexChanged;
 
             // Set prodution calculation mode initial selection.
-            procProdModeMenus[index].selectedIndex = RealisticIndustrialProduction.GetProdMode(subServices[index]);
-            extProdModeMenus[index].selectedIndex = RealisticExtractorProduction.GetProdMode(subServices[index]);
+            procProdModeMenus[index].selectedIndex = IndustrialProduction.GetProdMode(subServices[index]);
+            extProdModeMenus[index].selectedIndex = ExtractorProduction.GetProdMode(subServices[index]);
 
             return currentY;
         }
 
-
         /// <summary>
         /// 'Save and apply' button event handler.
         /// </summary>
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="mouseEvent">Mouse event (unused)</param>
-        protected override void Apply(UIComponent control, UIMouseEventParameter mouseEvent)
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event.)</param>
+        protected override void Apply(UIComponent c, UIMouseEventParameter p)
         {
             // Iterate through all subservices.
             for (int i = 0; i < subServices.Length; ++i)
             {
                 // Record production calculation modes.
-                RealisticIndustrialProduction.SetProdMode(subServices[i], procProdModeMenus[i].selectedIndex);
-                RealisticExtractorProduction.SetProdMode(subServices[i], extProdModeMenus[i].selectedIndex);
+                IndustrialProduction.SetProdMode(subServices[i], procProdModeMenus[i].selectedIndex);
+                ExtractorProduction.SetProdMode(subServices[i], extProdModeMenus[i].selectedIndex);
 
                 // Record production multipliers.
-                RealisticIndustrialProduction.SetProdMult(subServices[i], (int)procProdMultSliders[i].value);
-                RealisticExtractorProduction.SetProdMult(subServices[i], (int)extProdMultSliders[i].value);
+                IndustrialProduction.SetProdMult(subServices[i], (int)procProdMultSliders[i].value);
+                ExtractorProduction.SetProdMult(subServices[i], (int)extProdMultSliders[i].value);
             }
 
-            base.Apply(control, mouseEvent);
+            base.Apply(c, p);
         }
-
 
         /// <summary>
         /// 'Revert to defaults' button event handler.
         /// </summary>
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="mouseEvent">Mouse event (unused)</param>
-        protected override void ResetDefaults(UIComponent control, UIMouseEventParameter mouseEvent)
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event.</param>
+        protected override void ResetDefaults(UIComponent c, UIMouseEventParameter p)
         {
             // Reset sliders and menus.
             for (int i = 0; i < procProdMultSliders.Length; ++i)
             {
                 // Reset production multiplier slider value.
-                extProdMultSliders[i].value = RealisticExtractorProduction.DefaultProdMult;
-                procProdMultSliders[i].value = RealisticIndustrialProduction.DefaultProdMult;
+                extProdMultSliders[i].value = ExtractorProduction.DefaultProdMult;
+                procProdMultSliders[i].value = IndustrialProduction.DefaultProdMult;
 
                 // Reset visit mode menu selection.
-                procProdModeMenus[i].selectedIndex = ThisLegacyCategory ? (int)RealisticIndustrialProduction.ProdModes.legacy : (int)RealisticIndustrialProduction.ProdModes.popCalcs;
-                extProdModeMenus[i].selectedIndex = ThisLegacyCategory ? (int)RealisticExtractorProduction.ProdModes.legacy : (int)RealisticExtractorProduction.ProdModes.popCalcs;
+                procProdModeMenus[i].selectedIndex = ThisLegacyCategory ? (int)IndustrialProduction.ProdModes.legacy : (int)IndustrialProduction.ProdModes.popCalcs;
+                extProdModeMenus[i].selectedIndex = ThisLegacyCategory ? (int)ExtractorProduction.ProdModes.legacy : (int)ExtractorProduction.ProdModes.popCalcs;
             }
         }
-
 
         /// <summary>
         /// 'Revert to saved' button event handler.
         /// </summary>
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="mouseEvent">Mouse event (unused)</param>
-        protected override void ResetSaved(UIComponent control, UIMouseEventParameter mouseEvent) => UpdateControls();
+        /// <param name="c">Calling component (unused)</param>
+        /// <param name="p">Mouse event (unused)</param>
+        protected override void ResetSaved(UIComponent c, UIMouseEventParameter p) => UpdateControls();
 
 
         /// <summary>
         /// Extractor production mode menu index changed event handler.
-        /// <param name="control">Calling component</param>
-        /// <param name="index">New selected index</param>
+        /// <param name="c">Calling component.</param>
+        /// <param name="index">New selected index.</param>
         /// </summary>
-        private void ExtProdDefaultIndexChanged(UIComponent control, int index)
+        private void ExtProdDefaultIndexChanged(UIComponent c, int index)
         {
             // Extract subservice index from this control's object user data - 0 is generic industrial, for which the extractor controls are always hidden.
-            if (control.objectUserData is int subServiceIndex && subServiceIndex != 0)
+            if (c.objectUserData is int subServiceIndex && subServiceIndex != 0)
             {
                 // Toggle multiplier slider visibility based on current state.
-                extProdMultSliders[subServiceIndex].parent.isVisible = index == (int)RealisticExtractorProduction.ProdModes.popCalcs;
+                extProdMultSliders[subServiceIndex].parent.isVisible = index == (int)ExtractorProduction.ProdModes.popCalcs;
             }
         }
 
-
         /// <summary>
         /// Processor production mode menu index changed event handler.
-        /// <param name="control">Calling component</param>
-        /// <param name="index">New selected index</param>
+        /// <param name="c">Calling component.</param>
+        /// <param name="index">New selected index.</param>
         /// </summary>
-        private void ProcProdDefaultIndexChanged(UIComponent control, int index)
+        private void ProcProdDefaultIndexChanged(UIComponent c, int index)
         {
             // Extract subservice index from this control's object user data.
-            if (control.objectUserData is int subServiceIndex)
+            if (c.objectUserData is int subServiceIndex)
             {
                 // Toggle multiplier slider visibility based on current state.
-                procProdMultSliders[subServiceIndex].parent.isVisible = index == (int)RealisticIndustrialProduction.ProdModes.popCalcs;
+                procProdMultSliders[subServiceIndex].parent.isVisible = index == (int)IndustrialProduction.ProdModes.popCalcs;
             }
         }
     }

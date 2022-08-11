@@ -1,9 +1,9 @@
-using System;
-using System.Xml;
-
-
 namespace RealPop2
 {
+    using System;
+    using System.Xml;
+    using AlgernonCommons;
+
     public class XML_VersionFive : WG_XMLBaseVersion
     {
         private const string popNodeName = "population";
@@ -151,8 +151,6 @@ namespace RealPop2
             } // end foreach
         }
 
-
-        /// <param name="consumeNode"></param>
         private void ReadConsumptionNode(XmlNode consumeNode)
         {
             foreach (XmlNode node in consumeNode.ChildNodes)
@@ -272,11 +270,6 @@ namespace RealPop2
             } // end foreach
         }
 
-
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        /// <param name="toXML">Transformation into XML value</param>
-        /// <returns></returns>
         private int TransformPopulationModifier(string name, int value, bool toXML)
         {
             int dividor = 1;
@@ -299,8 +292,6 @@ namespace RealPop2
             }
         }
 
-
-        /// <param name="node"></param>
         private void ReadBonusHouseNode(XmlNode parent)
         {
             try
@@ -345,7 +336,6 @@ namespace RealPop2
             }
         }
 
-        /// <param name="node"></param>
         private void ReadBonusWorkers(XmlNode parent)
         {
             try
@@ -509,13 +499,6 @@ namespace RealPop2
             return array;
         } // end getArray
 
-
-        /// <param name="p"></param>
-        /// <param name="power"></param>
-        /// <param name="water"></param>
-        /// <param name="sewage"></param>
-        /// <param name="garbage"></param>
-        /// <param name="wealth"></param>
         private void SetConsumptionRates(int[] p, int power, int water, int sewage, int garbage, int wealth)
         {
             p[DataStore.POWER] = power;
@@ -525,10 +508,6 @@ namespace RealPop2
             p[DataStore.INCOME] = wealth;
         }
 
-
-        /// <param name="p"></param>
-        /// <param name="ground"></param>
-        /// <param name="noise"></param>
         private void SetPollutionRates(int[] p, int ground, int noise)
         {
             p[DataStore.GROUND_POLLUTION] = ground;

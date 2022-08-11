@@ -1,11 +1,16 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using ColossalFramework.Math;
-using HarmonyLib;
-
+﻿// <copyright file="VanillaPopMethods.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System;
+    using System.Runtime.CompilerServices;
+    using AlgernonCommons;
+    using ColossalFramework.Math;
+    using HarmonyLib;
+
     /// <summary>
     /// Class to access vanilla population calculation methods.
     /// </summary>
@@ -15,14 +20,14 @@ namespace RealPop2
         /// <summary>
         /// Returns the vanilla employment totals for the given building AI and details.
         /// </summary>
-        /// <param name="buildingAI">Building AI instance</param>
-        /// <param name="level">Building level</param>
-        /// <param name="width">Building lot width (in cells)</param>
-        /// <param name="length">Building lot depth (in cells)</param>
-        /// <param name="level0">Level 0 workplaces</param>
-        /// <param name="level1">Level 1 workplaces</param>
-        /// <param name="level2">Level 2 workplaces</param>
-        /// <param name="level3">Level 3 workplaces</param>
+        /// <param name="buildingAI">Building AI instance.</param>
+        /// <param name="level">Building level.</param>
+        /// <param name="width">Building lot width (in cells).</param>
+        /// <param name="length">Building lot depth (in cells).</param>
+        /// <param name="level0">Level 0 workplaces.</param>
+        /// <param name="level1">Level 1 workplaces.</param>
+        /// <param name="level2">Level 2 workplaces.</param>
+        /// <param name="level3">Level 3 workplaces.</param>
         public static void WorkplaceCount(BuildingAI buildingAI, ItemClass.Level level, int width, int length, out int level0, out int level1, out int level2, out int level3)
         {
             // Setup randomizer
@@ -52,16 +57,15 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Reverse patch for ResidentialBuildingAI.CalculateHomeCount to access original game method without any Harmony patches (including ours).
         /// </summary>
-        /// <param name="instance">Object instance</param>
-        /// <param name="level">Building level</param>
-        /// <param name="r">Randomizer</param>
-        /// <param name="width">Building lot width (in cells)</param>
+        /// <param name="instance">ResidentialBuildingAI instance.</param>
+        /// <param name="level">Building level.</param>
+        /// <param name="r">Randomizer.</param>
+        /// <param name="width">Building lot width (in cells).</param>
         /// <param name="length">Building lot depth (in cells)</param>
-        /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied</exception>
+        /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied.</exception>
         [HarmonyReversePatch]
         [HarmonyPatch((typeof(ResidentialBuildingAI)), nameof(ResidentialBuildingAI.CalculateHomeCount))]
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -72,20 +76,19 @@ namespace RealPop2
             throw new NotImplementedException(message);
         }
 
-
         /// <summary>
         /// Reverse patch for CommercialBuildingAI.CalculateWorkplaceCount to access original game method without any Harmony patches (including ours).
         /// </summary>
-        /// <param name="instance">Object instance</param>
-        /// <param name="level">Building level</param>
-        /// <param name="r">Randomizer</param>
-        /// <param name="width">Building lot width (in cells)</param>
-        /// <param name="length">Building lot depth (in cells)</param>
-        /// <param name="level0">Level 0 workplaces</param>
-        /// <param name="level1">Level 1 workplaces</param>
-        /// <param name="level2">Level 2 workplaces</param>
-        /// <param name="level3">Level 3 workplaces</param>
-        /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied</exception>
+        /// <param name="instance">CommercialBuildingAI instance.</param>
+        /// <param name="level">Building level.</param>
+        /// <param name="r">Randomizer.</param>
+        /// <param name="width">Building lot width (in cells).</param>
+        /// <param name="length">Building lot depth (in cells).</param>
+        /// <param name="level0">Level 0 workplaces.</param>
+        /// <param name="level1">Level 1 workplaces.</param>
+        /// <param name="level2">Level 2 workplaces.</param>
+        /// <param name="level3">Level 3 workplaces.</param>
+        /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied.</exception>
         [HarmonyReversePatch]
         [HarmonyPatch((typeof(CommercialBuildingAI)), nameof(CommercialBuildingAI.CalculateWorkplaceCount))]
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -100,20 +103,19 @@ namespace RealPop2
             throw new NotImplementedException(message);
         }
 
-
         /// <summary>
         /// Reverse patch for IndustrialBuildingAI.CalculateWorkplaceCount to access original game method without any Harmony patches (including ours).
         /// </summary>
-        /// <param name="instance">Object instance</param>
-        /// <param name="level">Building level</param>
-        /// <param name="r">Randomizer</param>
-        /// <param name="width">Building lot width (in cells)</param>
-        /// <param name="length">Building lot depth (in cells)</param>
-        /// <param name="level0">Level 0 workplaces</param>
-        /// <param name="level1">Level 1 workplaces</param>
-        /// <param name="level2">Level 2 workplaces</param>
-        /// <param name="level3">Level 3 workplaces</param>
-        /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied</exception>
+        /// <param name="instance">IndustrialBuildingAI instance.</param>
+        /// <param name="level">Building level.</param>
+        /// <param name="r">Randomizer.</param>
+        /// <param name="width">Building lot width (in cells).</param>
+        /// <param name="length">Building lot depth (in cells).</param>
+        /// <param name="level0">Level 0 workplaces.</param>
+        /// <param name="level1">Level 1 workplaces.</param>
+        /// <param name="level2">Level 2 workplaces.</param>
+        /// <param name="level3">Level 3 workplaces.</param>
+        /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied.</exception>
         [HarmonyReversePatch]
         [HarmonyPatch((typeof(IndustrialBuildingAI)), nameof(IndustrialBuildingAI.CalculateWorkplaceCount))]
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -128,20 +130,19 @@ namespace RealPop2
             throw new NotImplementedException(message);
         }
 
-
         /// <summary>
         /// Reverse patch for IndustrialExtractorAI.CalculateWorkplaceCount to access original game method without any Harmony patches (including ours).
         /// </summary>
-        /// <param name="instance">Object instance</param>
-        /// <param name="level">Building level</param>
-        /// <param name="r">Randomizer</param>
-        /// <param name="width">Building lot width (in cells)</param>
-        /// <param name="length">Building lot depth (in cells)</param>
-        /// <param name="level0">Level 0 workplaces</param>
-        /// <param name="level1">Level 1 workplaces</param>
-        /// <param name="level2">Level 2 workplaces</param>
-        /// <param name="level3">Level 3 workplaces</param>
-        /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied</exception>
+        /// <param name="instance">IndustrialExtractorAI instance.</param>
+        /// <param name="level">Building level.</param>
+        /// <param name="r">Randomizer.</param>
+        /// <param name="width">Building lot width (in cells).</param>
+        /// <param name="length">Building lot depth (in cells).</param>
+        /// <param name="level0">Level 0 workplaces.</param>
+        /// <param name="level1">Level 1 workplaces.</param>
+        /// <param name="level2">Level 2 workplaces.</param>
+        /// <param name="level3">Level 3 workplaces.</param>
+        /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied.</exception>
         [HarmonyReversePatch]
         [HarmonyPatch((typeof(IndustrialExtractorAI)), nameof(IndustrialExtractorAI.CalculateWorkplaceCount))]
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -156,20 +157,19 @@ namespace RealPop2
             throw new NotImplementedException(message);
         }
 
-
         /// <summary>
         /// Reverse patch for OfficeBuildingAI.CalculateWorkplaceCount to access original game method without any Harmony patches (including ours).
         /// </summary>
-        /// <param name="instance">Object instance</param>
-        /// <param name="level">Building level</param>
-        /// <param name="r">Randomizer</param>
-        /// <param name="width">Building lot width (in cells)</param>
-        /// <param name="length">Building lot depth (in cells)</param>
-        /// <param name="level0">Level 0 workplaces</param>
-        /// <param name="level1">Level 1 workplaces</param>
-        /// <param name="level2">Level 2 workplaces</param>
-        /// <param name="level3">Level 3 workplaces</param>
-        /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied</exception>
+        /// <param name="instance">OfficeBuildingAI instance.</param>
+        /// <param name="level">Building level.</param>
+        /// <param name="r">Randomizer.</param>
+        /// <param name="width">Building lot width (in cells).</param>
+        /// <param name="length">Building lot depth (in cells).</param>
+        /// <param name="level0">Level 0 workplaces.</param>
+        /// <param name="level1">Level 1 workplaces.</param>
+        /// <param name="level2">Level 2 workplaces.</param>
+        /// <param name="level3">Level 3 workplaces.</param>
+        /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied.</exception>
         [HarmonyReversePatch]
         [HarmonyPatch((typeof(OfficeBuildingAI)), nameof(OfficeBuildingAI.CalculateWorkplaceCount))]
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -184,16 +184,11 @@ namespace RealPop2
             throw new NotImplementedException(message);
         }
 
-
         /// <summary>
         /// Reverse patch for SchoolAI.StudentCount to access original game method without any Harmony patches (including ours).
         /// </summary>
-        /// <param name="instance">Object instance</param>
-        /// <param name="level">Building level</param>
-        /// <param name="r">Randomizer</param>
-        /// <param name="width">Building lot width (in cells)</param>
-        /// <param name="length">Building lot depth (in cells)</param>
-        /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied</exception>
+        /// <param name="instance">SchoolAI instance.</param>
+        /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied.</exception>
         [HarmonyReversePatch]
         [HarmonyPatch((typeof(SchoolAI)), nameof(SchoolAI.StudentCount), MethodType.Getter)]
         [MethodImpl(MethodImplOptions.NoInlining)]

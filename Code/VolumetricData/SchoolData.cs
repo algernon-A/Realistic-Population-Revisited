@@ -1,21 +1,15 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using ColossalFramework;
-using ColossalFramework.UI;
-
+﻿// <copyright file="SchoolData.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
-    /// <summary>
-    /// Simple class to store original school stats (for reversion to if needed).
-    /// </summary>
-    public class OriginalSchoolStats
-    {
-        public int students;
-        public int jobs0, jobs1, jobs2, jobs3;
-        public int cost, maintenance;
-    }
-
+    using System.Collections.Generic;
+    using AlgernonCommons;
+    using ColossalFramework;
+    using ColossalFramework.UI;
+    using UnityEngine;
 
     /// <summary>
     /// Centralised store and management of school calculation data.
@@ -27,7 +21,6 @@ namespace RealPop2
 
         // Dictionary of original settings.
         private Dictionary<string, OriginalSchoolStats> originalStats;
-
 
         /// <summary>
         /// Constructor - initializes inbuilt default calculation packs and performs other setup tasks.
@@ -103,12 +96,11 @@ namespace RealPop2
             calcPacks.Add(newPack);
         }
 
-
         /// <summary>
         /// Returns the original student count for the given school prefab (overriding with any manual figure).
         /// </summary>
-        /// <param name="building">Building prefab</param>
-        /// <returns>Original student count, if available, overridden by any manual figure (300 if no record available)</returns>
+        /// <param name="prefab">Building prefab.</param>
+        /// <returns>Original student count, if available, overridden by any manual figure (300 if no record available).</returns>
         internal int OriginalStudentCount(BuildingInfo prefab)
         {
             // Has the original stats dictionary been initialized yet (i.e. are we still loading)?
@@ -130,20 +122,19 @@ namespace RealPop2
                     return value;
                 }
                 // No override - retrieve stored value.
-                return originalStats[prefab.name].students;
+                return originalStats[prefab.name].Students;
             }
 
             // If we got here, no record was found; return 300 (vanilla elementary).
             return 300;
         }
 
-
         /// <summary>
         /// Updates our building setting dictionary for the selected building prefab to the indicated calculation pack.
         /// IMPORTANT: make sure student count is called before calling this.
         /// </summary>
-        /// <param name="building">Building prefab to update</param>
-        /// <param name="pack">New data pack to apply</param>
+        /// <param name="prefab">Building prefab to update.</param>
+        /// <param name="pack">New data pack to apply.</param>
         internal override void UpdateBuildingPack(BuildingInfo prefab, DataPack pack)
         {
             // Check for volumetric school pack.
@@ -155,14 +146,14 @@ namespace RealPop2
             else if (pack is VanillaPack vanillaPack && prefab?.m_buildingAI is SchoolAI schoolAI && originalStats.TryGetValue(prefab.name, out OriginalSchoolStats vanillaStats))
             {
                 // Vanilla school - restore worker counts.
-                schoolAI.m_workPlaceCount0 = vanillaStats.jobs0;
-                schoolAI.m_workPlaceCount1 = vanillaStats.jobs1;
-                schoolAI.m_workPlaceCount2 = vanillaStats.jobs2;
-                schoolAI.m_workPlaceCount3 = vanillaStats.jobs3;
+                schoolAI.m_workPlaceCount0 = vanillaStats.Jobs0;
+                schoolAI.m_workPlaceCount1 = vanillaStats.Jobs1;
+                schoolAI.m_workPlaceCount2 = vanillaStats.Jobs2;
+                schoolAI.m_workPlaceCount3 = vanillaStats.Jobs3;
 
                 // Restore costs and maintenance.
-                schoolAI.m_constructionCost = vanillaStats.cost;
-                schoolAI.m_maintenanceCost = vanillaStats.maintenance;
+                schoolAI.m_constructionCost = vanillaStats.Cost;
+                schoolAI.m_maintenanceCost = vanillaStats.Maintenance;
 
                 // Update prefab and tooltip.
                 UpdateSchoolPrefab(prefab, schoolAI);
@@ -182,21 +173,19 @@ namespace RealPop2
             Singleton<SimulationManager>.instance.AddAction(delegate { UpdateSchools(thisPrefab); });
         }
 
-
         /// <summary>
         /// Returns the currently set default calculation pack for the given prefab.
         /// </summary>
-        /// <param name="building">Building prefab</param>
-        /// <returns>Default calculation data pack</returns>
+        /// <param name="building">Building prefab.</param>
+        /// <returns>Default calculation data pack.</returns>
         internal override DataPack CurrentDefaultPack(BuildingInfo building) => BaseDefaultPack(building.GetClassLevel(), building);
-
 
         /// <summary>
         /// Returns the inbuilt default calculation pack for the given school AI level and prefab.
         /// </summary>
-        /// <param name="service">School level to check</param
-        /// <param name="prefab">Building prefab to check (null if none)</param>
-        /// <returns>Default calculation data pack</returns>
+        /// <param name="level">School level to check.</param>
+        /// <param name="prefab">Building prefab to check (null if none).</param>
+        /// <returns>Default calculation data pack.</returns>
         internal DataPack BaseDefaultPack(ItemClass.Level level, BuildingInfo prefab)
         {
             string defaultName;
@@ -234,12 +223,11 @@ namespace RealPop2
             return calcPacks.Find(pack => pack.name.Equals(defaultName));
         }
 
-
         /// <summary>
         /// Returns a list of calculation packs available for the given prefab.
         /// </summary>
-        /// <param name="prefab">BuildingInfo prefab</param>
-        /// <returns>Array of available calculation packs</returns>
+        /// <param name="prefab">BuildingInfo prefab.</param>
+        /// <returns>Array of available calculation packs.</returns>
         internal SchoolDataPack[] GetPacks(BuildingInfo prefab)
         {
             // Return list.
@@ -261,16 +249,15 @@ namespace RealPop2
             return list.ToArray();
         }
 
-
         /// <summary>
         /// Serializes building pack settings to XML.
         /// </summary>
-        /// <param name="existingList">Existing list to modify, from population pack serialization (null if none)</param>
-        /// <returns>New sorted list with building pack settings</returns>
-        internal SortedList<string, BuildingRecord> SerializeBuildings(SortedList<string, BuildingRecord> existingList)
+        /// <param name="existingList">Existing list to modify, from population pack serialization (null if none).</param>
+        /// <returns>New sorted list with building pack settings.</returns>
+        internal SortedList<string, Configuration.BuildingRecord> SerializeBuildings(SortedList<string, Configuration.BuildingRecord> existingList)
         {
             // Return list.
-            SortedList<string, BuildingRecord> returnList = existingList ?? new SortedList<string, BuildingRecord>();
+            SortedList<string, Configuration.BuildingRecord> returnList = existingList ?? new SortedList<string, Configuration.BuildingRecord>();
 
             // Iterate through each key (BuildingInfo) in our dictionary and serialise it into a BuildingRecord.
             foreach (string prefabName in buildingDict.Keys)
@@ -281,19 +268,18 @@ namespace RealPop2
                 if (returnList.ContainsKey(prefabName))
                 {
                     // Yes; update that record to include this floor pack.
-                    returnList[prefabName].schoolPack = packName;
+                    returnList[prefabName].SchoolPack = packName;
                 }
                 else
                 {
                     // No; add a new record with this floor pack.
-                    BuildingRecord newRecord = new BuildingRecord { prefab = prefabName, schoolPack = packName };
+                    Configuration.BuildingRecord newRecord = new Configuration.BuildingRecord { Prefab = prefabName, SchoolPack = packName };
                     returnList.Add(prefabName, newRecord);
                 }
             }
 
             return returnList;
         }
-
 
         /// <summary>
         /// Performs task on completion of level loading - recording of school default properties and application of our settings.
@@ -315,13 +301,13 @@ namespace RealPop2
                     // Found a school; add it to our dictionary.
                     originalStats.Add(building.name, new OriginalSchoolStats
                     {
-                        students = schoolAI.m_studentCount,
-                        jobs0 = schoolAI.m_workPlaceCount0,
-                        jobs1 = schoolAI.m_workPlaceCount1,
-                        jobs2 = schoolAI.m_workPlaceCount2,
-                        jobs3 = schoolAI.m_workPlaceCount3,
-                        cost = schoolAI.m_constructionCost,
-                        maintenance = schoolAI.m_maintenanceCost
+                        Students = schoolAI.m_studentCount,
+                        Jobs0 = schoolAI.m_workPlaceCount0,
+                        Jobs1 = schoolAI.m_workPlaceCount1,
+                        Jobs2 = schoolAI.m_workPlaceCount2,
+                        Jobs3 = schoolAI.m_workPlaceCount3,
+                        Cost = schoolAI.m_constructionCost,
+                        Maintenance = schoolAI.m_maintenanceCost
                     });
 
                     Logging.KeyMessage("found school prefab ", building.name, " with student count ", schoolAI.m_studentCount);
@@ -340,7 +326,6 @@ namespace RealPop2
                 }
             }
         }
-
 
         /// <summary>
         /// Updates all school prefabs (e.g. when the global multiplier has changed).
@@ -365,13 +350,12 @@ namespace RealPop2
             UpdateSchools(null);
         }
 
-
         /// <summary>
         /// Calculates school worker totals by education level, given a school calculation pack and a total student count.
         /// </summary>
-        /// <param name="schoolPack">School calculation pack to use</param>
-        /// <param name="students">Student count to use</param>
-        /// <returns>Array (length 4) of workers by education level</returns>
+        /// <param name="schoolPack">School calculation pack to use.</param>
+        /// <param name="students">Student count to use.</param>
+        /// <returns>Array (length 4) of workers by education level.</returns>
         internal int[] CalcWorkers(SchoolDataPack schoolPack, int students)
         {
             const int WorkerLevels = 4;
@@ -395,31 +379,28 @@ namespace RealPop2
             return workers;
         }
 
-
         /// <summary>
         /// Calculates school building placement cost, given a school calculation pack and a total student count.
         /// Placement cost is base cost plus extra cost per X students.
         /// </summary>
-        /// <param name="schoolPack">School calculation pack to use</param>
-        /// <param name="students">Student count to use</param>
-        /// <returns>Placement cost</returns>
+        /// <param name="schoolPack">School calculation pack to use.</param>
+        /// <param name="students">Student count to use.</param>
+        /// <returns>Placement cost.</returns>
         internal int CalcCost(SchoolDataPack schoolPack, int students) => schoolPack.baseCost + (schoolPack.costPer * students);
-
 
         /// <summary>
         /// Calculates school building maintenance cost, given a school calculation pack and a total student count.
         /// Maintenance cost is base maintenance plus extra maintenance per X students.
         /// </summary>
-        /// <param name="schoolPack">School calculation pack to use</param>
-        /// <param name="students">Student count to use</param>
-        /// <returns>Maintenance cost</returns>
+        /// <param name="schoolPack">School calculation pack to use.</param>
+        /// <param name="students">Student count to use.</param>
+        /// <returns>Maintenance cost.</returns>
         internal int CalcMaint(SchoolDataPack schoolPack, int students) => schoolPack.baseMaint + (schoolPack.maintPer * students);
-
 
         /// <summary>
         /// Updates a school prefab record (and associated tooltip) with updated population.
         /// </summary>
-        /// <param name="prefab">Prefab to update</param>
+        /// <param name="prefab">Prefab to update.</param>
         internal void UpdateSchoolPrefab(BuildingInfo prefab)
         {
             // Update prefab.
@@ -429,11 +410,10 @@ namespace RealPop2
             Singleton<SimulationManager>.instance.AddAction(delegate { UpdateSchools(prefab); });
         }
 
-
         /// <summary>
         /// Updates all school buildings matching the given prefab, or all school buildings if no prefab is specified, to current settings.
         /// Should only be called via simulation thread.
-        /// <param name="schoolPrefab">Building prefab to update (null to update all schools)</param>
+        /// <param name="schoolPrefab">Building prefab to update (null to update all schools).</param>
         /// </summary>
         internal void UpdateSchools(BuildingInfo schoolPrefab)
         {
@@ -457,7 +437,6 @@ namespace RealPop2
                 }
             }
         }
-
 
         /// <summary>
         /// Applies a school data pack to a school prefab.
@@ -500,12 +479,11 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Updates a school prefab record (and associated tooltip) with updated population.
         /// </summary>
-        /// <param name="prefab">Prefab to update</param>
-        /// <param name="ai">Prefab AI</param>
+        /// <param name="prefab">Prefab to update.</param>
+        /// <param name="schoolAI">Prefab AI.</param>
         private void UpdateSchoolPrefab(BuildingInfo prefab, SchoolAI schoolAI)
         {
             if (prefab == null || schoolAI == null)
@@ -526,11 +504,10 @@ namespace RealPop2
             UpdateSchoolTooltip(prefab);
         }
 
-
         /// <summary>
         /// Updates a school building's tooltip (in the education tool panel).
         /// </summary>
-        /// <param name="prefab">School prefab to update</param>
+        /// <param name="prefab">School prefab to update.</param>
         private void UpdateSchoolTooltip(BuildingInfo prefab)
         {
             // Find education panel game object.
@@ -572,12 +549,52 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Extracts the relevant school pack name from a building line record.
         /// </summary>
-        /// <param name="buildingRecord">Building record to extract from</param>
-        /// <returns>School pack name (if any)</returns>
-        protected override string BuildingPack(BuildingRecord buildingRecord) => buildingRecord.schoolPack;
+        /// <param name="buildingRecord">Building record to extract from.</param>
+        /// <returns>School pack name (if any).</returns>
+        protected override string BuildingPack(Configuration.BuildingRecord buildingRecord) => buildingRecord.SchoolPack;
+
+        /// <summary>
+        /// Original school stats (for reversion to if needed).
+        /// </summary>
+        internal struct OriginalSchoolStats
+        {
+            /// <summary>
+            /// Student count.
+            /// </summary>
+            public int Students;
+
+            /// <summary>
+            /// Uneducated worker jobs.
+            /// </summary>
+            public int Jobs0;
+
+            /// <summary>
+            /// Educated worker jobs.
+            /// </summary>
+            public int Jobs1;
+
+            /// <summary>
+            /// Well-educated worker jobs.
+            /// </summary>
+            public int Jobs2;
+
+            /// <summary>
+            /// Highly-educated worker jobs.
+            /// </summary>
+            public int Jobs3;
+
+            /// <summary>
+            /// Construction cost.
+            /// </summary>
+            public int Cost;
+
+            /// <summary>
+            /// Maintenance cos
+            /// </summary>
+            public int Maintenance;
+        }
     }
 }

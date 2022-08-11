@@ -1,9 +1,15 @@
-﻿using UnityEngine;
-using ColossalFramework.UI;
-
+﻿// <copyright file="LegacyPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons;
+    using AlgernonCommons.Translation;
+    using ColossalFramework.UI;
+    using UnityEngine;
+
     /// <summary>
     /// Options panel for setting basic mod options.
     /// </summary>
@@ -12,8 +18,8 @@ namespace RealPop2
         /// <summary>
         /// Adds education options tab to tabstrip.
         /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
+        /// <param name="parentTabStrip">Tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
         internal LegacyPanel(UITabstrip parentTabStrip, int tabIndex)
         {
             // Add tab and helper.
@@ -25,7 +31,6 @@ namespace RealPop2
             // Set tab object reference.
             parentTabStrip.tabs[tabIndex].objectUserData = this;
         }
-
 
         /// <summary>
         /// Performs initial setup; called via event when tab is first selected.

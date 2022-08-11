@@ -1,9 +1,16 @@
-﻿using UnityEngine;
-using ColossalFramework.UI;
+﻿// <copyright file="CalculationsPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 
 namespace RealPop2
 {
+    using AlgernonCommons;
+    using AlgernonCommons.Translation;
+    using ColossalFramework.UI;
+    using UnityEngine;
+
     /// <summary>
     /// Options panel for setting basic mod options.
     /// </summary>
@@ -12,7 +19,6 @@ namespace RealPop2
         // Instance reference.
         internal static CalculationsPanel Instance { get; private set; }
 
-
         // Components.
         private ResidentialTab resTab;
         private CommercialTab comTab;
@@ -20,12 +26,11 @@ namespace RealPop2
         private IndustrialTab indTab;
         private SchoolTab schTab;
 
-
         /// <summary>
         /// Adds education options tab to tabstrip.
         /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
+        /// <param name="parentTabStrip">Parent tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
         internal CalculationsPanel(UITabstrip parentTabStrip, int tabIndex)
         {
             // Instance reference.
@@ -37,7 +42,6 @@ namespace RealPop2
             // Set tab object reference.
             parentTabStrip.tabs[tabIndex].objectUserData = this;
         }
-
 
         /// <summary>
         /// Updates default calculation pack selection menu options.
@@ -51,7 +55,6 @@ namespace RealPop2
             indTab.UpdateControls();
             schTab.UpdateControls();
         }
-
 
         /// <summary>
         /// Performs initial setup; called via event when tab is first selected.

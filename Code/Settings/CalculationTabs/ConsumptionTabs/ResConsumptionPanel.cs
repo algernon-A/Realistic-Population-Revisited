@@ -1,8 +1,14 @@
-﻿using ColossalFramework.UI;
-
+﻿// <copyright file="GoodsPanelBase.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using AlgernonCommons;
+    using AlgernonCommons.Translation;
+    using ColossalFramework.UI;
+
     /// <summary>
     /// Options panel (sub)-tab for residential building consumption configuration.
     /// </summary>
@@ -16,7 +22,6 @@ namespace RealPop2
         private const int NumSubServices = 4;
         private const int NumLevels = 5;
 
-
         /// <summary>
         /// Adds residential options tab to tabstrip.
         /// </summary>
@@ -25,7 +30,6 @@ namespace RealPop2
         internal ResConsumptionPanel(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
         {
         }
-
 
         /// <summary>
         /// Performs initial setup; called via event when tab is first selected.
@@ -59,13 +63,13 @@ namespace RealPop2
 
                 // Create residential per-person area textfields and labels.
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate("RPR_CAT_RLO"), "ZoningResidentialLow", "Thumbnails", PowerX);
-                AddSubService(panel, true, LowRes);
+                AddSubService(panel, LowRes);
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate("RPR_CAT_RHI"), "ZoningResidentialHigh", "Thumbnails");
-                AddSubService(panel, true, HighRes);
+                AddSubService(panel, HighRes);
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate("RPR_CAT_ERL"), "IconPolicySelfsufficient", "Ingame");
-                AddSubService(panel, true, LowEcoRes);
+                AddSubService(panel, LowEcoRes);
                 PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate("RPR_CAT_ERH"), "IconPolicySelfsufficient", "Ingame");
-                AddSubService(panel, true, HighEcoRes);
+                AddSubService(panel, HighEcoRes);
 
                 // Populate initial values.
                 PopulateFields();
@@ -74,7 +78,6 @@ namespace RealPop2
                 AddButtons(panel);
             }
         }
-
 
         /// <summary>
         /// Updates the DataStore with the information from the text fields.
@@ -97,7 +100,6 @@ namespace RealPop2
             PopulateFields();
         }
 
-
         /// <summary>
         /// Populates the text fields with information from the DataStore.
         /// </summary>
@@ -109,7 +111,6 @@ namespace RealPop2
             PopulateSubService(DataStore.resEcoLow, LowEcoRes);
             PopulateSubService(DataStore.resEcoHigh, HighEcoRes);
         }
-
 
         /// <summary>
         /// Resets all textfields to mod default values.

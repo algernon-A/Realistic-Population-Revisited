@@ -1,48 +1,33 @@
-﻿using UnityEngine;
-using ColossalFramework.UI;
-
+﻿// <copyright file="UIBuildingFilter.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
-    /// <summary>
-    /// Index numbers for building category filter buttons.
-    /// </summary>
-    public enum BuildingCategories
-    {
-        None = -1,
-        ResidentialLow,
-        ResidentialHigh,
-        CommercialLow,
-        CommercialHigh,
-        Office,
-        Industrial,
-        Tourism,
-        Leisure,
-        Organic,
-        Selfsufficient,
-        Education,
-        NumCategories
-    }
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using ColossalFramework.UI;
+    using UnityEngine;
 
     /// <summary>
-    /// Index numbers for attribute filters.
+    /// Panel containing filtering mechanisms (category buttons, name search) for the building list.
     /// </summary>
-    public enum FilterCategories
+    internal class UIBuildingFilter : UIPanel
     {
-        Any = 0,
-        HasOverride,
-        HasNonDefault,
-        NumCategories
-    }
+        // Layout constants.
+        internal const float FilterSpacing = 25f;
+        internal const float AnyX = 335f;
+        internal const float HasOverrideX = AnyX + FilterSpacing;
+        internal const float HasNonDefaultX = HasOverrideX + FilterSpacing;
 
+        // Panel components.
+        internal UICheckBox[] categoryToggles, settingsFilter;
+        internal UIButton allCategories;
+        internal UITextField nameFilter;
 
-    /// <summary>
-    /// Building filter category buttons.
-    /// </summary>
-    public class CategoryIcons
-    {
         // ItemClass ServiceClass services for each toggle.
-        public static readonly ItemClass.Service[] serviceMapping =
+        private static readonly ItemClass.Service[] s_serviceMapping =
         {
             ItemClass.Service.Residential,
             ItemClass.Service.Residential,
@@ -58,7 +43,7 @@ namespace RealPop2
         };
 
         // ItemClass ServiceClass services for each toggle.
-        public static readonly ItemClass.SubService[] subServiceMapping =
+        private static readonly ItemClass.SubService[] s_subServiceMapping =
         {
             ItemClass.SubService.ResidentialLow,
             ItemClass.SubService.ResidentialHigh,
@@ -73,12 +58,11 @@ namespace RealPop2
             ItemClass.SubService.None
         };
 
-
         // Atlas that each icon sprite comes from.
-        public static readonly string[] atlases = { "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Ingame" };
+        private static readonly string[] s_atlases = { "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Ingame" };
 
         // Icon sprite enabled names.
-        public static readonly string[] spriteNames =
+        private static readonly string[] s_spriteNames =
         {
             "ZoningResidentialLow",
             "ZoningResidentialHigh",
@@ -93,8 +77,8 @@ namespace RealPop2
             "ToolbarIconEducation"
         };
 
-        // Icon sprite disnabled names.
-        public static readonly string[] disabledSpriteNames =
+        // Icon sprite disabled names.
+        private static readonly string[] s_disabledSpriteNames =
         {
             "ZoningResidentialLowDisabled",
             "ZoningResidentialHighDisabled",
@@ -110,7 +94,7 @@ namespace RealPop2
         };
 
         // Icon sprite tooltips.
-        public static readonly string[] tooltips =
+        private static readonly string[] s_tooltips =
         {
             "RPR_CAT_RLO",
             "RPR_CAT_RHI",
@@ -124,25 +108,6 @@ namespace RealPop2
             "RPR_CAT_SSH",
             "RPR_CAT_SCH"
         };
-    }
-
-
-    /// <summary>
-    /// Panel containing filtering mechanisms (category buttons, name search) for the building list.
-    /// </summary>
-    public class UIBuildingFilter : UIPanel
-    {
-        // Layout constants.
-        internal const float FilterSpacing = 25f;
-        internal const float AnyX = 335f;
-        internal const float HasOverrideX = AnyX + FilterSpacing;
-        internal const float HasNonDefaultX = HasOverrideX + FilterSpacing;
-
-        // Panel components.
-        internal UICheckBox[] categoryToggles, settingsFilter;
-        internal UIButton allCategories;
-        internal UITextField nameFilter;
-
 
         // FIlter by settings checkboxes.
         internal UICheckBox[] SettingsFilter => settingsFilter;
@@ -154,12 +119,108 @@ namespace RealPop2
         // Filter checkbox tooltips.
         private readonly string[] FilterTooltipKeys = { "RPR_FTR_ANY", "RPR_FTR_OVR", "RPR_FTR_NDC" };
 
+        /// <summary>
+        /// Index numbers for building category filter buttons.
+        /// </summary>
+        internal enum BuildingCategories
+        {
+            /// <summary>
+            /// No category.
+            /// </summary>
+            None = -1,
+
+            /// <summary>
+            /// Low-density residential buildings.
+            /// </summary>
+            ResidentialLow,
+
+            /// <summary>
+            /// High-density residential buildings.
+            /// </summary>
+            ResidentialHigh,
+
+            /// <summary>
+            /// Low-density commercial buildings.
+            /// </summary>
+            CommercialLow,
+
+            /// <summary>
+            /// High-density commercial buildings.
+            /// </summary>
+            CommercialHigh,
+
+            /// <summary>
+            /// Office  buildings.
+            /// </summary>
+            Office,
+
+            /// <summary>
+            /// Industrial buildings.
+            /// </summary>
+            Industrial,
+
+            /// <summary>
+            /// Tourism buildings.
+            /// </summary>
+            Tourism,
+
+            /// <summary>
+            /// Leisure buildings.
+            /// </summary>
+            Leisure,
+
+            /// <summary>
+            /// Eco commercial buildings (organic and local produce).
+            /// </summary>
+            Organic,
+
+            /// <summary>
+            /// Eco residential buildings (self-sufficient).
+            /// </summary>
+            Selfsufficient,
+
+            /// <summary>
+            /// Education buildings.
+            /// </summary>
+            Education,
+
+            /// <summary>
+            /// Number of building categories.
+            /// </summary>
+            NumCategories
+        }
+
+        /// <summary>
+        /// Index numbers for attribute filters.
+        /// </summary>
+        internal enum FilterCategories
+        {
+            /// <summary>
+            /// No filter.
+            /// </summary>
+            Any = 0,
+
+            /// <summary>
+            /// Buildings with custom overrides.
+            /// </summary>
+            HasOverride,
+
+            /// <summary>
+            /// Buildings with non-default calculation packs.
+            /// </summary>
+            HasNonDefault,
+
+            /// <summary>
+            /// Number of filter categories.
+            /// </summary>
+            NumCategories
+        }
 
         /// <summary>
         /// Set up filter bar.
         /// We don't use Start() here as we need to access the category toggle states to set up the initial filtering list before Start() is called by UnityEngine.
         /// </summary>
-        public void Setup()
+        internal void Setup()
         {
             // Catgegory buttons.
             categoryToggles = new UICheckBox[(int)BuildingCategories.NumCategories];
@@ -167,9 +228,7 @@ namespace RealPop2
             for (int i = 0; i < (int)BuildingCategories.NumCategories; i++)
             {
                 // Basic setup.
-                categoryToggles[i] = UIUtils.CreateIconToggle(this, CategoryIcons.atlases[i], CategoryIcons.spriteNames[i], CategoryIcons.spriteNames[i] + "Disabled");
-                categoryToggles[i].tooltip = Translations.Translate(CategoryIcons.tooltips[i]);
-                categoryToggles[i].relativePosition = new Vector2(40 * i, 0);
+                categoryToggles[i] = UICheckBoxes.AddIconToggle(this, 40 * i, 0f, s_atlases[i], s_spriteNames[i], s_spriteNames[i] + "Disabled", tooltip: Translations.Translate(s_tooltips[i]));
                 categoryToggles[i].isChecked = true;
                 categoryToggles[i].readOnly = true;
 
@@ -194,7 +253,7 @@ namespace RealPop2
             }
 
             // 'All categories' button.
-            allCategories = UIControls.AddButton(this, 445f, 0f, Translations.Translate("RPR_CAT_ALL"), 200f);
+            allCategories = UIButtons.AddButton(this, 445f, 0f, Translations.Translate("RPR_CAT_ALL"), 200f);
 
             // All categories event handler.
             allCategories.eventClick += (c, p) =>
@@ -210,7 +269,7 @@ namespace RealPop2
             };
 
             // Name filter.
-            nameFilter = UIControls.BigLabelledTextField(this, width - 200f, 0, Translations.Translate("RPR_FIL_NAME"));
+            nameFilter = UITextFields.AddBigLabelledTextField(this, width - 200f, 0, Translations.Translate("RPR_FIL_NAME"));
 
             // Name filter event handling - update on any change.
             nameFilter.eventTextChanged += (control, text) => EventFilteringChanged(this, 5);
@@ -274,24 +333,23 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Sets the category toggles so that the one that includes this building is on, and the rest are off
         /// </summary>
         /// <param name="buildingClass">ItemClass of the building (to match toggle categories)</param>
-        public void SelectBuildingCategory(ItemClass buildingClass)
+        internal void SelectBuildingCategory(ItemClass buildingClass)
         {
             for (int i = 0; i < (int)BuildingCategories.NumCategories; i ++)
             {
-                if (CategoryIcons.subServiceMapping[i] == ItemClass.SubService.None && buildingClass.m_service == CategoryIcons.serviceMapping[i])
+                if (s_subServiceMapping[i] == ItemClass.SubService.None && buildingClass.m_service == s_serviceMapping[i])
                 {
                     categoryToggles[i].isChecked = true;
                 }
-                else if (buildingClass.m_subService == CategoryIcons.subServiceMapping[i])
+                else if (buildingClass.m_subService == s_subServiceMapping[i])
                 {
                     categoryToggles[i].isChecked = true;
                 }
-                else if (buildingClass.m_subService == ItemClass.SubService.ResidentialHighEco && CategoryIcons.subServiceMapping[i] == ItemClass.SubService.ResidentialLowEco)
+                else if (buildingClass.m_subService == ItemClass.SubService.ResidentialHighEco && s_subServiceMapping[i] == ItemClass.SubService.ResidentialLowEco)
                 {
                     categoryToggles[i].isChecked = true;
                 }
@@ -302,11 +360,10 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Returns the current filter state as a boolean array.
         /// </summary>
-        /// <returns>Current filter state</returns>
+        /// <returns>Current filter state.</returns>
         internal bool[] GetFilter()
         {
             // Stores category toggle states and settings filter states, in that order.
@@ -327,11 +384,10 @@ namespace RealPop2
             return filterState;
         }
 
-
         /// <summary>
         /// Sets the current filter configuration from provided boolean array.
         /// </summary>
-        /// <param name="filterState">Filter state to apply</param>
+        /// <param name="filterState">Filter state to apply.</param>
         internal void SetFilter(bool[] filterState)
         {
             // Set toggle states from array.
@@ -347,13 +403,12 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Adds a filter label.
         /// </summary>
-        /// <param name="yPos">Relative centre Y position of label</param>
-        /// <param name="text">Label text</param>
-        /// <returns>New label</returns>
+        /// <param name="yPos">Relative centre Y position of label.</param>
+        /// <param name="text">Label text.</param>
+        /// <returns>New label.</returns>
         private UILabel SettingsFilterLabel(float yPos, string text)
         {
             // Basic setup.

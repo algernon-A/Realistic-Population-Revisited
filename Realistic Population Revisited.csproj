@@ -10,6 +10,7 @@
 			$(ManagedDLLPath);
 		</AssemblySearchPaths>
 		<AssemblyName>RealPopRevisited</AssemblyName>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="CitiesHarmony.API" Version="2.1.0" />
@@ -21,6 +22,12 @@
 	<ItemGroup>
 		<_Translations Include="$(ProjectDir)/Translations/*.csv" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="stylecop.json" />
+	</ItemGroup>
+	<ItemGroup>
+	  <AdditionalFiles Include="stylecop.json" />
+	</ItemGroup>
 	<Target Name="DeployToModDirectory" AfterTargets="Build">
 		<PropertyGroup>
 			<DeployDir>$(LOCALAPPDATA)/Colossal Order/Cities_Skylines/Addons/Mods/$(SolutionName)/</DeployDir>
@@ -29,4 +36,8 @@
 		<Copy SourceFiles="$(TargetDir)/CitiesHarmony.API.dll" DestinationFolder="$(DeployDir)" />
 		<Copy SourceFiles="@(_Translations)" DestinationFolder="$(DeployDir)/Translations" />
 	</Target>
+	<Import Project="..\AlgernonCommons\AlgernonCommonsPatchingShared.projitems" Label="Shared" />
+	<ItemGroup>
+	  <Content Remove="LICENSE.txt" />
+	</ItemGroup>
 </Project>

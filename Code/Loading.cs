@@ -1,10 +1,17 @@
-﻿using System.IO;
-using ICities;
-using RealPop2.MessageBox;
-
+﻿// <copyright file="Loading.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
+    using System.IO;
+    using AlgernonCommons;
+    using AlgernonCommons.Notifications;
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using ICities;
+
     /// <summary>
     /// Main loading class: the mod runs from here.
     /// </summary>
@@ -35,12 +42,12 @@ namespace RealPop2
                 harmonyLoaded = true;
 
                 // Unload Harmony patches and exit before doing anything further.
-                Patcher.UnpatchAll();
+                Patcher.Instance.UnpatchAll();
                 return;
             }
 
             // Ensure that Harmony patches have been applied.
-            harmonyLoaded = Patcher.Patched;
+            harmonyLoaded = Patcher.Instance.Patched;
             if (!harmonyLoaded)
             {
                 isModEnabled = false;
@@ -49,14 +56,14 @@ namespace RealPop2
             }
 
             // Check for mod conflicts.
-            if (AssemblyUtils.IsModConflict())
+            if (ModUtils.IsModConflict())
             {
                 // Conflict detected.
                 conflictingMod = true;
                 isModEnabled = false;
 
                 // Unload Harmony patches and exit before doing anything further.
-                Patcher.UnpatchAll();
+                Patcher.Instance.UnpatchAll();
                 return;
             }
 
@@ -64,13 +71,13 @@ namespace RealPop2
             if (!isModEnabled)
             {
                 isModEnabled = true;
-                Logging.KeyMessage("version v", Mod.Version, " loading");
+                Logging.KeyMessage("version v", AssemblyUtils.TrimmedCurrentVersion, " loading");
 
                 // Perform legacy datastore setup.
                 XMLUtilsWG.Setup();
 
                 // Check for Ploppable RICO Revisited.
-                AssemblyUtils.RICOReflection();
+                ModUtils.RICOReflection();
 
                 // Initialise volumetric datastores.
                 EmploymentData.Setup();
@@ -79,10 +86,9 @@ namespace RealPop2
                 DataUtils.Setup();
 
                 // Apply any needed Advanced Building Level Control Harmony patches.
-                Patcher.PatchABLC();
+                Patcher.Instance.PatchABLC();
             }
         }
-
 
         /// <summary>
         /// Called by the game when level loading is complete.
@@ -96,39 +102,39 @@ namespace RealPop2
             if (!harmonyLoaded)
             {
                 // Harmony 2 wasn't loaded; display warning notification and exit.
-                ListMessageBox harmonyBox = MessageBoxBase.ShowModal<ListMessageBox>();
+                ListNotification harmonyNotification = NotificationBase.ShowNotification<ListNotification>();
 
                 // Key text items.
-                harmonyBox.AddParas(Translations.Translate("ERR_HAR0"), Translations.Translate("RPR_ERR_HAR"), Translations.Translate("RPR_ERR_FAT"), Translations.Translate("ERR_HAR1"));
+                harmonyNotification.AddParas(Translations.Translate("ERR_HAR0"), Translations.Translate("RPR_ERR_HAR"), Translations.Translate("RPR_ERR_FAT"), Translations.Translate("ERR_HAR1"));
 
                 // List of dot points.
-                harmonyBox.AddList(Translations.Translate("ERR_HAR2"), Translations.Translate("ERR_HAR3"));
+                harmonyNotification.AddList(Translations.Translate("ERR_HAR2"), Translations.Translate("ERR_HAR3"));
 
                 // Closing para.
-                harmonyBox.AddParas(Translations.Translate("MES_PAGE"));
+                harmonyNotification.AddParas(Translations.Translate("MES_PAGE"));
             }
 
             // Check to see if a conflicting mod has been detected.
             if (conflictingMod)
             {
                 // Mod conflict detected - display warning notification and exit.
-                ListMessageBox modConflictBox = MessageBoxBase.ShowModal<ListMessageBox>();
+                ListNotification modConflictNotification = NotificationBase.ShowNotification<ListNotification>();
 
                 // Key text items.
-                modConflictBox.AddParas(Translations.Translate("ERR_CON0"), Translations.Translate("RPR_ERR_CON0"), Translations.Translate("RPR_ERR_FAT"), Translations.Translate("ERR_CON1"));
+                modConflictNotification.AddParas(Translations.Translate("ERR_CON0"), Translations.Translate("RPR_ERR_CON0"), Translations.Translate("RPR_ERR_FAT"), Translations.Translate("ERR_CON1"));
 
                 // Add conflicting mod name(s).
-                modConflictBox.AddList(AssemblyUtils.conflictingModNames.ToArray());
+                modConflictNotification.AddList(ModUtils.conflictingModNames.ToArray());
 
                 // Closing para.
-                modConflictBox.AddParas(Translations.Translate("RPR_ERR_CON1"));
+                modConflictNotification.AddParas(Translations.Translate("RPR_ERR_CON1"));
             }
 
             // Don't do anything further if mod hasn't activated for whatever reason (mod conflict, harmony error, something else).
             if (!isModEnabled)
             {
                 // Disable keystrokes.
-                UIThreading.operating = false;
+                UIThreading.Operating = false;
 
                 return;
             }
@@ -136,7 +142,7 @@ namespace RealPop2
             // Show legacy choice message box if this save hasn't been flagged as being from Realistic Population 2.
             if (!ModSettings.isRealPop2Save)
             {
-                MessageBoxBase.ShowModal<LegacyChoiceMessageBox>();
+                NotificationBase.ShowNotification<LegacyChoiceNotification>();
             }
 
             // Record initial (default) school settings and apply ours over the top.
@@ -158,7 +164,10 @@ namespace RealPop2
             WhatsNew.ShowWhatsNew();
 
             // Set up options panel event handler.
-            OptionsPanel.OptionsEventHook();
+            OptionsPanelManager<OptionsPanel>.OptionsEventHook();
+
+            // Enable hotkey.
+            UIThreading.Operating = true;
 
             // Check and record CitizenUnits count.
             Logging.KeyMessage("citizen unit count is currently ", ColossalFramework.Singleton<CitizenManager>.instance.m_unitCount);
