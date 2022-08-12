@@ -13,8 +13,18 @@ namespace RealPop2
     internal static class EmploymentData
     {
         // Arrays for employment percentages by eduction level.
-        private static int[][] commercialLow, commercialHigh, office, industry, industryFarm, industryForest, industryOre, industryOil;
-        private static int[] commercialEco, commercialLeisure, commercialTourist, officeHightech;
+        private static int[][] _commercialLow;
+        private static int[][] _commercialHigh;
+        private static int[][] _officeGeneric;
+        private static int[][] _industry;
+        private static int[][] _industryFarm;
+        private static int[][] _industryForest;
+        private static int[][] _industryOre;
+        private static int[][] _industryOil;
+        private static int[] _commercialEco;
+        private static int[] _commercialLeisure;
+        private static int[] _commercialTourist;
+        private static int[] _officeHightech;
 
         /// <summary>
         /// Returns the workplace breakdown for the given building prefab and level.
@@ -22,7 +32,7 @@ namespace RealPop2
         /// <param name="prefab">Building prefab.</param>
         /// <param name="level">Building level.</param>
         /// <returns>Workplace breakdown by employment level.</returns>
-        internal static PopData.WorkplaceLevels CalculateWorkplaces(BuildingInfo prefab, int level) => CalculateWorkplaces(prefab, level, PopData.instance.Population(prefab, level));
+        internal static PopData.WorkplaceLevels CalculateWorkplaces(BuildingInfo prefab, int level) => CalculateWorkplaces(prefab, level, PopData.Instance.Population(prefab, level));
 
         /// <summary>
         /// Returns the workplace breakdown for the given building prefab, level, and population total.
@@ -82,7 +92,7 @@ namespace RealPop2
                 Level0 = (ushort)workplaces[0],
                 Level1 = (ushort)workplaces[1],
                 Level2 = (ushort)workplaces[2],
-                Level3 = (ushort)workplaces[3]
+                Level3 = (ushort)workplaces[3],
             };
         }
 
@@ -92,65 +102,65 @@ namespace RealPop2
         /// </summary>
         internal static void Setup()
         {
-            commercialLow = new int[][]
+            _commercialLow = new int[][]
             {
                 new int[] { 70, 20, 10, 0, 90, 50 },
                 new int[] { 30, 45, 20, 5, 100, 75 },
-                new int[] { 5, 30, 55, 10, 110, 100 }
+                new int[] { 5, 30, 55, 10, 110, 100 },
             };
 
-            commercialHigh = new int[][]
+            _commercialHigh = new int[][]
             {
                 new int[] { 10, 45, 40, 5, 200, 75 },
                 new int[] { 7, 32, 43, 18, 300, 100 },
-                new int[] { 5, 25, 45, 25, 400, 125 }
+                new int[] { 5, 25, 45, 25, 400, 125 },
             };
 
-            office = new int[][]
+            _officeGeneric = new int[][]
             {
                 new int[] { 2, 8, 20, 70, 0, 0 },
                 new int[] { 1, 5, 14, 80, 0, 0 },
-                new int[] { 1, 3, 6, 90, 0, 0 }
+                new int[] { 1, 3, 6, 90, 0, 0 },
             };
 
-            industry = new int[][]
+            _industry = new int[][]
             {
                 new int[] { 70, 20, 10, 0, 0, 0 },
                 new int[] { 20, 45, 25, 10, 0, 0 },
-                new int[] { 5, 20, 45, 30, 0, 0 }
+                new int[] { 5, 20, 45, 30, 0, 0 },
             };
 
-            industryFarm = new int[][]
+            _industryFarm = new int[][]
             {
                 new int[] { 90, 10,  0, 0, 0, 0 },
-                new int[] { 30, 60, 10, 0, 0, 0 }
+                new int[] { 30, 60, 10, 0, 0, 0 },
             };
 
-            industryForest = new int[][]
+            _industryForest = new int[][]
             {
                 new int[] { 90, 10,  0, 0, 0, 0 },
-                new int[] { 30, 60, 10, 0, 0, 0 }
+                new int[] { 30, 60, 10, 0, 0, 0 },
             };
 
-            industryOil = new int[][]
+            _industryOil = new int[][]
             {
                 new int[] { 15, 60, 23, 2, 0, 0 },
-                new int[] { 10, 35, 45, 10, 0, 0 }
+                new int[] { 10, 35, 45, 10, 0, 0 },
             };
 
-            industryOre = new int[][]
+            _industryOre = new int[][]
             {
                 new int[] { 18, 60, 20, 2, 0, 0 },
-                new int[] { 15, 40, 35, 10, 0, 0 }
+                new int[] { 15, 40, 35, 10, 0, 0 },
             };
 
-            commercialEco = new int[] { 50, 40, 10, 0, 100, 100 };
+            _commercialEco = new int[] { 50, 40, 10, 0, 100, 100 };
 
-            commercialTourist = new int[] { 15, 35, 35, 15, 250, 100 };
+            _commercialTourist = new int[] { 15, 35, 35, 15, 250, 100 };
 
-            commercialLeisure = new int[] { 15, 40, 35, 10, 250, 100 };
+            _commercialLeisure = new int[] { 15, 40, 35, 10, 250, 100 };
 
-            officeHightech = new int[] { 1, 2, 3, 94, 0, 0 };
+            _officeHightech = new int[] { 1, 2, 3, 94, 0, 0 };
         }
 
         /// <summary>
@@ -171,40 +181,43 @@ namespace RealPop2
                 case ItemClass.Service.Office:
                     if (subService == ItemClass.SubService.OfficeHightech)
                     {
-                        return officeHightech;
+                        return _officeHightech;
                     }
+
                     // Default is generic office.
-                    return office[CheckBuildingLevel(level, MaxWorkplaceLevel)];
+                    return _officeGeneric[CheckBuildingLevel(level, MaxWorkplaceLevel)];
+
                 case ItemClass.Service.Industrial:
                     switch (subService)
                     {
                         case ItemClass.SubService.IndustrialForestry:
-                            return industryForest[CheckBuildingLevel(level, MaxSpecIndLevel)];
+                            return _industryForest[CheckBuildingLevel(level, MaxSpecIndLevel)];
                         case ItemClass.SubService.IndustrialFarming:
-                            return industryFarm[CheckBuildingLevel(level, MaxSpecIndLevel)];
+                            return _industryFarm[CheckBuildingLevel(level, MaxSpecIndLevel)];
                         case ItemClass.SubService.IndustrialOil:
-                            return industryOil[CheckBuildingLevel(level, MaxSpecIndLevel)];
+                            return _industryOil[CheckBuildingLevel(level, MaxSpecIndLevel)];
                         case ItemClass.SubService.IndustrialOre:
-                            return industryOre[CheckBuildingLevel(level, MaxSpecIndLevel)];
+                            return _industryOre[CheckBuildingLevel(level, MaxSpecIndLevel)];
                         default:
                             // Default is generic industry.
-                            return industry[CheckBuildingLevel(level, MaxWorkplaceLevel)];
+                            return _industry[CheckBuildingLevel(level, MaxWorkplaceLevel)];
                     }
+
                 default:
                     // Default is commercial.
                     switch (subService)
                     {
                         case ItemClass.SubService.CommercialHigh:
-                            return commercialHigh[CheckBuildingLevel(level, MaxWorkplaceLevel)];
+                            return _commercialHigh[CheckBuildingLevel(level, MaxWorkplaceLevel)];
                         case ItemClass.SubService.CommercialLeisure:
-                            return commercialLeisure;
+                            return _commercialLeisure;
                         case ItemClass.SubService.CommercialTourist:
-                            return commercialTourist;
+                            return _commercialTourist;
                         case ItemClass.SubService.CommercialEco:
-                            return commercialEco;
+                            return _commercialEco;
                         default:
                             // Default is commercial low.
-                            return commercialLow[CheckBuildingLevel(level, MaxWorkplaceLevel)];
+                            return _commercialLow[CheckBuildingLevel(level, MaxWorkplaceLevel)];
                     }
             }
         }

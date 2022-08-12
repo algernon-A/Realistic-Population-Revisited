@@ -32,36 +32,34 @@ namespace RealPop2
             /*
              * Inserting:
              * amountDelta = (amountDelta * GoodsUtils.GetComMult(ref building)) / 100
-             * 
+             *
              * Just after:
              * int customBuffer = data.m_customBuffer2;
-             * 
+             *
              * To implement custom consumer consumption multiplier.
              */
 
             /* Inserting a call to our custom buffer overflow check method, so:
-			 * amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer2)
-			 * Becomes:
-			 * amountDelta = BufferOverflowCheck(Mathf.Clamp(amountDelta, 0, num3 - customBuffer2), customBuffer2);
-			 * 
-			 * This will be inserted at:
-			 * sub
-			 * call int32 [UnityEngine]UnityEngine.Mathf::Clamp(int32, int32, int32)
-			 * 
-			 * [insert here]
-			 * 
-			 * stind.i4
-			 * 
-			 * To fix game bug where uint16 overflows can occur here.
-			 */
+             * amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer2)
+             * Becomes:
+             * amountDelta = BufferOverflowCheck(Mathf.Clamp(amountDelta, 0, num3 - customBuffer2), customBuffer2);
+             *
+             * This will be inserted at:
+             * sub
+             * call int32 [UnityEngine]UnityEngine.Mathf::Clamp(int32, int32, int32)
+             *
+             * [insert here]
+             *
+             * stind.i4
+             *
+             * To fix game bug where uint16 overflows can occur here.
+             */
 
             // ILCode local variable indexes.
             const int CustomBuffer2VarIndex = 7;
 
-
             // Status flag.
             bool isFirstPatched = false, isSecondPatched = false;
-
 
             // Instruction parsing.
             IEnumerator<CodeInstruction> instructionsEnumerator = instructions.GetEnumerator();
@@ -92,7 +90,7 @@ namespace RealPop2
                             yield return new CodeInstruction(OpCodes.Ldarg_S, 4);
                             yield return new CodeInstruction(OpCodes.Ldind_I4);
                             yield return new CodeInstruction(OpCodes.Ldarg_2);
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GoodsUtils), nameof(GoodsUtils.GetComMult), new Type[] { typeof(Building).MakeByRefType()}));
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GoodsUtils), nameof(GoodsUtils.GetComMult), new Type[] { typeof(Building).MakeByRefType() }));
                             yield return new CodeInstruction(OpCodes.Mul);
                             yield return new CodeInstruction(OpCodes.Ldc_I4, 100);
                             yield return new CodeInstruction(OpCodes.Div);

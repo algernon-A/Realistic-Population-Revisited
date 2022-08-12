@@ -31,24 +31,36 @@ namespace RealPop2
         private readonly int[] maxLevels = { 5, 3, 3, 3, 2 };
 
         // Textfield arrays.
-        private UITextField[] emptyAreaFields, emptyPercentFields, fixedPopFields, areaPerFields;
-        private UICheckBox[] fixedPopChecks, multiFloorChecks;
+        private UITextField[] _emptyAreaFields;
+        private UITextField[] _emptyPercentFields;
+        private UITextField[] _fixedPopFields;
+        private UITextField[] _areaPerFields;
+        private UICheckBox[] _fixedPopChecks;
+        private UICheckBox[] _multiFloorChecks;
         private UILabel[] rowLabels;
 
         // Panel components.
-        private UIDropDown serviceDropDown;
+        private UIDropDown _serviceDropDown;
 
-        // Tab sprite name and tooltip key.
-        protected override string TabSprite => "SubBarMonumentModderPackFocused";
-        protected override string TabTooltipKey => "RPR_OPT_POP";
         /// <summary>
-        /// Constructor.
+        /// Initializes a new instance of the <see cref="PopulationPanel"/> class.
         /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
-        internal PopulationPanel(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
+        /// <param name="tabStrip">Tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
+        internal PopulationPanel(UITabstrip tabStrip, int tabIndex)
+            : base(tabStrip, tabIndex)
         {
         }
+
+        /// <summary>
+        /// Gets the icon sprite name for this tab.
+        /// </summary>
+        protected override string TabSprite => "SubBarMonumentModderPackFocused";
+
+        /// <summary>
+        /// Gets the tooltip translation key for this tab.
+        /// </summary>
+        protected override string TabTooltipKey => "RPR_OPT_POP";
 
         /// <summary>
         /// Performs initial setup; called via event when tab is first selected.
@@ -56,33 +68,33 @@ namespace RealPop2
         internal override void Setup()
         {
             // Don't do anything if already set up.
-            if (!isSetup)
+            if (!m_isSetup)
             {
                 // Perform initial setup.
-                isSetup = true;
+                m_isSetup = true;
                 Logging.Message("setting up ", this.GetType());
 
                 // Add title.
-                float currentY = PanelUtils.TitleLabel(panel, TabTooltipKey);
+                float currentY = PanelUtils.TitleLabel(m_panel, TabTooltipKey);
 
                 // Initialise arrays
-                emptyAreaFields = new UITextField[5];
-                emptyPercentFields = new UITextField[5];
-                fixedPopChecks = new UICheckBox[5];
-                fixedPopFields = new UITextField[5];
-                areaPerFields = new UITextField[5];
-                multiFloorChecks = new UICheckBox[5];
+                _emptyAreaFields = new UITextField[5];
+                _emptyPercentFields = new UITextField[5];
+                _fixedPopChecks = new UICheckBox[5];
+                _fixedPopFields = new UITextField[5];
+                _areaPerFields = new UITextField[5];
+                _multiFloorChecks = new UICheckBox[5];
                 rowLabels = new UILabel[5];
 
                 // Service selection dropdown.
-                serviceDropDown = UIDropDowns.AddPlainDropDown(panel, 20f, currentY, Translations.Translate("RPR_OPT_SVC"), serviceNames, -1);
-                serviceDropDown.eventSelectedIndexChanged += ServiceChanged;
-                currentY += serviceDropDown.parent.height;
+                _serviceDropDown = UIDropDowns.AddPlainDropDown(m_panel, 20f, currentY, Translations.Translate("RPR_OPT_SVC"), serviceNames, -1);
+                _serviceDropDown.eventSelectedIndexChanged += ServiceChanged;
+                currentY += _serviceDropDown.parent.height;
 
                 // Pack selection dropdown.
-                packDropDown = UIDropDowns.AddPlainDropDown(panel, 20f, currentY, Translations.Translate("RPR_OPT_CPK"), new string[0], -1);
-                packDropDown.eventSelectedIndexChanged += PackChanged;
-                currentY += packDropDown.parent.height;
+                m_packDropDown = UIDropDowns.AddPlainDropDown(m_panel, 20f, currentY, Translations.Translate("RPR_OPT_CPK"), new string[0], -1);
+                m_packDropDown.eventSelectedIndexChanged += PackChanged;
+                currentY += m_packDropDown.parent.height;
 
                 // Label strings - cached to avoid calling Translations.Translate each time (for the tooltips, anwyay, including the others makes code more readable).
                 string areaSuffix = Environment.NewLine + "(" + Measures.AreaMeasure + ")";
@@ -101,63 +113,63 @@ namespace RealPop2
 
                 // Headings.
                 currentY += 70f;
-                PanelUtils.ColumnLabel(panel, EmptyAreaX, currentY, ColumnWidth, emptyArea, emptyAreaTip, 1.0f);
-                PanelUtils.ColumnLabel(panel, EmptyPercentX, currentY, ColumnWidth, emptyPercent, emptyPercentTip, 1.0f);
-                PanelUtils.ColumnLabel(panel, PopCheckX, currentY, ColumnWidth, useFixedPop, useFixedPopTip, 1.0f);
-                PanelUtils.ColumnLabel(panel, FixedPopX, currentY, ColumnWidth, fixedPop, fixedPopTip, 1.0f);
-                PanelUtils.ColumnLabel(panel, AreaPerX, currentY, ColumnWidth, areaPer, areaPerTip, 1.0f);
-                PanelUtils.ColumnLabel(panel, MultiFloorX, currentY, ColumnWidth, multiFloor, multiFloorTip, 1.0f);
+                PanelUtils.ColumnLabel(m_panel, EmptyAreaX, currentY, ColumnWidth, emptyArea, emptyAreaTip, 1.0f);
+                PanelUtils.ColumnLabel(m_panel, EmptyPercentX, currentY, ColumnWidth, emptyPercent, emptyPercentTip, 1.0f);
+                PanelUtils.ColumnLabel(m_panel, PopCheckX, currentY, ColumnWidth, useFixedPop, useFixedPopTip, 1.0f);
+                PanelUtils.ColumnLabel(m_panel, FixedPopX, currentY, ColumnWidth, fixedPop, fixedPopTip, 1.0f);
+                PanelUtils.ColumnLabel(m_panel, AreaPerX, currentY, ColumnWidth, areaPer, areaPerTip, 1.0f);
+                PanelUtils.ColumnLabel(m_panel, MultiFloorX, currentY, ColumnWidth, multiFloor, multiFloorTip, 1.0f);
 
                 // Add level textfields.
                 for (int i = 0; i < 5; ++i)
                 {
                     // Row label.
-                    rowLabels[i] = RowLabel(panel, currentY, Translations.Translate("RPR_OPT_LVL") + " " + (i + 1).ToString());
+                    rowLabels[i] = RowLabel(m_panel, currentY, Translations.Translate("RPR_OPT_LVL") + " " + (i + 1).ToString());
 
-                    emptyPercentFields[i] = UITextFields.AddTextField(panel, EmptyPercentX + Margin, currentY, width: TextFieldWidth, tooltip: emptyPercentTip);
-                    emptyPercentFields[i].eventTextChanged += (control, value) => PanelUtils.IntTextFilter((UITextField)control, value);
-                    emptyPercentFields[i].tooltipBox = UIToolTips.WordWrapToolTip;
+                    _emptyPercentFields[i] = UITextFields.AddTextField(m_panel, EmptyPercentX + Margin, currentY, width: TextFieldWidth, tooltip: emptyPercentTip);
+                    _emptyPercentFields[i].eventTextChanged += (control, value) => PanelUtils.IntTextFilter((UITextField)control, value);
+                    _emptyPercentFields[i].tooltipBox = UIToolTips.WordWrapToolTip;
 
-                    emptyAreaFields[i] = UITextFields.AddTextField(panel, EmptyAreaX + Margin, currentY, width: TextFieldWidth, tooltip: emptyAreaTip);
-                    emptyAreaFields[i].eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
-                    emptyAreaFields[i].tooltipBox = UIToolTips.WordWrapToolTip;
+                    _emptyAreaFields[i] = UITextFields.AddTextField(m_panel, EmptyAreaX + Margin, currentY, width: TextFieldWidth, tooltip: emptyAreaTip);
+                    _emptyAreaFields[i].eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
+                    _emptyAreaFields[i].tooltipBox = UIToolTips.WordWrapToolTip;
 
                     // Fixed pop checkboxes - ensure i is saved as objectUserData for use by event handler.  Starts unchecked by default.
-                    fixedPopChecks[i] = UICheckBoxes.AddCheckBox(panel, PopCheckX + (ColumnWidth / 2), currentY, tooltip: useFixedPopTip);
-                    fixedPopChecks[i].objectUserData = i;
-                    fixedPopChecks[i].eventCheckChanged += FixedPopCheckChanged;
-                    fixedPopChecks[i].tooltipBox = UIToolTips.WordWrapToolTip;
+                    _fixedPopChecks[i] = UICheckBoxes.AddCheckBox(m_panel, PopCheckX + (ColumnWidth / 2), currentY, tooltip: useFixedPopTip);
+                    _fixedPopChecks[i].objectUserData = i;
+                    _fixedPopChecks[i].eventCheckChanged += FixedPopCheckChanged;
+                    _fixedPopChecks[i].tooltipBox = UIToolTips.WordWrapToolTip;
 
                     // Fixed population fields start hidden by default.
-                    fixedPopFields[i] = UITextFields.AddTextField(panel, FixedPopX + Margin, currentY, width: TextFieldWidth, tooltip: fixedPopTip);
-                    fixedPopFields[i].eventTextChanged += (control, value) => PanelUtils.IntTextFilter((UITextField)control, value);
-                    fixedPopFields[i].tooltipBox = UIToolTips.WordWrapToolTip;
-                    fixedPopFields[i].Hide();
+                    _fixedPopFields[i] = UITextFields.AddTextField(m_panel, FixedPopX + Margin, currentY, width: TextFieldWidth, tooltip: fixedPopTip);
+                    _fixedPopFields[i].eventTextChanged += (control, value) => PanelUtils.IntTextFilter((UITextField)control, value);
+                    _fixedPopFields[i].tooltipBox = UIToolTips.WordWrapToolTip;
+                    _fixedPopFields[i].Hide();
 
-                    areaPerFields[i] = UITextFields.AddTextField(panel, AreaPerX + Margin, currentY, width: TextFieldWidth, tooltip: areaPerTip);
-                    areaPerFields[i].eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
-                    areaPerFields[i].tooltipBox = UIToolTips.WordWrapToolTip;
+                    _areaPerFields[i] = UITextFields.AddTextField(m_panel, AreaPerX + Margin, currentY, width: TextFieldWidth, tooltip: areaPerTip);
+                    _areaPerFields[i].eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
+                    _areaPerFields[i].tooltipBox = UIToolTips.WordWrapToolTip;
 
-                    multiFloorChecks[i] = UICheckBoxes.AddCheckBox(panel, MultiFloorX + (ColumnWidth / 2), currentY, tooltip: multiFloorTip);
-                    multiFloorChecks[i].tooltipBox = UIToolTips.WordWrapToolTip;
+                    _multiFloorChecks[i] = UICheckBoxes.AddCheckBox(m_panel, MultiFloorX + (ColumnWidth / 2), currentY, tooltip: multiFloorTip);
+                    _multiFloorChecks[i].tooltipBox = UIToolTips.WordWrapToolTip;
 
                     // Move to next row.
                     currentY += RowHeight;
                 }
-                
+
                 // Add footer controls.
                 PanelFooter(currentY);
 
                 // Set service menu to initial state (residential), which will also update textfield visibility via event handler.
-                serviceDropDown.selectedIndex = 0;
+                _serviceDropDown.selectedIndex = 0;
             }
         }
 
         /// <summary>
         /// Save button event handler.
-        /// <param name="c">Calling component (unused).</param>
-        /// <param name="p">Mouse event (unused).</param>
         /// </summary>
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event parameter.</param>
         protected override void Save(UIComponent c, UIMouseEventParameter p)
         {
             // Basic sanity check - need a valid name to proceed.
@@ -166,7 +178,7 @@ namespace RealPop2
                 base.Save(c, p);
 
                 // Apply update.
-                FloorData.instance.CalcPackChanged(packList[packDropDown.selectedIndex]);
+                FloorData.Instance.CalcPackChanged(m_packList[m_packDropDown.selectedIndex]);
             }
         }
 
@@ -184,10 +196,10 @@ namespace RealPop2
             int packNum = 2;
 
             // Current service.
-            ItemClass.Service currentService = services[serviceDropDown.selectedIndex];
+            ItemClass.Service currentService = services[_serviceDropDown.selectedIndex];
 
             // Starting with our default new pack name, check to see if we already have a pack with this name for the currently selected service.
-            while (PopData.instance.calcPacks.Find(pack => ((PopDataPack)pack).service == currentService && (pack.name.Equals(newPackName) || pack.DisplayName.Equals(newPackName))) != null)
+            while (PopData.Instance.CalcPacks.Find(pack => ((PopDataPack)pack).Service == currentService && (pack.Name.Equals(newPackName) || pack.DisplayName.Equals(newPackName))) != null)
             {
                 // We already have a match for this name; append the current integer suffix to the base name and try again, incementing the integer suffix for the next attempt (if required).
                 newPackName = PackNameField.text + " " + packNum++;
@@ -197,56 +209,51 @@ namespace RealPop2
             PackNameField.text = newPackName;
 
             // Add new pack with basic values (deails will be populated later).
-            VolumetricPopPack newPack = new VolumetricPopPack
-            {
-                version = DataVersion.customOne,
-                service = services[serviceDropDown.selectedIndex],
-                levels = new LevelData[maxLevels[serviceDropDown.selectedIndex]]
-            };
+            VolumetricPopPack newPack = new VolumetricPopPack(DataPack.DataVersion.CustomOne, services[_serviceDropDown.selectedIndex]);
 
             // Update pack with information from the panel.
             UpdatePack(newPack);
 
             // Add our new pack to our list of packs and update defaults panel menus.
-            PopData.instance.AddCalculationPack(newPack);
+            PopData.Instance.AddCalculationPack(newPack);
             CalculationsPanel.Instance.UpdateDefaultMenus();
 
             // Update pack menu.
-            packDropDown.items = PackList(currentService);
+            m_packDropDown.items = PackList(currentService);
 
             // Set pack selection by iterating through each pack in the menu and looking for a match.
-            for (int i = 0; i < packDropDown.items.Length; ++i)
+            for (int i = 0; i < m_packDropDown.items.Length; ++i)
             {
-                if (packDropDown.items[i].Equals(newPack.DisplayName))
+                if (m_packDropDown.items[i].Equals(newPack.DisplayName))
                 {
                     // Got a match; apply selected index and stop looping.
-                    packDropDown.selectedIndex = i;
+                    m_packDropDown.selectedIndex = i;
                     break;
                 }
             }
 
-            // Save configuration file. 
-            ConfigUtils.SaveSettings();
+            // Save configuration file.
+            ConfigurationUtils.SaveSettings();
         }
 
         /// <summary>
         /// 'Delete pack' button event handler.
         /// </summary>
-        /// <param name="c">Calling component (unused).</param>
-        /// <param name="p">Mouse event (unused).</param>
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event parameter.</param>
         protected override void DeletePack(UIComponent c, UIMouseEventParameter p)
         {
             // Make sure it's not an inbuilt pack before proceeding.
-            if (packList[packDropDown.selectedIndex].version == DataVersion.customOne)
+            if (m_packList[m_packDropDown.selectedIndex].Version == DataPack.DataVersion.CustomOne)
             {
                 // Remove from list of packs.
-                PopData.instance.calcPacks.Remove(packList[packDropDown.selectedIndex]);
+                PopData.Instance.CalcPacks.Remove(m_packList[m_packDropDown.selectedIndex]);
 
                 // Regenerate pack menu.
-                packDropDown.items = PackList(services[serviceDropDown.selectedIndex]);
+                m_packDropDown.items = PackList(services[_serviceDropDown.selectedIndex]);
 
                 // Reset pack menu index.
-                packDropDown.selectedIndex = 0;
+                m_packDropDown.selectedIndex = 0;
             }
         }
 
@@ -259,31 +266,31 @@ namespace RealPop2
             if (pack is VolumetricPopPack popPack)
             {
                 // Basic pack attributes.
-                pack.name = PackNameField.text;
+                pack.Name = PackNameField.text;
 
                 // Iterate through each level, parsing input fields.
-                for (int i = 0; i < maxLevels[serviceDropDown.selectedIndex]; ++i)
+                for (int i = 0; i < maxLevels[_serviceDropDown.selectedIndex]; ++i)
                 {
                     // Textfields.
-                    PanelUtils.ParseFloat(ref popPack.levels[i].emptyArea, emptyAreaFields[i].text, true);
-                    PanelUtils.ParseInt(ref popPack.levels[i].emptyPercent, emptyPercentFields[i].text);
+                    PanelUtils.ParseFloat(ref popPack.Levels[i].EmptyArea, _emptyAreaFields[i].text, true);
+                    PanelUtils.ParseInt(ref popPack.Levels[i].EmptyPercent, _emptyPercentFields[i].text);
 
                     // Look at fixed population checkbox state to work out if we're doing fixed population or area per.
-                    if (fixedPopChecks[i].isChecked)
+                    if (_fixedPopChecks[i].isChecked)
                     {
                         // Using fixed pop: negate the 'area per' number to denote fixed population.
                         int pop = 0;
-                        PanelUtils.ParseInt(ref pop, fixedPopFields[i].text);
-                        popPack.levels[i].areaPer = 0 - pop;
+                        PanelUtils.ParseInt(ref pop, _fixedPopFields[i].text);
+                        popPack.Levels[i].AreaPer = 0 - pop;
                     }
                     else
                     {
                         // Area per unit.
-                        PanelUtils.ParseFloat(ref popPack.levels[i].areaPer, areaPerFields[i].text, true);
+                        PanelUtils.ParseFloat(ref popPack.Levels[i].AreaPer, _areaPerFields[i].text, true);
                     }
 
                     // Checkboxes.
-                    popPack.levels[i].multiFloorUnits = multiFloorChecks[i].isChecked;
+                    popPack.Levels[i].MultiFloorUnits = _multiFloorChecks[i].isChecked;
                 }
             }
         }
@@ -291,18 +298,18 @@ namespace RealPop2
         /// <summary>
         /// Service dropdown change handler.
         /// </summary>
-        /// <param name="c">Calling component (unused).</param>
-        /// <param name="index">New selected index (unused)</param>
+        /// <param name="c">Calling component.</param>
+        /// <param name="index">New selected index.</param>
         private void ServiceChanged(UIComponent c, int index)
         {
             // Set textfield visibility depending on level.
             TextfieldVisibility(maxLevels[index]);
 
             // Reset pack menu items.
-            packDropDown.items = PackList(services[index]);
+            m_packDropDown.items = PackList(services[index]);
 
             // Reset pack selection and force update of fields and button states.
-            packDropDown.selectedIndex = 0;
+            m_packDropDown.selectedIndex = 0;
             PopulateTextFields(0);
             ButtonStates(0);
         }
@@ -310,8 +317,8 @@ namespace RealPop2
         /// <summary>
         /// Calculation pack dropdown change handler.
         /// </summary>
-        /// <param name="c">Calling component (unused).</param>
-        /// <param name="index">New selected index (unused).</param>
+        /// <param name="c">Calling component.</param>
+        /// <param name="index">New selected index.</param>
         private void PackChanged(UIComponent c, int index)
         {
             // Populate text fields.
@@ -320,10 +327,10 @@ namespace RealPop2
             // Set service menu by iterating through list of services looking for a match.
             for (int i = 0; i < services.Length; ++i)
             {
-                if (services[i] == ((VolumetricPopPack)packList[index]).service)
+                if (services[i] == ((VolumetricPopPack)m_packList[index]).Service)
                 {
                     // Found a service match; select it and stop looping.
-                    serviceDropDown.selectedIndex = i;
+                    _serviceDropDown.selectedIndex = i;
                     break;
                 }
             }
@@ -345,32 +352,32 @@ namespace RealPop2
                 if (i < maxLevel)
                 {
                     rowLabels[i].Show();
-                    fixedPopChecks[i].Show();
+                    _fixedPopChecks[i].Show();
 
                     // Arear per or fixed population, depending on fixed pop check state.
-                    if (fixedPopChecks[i].isChecked)
+                    if (_fixedPopChecks[i].isChecked)
                     {
-                        fixedPopFields[i].Show();
+                        _fixedPopFields[i].Show();
                     }
                     else
                     {
-                        emptyAreaFields[i].Show();
-                        emptyPercentFields[i].Show();
-                        areaPerFields[i].Show();
-                        multiFloorChecks[i].Show();
+                        _emptyAreaFields[i].Show();
+                        _emptyPercentFields[i].Show();
+                        _areaPerFields[i].Show();
+                        _multiFloorChecks[i].Show();
                     }
                 }
                 else
                 {
                     // Otherwise, hide.
                     rowLabels[i].Hide();
-                    fixedPopChecks[i].Hide();
+                    _fixedPopChecks[i].Hide();
 
-                    fixedPopFields[i].Hide();
-                    emptyAreaFields[i].Hide();
-                    emptyPercentFields[i].Hide();
-                    areaPerFields[i].Hide();
-                    multiFloorChecks[i].Hide();
+                    _fixedPopFields[i].Hide();
+                    _emptyAreaFields[i].Hide();
+                    _emptyPercentFields[i].Hide();
+                    _areaPerFields[i].Hide();
+                    _multiFloorChecks[i].Hide();
                 }
             }
         }
@@ -386,12 +393,12 @@ namespace RealPop2
             // Get stored index of calling checkbox.
             int index = (int)c.objectUserData;
 
-            fixedPopFields[index].isVisible = isChecked;
+            _fixedPopFields[index].isVisible = isChecked;
 
-            emptyAreaFields[index].isVisible = !isChecked;
-            emptyPercentFields[index].isVisible = !isChecked;
-            areaPerFields[index].isVisible = !isChecked;
-            multiFloorChecks[index].isVisible = !isChecked;
+            _emptyAreaFields[index].isVisible = !isChecked;
+            _emptyPercentFields[index].isVisible = !isChecked;
+            _areaPerFields[index].isVisible = !isChecked;
+            _multiFloorChecks[index].isVisible = !isChecked;
         }
 
         /// <summary>
@@ -401,7 +408,7 @@ namespace RealPop2
         private void PopulateTextFields(int index)
         {
             // Get local reference.
-            VolumetricPopPack volPack = (VolumetricPopPack)packList[index];
+            VolumetricPopPack volPack = (VolumetricPopPack)m_packList[index];
 
             // Set name field.
             PackNameField.text = volPack.DisplayName;
@@ -409,28 +416,28 @@ namespace RealPop2
             // Set service selection menu by iterating through each service and looking for a match.
             for (int i = 0; i < services.Length; ++i)
             {
-                if (services[i] == volPack.service)
+                if (services[i] == volPack.Service)
                 {
                     // Got a match; apply selected index and stop looping.
                     // This also applies text field visibility via the service menue event handler.
-                    serviceDropDown.selectedIndex = i;
+                    _serviceDropDown.selectedIndex = i;
                     break;
-                }    
+                }
             }
 
             // Iterate through each level in the pack and populate the relevant row.
-            for (int i = 0; i < volPack.levels.Length; ++i)
+            for (int i = 0; i < volPack.Levels.Length; ++i)
             {
                 // Local reference.
-                LevelData level = volPack.levels[i];
+                VolumetricPopPack.LevelData level = volPack.Levels[i];
 
                 // Populate controls.
-                emptyAreaFields[i].text = Measures.AreaFromMetric(level.emptyArea).ToString("N1");
-                emptyPercentFields[i].text = level.emptyPercent.ToString();
-                fixedPopChecks[i].isChecked = level.areaPer < 0;
-                areaPerFields[i].text = Measures.AreaFromMetric(Math.Abs(level.areaPer)).ToString("N1");
-                fixedPopFields[i].text = Math.Abs(level.areaPer).ToString();
-                multiFloorChecks[i].isChecked = level.multiFloorUnits;
+                _emptyAreaFields[i].text = Measures.AreaFromMetric(level.EmptyArea).ToString("N1");
+                _emptyPercentFields[i].text = level.EmptyPercent.ToString();
+                _fixedPopChecks[i].isChecked = level.AreaPer < 0;
+                _areaPerFields[i].text = Measures.AreaFromMetric(Math.Abs(level.AreaPer)).ToString("N1");
+                _fixedPopFields[i].text = Math.Abs(level.AreaPer).ToString();
+                _multiFloorChecks[i].isChecked = level.MultiFloorUnits;
             }
         }
 
@@ -442,17 +449,17 @@ namespace RealPop2
         private string[] PackList(ItemClass.Service service)
         {
             // Re-initialise pack list.
-            packList = new List<DataPack>();
+            m_packList = new List<DataPack>();
             List<string> packNames = new List<string>();
 
             // Iterate through all available packs.
-            foreach (PopDataPack calcPack in PopData.instance.calcPacks)
+            foreach (PopDataPack calcPack in PopData.Instance.CalcPacks)
             {
                 // Check for custom packs.
-                if (calcPack is VolumetricPopPack volPack && volPack.service == service)
+                if (calcPack is VolumetricPopPack volPack && volPack.Service == service)
                 {
                     // Found one - add to our lists.
-                    packList.Add(volPack);
+                    m_packList.Add(volPack);
                     packNames.Add(volPack.DisplayName);
                 }
             }

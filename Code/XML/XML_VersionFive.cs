@@ -1,9 +1,20 @@
+// <copyright file="XML_VersionFive.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard) and Whitefang Greytail. All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace RealPop2
 {
     using System;
     using System.Xml;
     using AlgernonCommons;
 
+    /// <summary>
+    /// Legacy WG configuration file, version 5.
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1303:Const field names should begin with upper-case letter", Justification = "Legacy code")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Legacy code")]
     public class XML_VersionFive : WG_XMLBaseVersion
     {
         private const string popNodeName = "population";
@@ -15,14 +26,13 @@ namespace RealPop2
         private const string pollutionNodeName = "pollution";
         private const string productionNodeName = "production";
 
-        /// <param name="doc"></param>
         public override void ReadXML(XmlDocument doc)
         {
             XmlElement root = doc.DocumentElement;
             try
             {
-                //DataStore.enableExperimental = Convert.ToBoolean(root.Attributes["experimental"].InnerText);
-                //DataStore.timeBasedRealism = Convert.ToBoolean(root.Attributes["enableTimeVariation"].InnerText);
+                // DataStore.enableExperimental = Convert.ToBoolean(root.Attributes["experimental"].InnerText);
+                // DataStore.timeBasedRealism = Convert.ToBoolean(root.Attributes["enableTimeVariation"].InnerText);
             }
             catch (Exception)
             {
@@ -69,17 +79,12 @@ namespace RealPop2
             }
         } // end readXML
 
-
-        /// <param name="fullPathFileName"></param>
-        /// <returns></returns>
         public override bool WriteXML(string fullPathFileName)
         {
             // Should not be called now
             return false;
         } // end writeXML
 
-
-        /// <param name="pollutionNode"></param>
         private void ReadPollutionNode(XmlNode pollutionNode)
         {
             foreach (XmlNode node in pollutionNode.ChildNodes)
@@ -132,7 +137,7 @@ namespace RealPop2
                             break;
 
                         case "IndustryOil":
-                           SetPollutionRates(DataStore.industry_oil[level], ground, noise);
+                            SetPollutionRates(DataStore.industry_oil[level], ground, noise);
                             break;
 
                         case "IndustryForest":
@@ -177,8 +182,6 @@ namespace RealPop2
             }
         }
 
-
-        /// <param name="popNode"></param>
         private void ReadPopulationNode(XmlNode popNode)
         {
             try
@@ -217,10 +220,10 @@ namespace RealPop2
                         temp = Convert.ToInt32(node.Attributes["space_pp"].InnerText);
                         if (temp <= 0)
                         {
-                            temp = 100;  // Bad person trying to give negative or div0 error. 
+                            temp = 100;  // Bad person trying to give negative or div0 error.
                         }
-                        array[DataStore.PEOPLE] = TransformPopulationModifier(name, temp, false);
 
+                        array[DataStore.PEOPLE] = TransformPopulationModifier(name, temp, false);
                     }
                     catch (Exception e)
                     {
@@ -240,7 +243,6 @@ namespace RealPop2
                     }
                     catch
                     {
-
                     }
 
                     if (!name.Contains("Residential"))
@@ -284,11 +286,11 @@ namespace RealPop2
 
             if (toXML)
             {
-                return (value / dividor);
+                return value / dividor;
             }
             else
             {
-                return (value * dividor);
+                return value * dividor;
             }
         }
 
@@ -380,7 +382,6 @@ namespace RealPop2
             }
         }
 
-        /// <param name="produceNode"></param>
         private void ReadVisitNode(XmlNode produceNode)
         {
             foreach (XmlNode node in produceNode.ChildNodes)
@@ -406,8 +407,6 @@ namespace RealPop2
             }
         }
 
-
-        /// <param name="produceNode"></param>
         private void ReadProductionNode(XmlNode produceNode)
         {
             foreach (XmlNode node in produceNode.ChildNodes)
@@ -433,12 +432,7 @@ namespace RealPop2
             }
         }
 
-
-        /// <param name="name"></param>
-        /// <param name="level"></param>
-        /// <param name="callingFunction">For debug purposes</param>
-        /// <returns></returns>
-        private static int[] GetArray(string name, int level, string callingFunction)
+        private int[] GetArray(string name, int level, string callingFunction)
         {
             int[] array = new int[14];
 
@@ -496,6 +490,7 @@ namespace RealPop2
                     Logging.Error("callingFunction ", callingFunction, ". unknown element name: ", name);
                     break;
             }
+
             return array;
         } // end getArray
 
@@ -515,3 +510,4 @@ namespace RealPop2
         }
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

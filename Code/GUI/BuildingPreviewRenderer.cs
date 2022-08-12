@@ -1,19 +1,22 @@
-﻿// <copyright file="UIPreviewRenderer.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="BuildingPreviewRenderer.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
-// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
 namespace RealPop2
 {
     using System.Collections.Generic;
-    using UnityEngine;
     using ColossalFramework;
+    using UnityEngine;
 
     /// <summary>
     /// Render a 3d image of a given mesh.
     /// </summary>
-    internal class UIPreviewRenderer : MonoBehaviour
+    internal class BuildingPreviewRenderer : MonoBehaviour
     {
+        // Floor preview rendering.
+        private readonly Texture2D _floorTexture;
+
         // Rendering settings.
         private readonly Camera _renderCamera;
         private Mesh _mesh;
@@ -26,12 +29,10 @@ namespace RealPop2
         private List<BuildingInfo.MeshInfo> _subMeshes;
         private List<BuildingInfo.SubInfo> _subBuildings;
 
-        // Floor preview rendering.
-        private readonly Texture2D _floorTexture;
         /// <summary>
-        /// Initialise the new renderer object.
+        /// Initializes a new instance of the <see cref="BuildingPreviewRenderer"/> class.
         /// </summary>
-        internal UIPreviewRenderer()
+        internal BuildingPreviewRenderer()
         {
             // Set up camera.
             _renderCamera = new GameObject("Camera").AddComponent<Camera>();
@@ -127,8 +128,8 @@ namespace RealPop2
         /// <summary>
         /// Sets mesh and material from a BuildingInfo prefab.
         /// </summary>
-        /// <param name="prefab">Prefab to render</param>
-        /// <returns>True if the target was valid (prefab or at least one subbuilding contains a valid material, and the prefab has at least one primary mesh, submesh, or subbuilding)</returns>
+        /// <param name="prefab">Prefab to render.</param>
+        /// <returns>True if the target was valid (prefab or at least one subbuilding contains a valid material, and the prefab has at least one primary mesh, submesh, or subbuilding).</returns>
         internal bool SetTarget(BuildingInfo prefab)
         {
             // Assign main mesh and material.
@@ -205,7 +206,7 @@ namespace RealPop2
             // Back up current game InfoManager mode.
             InfoManager infoManager = Singleton<InfoManager>.instance;
             InfoManager.InfoMode currentMode = infoManager.CurrentMode;
-            InfoManager.SubInfoMode currentSubMode = infoManager.CurrentSubMode; ;
+            InfoManager.SubInfoMode currentSubMode = infoManager.CurrentSubMode;
 
             // Set current game InfoManager to default (don't want to render with an overlay mode).
             infoManager.SetCurrentMode(InfoManager.InfoMode.None, InfoManager.SubInfoMode.Default);
@@ -255,13 +256,24 @@ namespace RealPop2
 
                     // Shift minimum and maxmimum coordinates, if and as appropriate.
                     if (vertices[i].x > maxX)
+                    {
                         maxX = vertices[i].x;
+                    }
+
                     if (vertices[i].x < minX)
+                    {
                         minX = vertices[i].x;
+                    }
+
                     if (vertices[i].z > maxZ)
+                    {
                         maxZ = vertices[i].z;
+                    }
+
                     if (vertices[i].z < minZ)
+                    {
                         minZ = vertices[i].z;
+                    }
                 }
 
                 // Calculate rendering matrix.
@@ -286,18 +298,18 @@ namespace RealPop2
                     List<Vector3> vectorList = new List<Vector3>();
                     List<int> triList = new List<int>();
                     List<Vector2> uvList = new List<Vector2>();
-                    
+
                     // Draw ground floor.
                     AddFloor(left, right, front, back, 0f, vectorList, triList, uvList);
 
                     // Draw top of first floor, using transformation matrix to position floor.
-                    float floorHeight = floorDataPack.firstFloorMin + floorDataPack.firstFloorExtra;
+                    float floorHeight = floorDataPack.m_firstFloorMin + floorDataPack.m_firstFloorExtra;
 
                     // Draw addtional floors, incrementing transformation matrix, until we reach the top of the building.  Increment height once at start to avoid fencepost error.
-                    while (floorHeight <= _bounds.max.y - floorDataPack.floorHeight)
+                    while (floorHeight <= _bounds.max.y - floorDataPack.m_floorHeight)
                     {
                         AddFloor(left, right, front, back, floorHeight, vectorList, triList, uvList);
-                        floorHeight += floorDataPack.floorHeight;
+                        floorHeight += floorDataPack.m_floorHeight;
                     }
 
                     // Create mesh and add to scene.
@@ -330,7 +342,7 @@ namespace RealPop2
                         // We need to rotate the submesh before we apply the model rotation.
                         // Note that the order of multiplication (relative to the angle of operation) is reversed in the code, because of the way Unity overloads the multiplication operator.
                         // Note also that the submesh angle needs to be inverted to rotate correctly around the Y axis in our space.
-                        Quaternion relativeRotation = Quaternion.AngleAxis((subMesh.m_angle * -1), Vector3.up);
+                        Quaternion relativeRotation = Quaternion.AngleAxis(subMesh.m_angle * -1, Vector3.up);
 
                         // Calculate relative position of mesh given its starting position and our model rotation.
                         Vector3 relativePosition = subMesh.m_position;
@@ -416,12 +428,12 @@ namespace RealPop2
             }
 
             // Light settings.
-            renderLight.transform.eulerAngles = new Vector3(55f, --_rotation-20f, 0f);
+            renderLight.transform.eulerAngles = new Vector3(55f, -_rotation - 20f, 0f);
             renderLight.intensity = 2f;
             renderLight.color = Color.white;
 
             // Render!
-            _renderCamera.RenderWithShader(_material.shader, "");
+            _renderCamera.RenderWithShader(_material.shader, string.Empty);
 
             // Restore game lighting.
             RenderManager.instance.MainLight = gameMainLight;
@@ -442,7 +454,6 @@ namespace RealPop2
             infoManager.SetCurrentMode(currentMode, currentSubMode);
             infoManager.UpdateInfoMode();
         }
-
 
         /// <summary>
         /// Adds a dynamically-generated floor preview to the specified vector, triangle and UV lists.
@@ -482,7 +493,6 @@ namespace RealPop2
             AddTri(rearRightTop, frontRightBottom, rearRightBottom, vectorList, triList, uvList);
             AddTri(frontRightBottom, rearRightTop, frontRightTop, vectorList, triList, uvList);
         }
-
 
         /// <summary>
         /// Adds a triangle with the specified vertices to the provided lists of vectors, tris and UV coordinates.

@@ -3,7 +3,6 @@
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-
 namespace RealPop2
 {
     using AlgernonCommons;
@@ -16,18 +15,15 @@ namespace RealPop2
     /// </summary>
     internal class CalculationsPanel : OptionsPanelTab
     {
-        // Instance reference.
-        internal static CalculationsPanel Instance { get; private set; }
-
         // Components.
-        private ResidentialTab resTab;
-        private CommercialTab comTab;
-        private OfficeTab offTab;
-        private IndustrialTab indTab;
-        private SchoolTab schTab;
+        private ResidentialTab _resTab;
+        private CommercialTab _comTab;
+        private OfficeTab _offTab;
+        private IndustrialTab _indTab;
+        private SchoolTab _schTab;
 
         /// <summary>
-        /// Adds education options tab to tabstrip.
+        /// Initializes a new instance of the <see cref="CalculationsPanel"/> class.
         /// </summary>
         /// <param name="parentTabStrip">Parent tab strip to add to.</param>
         /// <param name="tabIndex">Index number of tab.</param>
@@ -37,11 +33,16 @@ namespace RealPop2
             Instance = this;
 
             // Add tab and helper.
-            panel = PanelUtils.AddTextTab(parentTabStrip, Translations.Translate("RPR_PCK_NAM"), tabIndex, out UIButton _);
+            m_panel = PanelUtils.AddTextTab(parentTabStrip, Translations.Translate("RPR_PCK_NAM"), tabIndex, out UIButton _);
 
             // Set tab object reference.
             parentTabStrip.tabs[tabIndex].objectUserData = this;
         }
+
+        /// <summary>
+        /// Gets the current instance.
+        /// </summary>
+        internal static CalculationsPanel Instance { get; private set; }
 
         /// <summary>
         /// Updates default calculation pack selection menu options.
@@ -49,11 +50,11 @@ namespace RealPop2
         internal void UpdateDefaultMenus()
         {
             // Update for each defaults panel.
-            resTab.UpdateControls();
-            comTab.UpdateControls();
-            offTab.UpdateControls();
-            indTab.UpdateControls();
-            schTab.UpdateControls();
+            _resTab.UpdateControls();
+            _comTab.UpdateControls();
+            _offTab.UpdateControls();
+            _indTab.UpdateControls();
+            _schTab.UpdateControls();
         }
 
         /// <summary>
@@ -62,30 +63,30 @@ namespace RealPop2
         internal override void Setup()
         {
             // Don't do anything if already set up.
-            if (!isSetup)
+            if (!m_isSetup)
             {
                 // Perform initial setup.
-                isSetup = true;
+                m_isSetup = true;
                 Logging.Message("setting up ", this.GetType());
 
                 // Add tabstrip.
-                UITabstrip childTabStrip = panel.AddUIComponent<UITabstrip>();
+                UITabstrip childTabStrip = m_panel.AddUIComponent<UITabstrip>();
                 childTabStrip.relativePosition = Vector2.zero;
                 childTabStrip.size = new Vector2(744f, 725f);
 
                 // Tab container (the panels underneath each tab).
-                UITabContainer tabContainer = panel.AddUIComponent<UITabContainer>();
+                UITabContainer tabContainer = m_panel.AddUIComponent<UITabContainer>();
                 tabContainer.relativePosition = new Vector2(0, 30f);
                 tabContainer.size = new Vector2(744f, 720);
                 childTabStrip.tabPages = tabContainer;
 
                 // Add child tabs.
                 int tab = 0;
-                resTab = new ResidentialTab(childTabStrip, tab++);
-                comTab = new CommercialTab(childTabStrip, tab++);
-                offTab = new OfficeTab(childTabStrip, tab++);
-                indTab = new IndustrialTab(childTabStrip, tab++);
-                schTab = new SchoolTab(childTabStrip, tab++);
+                _resTab = new ResidentialTab(childTabStrip, tab++);
+                _comTab = new CommercialTab(childTabStrip, tab++);
+                _offTab = new OfficeTab(childTabStrip, tab++);
+                _indTab = new IndustrialTab(childTabStrip, tab++);
+                _schTab = new SchoolTab(childTabStrip, tab++);
                 new PopulationPanel(childTabStrip, tab++);
                 new FloorPanel(childTabStrip, tab++);
                 new LegacyPanel(childTabStrip, tab);
@@ -99,10 +100,9 @@ namespace RealPop2
                     }
                 };
 
-                // Perform setup of residential tab (default selection) and make sure first one is selected (doing a 'quickstep' via the second tab to ensure proper events are triggered).
-                childTabStrip.selectedIndex = 1;
+                // Perform setup of residential tab (default selection) and make sure first one is selected (doing a 'quickstep' to ensure proper events are triggered).
+                childTabStrip.selectedIndex = -1;
                 childTabStrip.selectedIndex = 0;
-
             }
         }
     }

@@ -1,27 +1,27 @@
-﻿// <copyright file="UIVolumetricPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="VolumetricCalculationPreview.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
 namespace RealPop2
 {
-    using System.Text;
     using System.Collections.Generic;
+    using System.Text;
     using AlgernonCommons.Translation;
     using AlgernonCommons.UI;
-    using ColossalFramework.UI;
     using ColossalFramework.Globalization;
+    using ColossalFramework.Math;
+    using ColossalFramework.UI;
     using UnityEngine;
-    using Realistic_Population_Revisited.Code.Patches.Population;
 
     /// <summary>
     /// Panel to display volumetric calculations.
     /// </summary>
-    public class UIVolumetricPanel : UIPanel
+    public class VolumetricCalculationPreview : UIPanel
     {
         // Layout constants.
         private const float Margin = 5f;
-        private const float ColumnWidth = UIBuildingDetails.RightWidth / 2f;
+        private const float ColumnWidth = BuildingDetailsPanel.RightWidth / 2f;
         private const float LabelOffset = 240f;
         private const float LeftColumn = LabelOffset;
         private const float RightColumn = ColumnWidth + LabelOffset;
@@ -62,22 +62,6 @@ namespace RealPop2
         private UICheckBox fixedPopCheckBox;
         private UICheckBox _multiFloorCheckBox;
         private UICheckBox _ignoreFirstCheckBox;
-
-        /// <summary>
-        /// Adds an "overriden" notification label.
-        /// </summary>
-        /// <param name="parentLabel">Parent label to add to.</param>
-        /// <returns>New 'overridden' UILabel..</returns>
-        private UILabel OverrideLabel(UIComponent parentLabel)
-        {
-            UILabel thisLabel = UILabels.AddLabel(this, 0f - Margin, 0f, Translations.Translate("RPR_CAL_OVR"), textScale: 0.6f);
-            
-            thisLabel.relativePosition = new Vector2(parentLabel.relativePosition.x - thisLabel.width - Margin, parentLabel.relativePosition.y + ((parentLabel.height - thisLabel.height) / 2f));
-
-            thisLabel.Hide();
-
-            return thisLabel;
-        }
 
         /// <summary>
         /// Create the panel; we no longer use Start() as that's not sufficiently reliable (race conditions), and is no longer needed, with the new create/destroy process.
@@ -140,7 +124,7 @@ namespace RealPop2
             _messageLabel = UILabels.AddLabel(this, Margin, MessageY, string.Empty);
 
             // Floor list - attached to root panel as scrolling and interactivity can be unreliable otherwise.
-            _floorsList = UIList.AddUIList<UIFloorRow>(BuildingDetailsPanel.Panel);
+            _floorsList = UIList.AddUIList<FloorRow>(BuildingDetailsPanelManager.Panel);
 
             // Size, appearance and behaviour.
             _floorsList.width = this.width;
@@ -159,11 +143,11 @@ namespace RealPop2
         /// <summary>
         /// Updates the population summary text labels with data from the current level.
         /// </summary>
-        /// <param name="levelData">LevelData record to summarise</param>
-        internal void UpdatePopText(LevelData levelData)
+        /// <param name="levelData">LevelData record to summarise.</param>
+        internal void UpdatePopText(VolumetricPopPack.LevelData levelData)
         {
             // Update and display text labels depending on 'use fixed pop' setting.
-            bool fixedPop = levelData.areaPer < 0;
+            bool fixedPop = levelData.AreaPer < 0;
             fixedPopCheckBox.isChecked = fixedPop;
             _emptyAreaLabel.isVisible = !fixedPop;
             _emptyPercentLabel.isVisible = !fixedPop;
@@ -172,26 +156,26 @@ namespace RealPop2
             _unitsLabel.isVisible = fixedPop;
 
             // Set values.
-            _emptyAreaLabel.text = Measures.AreaString(levelData.emptyArea, "N0");
-            _emptyPercentLabel.text = levelData.emptyPercent.ToString();
-            _perLabel.text = Measures.AreaString(levelData.areaPer, "N0");
-            _unitsLabel.text = Measures.AreaString(levelData.areaPer * -1, "N0");
-            _multiFloorCheckBox.isChecked = levelData.multiFloorUnits;
+            _emptyAreaLabel.text = Measures.AreaString(levelData.EmptyArea, "N0");
+            _emptyPercentLabel.text = levelData.EmptyPercent.ToString();
+            _perLabel.text = Measures.AreaString(levelData.AreaPer, "N0");
+            _unitsLabel.text = Measures.AreaString(levelData.AreaPer * -1, "N0");
+            _multiFloorCheckBox.isChecked = levelData.MultiFloorUnits;
         }
 
         /// <summary>
         /// Updates the floor summary text labels with data from the current floor.
         /// </summary>
-        /// <param name="floorData">FloorData record to summarise</param>
+        /// <param name="floorData">FloorData record to summarise.</param>
         internal void UpdateFloorText(FloorDataPack floorData)
         {
             // Set textfield values.
-            _firstMinLabel.text = Measures.LengthString(floorData.firstFloorMin, "N1");
-            _firstExtraLabel.text = Measures.LengthString(floorData.firstFloorExtra, "N1");
-            _floorHeightLabel.text = Measures.LengthString(floorData.floorHeight, "N1");
+            _firstMinLabel.text = Measures.LengthString(floorData.m_firstFloorMin, "N1");
+            _firstExtraLabel.text = Measures.LengthString(floorData.m_firstFloorExtra, "N1");
+            _floorHeightLabel.text = Measures.LengthString(floorData.m_floorHeight, "N1");
 
             // Set checkbox.
-            _ignoreFirstCheckBox.isChecked = floorData.firstFloorEmpty;
+            _ignoreFirstCheckBox.isChecked = floorData.m_firstFloorEmpty;
         }
 
         /// <summary>
@@ -202,7 +186,7 @@ namespace RealPop2
         /// <param name="floorData">Floor calculation data to apply to calculations.</param>
         /// <param name="schoolData">School calculation data to apply to calculations.</param>
         /// <param name="multiplier">Multiplier to apply to calculations.</param>
-        internal void CalculateVolumetric(BuildingInfo building, LevelData levelData, FloorDataPack floorData, SchoolDataPack schoolData, float multiplier)
+        internal void CalculateVolumetric(BuildingInfo building, VolumetricPopPack.LevelData levelData, FloorDataPack floorData, SchoolDataPack schoolData, float multiplier)
         {
             // Safety first!
             if (building == null)
@@ -215,13 +199,13 @@ namespace RealPop2
 
             // Perform calculations.
             // Get floors and allocate area an number of floor labels.
-            SortedList<int, float> floors = PopData.instance.VolumetricFloors(building.m_generatedInfo, floorData, out float totalArea);
+            SortedList<int, float> floors = PopData.Instance.VolumetricFloors(building.m_generatedInfo, floorData, out float totalArea);
             _floorAreaLabel.text = Measures.AreaString(totalArea, "N0");
             _numFloorsLabel.text = floors.Count.ToString();
 
             // Get total units.
             List<KeyValuePair<ushort, ushort>> perFloor = new List<KeyValuePair<ushort, ushort>>();
-            int totalUnits = PopData.instance.VolumetricPopulation(building.m_generatedInfo, levelData, floorData, multiplier, floors, totalArea, perFloor);
+            int totalUnits = PopData.Instance.VolumetricPopulation(building.m_generatedInfo, levelData, floorData, multiplier, floors, totalArea, perFloor);
 
             // Floor labels list.
             List<string> floorLabels = new List<string>();
@@ -245,14 +229,9 @@ namespace RealPop2
             }
 
             // See if we're using area calculations for numbers of units, i.e. areaPer is at least one.
-            if (levelData.areaPer > 0)
+            if (levelData.AreaPer > 0)
             {
-                // Determine area percentage to use for calculations (inverse of empty area percentage).
-                float emptyArea = levelData.emptyArea;
-                float areaPercent = 1 - (levelData.emptyPercent / 100f);
-
                 // Create new floor area labels by iterating through each floor.
-                //for (int i = 0; i < floors.Count; ++i)
                 foreach (KeyValuePair<ushort, ushort> floor in perFloor)
                 {
                     // StringBuilder, because we're doing a fair bit of manipulation here.
@@ -262,7 +241,7 @@ namespace RealPop2
                     floorString.Append(floor.Key + 1);
 
                     // See if we're calculating units per individual floor.
-                    if (!levelData.multiFloorUnits)
+                    if (!levelData.MultiFloorUnits)
                     {
                         // Add unit count to label.
                         floorString.Append(" (");
@@ -278,19 +257,19 @@ namespace RealPop2
             }
 
             // Do we have a current school selection, and are we using school property overrides?
-            if (schoolData != null && ModSettings.enableSchoolProperties)
+            if (schoolData != null && ModSettings.EnableSchoolProperties)
             {
                 // Yes - calculate and display school worker breakdown.
-                int[] workers = SchoolData.instance.CalcWorkers(schoolData, totalUnits);
+                int[] workers = SchoolData.Instance.CalcWorkers(schoolData, totalUnits);
                 _schoolWorkerLabel.Show();
                 _schoolWorkerLabel.text = workers[0] + " / " + workers[1] + " / " + workers[2] + " / " + workers[3];
 
                 // Calculate construction cost to display.
-                int cost = SchoolData.instance.CalcCost(schoolData, totalUnits);
+                int cost = SchoolData.Instance.CalcCost(schoolData, totalUnits);
                 ColossalFramework.Singleton<EconomyManager>.instance.m_EconomyWrapper.OnGetConstructionCost(ref cost, building.m_class.m_service, building.m_class.m_subService, building.m_class.m_level);
 
                 // Calculate maintenance cost to display.
-                int maintenance = SchoolData.instance.CalcMaint(schoolData, totalUnits) * 100;
+                int maintenance = SchoolData.Instance.CalcMaint(schoolData, totalUnits) * 100;
                 ColossalFramework.Singleton<EconomyManager>.instance.m_EconomyWrapper.OnGetMaintenanceCost(ref maintenance, building.m_class.m_service, building.m_class.m_subService, building.m_class.m_level);
                 float displayMaint = Mathf.Abs(maintenance * 0.0016f);
 
@@ -315,7 +294,7 @@ namespace RealPop2
             FastList<object> fastList = new FastList<object>()
             {
                 m_buffer = floorLabels.ToArray(),
-                m_size = floorLabels.Count
+                m_size = floorLabels.Count,
             };
             _floorsList.Data = fastList;
 
@@ -362,7 +341,7 @@ namespace RealPop2
             if (building.GetAI() is PrivateBuildingAI privateAI && (privateAI is OfficeBuildingAI || privateAI is IndustrialBuildingAI || privateAI is IndustrialExtractorAI))
             {
                 _productionLabel.Show();
-                _productionLabel.text = privateAI.CalculateProductionCapacity(building.GetClassLevel(), new ColossalFramework.Math.Randomizer(), building.GetWidth(), building.GetLength()).ToString();
+                _productionLabel.text = privateAI.CalculateProductionCapacity(building.GetClassLevel(), default(Randomizer), building.GetWidth(), building.GetLength()).ToString();
             }
             else
             {
@@ -370,7 +349,7 @@ namespace RealPop2
             }
 
             // Show override lavels if floors are being overridden.
-            if (FloorData.instance.HasOverride(building.name) != null)
+            if (FloorData.Instance.HasOverride(building.name) != null)
             {
                 _overrideFloorsLabel.Show();
                 _messageLabel.text = Translations.Translate("RPR_CAL_OVM");
@@ -387,7 +366,7 @@ namespace RealPop2
                 _overridePopLabel.Show();
                 _messageLabel.text = Translations.Translate("RPR_CAL_RICO");
             }
-            else if (PopData.instance.GetOverride(building.name) > 0)
+            else if (PopData.Instance.GetOverride(building.name) > 0)
             {
                 // Overriden by manual population override.
                 _overridePopLabel.Show();
@@ -399,7 +378,6 @@ namespace RealPop2
                 _overridePopLabel.Hide();
             }
         }
-
 
         /// <summary>
         /// Resets the floor list position relative to the volumetic calculations panel.
@@ -413,7 +391,7 @@ namespace RealPop2
             _floorsList.relativePosition = new Vector2(xPos, yPos);
 
             // Enforce height to match position within panel.
-            _floorsList.height = _floorsList.parent.height - yPos - UIBuildingDetails.BottomMargin;
+            _floorsList.height = _floorsList.parent.height - yPos - BuildingDetailsPanel.BottomMargin;
         }
 
         /// <summary>
@@ -425,7 +403,7 @@ namespace RealPop2
         /// <param name="yPos">Relative Y position.</param>
         /// <param name="toolKey">Tooltip translation key.</param>
         /// <param name="inset">X inset (default 0).</param>
-        /// <returns>New UILabel</returns>
+        /// <returns>New UILabel.</returns>
         private UILabel AddVolumetricLabel(UIComponent parent, string textKey, float xPos, float yPos, string toolKey, float inset = 0f)
         {
             // Create new label.
@@ -466,7 +444,8 @@ namespace RealPop2
 
             // Unselected sprite.
             UISprite sprite = checkBox.AddUIComponent<UISprite>();
-            //sprite.spriteName = "AchievementCheckedFalse";
+
+            // sprite.spriteName = "AchievementCheckedFalse";
             sprite.size = new Vector2(16f, 16f);
             sprite.relativePosition = Vector2.zero;
 
@@ -502,6 +481,19 @@ namespace RealPop2
             label.autoHeight = true;
             label.wordWrap = true;
             label.text = text;
+        }
+
+        /// <summary>
+        /// Adds an "overriden" notification label.
+        /// </summary>
+        /// <param name="parentLabel">Parent label to add to.</param>
+        /// <returns>New 'overridden' UILabel..</returns>
+        private UILabel OverrideLabel(UIComponent parentLabel)
+        {
+            UILabel thisLabel = UILabels.AddLabel(this, 0f - Margin, 0f, Translations.Translate("RPR_CAL_OVR"), textScale: 0.6f);
+            thisLabel.relativePosition = new Vector2(parentLabel.relativePosition.x - thisLabel.width - Margin, parentLabel.relativePosition.y + ((parentLabel.height - thisLabel.height) / 2f));
+            thisLabel.Hide();
+            return thisLabel;
         }
     }
 }

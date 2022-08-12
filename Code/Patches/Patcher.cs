@@ -57,7 +57,7 @@ namespace RealPop2
                     // Got method - apply patch.
                     Logging.Message("patching ABLC.LevelUtils.CustomBuildingUpgraded");
                     Harmony harmonyInstance = new Harmony(HarmonyID);
-                    harmonyInstance.Patch(ablcCustomUpgraded, postfix: new HarmonyMethod(typeof(ABLCBuildingUpgradedPatch).GetMethod("Postfix")));
+                    harmonyInstance.Patch(ablcCustomUpgraded, postfix: new HarmonyMethod(typeof(BuildingUpgradedPatch).GetMethod(nameof(BuildingUpgradedPatch.ABLCPostfix))));
                 }
             }
         }

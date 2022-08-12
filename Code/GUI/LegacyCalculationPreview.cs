@@ -1,4 +1,4 @@
-﻿// <copyright file="UILegacyCalcs.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="LegacyCalculationPreview.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -14,7 +14,7 @@ namespace RealPop2
     /// <summary>
     /// Panel to display the mod's calculations for jobs/workplaces.
     /// </summary>
-    public class UILegacyCalcs : UIPanel
+    public class LegacyCalculationPreview : UIPanel
     {
         // Margin at left of standard selection
         private const float LeftPadding = 10;
@@ -25,8 +25,11 @@ namespace RealPop2
         private UILabel messageLabel;
 
         // Special-purpose labels used to display either jobs or households as appropriate.
-        private UILabel homesJobsCalcLabel, homesJobsCustomLabel, homesJobsActualLabel;
-        private UILabel visitCountLabel, productionLabel;
+        private UILabel _homesJobsCalcLabel;
+        private UILabel _homesJobsCustomLabel;
+        private UILabel _homesJobsActualLabel;
+        private UILabel _visitCountLabel;
+        private UILabel _productionLabel;
 
         /// <summary>
         /// Different mod calculations shown (in text labels) by this panel.
@@ -41,7 +44,7 @@ namespace RealPop2
             FloorHeight,
             Floors,
             ExtraFloors,
-            NumDetails
+            NumDetails,
         }
 
         /// <summary>
@@ -71,30 +74,30 @@ namespace RealPop2
             }
 
             // Homes/jobs labels.
-            homesJobsCalcLabel = this.AddUIComponent<UILabel>();
-            homesJobsCalcLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 1) * LineHeight);
-            homesJobsCalcLabel.width = 270;
-            homesJobsCalcLabel.textAlignment = UIHorizontalAlignment.Left;
+            _homesJobsCalcLabel = this.AddUIComponent<UILabel>();
+            _homesJobsCalcLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 1) * LineHeight);
+            _homesJobsCalcLabel.width = 270;
+            _homesJobsCalcLabel.textAlignment = UIHorizontalAlignment.Left;
 
-            homesJobsCustomLabel = this.AddUIComponent<UILabel>();
-            homesJobsCustomLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 2) * LineHeight);
-            homesJobsCustomLabel.width = 270;
-            homesJobsCustomLabel.textAlignment = UIHorizontalAlignment.Left;
+            _homesJobsCustomLabel = this.AddUIComponent<UILabel>();
+            _homesJobsCustomLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 2) * LineHeight);
+            _homesJobsCustomLabel.width = 270;
+            _homesJobsCustomLabel.textAlignment = UIHorizontalAlignment.Left;
 
-            homesJobsActualLabel = this.AddUIComponent<UILabel>();
-            homesJobsActualLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 4) * LineHeight);
-            homesJobsActualLabel.width = 270;
-            homesJobsActualLabel.textAlignment = UIHorizontalAlignment.Left;
+            _homesJobsActualLabel = this.AddUIComponent<UILabel>();
+            _homesJobsActualLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 4) * LineHeight);
+            _homesJobsActualLabel.width = 270;
+            _homesJobsActualLabel.textAlignment = UIHorizontalAlignment.Left;
 
-            visitCountLabel = this.AddUIComponent<UILabel>();
-            visitCountLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 5) * LineHeight);
-            visitCountLabel.width = 270;
-            visitCountLabel.textAlignment = UIHorizontalAlignment.Left;
+            _visitCountLabel = this.AddUIComponent<UILabel>();
+            _visitCountLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 5) * LineHeight);
+            _visitCountLabel.width = 270;
+            _visitCountLabel.textAlignment = UIHorizontalAlignment.Left;
 
-            productionLabel = this.AddUIComponent<UILabel>();
-            productionLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 5) * LineHeight);
-            productionLabel.width = 270;
-            productionLabel.textAlignment = UIHorizontalAlignment.Left;
+            _productionLabel = this.AddUIComponent<UILabel>();
+            _productionLabel.relativePosition = new Vector2(LeftPadding, ((int)LegacyDetails.NumDetails + 5) * LineHeight);
+            _productionLabel.width = 270;
+            _productionLabel.textAlignment = UIHorizontalAlignment.Left;
 
             // Message label (initially hidden).
             messageLabel = this.AddUIComponent<UILabel>();
@@ -127,8 +130,10 @@ namespace RealPop2
             // Building model size, not plot size.
             Vector3 buildingSize = building.m_size;
             int floorCount;
+
             // Array used for calculations depending on building service/subservice (via DataStore).
             int[] array;
+
             // Default minimum number of homes or jobs is one; different service types will override this.
             int minHomesJobs = 1;
             int customHomeJobs;
@@ -147,16 +152,16 @@ namespace RealPop2
                 array = LegacyAIUtils.GetResidentialArray(building, (int)building.GetClassLevel());
 
                 // Set calculated homes label.
-                homesJobsCalcLabel.text = Translations.Translate("RPR_CAL_HOM_CALC");
+                _homesJobsCalcLabel.text = Translations.Translate("RPR_CAL_HOM_CALC");
 
                 // Set customised homes label and get value (if any).
-                homesJobsCustomLabel.text = Translations.Translate("RPR_CAL_HOM_CUST");
+                _homesJobsCustomLabel.text = Translations.Translate("RPR_CAL_HOM_CUST");
                 customHomeJobs = OverrideUtils.GetResidential(building);
 
                 // Applied homes is what's actually being returned by the CaclulateHomeCount call to this building AI.
                 // It differs from calculated homes if there's an override value for that building with this mod, or if another mod is overriding.
                 appliedCount = buildingAI.CalculateHomeCount(building.GetClassLevel(), new Randomizer(0), building.GetWidth(), building.GetLength());
-                homesJobsActualLabel.text = Translations.Translate("RPR_CAL_HOM_APPL") + appliedCount;
+                _homesJobsActualLabel.text = Translations.Translate("RPR_CAL_HOM_APPL") + appliedCount;
             }
             else
             {
@@ -170,9 +175,11 @@ namespace RealPop2
                     case ItemClass.Service.Commercial:
                         array = LegacyAIUtils.GetCommercialArray(building, (int)building.GetClassLevel());
                         break;
+
                     case ItemClass.Service.Office:
                         array = LegacyAIUtils.GetOfficeArray(building, (int)building.GetClassLevel());
                         break;
+
                     case ItemClass.Service.Industrial:
                         if (buildingAI is IndustrialExtractorAI)
                         {
@@ -182,17 +189,19 @@ namespace RealPop2
                         {
                             array = LegacyAIUtils.GetIndustryArray(building, (int)building.GetClassLevel());
                         }
+
                         break;
+
                     default:
                         Logging.Error("invalid building service in building details for building ", building.name);
                         return;
                 }
 
                 // Set calculated jobs label.
-                homesJobsCalcLabel.text = Translations.Translate("RPR_CAL_JOB_CALC") + " ";
+                _homesJobsCalcLabel.text = Translations.Translate("RPR_CAL_JOB_CALC") + " ";
 
                 // Set customised jobs label and get value (if any).
-                homesJobsCustomLabel.text = Translations.Translate("RPR_CAL_JOB_CUST") + " ";
+                _homesJobsCustomLabel.text = Translations.Translate("RPR_CAL_JOB_CUST") + " ";
                 customHomeJobs = OverrideUtils.GetWorker(building);
 
                 // Applied jobs is what's actually being returned by the CalculateWorkplaceCount call to this building AI.
@@ -200,28 +209,28 @@ namespace RealPop2
                 int[] jobs = new int[4];
                 buildingAI.CalculateWorkplaceCount(building.GetClassLevel(), new Randomizer(0), building.GetWidth(), building.GetLength(), out jobs[0], out jobs[1], out jobs[2], out jobs[3]);
                 appliedCount = jobs[0] + jobs[1] + jobs[2] + jobs[3];
-                homesJobsActualLabel.text = Translations.Translate("RPR_CAL_JOB_APPL") + " " + appliedCount;
+                _homesJobsActualLabel.text = Translations.Translate("RPR_CAL_JOB_APPL") + " " + appliedCount;
 
                 // Show visitor count for commercial buildings.
                 if (buildingAI is CommercialBuildingAI commercialAI)
                 {
-                    visitCountLabel.Show();
-                    visitCountLabel.text = Translations.Translate("RPR_CAL_VOL_VIS") + " " + commercialAI.CalculateVisitplaceCount(building.GetClassLevel(), new Randomizer(), building.GetWidth(), building.GetLength());
+                    _visitCountLabel.Show();
+                    _visitCountLabel.text = Translations.Translate("RPR_CAL_VOL_VIS") + " " + commercialAI.CalculateVisitplaceCount(building.GetClassLevel(), default(Randomizer), building.GetWidth(), building.GetLength());
                 }
                 else
                 {
-                    visitCountLabel.Hide();
+                    _visitCountLabel.Hide();
                 }
 
                 // Display production count, or hide the label if not a production building.
                 if (building.GetAI() is PrivateBuildingAI privateAI && (privateAI is OfficeBuildingAI || privateAI is IndustrialBuildingAI || privateAI is IndustrialExtractorAI))
                 {
-                    productionLabel.Show();
-                    productionLabel.text = Translations.Translate("RPR_CAL_VOL_PRD") + " " + privateAI.CalculateProductionCapacity(building.GetClassLevel(), new Randomizer(), building.GetWidth(), building.GetLength()).ToString();
+                    _productionLabel.Show();
+                    _productionLabel.text = Translations.Translate("RPR_CAL_VOL_PRD") + " " + privateAI.CalculateProductionCapacity(building.GetClassLevel(), default(Randomizer), building.GetWidth(), building.GetLength()).ToString();
                 }
                 else
                 {
-                    productionLabel.Hide();
+                    _productionLabel.Hide();
                 }
             }
 
@@ -293,12 +302,12 @@ namespace RealPop2
 
             // Perform actual household or workplace calculation.
             modCount = Mathf.Max(minHomesJobs, (calculatedArea * (floorCount + Mathf.Max(0, array[DataStore.DENSIFICATION]))) / array[DataStore.PEOPLE]);
-            homesJobsCalcLabel.text += modCount;
+            _homesJobsCalcLabel.text += modCount;
 
             // Set customised homes/jobs label (leave blank if no custom setting retrieved).
             if (customHomeJobs > 0)
             {
-                homesJobsCustomLabel.text += customHomeJobs.ToString();
+                _homesJobsCustomLabel.text += customHomeJobs.ToString();
             }
 
             // Check to see if Ploppable RICO Revisited is controlling this building's population.

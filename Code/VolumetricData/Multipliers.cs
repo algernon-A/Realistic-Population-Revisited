@@ -14,22 +14,40 @@ namespace RealPop2
     /// </summary>
     internal class Multipliers
     {
-        // Default multiplier.
+        /// <summary>
+        /// Default multiplier.
+        /// </summary>
         internal const float DefaultMultiplier = 1.0f;
 
         // Instance reference.
-        internal static Multipliers instance;
+        private static Multipliers s_instance;
 
         // List of building settings.
         private readonly Dictionary<string, float> buildingDict;
 
         /// <summary>
-        /// Constructor - initializes dictionary and performs other setup tasks.
+        /// Initializes a new instance of the <see cref="Multipliers"/> class.
         /// </summary>
-        public Multipliers()
+        private Multipliers()
         {
             // Initialise building dictionary.
             buildingDict = new Dictionary<string, float>();
+        }
+
+        /// <summary>
+        /// Gets the current instance.
+        /// </summary>
+        internal static Multipliers Instance => s_instance;
+
+        /// <summary>
+        /// Ensures that a valid instance is instantiated and ready for use.
+        /// </summary>
+        internal static void EnsureInstance()
+        {
+            if (s_instance == null)
+            {
+                s_instance = new Multipliers();
+            }
         }
 
         /// <summary>
@@ -42,7 +60,7 @@ namespace RealPop2
         /// <summary>
         /// Deletes the building mulitplier override (if any) for the given prefab.
         /// </summary>
-        /// <param name="buildingName">Name of selected prefab</param>
+        /// <param name="buildingName">Name of selected prefab.</param>
         internal void DeleteMultiplier(string buildingName) => buildingDict.Remove(buildingName);
 
         /// <summary>
@@ -85,8 +103,9 @@ namespace RealPop2
                 // Warn if an attempt was made to set a mulitplier other than one.
                 if (multiplier != 1f)
                 {
-                    Logging.Error("attempting to set multiplier ", multiplier," for non-education building ", buildingName);
+                    Logging.Error("attempting to set multiplier ", multiplier, " for non-education building ", buildingName);
                 }
+
                 return;
             }
 

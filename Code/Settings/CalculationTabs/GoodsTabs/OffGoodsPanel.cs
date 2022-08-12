@@ -1,11 +1,13 @@
-﻿
+﻿// <copyright file="OffGoodsPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RealPop2
 {
     using AlgernonCommons.Translation;
     using AlgernonCommons.UI;
     using ColossalFramework.UI;
-    using Realistic_Population_Revisited.Code.Patches.Production;
 
     /// <summary>
     /// Options panel for setting office goods calculations.
@@ -13,61 +15,83 @@ namespace RealPop2
     internal class OffGoodsPanel : GoodsPanelBase
     {
         // Service/subservice arrays.
-        private readonly string[] subServiceNames =
+        private readonly string[] _subServiceNames =
         {
             Translations.Translate("RPR_CAT_OFF"),
-            Translations.Translate("RPR_CAT_ITC")
+            Translations.Translate("RPR_CAT_ITC"),
         };
 
-        private readonly ItemClass.Service[] services =
+        private readonly ItemClass.Service[] _services =
         {
             ItemClass.Service.Office,
-            ItemClass.Service.Office
+            ItemClass.Service.Office,
         };
 
-        private readonly ItemClass.SubService[] subServices =
+        private readonly ItemClass.SubService[] _subServices =
         {
             ItemClass.SubService.OfficeGeneric,
-            ItemClass.SubService.OfficeHightech
+            ItemClass.SubService.OfficeHightech,
         };
 
-        private readonly string[] iconNames =
+        private readonly string[] _iconNames =
         {
             "ZoningOffice",
-            "IconPolicyHightech"
+            "IconPolicyHightech",
         };
 
-        private readonly string[] atlasNames =
+        private readonly string[] _atlasNames =
         {
             "Thumbnails",
-            "Ingame"
+            "Ingame",
         };
 
-        protected override string[] SubServiceNames => subServiceNames;
-        protected override ItemClass.Service[] Services => services;
-        protected override ItemClass.SubService[] SubServices => subServices;
-        protected override string[] IconNames => iconNames;
-        protected override string[] AtlasNames => atlasNames;
-
-        // Title key.
-        protected override string TitleKey => "RPR_TIT_OGO";
-
         // Panel components.
-        private UISlider[] prodMultSliders;
+        private UISlider[] _prodMultSliders;
 
         /// <summary>
-        /// Legacy settings link.
-        /// </summary>
-        protected bool ThisLegacyCategory { get => ModSettings.ThisSaveLegacyOff; set => ModSettings.ThisSaveLegacyOff = value; }
-
-        /// <summary>
-        /// Constructor.
+        /// Initializes a new instance of the <see cref="OffGoodsPanel"/> class.
         /// </summary>
         /// <param name="tabStrip">Tab strip to add to.</param>
         /// <param name="tabIndex">Index number of tab.</param>
-        internal OffGoodsPanel(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
+        internal OffGoodsPanel(UITabstrip tabStrip, int tabIndex)
+            : base(tabStrip, tabIndex)
         {
         }
+
+        /// <summary>
+        /// Gets the array of sub-service display names for this tab.
+        /// </summary>
+        protected override string[] SubServiceNames => _subServiceNames;
+
+        /// <summary>
+        /// Gets the array of relevant building services for this tab.
+        /// </summary>
+        protected override ItemClass.Service[] Services => _services;
+
+        /// <summary>
+        /// Gets the array of relevant building sub-services for this tab.
+        /// </summary>
+        protected override ItemClass.SubService[] SubServices => _subServices;
+
+        /// <summary>
+        /// Gets the array of building type icon sprite names for this tab.
+        /// </summary>
+        protected override string[] IconNames => _iconNames;
+
+        /// <summary>
+        /// Gets the array of building type icon atlas names for this tab.
+        /// </summary>
+        protected override string[] AtlasNames => _atlasNames;
+
+        /// <summary>
+        /// Gets the tab title translation key for this tab.
+        /// </summary>
+        protected override string TitleKey => "RPR_TIT_OGO";
+
+        /// <summary>
+        /// Gets or sets a value indicating whether legacy calcuations should be used by default for this save.
+        /// </summary>
+        protected bool ThisLegacyCategory { get => ModSettings.ThisSaveLegacyOff; set => ModSettings.ThisSaveLegacyOff = value; }
 
         /// <summary>
         /// Updates pack selection menu items.
@@ -77,10 +101,10 @@ namespace RealPop2
             base.UpdateControls();
 
             // Reset sliders and menus.
-            for (int i = 0; i < prodMultSliders.Length; ++i)
+            for (int i = 0; i < _prodMultSliders.Length; ++i)
             {
                 // Reset production multiplier slider values.
-                prodMultSliders[i].value = OfficeProduction.GetProdMult(subServices[i]);
+                _prodMultSliders[i].value = OfficeProduction.GetProdMult(_subServices[i]);
             }
         }
 
@@ -96,20 +120,20 @@ namespace RealPop2
             float currentY = yPos;
 
             // Header label.
-            UILabels.AddLabel(panel, LeftColumn, currentY - 19f, Translations.Translate("RPR_DEF_PRD"), -1, 0.8f);
+            UILabels.AddLabel(m_panel, LeftColumn, currentY - 19f, Translations.Translate("RPR_DEF_PRD"), -1, 0.8f);
 
             // SubServiceControls is called as part of parent constructor, so we need to initialise them here if they aren't already.
-            if (prodMultSliders == null)
+            if (_prodMultSliders == null)
             {
-                prodMultSliders = new UISlider[subServices.Length];
+                _prodMultSliders = new UISlider[_subServices.Length];
             }
 
             // Production multiplication slider.
-            prodMultSliders[index] = AddSlider(panel, LeftColumn, currentY, ControlWidth, "RPR_DEF_PRD_TIP");
-            prodMultSliders[index].objectUserData = index;
-            prodMultSliders[index].maxValue = OfficeProduction.MaxProdMult;
-            prodMultSliders[index].value = OfficeProduction.GetProdMult(subServices[index]);
-            PercentSliderText(prodMultSliders[index], prodMultSliders[index].value);
+            _prodMultSliders[index] = AddSlider(m_panel, LeftColumn, currentY, ControlWidth, "RPR_DEF_PRD_TIP");
+            _prodMultSliders[index].objectUserData = index;
+            _prodMultSliders[index].maxValue = OfficeProduction.MaxProdMult;
+            _prodMultSliders[index].value = OfficeProduction.GetProdMult(_subServices[index]);
+            PercentSliderText(_prodMultSliders[index], _prodMultSliders[index].value);
 
             return yPos;
         }
@@ -122,10 +146,10 @@ namespace RealPop2
         protected override void Apply(UIComponent c, UIMouseEventParameter p)
         {
             // Iterate through all subservices.
-            for (int i = 0; i < subServices.Length; ++i)
+            for (int i = 0; i < _subServices.Length; ++i)
             {
                 // Record production mutltiplier.
-                OfficeProduction.SetProdMult(subServices[i], (int)prodMultSliders[i].value);
+                OfficeProduction.SetProdMult(_subServices[i], (int)_prodMultSliders[i].value);
             }
 
             base.Apply(c, p);
@@ -135,22 +159,22 @@ namespace RealPop2
         /// 'Revert to defaults' button event handler.
         /// </summary>
         /// <param name="c">Calling component.</param>
-        /// <param name="p">Mouse event.</param>
+        /// <param name="p">Mouse event parameter.</param>
         protected override void ResetDefaults(UIComponent c, UIMouseEventParameter p)
         {
             // Reset sliders.
-            for (int i = 0; i < prodMultSliders.Length; ++i)
+            for (int i = 0; i < _prodMultSliders.Length; ++i)
             {
                 // Reset production multiplier slider value.
-                prodMultSliders[i].value = OfficeProduction.DefaultProdMult;
+                _prodMultSliders[i].value = OfficeProduction.DefaultProdMult;
             }
         }
 
         /// <summary>
         /// 'Revert to saved' button event handler.
         /// </summary>
-        /// <param name="c">Calling component (unused)</param>
-        /// <param name="p">Mouse event (unused)</param>
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event parameter.</param>
         protected override void ResetSaved(UIComponent c, UIMouseEventParameter p) => UpdateControls();
     }
 }

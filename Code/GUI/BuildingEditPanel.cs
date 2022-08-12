@@ -1,4 +1,4 @@
-﻿// <copyright file="UIEditPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="BuildingEditPanel.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -14,7 +14,7 @@ namespace RealPop2
     /// <summary>
     /// Panel for editing and creating building settings.
     /// </summary>
-    public class UIEditPanel : UIPanel
+    public class BuildingEditPanel : UIPanel
     {
         // Layout constants.
         private const float Margin = 5f;
@@ -28,16 +28,19 @@ namespace RealPop2
         private const float DeleteY = SaveY + 35f;
         private const float MessageY = DeleteY + 35f;
         private const float TextFieldWidth = 65f;
-        private const float TextFieldX = UIBuildingDetails.MiddleWidth - TextFieldWidth - 20f - Margin;
-        private const float ButtonWidth = UIBuildingDetails.MiddleWidth - (Margin * 2f);
+        private const float TextFieldX = BuildingDetailsPanel.MiddleWidth - TextFieldWidth - 20f - Margin;
+        private const float ButtonWidth = BuildingDetailsPanel.MiddleWidth - (Margin * 2f);
 
         // Panel components
-        private UITextField homeJobsCount, firstFloorField, floorHeightField;
-        private UICheckBox popCheck, floorCheck;
-        private UILabel homeJobLabel;
-        private UIButton saveButton;
-        private UIButton deleteButton;
-        private UILabel messageLabel;
+        private UITextField _homeJobsCount;
+        private UITextField _firstFloorField;
+        private UITextField _floorHeightField;
+        private UICheckBox _popCheck;
+        private UICheckBox _floorCheck;
+        private UILabel _homeJobLabel;
+        private UIButton _saveButton;
+        private UIButton _deleteButton;
+        private UILabel _messageLabel;
 
         // Currently selected building.
         private BuildingInfo currentSelection;
@@ -66,7 +69,7 @@ namespace RealPop2
             titleLabel.textScale = 1.2f;
             titleLabel.autoSize = true;
             titleLabel.height = 30;
-            
+
             // Autoscale tile label text, with minimum size 0.35.
             while (titleLabel.width > ButtonWidth && titleLabel.textScale > 0.35f)
             {
@@ -74,157 +77,159 @@ namespace RealPop2
             }
 
             // Center title label.
-            titleLabel.relativePosition = new Vector2((this.width - titleLabel.width) /2f, TitleY);
+            titleLabel.relativePosition = new Vector2((this.width - titleLabel.width) / 2f, TitleY);
 
             // Checkboxes.
-            popCheck = UICheckBoxes.AddLabelledCheckBox(this, 20f, PopCheckY, Translations.Translate("RPR_EDT_POP"), textScale: 1.0f);
-            floorCheck = UICheckBoxes.AddLabelledCheckBox(this, 20f, FloorCheckY, Translations.Translate("RPR_EDT_FLR"), textScale: 1.0f);
+            _popCheck = UICheckBoxes.AddLabelledCheckBox(this, 20f, PopCheckY, Translations.Translate("RPR_EDT_POP"), textScale: 1.0f);
+            _floorCheck = UICheckBoxes.AddLabelledCheckBox(this, 20f, FloorCheckY, Translations.Translate("RPR_EDT_FLR"), textScale: 1.0f);
 
             // Text fields.
-            homeJobsCount = UITextFields.AddSmallLabelledTextField(this, TextFieldX, HomeJobY, Translations.Translate("RPR_LBL_HOM"), TextFieldWidth);
-            homeJobLabel = homeJobsCount.Find<UILabel>("label");
-            firstFloorField = UITextFields.AddSmallLabelledTextField(this, TextFieldX, FirstFloorY, Translations.Translate("RPR_LBL_OFF"), TextFieldWidth);
-            UILabels.AddLabel(firstFloorField, TextFieldWidth + Margin, 3f, Measures.LengthMeasure, textScale: 0.9f);
-            floorHeightField = UITextFields.AddSmallLabelledTextField(this, TextFieldX, FloorHeightY, Translations.Translate("RPR_LBL_OFH"), TextFieldWidth);
-            UILabels.AddLabel(floorHeightField, TextFieldWidth + Margin, 3f, Measures.LengthMeasure, textScale: 0.9f);
+            _homeJobsCount = UITextFields.AddSmallLabelledTextField(this, TextFieldX, HomeJobY, Translations.Translate("RPR_LBL_HOM"), TextFieldWidth);
+            _homeJobLabel = _homeJobsCount.Find<UILabel>("label");
+            _firstFloorField = UITextFields.AddSmallLabelledTextField(this, TextFieldX, FirstFloorY, Translations.Translate("RPR_LBL_OFF"), TextFieldWidth);
+            UILabels.AddLabel(_firstFloorField, TextFieldWidth + Margin, 3f, Measures.LengthMeasure, textScale: 0.9f);
+            _floorHeightField = UITextFields.AddSmallLabelledTextField(this, TextFieldX, FloorHeightY, Translations.Translate("RPR_LBL_OFH"), TextFieldWidth);
+            UILabels.AddLabel(_floorHeightField, TextFieldWidth + Margin, 3f, Measures.LengthMeasure, textScale: 0.9f);
 
             // Save button.
-            saveButton = UIButtons.AddButton(this, Margin, SaveY, Translations.Translate("RPR_CUS_ADD"), ButtonWidth, scale: 0.8f);
-            saveButton.tooltip = Translations.Translate("RPR_CUS_ADD_TIP");
-            saveButton.Disable();
+            _saveButton = UIButtons.AddButton(this, Margin, SaveY, Translations.Translate("RPR_CUS_ADD"), ButtonWidth, scale: 0.8f);
+            _saveButton.tooltip = Translations.Translate("RPR_CUS_ADD_TIP");
+            _saveButton.Disable();
 
             // Delete button.
-            deleteButton = UIButtons.AddButton(this, Margin, DeleteY, Translations.Translate("RPR_CUS_DEL"), ButtonWidth, scale: 0.8f);
-            deleteButton.tooltip = Translations.Translate("RPR_CUS_DEL_TIP");
-            deleteButton.Disable();
+            _deleteButton = UIButtons.AddButton(this, Margin, DeleteY, Translations.Translate("RPR_CUS_DEL"), ButtonWidth, scale: 0.8f);
+            _deleteButton.tooltip = Translations.Translate("RPR_CUS_DEL_TIP");
+            _deleteButton.Disable();
 
             // Message label (initially hidden).
-            messageLabel = this.AddUIComponent<UILabel>();
-            messageLabel.relativePosition = new Vector2(Margin, MessageY);
-            messageLabel.textAlignment = UIHorizontalAlignment.Left;
-            messageLabel.autoSize = false;
-            messageLabel.autoHeight = true;
-            messageLabel.wordWrap = true;
-            messageLabel.width = UIBuildingDetails.MiddleWidth - (Margin * 2f);
-            messageLabel.isVisible = false;
-            messageLabel.text = "No message to display";
+            _messageLabel = this.AddUIComponent<UILabel>();
+            _messageLabel.relativePosition = new Vector2(Margin, MessageY);
+            _messageLabel.textAlignment = UIHorizontalAlignment.Left;
+            _messageLabel.autoSize = false;
+            _messageLabel.autoHeight = true;
+            _messageLabel.wordWrap = true;
+            _messageLabel.width = BuildingDetailsPanel.MiddleWidth - (Margin * 2f);
+            _messageLabel.isVisible = false;
+            _messageLabel.text = "No message to display";
 
             // Checkbox event handlers.
-            popCheck.eventCheckChanged += (component, isChecked) =>
+            _popCheck.eventCheckChanged += (component, isChecked) =>
             {
                 // If this is now selected and floorCheck is also selected, deselect floorCheck.
-                if (isChecked && floorCheck.isChecked)
+                if (isChecked && _floorCheck.isChecked)
                 {
-                    floorCheck.isChecked = false;
+                    _floorCheck.isChecked = false;
                 }
             };
-            floorCheck.eventCheckChanged += (component, isChecked) =>
+
+            _floorCheck.eventCheckChanged += (component, isChecked) =>
             {
                 // If this is now selected and popCheck is also selected, deselect popCheck.
-                if (isChecked && popCheck.isChecked)
+                if (isChecked && _popCheck.isChecked)
                 {
-                    popCheck.isChecked = false;
+                    _popCheck.isChecked = false;
                 }
             };
 
             // Save button event handler.
-            saveButton.eventClick += (component, clickEvent) => SaveAndApply();
+            _saveButton.eventClick += (component, clickEvent) => SaveAndApply();
 
             // Delete button event handler.
-            deleteButton.eventClick += (component, clickEvent) => DeleteOverride();
+            _deleteButton.eventClick += (component, clickEvent) => DeleteOverride();
         }
 
         /// <summary>
         /// Called whenever the currently selected building is changed to update the panel display.
         /// </summary>
-        /// <param name="building"></param>
+        /// <param name="building">New building prefab selection.</param>
         public void SelectionChanged(BuildingInfo building)
         {
             string buildingName = building.name;
 
             // Hide message.
-            messageLabel.isVisible = false;
+            _messageLabel.isVisible = false;
 
             // Set current selecion.
             currentSelection = building;
 
             // Blank all textfields and deselect checkboxes to start with.
-            homeJobsCount.text = string.Empty;
+            _homeJobsCount.text = string.Empty;
             UpdateFloorTextFields(0, 0);
-            popCheck.isChecked = false;
-            floorCheck.isChecked = false;
+            _popCheck.isChecked = false;
+            _floorCheck.isChecked = false;
 
             // Disable buttons and exit if no valid building is selected.
             if (building == null || building.name == null)
             {
-                saveButton.Disable();
-                deleteButton.Disable();
+                _saveButton.Disable();
+                _deleteButton.Disable();
                 return;
             }
+
             // Set label by building type.
             if (building.GetService() == ItemClass.Service.Residential)
             {
                 // Residential building - homes.
-                homeJobLabel.text = Translations.Translate("RPR_LBL_HOM");
+                _homeJobLabel.text = Translations.Translate("RPR_LBL_HOM");
             }
             else if (building.GetService() == ItemClass.Service.Education)
             {
                 // Schoool building - students.
-                homeJobLabel.text = Translations.Translate("RPR_LBL_STU");
+                _homeJobLabel.text = Translations.Translate("RPR_LBL_STU");
             }
             else
             {
                 // Workplace building - jobs.
-                homeJobLabel.text = Translations.Translate("RPR_LBL_JOB");
+                _homeJobLabel.text = Translations.Translate("RPR_LBL_JOB");
             }
 
             // Get any population override.
-            int homesJobs = PopData.instance.GetOverride(buildingName);
+            int homesJobs = PopData.Instance.GetOverride(buildingName);
 
             // If custom settings were found (return value was non-zero), then display the result, rename the save button, and enable the delete button.
             if (homesJobs != 0)
             {
                 // Valid custom settings found; display the result, rename the save button, and enable the delete button.
-                homeJobsCount.text = homesJobs.ToString();
-                saveButton.text = Translations.Translate("RPR_CUS_UPD");
-                deleteButton.Enable();
+                _homeJobsCount.text = homesJobs.ToString();
+                _saveButton.text = Translations.Translate("RPR_CUS_UPD");
+                _deleteButton.Enable();
 
                 // Select the 'has population override' check.
-                popCheck.isChecked = true;
+                _popCheck.isChecked = true;
             }
             else
             {
                 // No population override - check for custom floor override.
-                FloorDataPack overridePack = FloorData.instance.HasOverride(buildingName);
+                FloorDataPack overridePack = FloorData.Instance.HasOverride(buildingName);
                 if (overridePack != null)
                 {
                     // Valid custom settings found; display the result, rename the save button, and enable the delete button.
-                    UpdateFloorTextFields(Measures.LengthFromMetric(overridePack.firstFloorMin), Measures.LengthFromMetric(overridePack.floorHeight));
-                    saveButton.text = Translations.Translate("RPR_CUS_UPD");
-                    deleteButton.Enable();
+                    UpdateFloorTextFields(Measures.LengthFromMetric(overridePack.m_firstFloorMin), Measures.LengthFromMetric(overridePack.m_floorHeight));
+                    _saveButton.text = Translations.Translate("RPR_CUS_UPD");
+                    _deleteButton.Enable();
 
                     // Select the 'has floor override' check.
-                    floorCheck.isChecked = true;
+                    _floorCheck.isChecked = true;
                 }
                 else
                 {
-                    //  No valid selection - rename the save button, and disable the delete button.
-                    saveButton.text = Translations.Translate("RPR_CUS_ADD");
-                    deleteButton.Disable();
+                    // No valid selection - rename the save button, and disable the delete button.
+                    _saveButton.text = Translations.Translate("RPR_CUS_ADD");
+                    _deleteButton.Disable();
                 }
 
                 // Communicate override to panel.
-                BuildingDetailsPanel.Panel.OverrideFloors = overridePack;
+                BuildingDetailsPanelManager.Panel.OverrideFloors = overridePack;
             }
 
             // We've at least got a valid building, so enable the save button.
-            saveButton.Enable();
+            _saveButton.Enable();
         }
 
         /// <summary>
         /// Clears the override checkbox (for when the user subsequently selects a floor pack override or legacy calcs).
         /// </summary>
-        internal void ClearOverride() => floorCheck.isChecked = false;
+        internal void ClearOverride() => _floorCheck.isChecked = false;
 
         /// <summary>
         /// Saves and applies settings - save button event handler.
@@ -232,7 +237,7 @@ namespace RealPop2
         private void SaveAndApply()
         {
             // Hide message.
-            messageLabel.isVisible = false;
+            _messageLabel.isVisible = false;
 
             // Don't do anything with invalid entries.
             if (currentSelection == null || currentSelection.name == null)
@@ -241,43 +246,43 @@ namespace RealPop2
             }
 
             // Are we doing population overrides?
-            if (popCheck.isChecked)
+            if (_popCheck.isChecked)
             {
                 // Read total floor count textfield if possible; ignore zero values
-                if (ushort.TryParse(homeJobsCount.text, out ushort homesJobs) && homesJobs != 0)
+                if (ushort.TryParse(_homeJobsCount.text, out ushort homesJobs) && homesJobs != 0)
                 {
                     // Minimum value of 1.
                     if (homesJobs < 1)
                     {
                         // Print warning message in red.
-                        messageLabel.textColor = new Color32(255, 0, 0, 255);
-                        messageLabel.text = Translations.Translate("RPR_ERR_ZERO");
-                        messageLabel.isVisible = true;
+                        _messageLabel.textColor = new Color32(255, 0, 0, 255);
+                        _messageLabel.text = Translations.Translate("RPR_ERR_ZERO");
+                        _messageLabel.isVisible = true;
                     }
                     else
                     {
                         // Set overide.
-                        PopData.instance.SetOverride(currentSelection, homesJobs);
+                        PopData.Instance.SetOverride(currentSelection, homesJobs);
 
                         // Update CitizenUnits for existing building instances.
                         CitizenUnitUtils.UpdateCitizenUnits(currentSelection.name, ItemClass.Service.None, currentSelection.GetSubService(), false);
 
                         // Repopulate field with parsed value.
-                        homeJobLabel.text = homesJobs.ToString();
+                        _homeJobLabel.text = homesJobs.ToString();
                     }
                 }
                 else
                 {
                     // TryParse couldn't parse any data; print warning message in red.
-                    messageLabel.textColor = new Color32(255, 0, 0, 255);
-                    messageLabel.text = Translations.Translate("RPR_ERR_INV");
-                    messageLabel.isVisible = true;
+                    _messageLabel.textColor = new Color32(255, 0, 0, 255);
+                    _messageLabel.text = Translations.Translate("RPR_ERR_INV");
+                    _messageLabel.isVisible = true;
                 }
             }
             else
             {
                 // Population override checkbox wasn't checked; remove any custom settings.
-                PopData.instance.DeleteOverride(currentSelection);
+                PopData.Instance.DeleteOverride(currentSelection);
 
                 // Remove any legacy file settings to avoid conflicts.
                 OverrideUtils.RemoveResidential(currentSelection);
@@ -285,7 +290,7 @@ namespace RealPop2
             }
 
             // Are we doing floor overrides?
-            if (floorCheck.isChecked)
+            if (_floorCheck.isChecked)
             {
                 // Attempt to parse values into override floor pack.
                 FloorDataPack overrideFloors = TryParseFloors();
@@ -294,33 +299,33 @@ namespace RealPop2
                 if (overrideFloors != null)
                 {
                     // Successful parsing - add override.
-                    FloorData.instance.SetOverride(currentSelection, overrideFloors);
+                    FloorData.Instance.SetOverride(currentSelection, overrideFloors);
 
                     // Save configuration.
-                    ConfigUtils.SaveSettings();
+                    ConfigurationUtils.SaveSettings();
 
                     // Update panel override.
-                    BuildingDetailsPanel.Panel.OverrideFloors = overrideFloors;
+                    BuildingDetailsPanelManager.Panel.OverrideFloors = overrideFloors;
 
                     // Repopulate fields with parsed values.
-                    UpdateFloorTextFields(overrideFloors.firstFloorMin, overrideFloors.floorHeight);
+                    UpdateFloorTextFields(overrideFloors.m_firstFloorMin, overrideFloors.m_floorHeight);
                 }
                 else
                 {
                     // Couldn't parse values; print warning message in red.
-                    messageLabel.textColor = new Color32(255, 0, 0, 255);
-                    messageLabel.text = Translations.Translate("RPR_ERR_INV");
-                    messageLabel.isVisible = true;
+                    _messageLabel.textColor = new Color32(255, 0, 0, 255);
+                    _messageLabel.text = Translations.Translate("RPR_ERR_INV");
+                    _messageLabel.isVisible = true;
                 }
             }
             else
             {
                 // Floor override checkbox wasn't checked; remove any floor override.
-                FloorData.instance.DeleteOverride(currentSelection);
+                FloorData.Instance.DeleteOverride(currentSelection);
             }
 
             // Refresh the display so that all panels reflect the updated settings.
-            BuildingDetailsPanel.Panel.Refresh();
+            BuildingDetailsPanelManager.Panel.Refresh();
         }
 
         /// <summary>
@@ -329,7 +334,7 @@ namespace RealPop2
         private void DeleteOverride()
         {
             // Hide message.
-            messageLabel.isVisible = false;
+            _messageLabel.isVisible = false;
 
             // Don't do anything with invalid entries.
             if (currentSelection == null || currentSelection.name == null)
@@ -340,11 +345,11 @@ namespace RealPop2
             Logging.Message("deleting custom override for ", currentSelection.name);
 
             // Remove any and all overrides.
-            FloorData.instance.DeleteOverride(currentSelection);
-            PopData.instance.DeleteOverride(currentSelection);
+            FloorData.Instance.DeleteOverride(currentSelection);
+            PopData.Instance.DeleteOverride(currentSelection);
 
             // Update panel override.
-            BuildingDetailsPanel.Panel.OverrideFloors = null;
+            BuildingDetailsPanelManager.Panel.OverrideFloors = null;
 
             // Homes or jobs?
             if (currentSelection.GetService() == ItemClass.Service.Residential)
@@ -362,25 +367,24 @@ namespace RealPop2
             }
 
             // Refresh the display so that all panels reflect the updated settings.
-            BuildingDetailsPanel.Panel.Refresh();
-            homeJobsCount.text = string.Empty;
+            BuildingDetailsPanelManager.Panel.Refresh();
+            _homeJobsCount.text = string.Empty;
         }
 
         /// <summary>
         /// Attempts to parse floor data fields into a valid override floor pack.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>New floor data pack.</returns>
         private FloorDataPack TryParseFloors()
         {
             // Attempt to parse fields.
-            if (!string.IsNullOrEmpty(firstFloorField.text) && !string.IsNullOrEmpty(floorHeightField.text) && float.TryParse(firstFloorField.text, out float firstFloor) && float.TryParse(floorHeightField.text, out float floorHeight))
+            if (!string.IsNullOrEmpty(_firstFloorField.text) && !string.IsNullOrEmpty(_floorHeightField.text) && float.TryParse(_firstFloorField.text, out float firstFloor) && float.TryParse(_floorHeightField.text, out float floorHeight))
             {
                 // Success - create new override floor pack with parsed data.
-                return new FloorDataPack
+                return new FloorDataPack(DataPack.DataVersion.OverrideOne)
                 {
-                    version = DataVersion.overrideOne,
-                    firstFloorMin = Measures.LengthToMetric(firstFloor),
-                    floorHeight = Measures.LengthToMetric(floorHeight)
+                    m_firstFloorMin = Measures.LengthToMetric(firstFloor),
+                    m_floorHeight = Measures.LengthToMetric(floorHeight),
                 };
             }
 
@@ -388,17 +392,16 @@ namespace RealPop2
             return null;
         }
 
-
         /// <summary>
         /// Updates floor override textfield values without triggering event handler.
         /// </summary>
-        /// <param name="firstFloor">First floor height field</param>
-        /// <param name="otherFloor">Other floor height field</param>
+        /// <param name="firstFloor">First floor height field.</param>
+        /// <param name="otherFloor">Other floor height field.</param>
         private void UpdateFloorTextFields(float firstFloor, float otherFloor)
         {
             // Populate fields.
-            firstFloorField.text = firstFloor == 0 ? string.Empty : firstFloor.ToString("N1");
-            floorHeightField.text = otherFloor == 0 ? string.Empty : otherFloor.ToString("N1");
+            _firstFloorField.text = firstFloor == 0 ? string.Empty : firstFloor.ToString("N1");
+            _floorHeightField.text = otherFloor == 0 ? string.Empty : otherFloor.ToString("N1");
         }
     }
 }

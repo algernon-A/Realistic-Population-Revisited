@@ -12,10 +12,6 @@ namespace RealPop2
     /// </summary>
     public abstract class WG_XMLBaseVersion
     {
-        public WG_XMLBaseVersion()
-        {
-        }
-
         /// <summary>
         /// Read XML document.
         /// </summary>

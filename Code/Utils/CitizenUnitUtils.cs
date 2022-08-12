@@ -21,7 +21,7 @@ namespace RealPop2
         /// <summary>
         /// Reverse patch for CitizenManager.EnsureCitizenUnits to access private method of original instance.
         /// </summary>
-        /// <param name="instance">Object instance.</param>
+        /// <param name="instance">BuildingAI instance.</param>
         /// <param name="buildingID">ID of this building.</param>
         /// <param name="data">Building data.</param>
         /// <param name="homeCount">Building residential household count.</param>
@@ -29,7 +29,7 @@ namespace RealPop2
         /// <param name="visitCount">Building vistor count.</param>
         /// <param name="studentCount">Building studetn count.</param>
         [HarmonyReversePatch]
-        [HarmonyPatch((typeof(BuildingAI)), "EnsureCitizenUnits")]
+        [HarmonyPatch(typeof(BuildingAI), "EnsureCitizenUnits")]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void EnsureCitizenUnits(object instance, ushort buildingID, ref Building data, int homeCount, int workCount, int visitCount, int studentCount)
         {
@@ -41,11 +41,11 @@ namespace RealPop2
         /// <summary>
         /// Reverse patch for CitizenManager.ReleaseUnitImplementation to access private method of original instance.
         /// </summary>
-        /// <param name="instance">Object instance.</param>
+        /// <param name="instance">CitizenManager instance.</param>
         /// <param name="unit">CitizenUnit ID.</param>
         /// <param name="data">CitizenUnit data.</param>
         [HarmonyReversePatch]
-        [HarmonyPatch((typeof(CitizenManager)), "ReleaseUnitImplementation")]
+        [HarmonyPatch(typeof(CitizenManager), "ReleaseUnitImplementation")]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ReleaseUnitImplementation(object instance, uint unit, ref CitizenUnit data)
         {
@@ -74,7 +74,7 @@ namespace RealPop2
             ItemClass.Service thisService = service;
             ItemClass.SubService thisSubService = subService;
             bool thisPreserveOccupied = preserveOccupied;
-            Singleton<SimulationManager>.instance.AddAction(delegate { RecalculateCitizenUnits(prefabName, thisService, thisSubService, thisPreserveOccupied); });
+            Singleton<SimulationManager>.instance.AddAction(() => RecalculateCitizenUnits(prefabName, thisService, thisSubService, thisPreserveOccupied));
         }
 
         /// <summary>
@@ -121,6 +121,7 @@ namespace RealPop2
                         --homeCount;
                     }
                 }
+
                 // Is this a workplace unit?
                 else if ((ushort)(unitFlags & CitizenUnit.Flags.Work) != 0)
                 {
@@ -255,7 +256,7 @@ namespace RealPop2
                             RemoveCitizenUnits(ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[i], homeCount, workCount, visitCount, 0, preserveOccupied);
 
                             // Log changes.
-                            Logging.Message("Reset CitizenUnits for building ", i, " (", buildingInfo.name, ") with preserve occupied flag of ", preserveOccupied,"; building now has ", CountCitizenUnits(ref buildingBuffer[i]), " CitizenUnits, and total CitizenUnit count is now ", citizenManager.m_unitCount);
+                            Logging.Message("Reset CitizenUnits for building ", i, " (", buildingInfo.name, ") with preserve occupied flag of ", preserveOccupied, "; building now has ", CountCitizenUnits(ref buildingBuffer[i]), " CitizenUnits, and total CitizenUnit count is now ", citizenManager.m_unitCount);
                         }
                     }
                 }

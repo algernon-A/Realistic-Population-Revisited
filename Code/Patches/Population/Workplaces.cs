@@ -1,11 +1,9 @@
-﻿// <copyright file="CalculateWorkplaceCount.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="Workplaces.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-using RealPop2;
-
-namespace Realistic_Population_Revisited.Code.Patches.Population
+namespace RealPop2
 {
     using System.Collections.Generic;
     using System.Reflection;
@@ -16,6 +14,7 @@ namespace Realistic_Population_Revisited.Code.Patches.Population
     /// Harmony patch to implement population count changes for workplace buildings.
     /// </summary>
     [HarmonyPatch]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
     public static class Workplaces
     {
         /// <summary>
@@ -47,7 +46,7 @@ namespace Realistic_Population_Revisited.Code.Patches.Population
         public static bool Prefix(PrivateBuildingAI __instance, ItemClass.Level level, ref int level0, ref int level1, ref int level2, ref int level3)
         {
             // Get cached workplace count.
-            PopData.WorkplaceLevels workplaces = PopData.instance.WorkplaceCache(__instance.m_info, (int)level);
+            PopData.WorkplaceLevels workplaces = PopData.Instance.WorkplaceCache(__instance.m_info, (int)level);
 
             // Check for vanilla calc setting.
             if (workplaces.Level0 == ushort.MaxValue)

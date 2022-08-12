@@ -1,4 +1,4 @@
-﻿// <copyright file="UIThreading.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="HotkeyThreading.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -15,10 +15,10 @@ namespace RealPop2
     /// <summary>
     /// Threading to capture hotkeys.
     /// </summary>
-    public class UIThreading : ThreadingExtensionBase
+    public class HotkeyThreading : ThreadingExtensionBase
     {
         // Instance reference.
-        private static UIThreading s_instance;
+        private static HotkeyThreading s_instance;
 
         // Hotkey.
         private static Keybinding s_hotKey = new Keybinding(KeyCode.E, false, false, true);
@@ -28,9 +28,9 @@ namespace RealPop2
         private bool _processed = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UIThreading"/> class.
+        /// Initializes a new instance of the <see cref="HotkeyThreading"/> class.
         /// </summary>
-        public UIThreading()
+        public HotkeyThreading()
         {
             // Set instance reference.
             s_instance = this;
@@ -69,7 +69,10 @@ namespace RealPop2
                 if (s_hotKey.IsPressed())
                 {
                     // Cancel if key input is already queued for processing.
-                    if (_processed) return;
+                    if (_processed)
+                    {
+                        return;
+                    }
 
                     _processed = true;
 
@@ -78,7 +81,7 @@ namespace RealPop2
                         // Is options panel open?  If so, we ignore this and don't do anything.
                         if (!OptionsPanelManager<OptionsPanel>.IsOpen)
                         {
-                            BuildingDetailsPanel.Open();
+                            BuildingDetailsPanelManager.Open();
                         }
                     }
                     catch (Exception e)

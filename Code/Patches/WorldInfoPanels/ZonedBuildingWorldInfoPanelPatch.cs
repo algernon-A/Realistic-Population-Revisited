@@ -75,11 +75,11 @@ namespace RealPop2
 
                 // Get current visitor count.
                 int aliveCount = 0, totalCount = 0;
-                Citizen.BehaviourData behaviour = new Citizen.BehaviourData();
+                Citizen.BehaviourData behaviour = default;
                 GetVisitBehaviour(commercialAI, building, ref buildingBuffer[building], ref behaviour, ref aliveCount, ref totalCount);
 
                 // Display visitor count.
-                s_visitLabel.text = totalCount.ToString() + " / " + commercialAI.CalculateVisitplaceCount((ItemClass.Level)buildingBuffer[building].m_level, new ColossalFramework.Math.Randomizer(building), buildingBuffer[building].Width, buildingBuffer[building].Length).ToString() +  " " + Translations.Translate("RPR_INF_VIS");
+                s_visitLabel.text = totalCount.ToString() + " / " + commercialAI.CalculateVisitplaceCount((ItemClass.Level)buildingBuffer[building].m_level, new ColossalFramework.Math.Randomizer(building), buildingBuffer[building].Width, buildingBuffer[building].Length).ToString() + ' ' + Translations.Translate("RPR_INF_VIS");
             }
         }
 
@@ -93,7 +93,7 @@ namespace RealPop2
         /// <param name="aliveCount">Alive citizen count.</param>
         /// <param name="totalCount">Total citizen count.</param>
         [HarmonyReversePatch]
-        [HarmonyPatch((typeof(CommonBuildingAI)), "GetVisitBehaviour")]
+        [HarmonyPatch(typeof(CommonBuildingAI), "GetVisitBehaviour")]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void GetVisitBehaviour(object instance, ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
         {

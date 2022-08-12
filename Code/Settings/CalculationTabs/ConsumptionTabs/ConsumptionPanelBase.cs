@@ -14,56 +14,62 @@ namespace RealPop2
     /// </summary>
     internal abstract class ConsumptionPanelBase : TextfieldPanelBase
     {
-        // Constants.
+        /// <summary>
+        /// Power consumption column relative X-position.
+        /// </summary>
         protected const float PowerX = 275f;
-        protected const float ColumnWidth = 45f;
-        protected const float WideColumnWidth = 60f;
-        protected const float WaterX = PowerX + ColumnWidth + Margin;
-        protected const float GarbageX = WaterX + ColumnWidth + (Margin * 4);
-        protected const float SewageX = GarbageX + ColumnWidth + Margin;
-        protected const float PollutionX = SewageX + ColumnWidth + Margin;
-        protected const float NoiseX = PollutionX + ColumnWidth + Margin;
-        protected const float MailX = NoiseX + ColumnWidth + (Margin * 4);
-        protected const float IncomeX = MailX + ColumnWidth + Margin;
-        protected const float FinalX = MailX + WideColumnWidth;
 
-        // Textfield array.
-        protected UITextField[][] pollutionFields;
-        protected UITextField[][] noiseFields;
-        protected UITextField[][] mailFields;
-
-        // Column labels.
-        protected string pollutionLabel;
-        protected string noiseLabel;
-        protected string mailLabel;
+        // Layout constants - private.
+        private const float ColumnWidth = 45f;
+        private const float WideColumnWidth = 60f;
+        private const float WaterX = PowerX + ColumnWidth + Margin;
+        private const float GarbageX = WaterX + ColumnWidth + (Margin * 4);
+        private const float SewageX = GarbageX + ColumnWidth + Margin;
+        private const float PollutionX = SewageX + ColumnWidth + Margin;
+        private const float NoiseX = PollutionX + ColumnWidth + Margin;
+        private const float MailX = NoiseX + ColumnWidth + (Margin * 4);
+        private const float IncomeX = MailX + ColumnWidth + Margin;
+        private const float FinalX = MailX + WideColumnWidth;
 
         // Tab icons.
-        protected readonly string[] tabIconNames =
+        private readonly string[] _tabIconNames =
         {
             "ToolbarIconElectricity",
             "ToolbarIconWaterAndSewage",
             "InfoIconGarbage",
             "InfoIconNoisePollution",
-            "ToolbarIconMoney"
+            "ToolbarIconMoney",
         };
-        protected readonly string[] tabAtlasNames =
+
+        // Tab atlases.
+        private readonly string[] _tabAtlasNames =
         {
             "ingame",
             "ingame",
             "ingame",
             "ingame",
-            "ingame"
+            "ingame",
         };
 
+        // Textfield array.
+        private UITextField[][] _pollutionFields;
+        private UITextField[][] _noiseFields;
+        private UITextField[][] _mailFields;
+
+        // Column labels.
+        private string _pollutionLabel;
+        private string _noiseLabel;
+        private string _mailLabel;
+
         /// <summary>
-        /// Constructor - adds tab to tabstrip.
+        /// Initializes a new instance of the <see cref="ConsumptionPanelBase"/> class.
         /// </summary>
         /// <param name="tabStrip">Tab strip to add to.</param>
         /// <param name="tabIndex">Index number of tab.</param>
         internal ConsumptionPanelBase(UITabstrip tabStrip, int tabIndex)
         {
             // Add tab.
-            panel = PanelUtils.AddIconTab(tabStrip, Translations.Translate("RPR_OPT_CON"), tabIndex, tabIconNames, tabAtlasNames);
+            m_panel = PanelUtils.AddIconTab(tabStrip, Translations.Translate("RPR_OPT_CON"), tabIndex, _tabIconNames, _tabAtlasNames);
 
             // Set tab object reference.
             tabStrip.tabs[tabIndex].objectUserData = this;
@@ -76,16 +82,16 @@ namespace RealPop2
         protected void SubServiceArrays(int numSubServices)
         {
             // Initialise textfield array.
-            powerFields = new UITextField[numSubServices][];
-            waterFields = new UITextField[numSubServices][];
-            garbageFields = new UITextField[numSubServices][];
-            sewageFields = new UITextField[numSubServices][];
-            incomeFields = new UITextField[numSubServices][];
-            pollutionFields = new UITextField[numSubServices][];
-            noiseFields = new UITextField[numSubServices][];
-            mailFields = new UITextField[numSubServices][];
+            m_powerFields = new UITextField[numSubServices][];
+            m_waterFields = new UITextField[numSubServices][];
+            m_garbageFields = new UITextField[numSubServices][];
+            m_sewageFields = new UITextField[numSubServices][];
+            m_incomeFields = new UITextField[numSubServices][];
+            _pollutionFields = new UITextField[numSubServices][];
+            _noiseFields = new UITextField[numSubServices][];
+            _mailFields = new UITextField[numSubServices][];
         }
-        
+
         /// <summary>
         /// Initialises array structure (second dimension - levels).
         /// </summary>
@@ -93,16 +99,16 @@ namespace RealPop2
         /// <param name="numLevels">Number of levels to initialise for.</param>
         protected void LevelArrays(int service, int numLevels)
         {
-            powerFields[service] = new UITextField[numLevels];
-            waterFields[service] = new UITextField[numLevels];
-            garbageFields[service] = new UITextField[numLevels];
-            sewageFields[service] = new UITextField[numLevels];
-            pollutionFields[service] = new UITextField[numLevels];
-            noiseFields[service] = new UITextField[numLevels];
-            mailFields[service] = new UITextField[numLevels];
-            incomeFields[service] = new UITextField[numLevels];
+            m_powerFields[service] = new UITextField[numLevels];
+            m_waterFields[service] = new UITextField[numLevels];
+            m_garbageFields[service] = new UITextField[numLevels];
+            m_sewageFields[service] = new UITextField[numLevels];
+            _pollutionFields[service] = new UITextField[numLevels];
+            _noiseFields[service] = new UITextField[numLevels];
+            _mailFields[service] = new UITextField[numLevels];
+            m_incomeFields[service] = new UITextField[numLevels];
         }
-        
+
         /// <summary>
         /// Adds column headings.
         /// </summary>
@@ -110,24 +116,24 @@ namespace RealPop2
         protected void AddHeadings(UIPanel panel)
         {
             // Set string references (we'll reference these multiple times with the textfields, so this saves calling translate each time).
-            powerLabel = Translations.Translate("RPR_OPT_POW");
-            waterLabel = Translations.Translate("RPR_OPT_WAT");
-            garbageLabel = Translations.Translate("RPR_OPT_GAR");
-            sewageLabel = Translations.Translate("RPR_OPT_SEW");
-            pollutionLabel = Translations.Translate("RPR_OPT_POL");
-            noiseLabel = Translations.Translate("RPR_OPT_NOI");
-            mailLabel = Translations.Translate("RPR_OPT_MAI");
-            wealthLabel = Translations.Translate("RPR_OPT_WEA");
+            m_powerLabel = Translations.Translate("RPR_OPT_POW");
+            m_waterLabel = Translations.Translate("RPR_OPT_WAT");
+            m_garbageLabel = Translations.Translate("RPR_OPT_GAR");
+            m_sewageLabel = Translations.Translate("RPR_OPT_SEW");
+            _pollutionLabel = Translations.Translate("RPR_OPT_POL");
+            _noiseLabel = Translations.Translate("RPR_OPT_NOI");
+            _mailLabel = Translations.Translate("RPR_OPT_MAI");
+            m_incomeLabel = Translations.Translate("RPR_OPT_WEA");
 
             // Headings.
-            ColumnIcon(panel, PowerX, ColumnWidth, powerLabel, "ToolbarIconElectricity");
-            ColumnIcon(panel, WaterX, ColumnWidth, waterLabel, "ToolbarIconWaterAndSewage");
-            ColumnIcon(panel, GarbageX, ColumnWidth, garbageLabel, "InfoIconGarbage");
-            ColumnIcon(panel, SewageX, ColumnWidth, sewageLabel, "IconPolicyFilterIndustrialWaste");
-            ColumnIcon(panel, PollutionX, ColumnWidth, pollutionLabel, "InfoIconPollution");
-            ColumnIcon(panel, NoiseX, ColumnWidth, noiseLabel, "InfoIconNoisePollution");
-            ColumnIcon(panel, MailX, ColumnWidth, mailLabel, "InfoIconPost");
-            ColumnIcon(panel, IncomeX, WideColumnWidth, wealthLabel, "ToolbarIconMoney");
+            ColumnIcon(panel, PowerX, ColumnWidth, m_powerLabel, "ToolbarIconElectricity");
+            ColumnIcon(panel, WaterX, ColumnWidth, m_waterLabel, "ToolbarIconWaterAndSewage");
+            ColumnIcon(panel, GarbageX, ColumnWidth, m_garbageLabel, "InfoIconGarbage");
+            ColumnIcon(panel, SewageX, ColumnWidth, m_sewageLabel, "IconPolicyFilterIndustrialWaste");
+            ColumnIcon(panel, PollutionX, ColumnWidth, _pollutionLabel, "InfoIconPollution");
+            ColumnIcon(panel, NoiseX, ColumnWidth, _noiseLabel, "InfoIconNoisePollution");
+            ColumnIcon(panel, MailX, ColumnWidth, _mailLabel, "InfoIconPost");
+            ColumnIcon(panel, IncomeX, WideColumnWidth, m_incomeLabel, "ToolbarIconMoney");
         }
 
         /// <summary>
@@ -137,18 +143,22 @@ namespace RealPop2
         protected void AddButtons(UIPanel panel)
         {
             // Add extra space.
-            currentY += Margin;
+            m_currentY += Margin;
 
             // Reset button.
-            UIButton resetButton = UIButtons.AddButton(panel, Button1X, currentY, Translations.Translate("RPR_OPT_RTD"), ButtonWidth);
+            UIButton resetButton = UIButtons.AddButton(panel, Button1X, m_currentY, Translations.Translate("RPR_OPT_RTD"), ButtonWidth);
             resetButton.eventClicked += (component, clickEvent) => ResetToDefaults();
 
             // Revert button.
-            UIButton revertToSaveButton = UIButtons.AddButton(panel, Button2X, currentY, Translations.Translate("RPR_OPT_RTS"), ButtonWidth);
-            revertToSaveButton.eventClicked += (component, clickEvent) => { ConfigUtils.LoadSettings(); PopulateFields(); };
+            UIButton revertToSaveButton = UIButtons.AddButton(panel, Button2X, m_currentY, Translations.Translate("RPR_OPT_RTS"), ButtonWidth);
+            revertToSaveButton.eventClicked += (component, clickEvent) =>
+            {
+                ConfigurationUtils.LoadSettings();
+                PopulateFields();
+            };
 
             // Save button.
-            UIButton saveButton = UIButtons.AddButton(panel, Button3X, currentY, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
+            UIButton saveButton = UIButtons.AddButton(panel, Button3X, m_currentY, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
             saveButton.eventClicked += (component, clickEvent) => ApplyFields();
         }
 
@@ -162,27 +172,27 @@ namespace RealPop2
         protected void AddSubService(UIPanel panel, int subService, bool isExtract = false, string label = null)
         {
             // Add a row for each level within this subservice.
-            for (int i = 0; i < powerFields[subService].Length; ++i)
+            for (int i = 0; i < m_powerFields[subService].Length; ++i)
             {
                 // Row label.
-                RowLabel(panel, currentY, label ?? (isExtract ? Translations.Translate(i == 0 ? "RPR_CAT_EXT" : "RPR_CAT_PRO") : Translations.Translate("RPR_OPT_LVL") + " " + (i + 1).ToString()));
-                
+                RowLabel(panel, m_currentY, label ?? (isExtract ? Translations.Translate(i == 0 ? "RPR_CAT_EXT" : "RPR_CAT_PRO") : Translations.Translate("RPR_OPT_LVL") + " " + (i + 1).ToString()));
+
                 // Textfields.
-                powerFields[subService][i] = AddTextField(panel, ColumnWidth, PowerX, currentY, powerLabel);
-                waterFields[subService][i] = AddTextField(panel, ColumnWidth, WaterX, currentY, waterLabel);
-                garbageFields[subService][i] = AddTextField(panel, ColumnWidth, GarbageX, currentY, garbageLabel);
-                sewageFields[subService][i] = AddTextField(panel, ColumnWidth, SewageX, currentY, sewageLabel);
-                pollutionFields[subService][i] = AddTextField(panel, ColumnWidth, PollutionX, currentY, pollutionLabel);
-                noiseFields[subService][i] = AddTextField(panel, ColumnWidth, NoiseX, currentY, noiseLabel);
-                mailFields[subService][i] = AddTextField(panel, ColumnWidth, MailX, currentY, mailLabel);
-                incomeFields[subService][i] = AddTextField(panel, WideColumnWidth, IncomeX, currentY, wealthLabel);
+                m_powerFields[subService][i] = AddTextField(panel, ColumnWidth, PowerX, m_currentY, m_powerLabel);
+                m_waterFields[subService][i] = AddTextField(panel, ColumnWidth, WaterX, m_currentY, m_waterLabel);
+                m_garbageFields[subService][i] = AddTextField(panel, ColumnWidth, GarbageX, m_currentY, m_garbageLabel);
+                m_sewageFields[subService][i] = AddTextField(panel, ColumnWidth, SewageX, m_currentY, m_sewageLabel);
+                _pollutionFields[subService][i] = AddTextField(panel, ColumnWidth, PollutionX, m_currentY, _pollutionLabel);
+                _noiseFields[subService][i] = AddTextField(panel, ColumnWidth, NoiseX, m_currentY, _noiseLabel);
+                _mailFields[subService][i] = AddTextField(panel, ColumnWidth, MailX, m_currentY, _mailLabel);
+                m_incomeFields[subService][i] = AddTextField(panel, WideColumnWidth, IncomeX, m_currentY, m_incomeLabel);
 
                 // Increment Y position.
-                currentY += RowHeight;
+                m_currentY += RowHeight;
             }
 
             // Add an extra bit of space at the end.
-            currentY += Margin;
+            m_currentY += Margin;
         }
 
         /// <summary>
@@ -193,37 +203,37 @@ namespace RealPop2
         protected void PopulateSubService(int[][] dataArray, int subService)
         {
             // Iterate though each level, populating each row as we go.
-            for (int i = 0; i < powerFields[subService].Length; ++i)
+            for (int i = 0; i < m_powerFields[subService].Length; ++i)
             {
-                powerFields[subService][i].text = dataArray[i][DataStore.POWER].ToString();
-                waterFields[subService][i].text = dataArray[i][DataStore.WATER].ToString();
-                garbageFields[subService][i].text = dataArray[i][DataStore.GARBAGE].ToString();
-                sewageFields[subService][i].text = dataArray[i][DataStore.SEWAGE].ToString();
-                pollutionFields[subService][i].text = dataArray[i][DataStore.GROUND_POLLUTION].ToString();
-                noiseFields[subService][i].text = dataArray[i][DataStore.NOISE_POLLUTION].ToString();
-                mailFields[subService][i].text = dataArray[i][DataStore.MAIL].ToString();
-                incomeFields[subService][i].text = dataArray[i][DataStore.INCOME].ToString();
+                m_powerFields[subService][i].text = dataArray[i][DataStore.POWER].ToString();
+                m_waterFields[subService][i].text = dataArray[i][DataStore.WATER].ToString();
+                m_garbageFields[subService][i].text = dataArray[i][DataStore.GARBAGE].ToString();
+                m_sewageFields[subService][i].text = dataArray[i][DataStore.SEWAGE].ToString();
+                _pollutionFields[subService][i].text = dataArray[i][DataStore.GROUND_POLLUTION].ToString();
+                _noiseFields[subService][i].text = dataArray[i][DataStore.NOISE_POLLUTION].ToString();
+                _mailFields[subService][i].text = dataArray[i][DataStore.MAIL].ToString();
+                m_incomeFields[subService][i].text = dataArray[i][DataStore.INCOME].ToString();
             }
         }
 
         /// <summary>
-        /// Updates the DataStore for a given SubService with information from text fields. 
+        /// Updates the DataStore for a given SubService with information from text fields.
         /// </summary>
         /// <param name="dataArray">DataStore data array for the SubService.</param>
         /// <param name="subService">SubService reference number.</param>
         protected void ApplySubService(int[][] dataArray, int subService)
         {
             // Iterate though each level, populating each row as we go.
-            for (int i = 0; i < powerFields[subService].Length; ++i)
+            for (int i = 0; i < m_powerFields[subService].Length; ++i)
             {
-                PanelUtils.ParseInt(ref dataArray[i][DataStore.POWER], powerFields[subService][i].text);
-                PanelUtils.ParseInt(ref dataArray[i][DataStore.WATER], waterFields[subService][i].text);
-                PanelUtils.ParseInt(ref dataArray[i][DataStore.GARBAGE], garbageFields[subService][i].text);
-                PanelUtils.ParseInt(ref dataArray[i][DataStore.SEWAGE], sewageFields[subService][i].text);
-                PanelUtils.ParseInt(ref dataArray[i][DataStore.GROUND_POLLUTION], pollutionFields[subService][i].text);
-                PanelUtils.ParseInt(ref dataArray[i][DataStore.NOISE_POLLUTION], noiseFields[subService][i].text);
-                PanelUtils.ParseInt(ref dataArray[i][DataStore.MAIL], mailFields[subService][i].text);
-                PanelUtils.ParseInt(ref dataArray[i][DataStore.INCOME], incomeFields[subService][i].text);
+                PanelUtils.ParseInt(ref dataArray[i][DataStore.POWER], m_powerFields[subService][i].text);
+                PanelUtils.ParseInt(ref dataArray[i][DataStore.WATER], m_waterFields[subService][i].text);
+                PanelUtils.ParseInt(ref dataArray[i][DataStore.GARBAGE], m_garbageFields[subService][i].text);
+                PanelUtils.ParseInt(ref dataArray[i][DataStore.SEWAGE], m_sewageFields[subService][i].text);
+                PanelUtils.ParseInt(ref dataArray[i][DataStore.GROUND_POLLUTION], _pollutionFields[subService][i].text);
+                PanelUtils.ParseInt(ref dataArray[i][DataStore.NOISE_POLLUTION], _noiseFields[subService][i].text);
+                PanelUtils.ParseInt(ref dataArray[i][DataStore.MAIL], _mailFields[subService][i].text);
+                PanelUtils.ParseInt(ref dataArray[i][DataStore.INCOME], m_incomeFields[subService][i].text);
             }
         }
     }

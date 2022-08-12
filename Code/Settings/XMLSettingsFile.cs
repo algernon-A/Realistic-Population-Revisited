@@ -6,15 +6,14 @@
 namespace RealPop2
 {
     using System;
-    using System.IO;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.IO;
     using System.Xml.Serialization;
     using AlgernonCommons;
     using AlgernonCommons.Keybinding;
     using AlgernonCommons.XML;
     using UnityEngine;
-    using Realistic_Population_Revisited.Code.Patches.Population;
 
     /// <summary>
     /// Defines the XML settings file.
@@ -35,124 +34,124 @@ namespace RealPop2
         private static readonly string SettingsFile = Path.Combine(UserSettingsDir, SettingsFileName);
 
         /// <summary>
-        /// DEPRECATED.
         /// Gets or sets building details panel hotkey (backwards-compatibility).
+        /// DEPRECATED.
         /// </summary>
         [XmlElement("hotkey")]
         [DefaultValue("")]
-        public string Hotkey { get => ""; set => UIThreading.HotKey.Key = (int)Enum.Parse(typeof(KeyCode), value); }
+        public string Hotkey { get => string.Empty; set => HotkeyThreading.HotKey.Key = (int)Enum.Parse(typeof(KeyCode), value); }
 
         /// <summary>
-        /// DEPRECATED.
         /// Gets or sets a value indicating whether the building details panel hotkey has the control key modifer (backwards-compatibility).
+        /// DEPRECATED.
         /// </summary>
         [XmlElement("ctrl")]
         [DefaultValue(false)]
-        public bool Ctrl { get => false; set => UIThreading.HotKey.Control = value; }
+        public bool Ctrl { get => false; set => HotkeyThreading.HotKey.Control = value; }
 
         /// <summary>
-        /// DEPRECATED.
         /// Gets or sets a value indicating whether the building details panel hotkey has the alt key modifer (backwards-compatibility).
+        /// DEPRECATED.
         /// </summary>
         [XmlElement("alt")]
         [DefaultValue(false)]
-        public bool Alt { get => false; set => UIThreading.HotKey.Alt = value; }
+        public bool Alt { get => false; set => HotkeyThreading.HotKey.Alt = value; }
 
         /// <summary>
-        /// DEPRECATED.
         /// Gets or sets a value indicating whether the building details panel hotkey has the shidt key modifer (backwards-compatibility).
+        /// DEPRECATED.
         /// </summary>
         [XmlElement("shift")]
         [DefaultValue(false)]
-        public bool Shift { get => false; set => UIThreading.HotKey.Shift = value; }
+        public bool Shift { get => false; set => HotkeyThreading.HotKey.Shift = value; }
 
         /// <summary>
         /// Gets or sets the panel hotkey.
         /// </summary>
         [XmlElement("PanelKey")]
-        public Keybinding PanelKey { get => UIThreading.HotKey; set => UIThreading.HotKey = value; }
+        public Keybinding PanelKey { get => HotkeyThreading.HotKey; set => HotkeyThreading.HotKey = value; }
 
         /// <summary>
+        /// Sets a value indicating whether legacy calculations should be used by default on new saves (deprecated all-in-one setting).
         /// DEPRECATED.
-        /// Gets or sets a value indicating whether legacy calculations should be used by default on new saves (deprecated all-in-one setting).
         /// </summary>
         [XmlElement("NewSavesLegacy")]
         public bool DefaultLegacy
         {
             set
             {
-                ModSettings.newSaveDefaultRes = DefaultMode.Legacy;
-                ModSettings.newSaveDefaultCom = DefaultMode.Legacy;
-                ModSettings.newSaveDefaultInd = DefaultMode.Legacy;
-                ModSettings.newSaveDefaultOff = DefaultMode.Legacy;
+                ModSettings.NewSaveDefaultRes = DefaultMode.Legacy;
+                ModSettings.NewSaveDefaultCom = DefaultMode.Legacy;
+                ModSettings.NewSaveDefaultInd = DefaultMode.Legacy;
+                ModSettings.NewSaveDefaultOff = DefaultMode.Legacy;
             }
         }
 
         /// <summary>
+        /// Sets a value indicating whether to use legacy calculations by default for residential buildings in new saves (deprecated granular setting).
         /// DEPRECATED.
-        /// Gets or sets a value indicating whether to use legacy calculations by default for residential buildings in new saves (deprecated granular setting).
         /// </summary>
         [XmlElement("NewSavesLegacyRes")]
-        public bool DefaultLegacyRes { set => ModSettings.newSaveDefaultRes = value ? DefaultMode.Legacy : DefaultMode.New; }
+        public bool DefaultLegacyRes { set => ModSettings.NewSaveDefaultRes = value ? DefaultMode.Legacy : DefaultMode.New; }
 
         /// <summary>
+        /// Sets a value indicating whether to use legacy calculations by default for commercial buildings in new saves (deprecated granular setting).
         /// DEPRECATED.
-        /// Gets or sets a value indicating whether to use legacy calculations by default for commercial buildings in new saves (deprecated granular setting).
         /// </summary>
         [XmlElement("NewSavesLegacyCom")]
-        public bool DefaultLegacyCom { set => ModSettings.newSaveDefaultCom = value ? DefaultMode.Legacy : DefaultMode.New; }
+        public bool DefaultLegacyCom { set => ModSettings.NewSaveDefaultCom = value ? DefaultMode.Legacy : DefaultMode.New; }
 
         /// <summary>
+        /// Sets a value indicating whether to use legacy calculations by default for industrial buildings in new saves (deprecated granular setting).
         /// DEPRECATED.
-        /// Gets or sets a value indicating whether to use legacy calculations by default for industrial buildings in new saves (deprecated granular setting).
         /// </summary>
         [XmlElement("NewSavesLegacyInd")]
-        public bool DefaultLegacyInd { set => ModSettings.newSaveDefaultInd = value ? DefaultMode.Legacy : DefaultMode.New; }
+        public bool DefaultLegacyInd { set => ModSettings.NewSaveDefaultInd = value ? DefaultMode.Legacy : DefaultMode.New; }
 
         /// <summary>
+        /// Sets a value indicating whether to use legacy calculations by default for office buildings in new saves (deprecated granular setting).
         /// DEPRECATED.
-        /// Gets or sets a value indicating whether to use legacy calculations by default for office buildings in new saves (deprecated granular setting).
         /// </summary>
         [XmlElement("NewSavesLegacyOff")]
-        public bool DefaultLegacyOff { set => ModSettings.newSaveDefaultOff = value ? DefaultMode.Legacy : DefaultMode.New; }
+        public bool DefaultLegacyOff { set => ModSettings.NewSaveDefaultOff = value ? DefaultMode.Legacy : DefaultMode.New; }
 
         /// <summary>
         /// Gets or sets the default mode for residential buildings in new saves.
         /// </summary>
         [XmlElement("NewSavesDefaultRes")]
-        public DefaultMode XMLNewSavesDefaultRes { get => ModSettings.newSaveDefaultRes; set => ModSettings.newSaveDefaultRes = value; }
+        public DefaultMode XMLNewSavesDefaultRes { get => ModSettings.NewSaveDefaultRes; set => ModSettings.NewSaveDefaultRes = value; }
 
         /// <summary>
         /// Gets or sets the default mode for commercial buildings in new saves.
         /// </summary>
         [XmlElement("NewSavesDefaultCom")]
-        public DefaultMode NewSavesDefaultCom { get => ModSettings.newSaveDefaultCom; set => ModSettings.newSaveDefaultCom = value; }
+        public DefaultMode NewSavesDefaultCom { get => ModSettings.NewSaveDefaultCom; set => ModSettings.NewSaveDefaultCom = value; }
 
         /// <summary>
         /// Gets or sets the default mode for industrial buildings in new saves.
         /// </summary>
         [XmlElement("NewSavesDefaultInd")]
-        public DefaultMode NewSavesDefaultInd { get => ModSettings.newSaveDefaultInd; set => ModSettings.newSaveDefaultInd = value; }
+        public DefaultMode NewSavesDefaultInd { get => ModSettings.NewSaveDefaultInd; set => ModSettings.NewSaveDefaultInd = value; }
 
         /// <summary>
         /// Gets or sets the default mode for office buildings in new saves.
         /// </summary>
         [XmlElement("NewSavesDefaultOff")]
-        public DefaultMode NewSavesDefaultOff { get => ModSettings.newSaveDefaultOff; set => ModSettings.newSaveDefaultOff = value; }
+        public DefaultMode NewSavesDefaultOff { get => ModSettings.NewSaveDefaultOff; set => ModSettings.NewSaveDefaultOff = value; }
 
         /// <summary>
         /// Gets or sets the list of commercial vistplace calculation modes.
         /// </summary>
         [XmlArray("CommercialVisitsModes")]
         [XmlArrayItem("Mode")]
-        public List<Configuration.SubServiceValue> ComVisitModes;
+        public List<Configuration.SubServiceValue> ComVisitModes { get; set; }
 
         /// <summary>
         /// Gets or sets the list of commercial visitplace multipliers.
         /// </summary>
         [XmlArray("CommercialVisitsPercentages")]
         [XmlArrayItem("Percentage")]
-        public List<Configuration.SubServiceValue> ComVisitMults;
+        public List<Configuration.SubServiceValue> ComVisitMults { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether custom school populations are in effect.
@@ -164,7 +163,7 @@ namespace RealPop2
         /// Gets or sets a value indicating whether custom school properties are in effect.
         /// </summary>
         [XmlElement("EnableSchoolProperties")]
-        public bool EnableSchoolProperties { get => ModSettings.enableSchoolProperties; set => ModSettings.enableSchoolProperties = value; }
+        public bool EnableSchoolProperties { get => ModSettings.EnableSchoolProperties; set => ModSettings.EnableSchoolProperties = value; }
 
         /// <summary>
         /// Gets or sets the dedfault school capacity multiplier.
@@ -176,7 +175,7 @@ namespace RealPop2
         /// Gets or sets the crime rate multiplier.
         /// </summary>
         [XmlElement("CrimeRateMultiplier")]
-        public float CrimeRateMultiplier { get => ModSettings.crimeMultiplier; set => ModSettings.crimeMultiplier = value; }
+        public float CrimeRateMultiplier { get => HandleCrimeTranspiler.CrimeMultiplier; set => HandleCrimeTranspiler.CrimeMultiplier = value; }
 
         /// <summary>
         /// Gets or sets a value indicating whether metric (true) or US customary (false) measures should be displayed.
@@ -189,13 +188,6 @@ namespace RealPop2
         /// </summary>
         [XmlElement("DetailedLogging")]
         public bool DetailLogging { get => Logging.DetailLogging; set => Logging.DetailLogging = value; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether detailed logging is in effect.
-        /// </summary>
-        // Logging detail.
-        [XmlElement("DontRebuildUnits")]
-        public bool DontRebuildUnits { get => ModSettings.dontRebuildUnits; set => ModSettings.dontRebuildUnits = value; }
 
         /// <summary>
         /// Load settings from XML file.

@@ -18,14 +18,14 @@ namespace RealPop2
     internal class CrimePanel : OptionsPanelTab
     {
         /// <summary>
-        /// Adds crime options tab to tabstrip.
+        /// Initializes a new instance of the <see cref="CrimePanel"/> class.
         /// </summary>
         /// <param name="tabStrip">Tab strip to add to.</param>
         /// <param name="tabIndex">Index number of tab.</param>
         internal CrimePanel(UITabstrip tabStrip, int tabIndex)
         {
             // Add tab and helper.
-            panel = PanelUtils.AddTextTab(tabStrip, Translations.Translate("RPR_OPT_CRI"), tabIndex, out UIButton _, autoLayout: true);
+            m_panel = PanelUtils.AddTextTab(tabStrip, Translations.Translate("RPR_OPT_CRI"), tabIndex, out UIButton _, autoLayout: true);
 
             // Set tab object reference.
             tabStrip.tabs[tabIndex].objectUserData = this;
@@ -37,16 +37,16 @@ namespace RealPop2
         internal override void Setup()
         {
             // Don't do anything if already set up.
-            if (!isSetup)
+            if (!m_isSetup)
             {
                 // Perform initial setup.
-                isSetup = true;
+                m_isSetup = true;
                 Logging.Message("setting up ", this.GetType());
 
-                UIHelper helper = new UIHelper(panel);
+                UIHelper helper = new UIHelper(m_panel);
 
                 // Add slider component.
-                UISlider newSlider = UISliders.AddPlainSlider(panel, 0f, 0f, Translations.Translate("RPR_OPT_CML"), 1f, 200f, 1f, ModSettings.crimeMultiplier);
+                UISlider newSlider = UISliders.AddPlainSlider(m_panel, 0f, 0f, Translations.Translate("RPR_OPT_CML"), 1f, 200f, 1f, HandleCrimeTranspiler.CrimeMultiplier);
                 newSlider.tooltipBox = UIToolTips.WordWrapToolTip;
                 newSlider.tooltip = Translations.Translate("RPR_OPT_CML_TIP");
 
@@ -66,7 +66,7 @@ namespace RealPop2
                     PercentSliderText(control, value);
 
                     // Update setting.
-                    ModSettings.crimeMultiplier = value;
+                    HandleCrimeTranspiler.CrimeMultiplier = value;
                 };
             }
         }
@@ -80,8 +80,8 @@ namespace RealPop2
         {
             if (control?.parent?.Find<UILabel>("ValueLabel") is UILabel valueLabel)
             {
-                decimal decimalNumber = new Decimal(Mathf.RoundToInt(value));
-                valueLabel.text = "x" + Decimal.Divide(decimalNumber, 100).ToString("0.00");
+                decimal decimalNumber = new decimal(Mathf.RoundToInt(value));
+                valueLabel.text = "x" + decimal.Divide(decimalNumber, 100).ToString("0.00");
             }
         }
     }

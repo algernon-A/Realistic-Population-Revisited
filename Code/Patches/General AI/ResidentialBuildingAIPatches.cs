@@ -14,24 +14,22 @@ namespace RealPop2
     /// Harmony patches to ResidentialBuildingAI to implement homecount, consumption, and pollution changes for residential buildings.
     /// </summary>
     [HarmonyPatch(typeof(ResidentialBuildingAI))]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
     public static class ResidentialBuildingAIPatches
     {
         /// <summary>
         /// Harmony Prefix patch to ResidentialBuildingAI.CalculateHomeCount to implement mod population calculations.
         /// </summary>
-        /// <param name="__result">Original method result</param>
-        /// <param name="__instance">Original AI instance reference</param>
-        /// <param name="level">Building level</param>
-        /// <param name="r">Randomizer (unused)</param>
-        /// <param name="width">Building lot width (unused)</param>
-        /// <param name="length">Building lot length (unused)</param>
-        /// <returns>False (never execute original method) if anything other than vanilla calculations are set for the building, true (fall through to game code) otherwise</returns>
+        /// <param name="__result">Original method result.</param>
+        /// <param name="__instance">ResidentialBuildingAI instance.</param>
+        /// <param name="level">Building level.</param>
+        /// <returns>False (never execute original method) if anything other than vanilla calculations are set for the building, true (fall through to game code) otherwise.</returns>
         [HarmonyPatch(nameof(ResidentialBuildingAI.CalculateHomeCount))]
         [HarmonyPrefix]
-        public static bool Prefix(ref int __result, ResidentialBuildingAI __instance, ItemClass.Level level, Randomizer r, int width, int length)
+        public static bool Prefix(ref int __result, ResidentialBuildingAI __instance, ItemClass.Level level)
         {
             // Get population value from cache.
-            int result = PopData.instance.HouseholdCache(__instance.m_info, (int)level);
+            int result = PopData.Instance.HouseholdCache(__instance.m_info, (int)level);
 
             // Always set at least one.
             if (result < 1)
@@ -55,17 +53,17 @@ namespace RealPop2
         /// <summary>
         /// Pre-emptive Harmony Prefix patch for ResidentialBuildingAI.GetConsumptionRates, to implement the mod's consumption calculations.
         /// </summary>
-        /// <param name="__instance">AI instance reference</param>
-        /// <param name="level">Building level</param>
-        /// <param name="r">Randomizer</param>
-        /// <param name="productionRate">Building production rate</param>
-        /// <param name="electricityConsumption">Building electricity consumption</param>
-        /// <param name="waterConsumption">Building water consumption</param>
-        /// <param name="sewageAccumulation">Building sewage accumulation</param>
-        /// <param name="garbageAccumulation">Building garbage accumulation</param>
-        /// <param name="incomeAccumulation">Building income accumulation</param>
-        /// <param name="mailAccumulation">Building mail accumulation</param>
-        /// <returns>Always false (never execute original method)</returns>
+        /// <param name="__instance">AI instance reference.</param>
+        /// <param name="level">Building level.</param>
+        /// <param name="r">Randomizer.</param>
+        /// <param name="productionRate">Building production rate.</param>
+        /// <param name="electricityConsumption">Building electricity consumption.</param>
+        /// <param name="waterConsumption">Building water consumption.</param>
+        /// <param name="sewageAccumulation">Building sewage accumulation.</param>
+        /// <param name="garbageAccumulation">Building garbage accumulation.</param>
+        /// <param name="incomeAccumulation">Building income accumulation.</param>
+        /// <param name="mailAccumulation">Building mail accumulation.</param>
+        /// <returns>Always false (never execute original method).</returns>
         [HarmonyPatch(nameof(ResidentialBuildingAI.GetConsumptionRates))]
         [HarmonyPrefix]
         public static bool Prefix(ResidentialBuildingAI __instance, ItemClass.Level level, Randomizer r, int productionRate, out int electricityConsumption, out int waterConsumption, out int sewageAccumulation, out int garbageAccumulation, out int incomeAccumulation, out int mailAccumulation)

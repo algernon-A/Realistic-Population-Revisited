@@ -1,4 +1,4 @@
-﻿// <copyright file="UIPreview.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="BuildingPreview.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -13,65 +13,67 @@ namespace RealPop2
     /// <summary>
     /// Building preview image.
     /// </summary>
-    public class UIPreview : UIPanel
+    public class BuildingPreview : UIPanel
     {
         // Panel components.
         private UITextureSprite previewSprite;
         private UISprite noPreviewSprite;
-        private UIPreviewRenderer previewRender;
+        private BuildingPreviewRenderer previewRender;
         private UILabel buildingName;
         private UILabel buildingLevel;
         private UILabel buildingSize;
 
         // Currently selected building and floor calculation pack.
-        private BuildingInfo currentSelection;
-        private FloorDataPack floorPack, overrideFloors;
-        private bool renderFloors, hideFloors;
+        private BuildingInfo _currentSelection;
+        private FloorDataPack _floorPack;
+        private FloorDataPack _overrideFloors;
+        private bool _renderFloors;
+        private bool _hideFloors;
 
         /// <summary>
-        /// Suppresses floor preview rendering (e.g. when legacy calculations have been selected).
-        /// </summary>
-        internal bool HideFloors
-        {
-            set
-            {
-                hideFloors = value;
-                RenderPreview();
-            }
-        }
-
-        /// <summary>
-        /// Updates the floor calculation pack to preview.
+        /// Sets the floor data pack for previewing.
         /// </summary>
         internal FloorDataPack FloorPack
         {
             set
             {
-                floorPack = value;
+                _floorPack = value;
                 RenderPreview();
             }
         }
 
         /// <summary>
-        /// Updates the floor override pack to preview.
+        /// Sets a value indicating whether floor floor preview rendering should be suppressed regardless of user setting (e.g. when legacy calculations have been selected).
+        /// </summary>
+        internal bool HideFloors
+        {
+            set
+            {
+                _hideFloors = value;
+                RenderPreview();
+            }
+        }
+
+        /// <summary>
+        /// Sets a manual floor override for previewing.
         /// </summary>
         internal FloorDataPack OverrideFloors
         {
             set
             {
-                overrideFloors = value;
+                _overrideFloors = value;
                 RenderPreview();
             }
         }
 
         /// <summary>
-        /// Toggles floor previewing on or off.
+        /// Sets a value indicating whether floor previewing is on (true) or off (false).
         /// </summary>
         internal bool RenderFloors
         {
             set
             {
-                renderFloors = value;
+                _renderFloors = value;
                 RenderPreview();
             }
         }
@@ -79,21 +81,21 @@ namespace RealPop2
         /// <summary>
         /// Render and show a preview of a building.
         /// </summary>
-        /// <param name="building">The building to render</param>
+        /// <param name="building">The building to render.</param>
         public void Show(BuildingInfo building)
         {
             // Update current selection to the new building.
-            currentSelection = building;
+            _currentSelection = building;
 
             // Generate render if there's a selection with a mesh.
-            if (currentSelection != null && currentSelection.m_mesh != null)
+            if (_currentSelection != null && _currentSelection.m_mesh != null)
             {
                 // Set default values.
                 previewRender.CameraRotation = 210f;
                 previewRender.Zoom = 4f;
 
                 // Set mesh and material for render.
-                previewRender.SetTarget(currentSelection);
+                previewRender.SetTarget(_currentSelection);
 
                 // Set background.
                 previewSprite.texture = previewRender.Texture;
@@ -101,7 +103,6 @@ namespace RealPop2
 
                 // Render at next update.
                 RenderPreview();
-
             }
             else
             {
@@ -121,19 +122,19 @@ namespace RealPop2
             {
                 // Set and show building name.
                 buildingName.isVisible = true;
-                buildingName.text = UIBuildingDetails.GetDisplayName(currentSelection.name);
+                buildingName.text = BuildingDetailsPanel.GetDisplayName(_currentSelection.name);
                 UILabels.TruncateLabel(buildingName, width - 45);
                 buildingName.autoHeight = true;
 
                 // Set and show building level.
                 buildingLevel.isVisible = true;
-                buildingLevel.text = Translations.Translate("RPR_OPT_LVL") + " " + Mathf.Min((int)currentSelection.GetClassLevel() + 1, MaxLevelOf(currentSelection.GetSubService()));
+                buildingLevel.text = Translations.Translate("RPR_OPT_LVL") + " " + Mathf.Min((int)_currentSelection.GetClassLevel() + 1, MaxLevelOf(_currentSelection.GetSubService()));
                 UILabels.TruncateLabel(buildingLevel, width - 45);
                 buildingLevel.autoHeight = true;
 
                 // Set and show building size.
                 buildingSize.isVisible = true;
-                buildingSize.text = currentSelection.GetWidth() + "x" + currentSelection.GetLength();
+                buildingSize.text = _currentSelection.GetWidth() + "x" + _currentSelection.GetLength();
                 UILabels.TruncateLabel(buildingSize, width - 45);
                 buildingSize.autoHeight = true;
             }
@@ -156,7 +157,7 @@ namespace RealPop2
             noPreviewSprite.relativePosition = Vector2.zero;
 
             // Initialise renderer; use double size for anti-aliasing.
-            previewRender = gameObject.AddComponent<UIPreviewRenderer>();
+            previewRender = gameObject.AddComponent<BuildingPreviewRenderer>();
             previewRender.Size = previewSprite.size * 2;
 
             // Click-and-drag rotation.
@@ -213,8 +214,8 @@ namespace RealPop2
         /// <summary>
         /// Rotates the preview camera (model rotation) in accordance with mouse movement.
         /// </summary>
-        /// <param name="c">Not used</param>
-        /// <param name="p">Mouse event</param>
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event parameter.</param>
         private void RotateCamera(UIComponent c, UIMouseEventParameter p)
         {
             // Change rotation.
@@ -227,8 +228,8 @@ namespace RealPop2
         /// <summary>
         /// Returns the maximum level permitted for each subservice.
         /// </summary>
-        /// <param name="subService">SubService to check</param>
-        /// <returns>Maximum permitted building level for the given SubService</returns>
+        /// <param name="subService">SubService to check.</param>
+        /// <returns>Maximum permitted building level for the given SubService.</returns>
         private int MaxLevelOf(ItemClass.SubService subService)
         {
             switch (subService)
@@ -238,14 +239,15 @@ namespace RealPop2
                 case ItemClass.SubService.ResidentialLowEco:
                 case ItemClass.SubService.ResidentialHighEco:
                     return 5;
+
                 case ItemClass.SubService.CommercialLow:
                 case ItemClass.SubService.CommercialHigh:
                 case ItemClass.SubService.OfficeGeneric:
                 case ItemClass.SubService.IndustrialGeneric:
                     return 3;
+
                 default:
                     return 1;
-
             }
         }
 
@@ -255,24 +257,24 @@ namespace RealPop2
         private void RenderPreview()
         {
             // Don't do anything if there's no prefab to render.
-            if (currentSelection == null)
+            if (_currentSelection == null)
             {
                 return;
             }
 
             // Select pack to render; override if there is one, otherwise the selected floor pack.
-            FloorDataPack renderFloorPack = overrideFloors ?? floorPack;
+            FloorDataPack renderFloorPack = _overrideFloors ?? _floorPack;
 
             // Are we going to render floors?
-            bool doFloors = renderFloors && !hideFloors;
+            bool doFloors = _renderFloors && !_hideFloors;
 
             // If the selected building has colour variations, temporarily set the colour to the default for rendering.
-            if (currentSelection.m_useColorVariations && currentSelection.m_material != null)
+            if (_currentSelection.m_useColorVariations && _currentSelection.m_material != null)
             {
-                Color originalColor = currentSelection.m_material.color;
-                currentSelection.m_material.color = currentSelection.m_color0;
+                Color originalColor = _currentSelection.m_material.color;
+                _currentSelection.m_material.color = _currentSelection.m_color0;
                 previewRender.Render(doFloors, renderFloorPack);
-                currentSelection.m_material.color = originalColor;
+                _currentSelection.m_material.color = originalColor;
             }
             else
             {

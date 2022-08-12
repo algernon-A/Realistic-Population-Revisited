@@ -1,11 +1,9 @@
-﻿// <copyright file="CalculateVisitplaceCount.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="Visitors.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-using RealPop2;
-
-namespace Realistic_Population_Revisited.Code.Patches.Population
+namespace RealPop2
 {
     using System.Collections.Generic;
     using AlgernonCommons;
@@ -15,13 +13,72 @@ namespace Realistic_Population_Revisited.Code.Patches.Population
     /// Harmony patch to implement visit count changes for commercial buildings, and supporting methods.
     /// </summary>
     [HarmonyPatch(typeof(CommercialBuildingAI), nameof(CommercialBuildingAI.CalculateVisitplaceCount))]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
     public static class Visitors
     {
-        // Commercial visits modes.
+        /// <summary>
+        /// Default visitor count mulriplier for low-density commercial buildings.
+        /// </summary>
+        internal const int DefaultVisitMultLow = 100;
+
+        /// <summary>
+        /// Default visitor count mulriplier for high-density commercial buildings.
+        /// </summary>
+        internal const int DefaultVisitMultHigh = 100;
+
+        /// <summary>
+        /// Maximum visitor count multiplier.
+        /// </summary>
+        internal const int MaxVisitMult = 100;
+
+        /// <summary>
+        /// Minimum visitor count multiplier.
+        /// </summary>
+        private const int MinVisitCount = 5;
+
+        // Sub-service mapping.
+        private static readonly ItemClass.SubService[] SubServices =
+        {
+            ItemClass.SubService.CommercialLow,
+            ItemClass.SubService.CommercialHigh,
+            ItemClass.SubService.CommercialLeisure,
+            ItemClass.SubService.CommercialTourist,
+            ItemClass.SubService.CommercialEco,
+        };
+
+        // Arrays for calculation mode and multipliers.
+        private static readonly int[] Modes =
+        {
+            (int)ComVisitModes.PopCalcs,
+            (int)ComVisitModes.PopCalcs,
+            (int)ComVisitModes.PopCalcs,
+            (int)ComVisitModes.PopCalcs,
+            (int)ComVisitModes.PopCalcs,
+        };
+
+        private static readonly int[] Mults =
+        {
+            DefaultVisitMultLow,
+            DefaultVisitMultHigh,
+            DefaultVisitMultLow,
+            DefaultVisitMultLow,
+            DefaultVisitMultLow,
+        };
+
+        /// <summary>
+        /// Commercial visitplace calculation modes.
+        /// </summary>
         internal enum ComVisitModes
         {
-            popCalcs = 0,
-            legacy
+            /// <summary>
+            /// Visitor calculation based on population.
+            /// </summary>
+            PopCalcs = 0,
+
+            /// <summary>
+            /// Visitor calculation based on legacy method (lot size).Apo
+            /// </summary>
+            Legacy,
         }
 
         // Array indexes.
@@ -32,59 +89,53 @@ namespace Realistic_Population_Revisited.Code.Patches.Population
             CommercialLeisure,
             CommercialTourist,
             CommercialEco,
-            NumSubServices
+            NumSubServices,
         }
 
-        // Sub-service mapping.
-        private static readonly ItemClass.SubService[] subServices =
+        /// <summary>
+        /// Sets the visit mode for all commercial subservices to the specified mode.
+        /// </summary>
+        internal static int SetVisitModes
         {
-            ItemClass.SubService.CommercialLow,
-            ItemClass.SubService.CommercialHigh,
-            ItemClass.SubService.CommercialLeisure,
-            ItemClass.SubService.CommercialTourist,
-            ItemClass.SubService.CommercialEco
-        };
+            set
+            {
+                for (int i = 0; i < Modes.Length; ++i)
+                {
+                    Modes[i] = value;
+                }
 
-        // Default multiplier.
-        internal const int DefaultVisitMultLow = 100;
-        internal const int DefaultVisitMultHigh = 100;
+                // Clear visitplace cache.
+                PopData.Instance.ClearVisitplaceCache();
+            }
+        }
 
-        // Maximum multiplier.
-        internal const int MaxVisitMult = 100;
-
-        // Minimum value.
-        private const int MinVisitCount = 5;
-
-
-        // Arrays for calculation mode and multipliers.
-        private static readonly int[] comVisitModes =
+        /// <summary>
+        /// Sets the visit percentage multiplier for all commercial subservices to the specified mode.
+        /// </summary>
+        internal static int SetVisitMults
         {
-            (int)ComVisitModes.popCalcs,
-            (int)ComVisitModes.popCalcs,
-            (int)ComVisitModes.popCalcs,
-            (int)ComVisitModes.popCalcs,
-            (int)ComVisitModes.popCalcs
-        };
-        private static readonly int[] comVisitMults =
-        {
-            DefaultVisitMultLow,
-            DefaultVisitMultHigh,
-            DefaultVisitMultLow,
-            DefaultVisitMultLow,
-            DefaultVisitMultLow
-        };
+            set
+            {
+                for (int i = 0; i < Mults.Length; ++i)
+                {
+                    Mults[i] = value;
+                }
 
+                // Clear visitplace cache.
+                PopData.Instance.ClearVisitplaceCache();
+            }
+        }
 
         /// <summary>
         /// Harmony Prefix patch to CommercialBuildingAI.CalculateVisitplaceCount to implement mod population calculations.
         /// </summary>
-        /// <param name="__result">Original method result</param>
-        /// <param name="__instance">Original AI instance reference</param>
-        /// <param name="level">Building level</param>
-        /// <returns>False (never execute original method) if anything other than vanilla calculations are set for the building, true (fall through to game code) otherwise</returns>
+        /// <param name="__result">Original method result.</param>
+        /// <param name="__instance">CommercialBuildingAI instance.</param>
+        /// <param name="level">Building level.</param>
+        /// <returns>False (never execute original method) if anything other than vanilla calculations are set for the building, true (fall through to game code) otherwise.</returns>
         public static bool Prefix(ref int __result, CommercialBuildingAI __instance, ItemClass.Level level)
         {
-            int result = PopData.instance.VisitplaceCache(__instance.m_info, (int)level);
+            int result = PopData.Instance.VisitplaceCache(__instance.m_info, (int)level);
 
             // Check for vanilla calc setting.
             if (result == ushort.MaxValue)
@@ -98,13 +149,12 @@ namespace Realistic_Population_Revisited.Code.Patches.Population
             return false;
         }
 
-
         /// <summary>
         /// Calculates visitplace count according to current settings for the given prefab and workforce total.
         /// </summary>
-        /// <param name="prefab">Prefab to check</param>
-        /// <param name="workplaces">Number of workplaces to apply</param>
-        /// <returns>Calculated visitplaces</returns>
+        /// <param name="prefab">Prefab to check.</param>
+        /// <param name="workplaces">Number of workplaces to apply.</param>
+        /// <returns>Calculated visitplaces.</returns>
         internal static int CalculateVisitCount(BuildingInfo prefab, int workplaces)
         {
             // Get builidng info.
@@ -114,7 +164,7 @@ namespace Realistic_Population_Revisited.Code.Patches.Population
             int arrayIndex = GetIndex(subService);
 
             // New or old calculations?
-            if (comVisitModes[arrayIndex] == (int)ComVisitModes.popCalcs)
+            if (Modes[arrayIndex] == (int)ComVisitModes.PopCalcs)
             {
                 // New calcs.
                 return NewVisitCount(subService, prefab.GetClassLevel(), workplaces);
@@ -153,6 +203,7 @@ namespace Realistic_Population_Revisited.Code.Patches.Population
                             multiplier = 1.1f;
                             break;
                     }
+
                     break;
 
                 case ItemClass.SubService.CommercialHigh:
@@ -168,6 +219,7 @@ namespace Realistic_Population_Revisited.Code.Patches.Population
                             multiplier = 3.2f;
                             break;
                     }
+
                     break;
 
                 case ItemClass.SubService.CommercialLeisure:
@@ -182,7 +234,7 @@ namespace Realistic_Population_Revisited.Code.Patches.Population
             }
 
             // Multiply total workers by multipler and overall multiplier (from settings) to get result.
-            int result = (int)(workplaces * comVisitMults[GetIndex(subService)] * multiplier / 100f);
+            int result = (int)(workplaces * Mults[GetIndex(subService)] * multiplier / 100f);
 
             // Scale result - 100% of 0-200, 75% of 201-400, 50% of 401-600, 25% after that.
             int twoHundredPlus = result - 200;
@@ -233,60 +285,24 @@ namespace Realistic_Population_Revisited.Code.Patches.Population
         /// <returns>Calculated visitplace count.</returns>
         internal static int LegacyVisitCount(BuildingInfo prefab, ItemClass.Level level) => UnityEngine.Mathf.Max(200, prefab.GetWidth() * prefab.GetWidth() * LegacyAIUtils.GetCommercialArray(prefab, (int)level)[DataStore.VISIT]) / 100;
 
-
-        /// <summary>
-        /// Sets the visit mode for all commercial subservices to the specified mode.
-        /// </summary>
-        internal static int SetVisitModes
-        {
-            set
-            {
-                for (int i = 0; i < comVisitModes.Length; ++i)
-                {
-                    comVisitModes[i] = value;
-                }
-
-                // Clear visitplace cache.
-                PopData.instance.visitplaceCache.Clear();
-            }
-        }
-
-        /// <summary>
-        /// Sets the visit percentage multiplier for all commercial subservices to the specified mode.
-        /// </summary>
-        internal static int SetVisitMults
-        {
-            set
-            {
-                for (int i = 0; i < comVisitMults.Length; ++i)
-                {
-                    comVisitMults[i] = value;
-                }
-
-                // Clear visitplace cache.
-                PopData.instance.visitplaceCache.Clear();
-            }
-        }
-
         /// <summary>
         /// Gets the current commerical visit mode for the specified sub-service.
         /// </summary>
         /// <param name="subService">Sub-service.</param>
         /// <returns>Visit calculation mode.</returns>
-        internal static int GetVisitMode(ItemClass.SubService subService) => comVisitModes[GetIndex(subService)];
+        internal static int GetVisitMode(ItemClass.SubService subService) => Modes[GetIndex(subService)];
 
         /// <summary>
         /// Sets the current commerical visit mode for the specified sub-service.
         /// </summary>
         /// <param name="subService">Sub-service to set.</param>
         /// <param name="value">Value to set.</param>
-        /// <returns>Visit calculaiton mode.</returns>
         internal static void SetVisitMode(ItemClass.SubService subService, int value)
         {
-            comVisitModes[GetIndex(subService)] = value;
+            Modes[GetIndex(subService)] = value;
 
             // Clear visitplace cache.
-            PopData.instance.visitplaceCache.Clear();
+            PopData.Instance.ClearVisitplaceCache();
         }
 
         /// <summary>
@@ -294,7 +310,7 @@ namespace Realistic_Population_Revisited.Code.Patches.Population
         /// </summary>
         /// <param name="subService">Sub-service.</param>
         /// <returns>Visit multiplier.</returns>
-        internal static int GetVisitMult(ItemClass.SubService subService) => comVisitMults[GetIndex(subService)];
+        internal static int GetVisitMult(ItemClass.SubService subService) => Mults[GetIndex(subService)];
 
         /// <summary>
         /// Sets the current commerical visit multipier for the specified sub-service.
@@ -303,10 +319,10 @@ namespace Realistic_Population_Revisited.Code.Patches.Population
         /// <param name="value">Value to set.</param>
         internal static void SetVisitMult(ItemClass.SubService subService, int value)
         {
-            comVisitMults[GetIndex(subService)] = value;
+            Mults[GetIndex(subService)] = value;
 
             // Clear visitplace cache.
-            PopData.instance.visitplaceCache.Clear();
+            PopData.Instance.ClearVisitplaceCache();
         }
 
         /// <summary>
@@ -332,13 +348,13 @@ namespace Realistic_Population_Revisited.Code.Patches.Population
         {
             List<Configuration.SubServiceMode> entries = new List<Configuration.SubServiceMode>();
 
-            for (int i = 0; i < comVisitModes.Length; ++i)
+            for (int i = 0; i < Modes.Length; ++i)
             {
                 entries.Add(new Configuration.SubServiceMode
                 {
-                    SubService = subServices[i],
-                    Mode = comVisitModes[i],
-                    Multiplier = comVisitMults[i]
+                    SubService = SubServices[i],
+                    Mode = Modes[i],
+                    Multiplier = Mults[i],
                 });
             }
 
@@ -349,7 +365,6 @@ namespace Realistic_Population_Revisited.Code.Patches.Population
         /// Deserializes XML visitor mode entries.
         /// </summary>
         /// <param name="entries">List of visitor mode entries to deserialize.</param>
-        /// <returns>New list of visitor mode entries ready for serialization.</returns>
         internal static void DeserializeVisits(List<Configuration.SubServiceMode> entries)
         {
             foreach (Configuration.SubServiceMode entry in entries)

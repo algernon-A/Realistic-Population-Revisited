@@ -14,48 +14,70 @@ namespace RealPop2
     internal class SchDefaultsPanel : DefaultsPanelBase
     {
         // Service/subservice arrays.
-        private readonly string[] subServiceNames =
+        private readonly string[] _subServiceNames =
         {
-            Translations.Translate("RPR_CAT_SCH")
+            Translations.Translate("RPR_CAT_SCH"),
         };
 
-        private readonly ItemClass.Service[] services =
+        private readonly ItemClass.Service[] _services =
         {
-            ItemClass.Service.Education
+            ItemClass.Service.Education,
         };
 
-        private readonly ItemClass.SubService[] subServices =
+        private readonly ItemClass.SubService[] _subServices =
         {
-            ItemClass.SubService.None
+            ItemClass.SubService.None,
         };
 
-        private readonly string[] iconNames =
+        private readonly string[] _iconNames =
         {
-            "ToolbarIconEducation"
+            "ToolbarIconEducation",
         };
 
-        private readonly string[] atlasNames =
+        private readonly string[] _atlasNames =
         {
-            "Ingame"
+            "Ingame",
         };
-
-        protected override string[] SubServiceNames => subServiceNames;
-        protected override ItemClass.Service[] Services => services;
-        protected override ItemClass.SubService[] SubServices => subServices;
-        protected override string[] IconNames => iconNames;
-        protected override string[] AtlasNames => atlasNames;
-
-        // Title key.
-        protected override string TitleKey => "RPR_TIT_SDF";
 
         /// <summary>
-        /// Constructor.
+        /// Initializes a new instance of the <see cref="SchDefaultsPanel"/> class.
         /// </summary>
         /// <param name="tabStrip">Tab strip to add to.</param>
         /// <param name="tabIndex">Index number of tab.</param>
-        internal SchDefaultsPanel(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
+        internal SchDefaultsPanel(UITabstrip tabStrip, int tabIndex)
+            : base(tabStrip, tabIndex)
         {
         }
+
+        /// <summary>
+        /// Gets the array of sub-service display names for this tab.
+        /// </summary>
+        protected override string[] SubServiceNames => _subServiceNames;
+
+        /// <summary>
+        /// Gets the array of relevant building services for this tab.
+        /// </summary>
+        protected override ItemClass.Service[] Services => _services;
+
+        /// <summary>
+        /// Gets the array of relevant building sub-services for this tab.
+        /// </summary>
+        protected override ItemClass.SubService[] SubServices => _subServices;
+
+        /// <summary>
+        /// Gets the array of building type icon sprite names for this tab.
+        /// </summary>
+        protected override string[] IconNames => _iconNames;
+
+        /// <summary>
+        /// Gets the array of building type icon atlas names for this tab.
+        /// </summary>
+        protected override string[] AtlasNames => _atlasNames;
+
+        /// <summary>
+        /// Gets the tab title translation key for this tab.
+        /// </summary>
+        protected override string TitleKey => "RPR_TIT_SDF";
 
         /// <summary>
         /// Adds footer buttons to the panel.
@@ -66,7 +88,7 @@ namespace RealPop2
             base.FooterButtons(yPos);
 
             // Save button.
-            UIButton saveButton = AddSaveButton(panel, yPos);
+            UIButton saveButton = AddSaveButton(m_panel, yPos);
             saveButton.eventClicked += Apply;
         }
     }

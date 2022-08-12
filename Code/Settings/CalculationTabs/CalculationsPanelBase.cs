@@ -5,11 +5,10 @@
 
 namespace RealPop2
 {
-    using System;
     using AlgernonCommons.Translation;
     using AlgernonCommons.UI;
-    using ColossalFramework.UI;
     using ColossalFramework.Globalization;
+    using ColossalFramework.UI;
     using UnityEngine;
 
     /// <summary>
@@ -17,82 +16,140 @@ namespace RealPop2
     /// </summary>
     internal abstract class CalculationsPanelBase : OptionsPanelTab
     {
-        // Layout constants.
+        /// <summary>
+        /// Layout margin.
+        /// </summary>
         protected const float Margin = 5f;
-        protected float RowHeight = 25f;
-        protected const float LeftColumn = 200f;
-        protected const float ButtonWidth = 240f;
-        protected const float Button1X = Margin;
-        protected const float Button2X = Button1X + ButtonWidth + Margin;
-        protected const float Button3X = Button2X + ButtonWidth + Margin;
-
-        // Instance references.
-        internal static CalculationsPanelBase instance;
-
-        // Service/subservice arrays.
-        protected abstract string[] SubServiceNames { get; }
-        protected abstract ItemClass.Service[] Services { get; }
-        protected abstract ItemClass.SubService[] SubServices { get; }
-        protected abstract string[] IconNames { get; }
-        protected abstract string[] AtlasNames { get; }
-
-        // Tab settings.
-        protected virtual float TabWidth => 100f;
-        protected abstract string TabName { get; }
-        protected abstract string[] TabIconNames { get; }
-        protected abstract string[] TabAtlasNames { get; }
 
         /// <summary>
-        /// Constructor - adds default options tab to tabstrip.
+        /// Row Height.
+        /// </summary>
+        protected const float RowHeight = 25f;
+
+        /// <summary>
+        /// Left column relative X-position.
+        /// </summary>
+        protected const float LeftColumn = 200f;
+
+        /// <summary>
+        /// Footer button width.
+        /// </summary>
+        protected const float ButtonWidth = 240f;
+
+        /// <summary>
+        /// Footer button 1 relative X-position.
+        /// </summary>
+        protected const float Button1X = Margin;
+
+        /// <summary>
+        /// Footer button 2 relative X-position.
+        /// </summary>
+        protected const float Button2X = Button1X + ButtonWidth + Margin;
+
+        /// <summary>
+        /// Footer button 3 relative X-position.
+        /// </summary>
+        protected const float Button3X = Button2X + ButtonWidth + Margin;
+
+        // Instance reference.
+        private static CalculationsPanelBase s_instance;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CalculationsPanelBase"/> class.
         /// </summary>
         /// <param name="tabStrip">Tab strip to add to.</param>
         /// <param name="tabIndex">Index number of tab.</param>
         internal CalculationsPanelBase(UITabstrip tabStrip, int tabIndex)
         {
             // Add tab and helper.
-            panel = PanelUtils.AddIconTab(tabStrip, TabName, tabIndex, TabIconNames, TabAtlasNames, TabWidth);
+            m_panel = PanelUtils.AddIconTab(tabStrip, TabName, tabIndex, TabIconNames, TabAtlasNames, TabWidth);
 
             // Set instance.
-            instance = this;
+            s_instance = this;
 
             // Set tab object reference.
             tabStrip.tabs[tabIndex].objectUserData = this;
         }
-        
+
+        /// <summary>
+        /// Gets the tab width.
+        /// </summary>
+        protected virtual float TabWidth => 100f;
+
+        /// <summary>
+        /// Gets the tab name.
+        /// </summary>
+        protected abstract string TabName { get; }
+
+        /// <summary>
+        /// Gets the array of icon sprite names for this tab.
+        /// </summary>
+        protected abstract string[] TabIconNames { get; }
+
+        /// <summary>
+        /// Gets the array of icon atlas names for this tab.
+        /// </summary>
+        protected abstract string[] TabAtlasNames { get; }
+
+        /// <summary>
+        /// Gets the array of sub-service display names for this tab.
+        /// </summary>
+        protected abstract string[] SubServiceNames { get; }
+
+        /// <summary>
+        /// Gets the array of relevant building services for this tab.
+        /// </summary>
+        protected abstract ItemClass.Service[] Services { get; }
+
+        /// <summary>
+        /// Gets the array of relevant building sub-services for this tab.
+        /// </summary>
+        protected abstract ItemClass.SubService[] SubServices { get; }
+
+        /// <summary>
+        /// Gets the array of building type icon sprite names for this tab.
+        /// </summary>
+        protected abstract string[] IconNames { get; }
+
+        /// <summary>
+        /// Gets the array of building type icon atlas names for this tab.
+        /// </summary>
+        protected abstract string[] AtlasNames { get; }
+
         /// <summary>
         /// 'Revert to defaults' button event handler.
         /// </summary>
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="mouseEvent">Mouse event (unused)</param>
-        protected abstract void ResetDefaults(UIComponent control, UIMouseEventParameter mouseEvent);
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event parameter.</param>
+        protected abstract void ResetDefaults(UIComponent c, UIMouseEventParameter p);
 
         /// <summary>
         /// 'Revert to saved' button event handler.
         /// </summary>
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="mouseEvent">Mouse event (unused)</param>
-        protected abstract void ResetSaved(UIComponent control, UIMouseEventParameter mouseEvent);
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event parameter.</param>
+        protected abstract void ResetSaved(UIComponent c, UIMouseEventParameter p);
 
         /// <summary>
         /// Adds footer buttons to the panel.
         /// </summary>
-        /// <param name="yPos">Relative Y position for buttons</param>
+        /// <param name="yPos">Relative Y position for buttons.</param>
         protected virtual void FooterButtons(float yPos)
         {
             // Reset button.
-            UIButton resetButton = UIButtons.AddButton(panel, Button1X, yPos, Translations.Translate("RPR_OPT_RTD"), ButtonWidth);
+            UIButton resetButton = UIButtons.AddButton(m_panel, Button1X, yPos, Translations.Translate("RPR_OPT_RTD"), ButtonWidth);
             resetButton.eventClicked += ResetDefaults;
 
             // Revert button.
-            UIButton revertToSaveButton = UIButtons.AddButton(panel, Button2X, yPos, Translations.Translate("RPR_OPT_RTS"), ButtonWidth);
+            UIButton revertToSaveButton = UIButtons.AddButton(m_panel, Button2X, yPos, Translations.Translate("RPR_OPT_RTS"), ButtonWidth);
             revertToSaveButton.eventClicked += ResetSaved;
         }
 
         /// <summary>
         /// 'Save and apply' button.
         /// </summary>
-        /// <param name="parent">Parent UIComponent</param>
-        /// <param name="yPos">Relative Y position</param>
+        /// <param name="parent">Parent UIComponent.</param>
+        /// <param name="yPos">Relative Y position.</param>
         /// <returns>New UIButton.</returns>
         protected UIButton AddSaveButton(UIComponent parent, float yPos) => UIButtons.AddButton(parent, Button3X, yPos, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
 
@@ -185,15 +242,15 @@ namespace RealPop2
         {
             if (c?.parent?.Find<UILabel>("ValueLabel") is UILabel valueLabel)
             {
-                decimal decimalNumber = new Decimal(Mathf.RoundToInt(value));
-                valueLabel.text = "x"+ Decimal.Divide(decimalNumber, 100).ToString("0.00");
+                decimal decimalNumber = new decimal(Mathf.RoundToInt(value));
+                valueLabel.text = 'x' + decimal.Divide(decimalNumber, 100).ToString("0.00");
             }
         }
 
         /// <summary>
         /// Updates the displayed absolute value on a multiplier slider.
         /// </summary>
-        /// <param name="c">Calling component,</param>
+        /// <param name="c">Calling component.</param>
         /// <param name="value">New value.</param>
         protected void AbsSliderText(UIComponent c, float value)
         {

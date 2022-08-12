@@ -18,7 +18,7 @@ namespace RealPop2
         /// </summary>
         public static void Postfix()
         {
-            BuildingDetailsPanel.UpdateServicePanelButton();
+            BuildingDetailsPanelManager.UpdateServicePanelButton();
         }
     }
 }

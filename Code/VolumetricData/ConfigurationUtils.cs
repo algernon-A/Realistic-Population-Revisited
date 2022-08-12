@@ -11,20 +11,20 @@ namespace RealPop2
     using System.Linq;
     using System.Xml.Serialization;
     using AlgernonCommons;
-    using Realistic_Population_Revisited.Code.Patches.Population;
-    using Realistic_Population_Revisited.Code.Patches.Production;
 
     /// <summary>
     /// XML serialization/deserialization utilities class.
     /// </summary>
-    internal static class ConfigUtils
+    internal static class ConfigurationUtils
     {
         // Filename and location.
-        internal static readonly string ConfigFileName = "RealisticPopulationConfig.xml";
-        internal static readonly string UserDirPath = ColossalFramework.IO.DataLocation.localApplicationData;
+        private static readonly string ConfigFileName = "RealisticPopulationConfig.xml";
+        private static readonly string UserDirPath = ColossalFramework.IO.DataLocation.localApplicationData;
 
-        // Read flag.
-        internal static bool configRead = false;
+        /// <summary>
+        /// Gets a value indicating whether the configuration file has been read.
+        /// </summary>
+        internal static bool ConfigRead { get; private set; }
 
         /// <summary>
         /// Load settings from XML file.
@@ -64,49 +64,43 @@ namespace RealPop2
                         foreach (Configuration.PopPackXML xmlPack in configFile.PopPacks)
                         {
                             // Convert to volumetric pack.
-                            VolumetricPopPack volPack = new VolumetricPopPack()
+                            VolumetricPopPack volPack = new VolumetricPopPack(DataPack.DataVersion.CustomOne, xmlPack.Service)
                             {
-                                name = xmlPack.Name,
-                                service = xmlPack.Service,
-                                version = DataVersion.customOne,
-                                levels = new LevelData[xmlPack.CalculationLevels.Count]
+                                Name = xmlPack.Name,
                             };
 
                             // Iterate through each level in the xml and add to our volumetric pack.
                             foreach (Configuration.PopLevel calculationLevel in xmlPack.CalculationLevels)
                             {
-                                volPack.levels[calculationLevel.Level] = new LevelData()
+                                volPack.Levels[calculationLevel.Level] = new VolumetricPopPack.LevelData()
                                 {
-                                    //floorHeight = calculationLevel.floorHeight,
-                                    emptyArea = calculationLevel.EmptyArea,
-                                    emptyPercent = calculationLevel.EmptyPercent,
-                                    areaPer = calculationLevel.AreaPer,
-                                    multiFloorUnits = calculationLevel.MultiLevel
+                                    EmptyArea = calculationLevel.EmptyArea,
+                                    EmptyPercent = calculationLevel.EmptyPercent,
+                                    AreaPer = calculationLevel.AreaPer,
+                                    MultiFloorUnits = calculationLevel.MultiLevel,
                                 };
                             }
 
                             // Add new pack to our dictionary.
-                            PopData.instance.AddCalculationPack(volPack);
+                            PopData.Instance.AddCalculationPack(volPack);
                         }
 
                         // Deserialise floor calculation packs.
                         foreach (Configuration.FloorPackXML xmlPack in configFile.FloorPacks)
                         {
                             // Convert to floor pack.
-                            FloorDataPack floorPack = new FloorDataPack()
+                            FloorDataPack floorPack = new FloorDataPack(DataPack.DataVersion.CustomOne)
                             {
-                                name = xmlPack.Name,
-                                version = DataVersion.customOne,
-                                floorHeight = xmlPack.FloorHeight,
-                                firstFloorMin = xmlPack.FirstMin,
-                                firstFloorExtra = xmlPack.FirstExtra,
-                                firstFloorEmpty = xmlPack.FirstEmpty
+                                Name = xmlPack.Name,
+                                m_floorHeight = xmlPack.FloorHeight,
+                                m_firstFloorMin = xmlPack.FirstMin,
+                                m_firstFloorExtra = xmlPack.FirstExtra,
+                                m_firstFloorEmpty = xmlPack.FirstEmpty,
                             };
 
                             // Add new pack to our dictionary.
-                            FloorData.instance.AddCalculationPack(floorPack);
+                            FloorData.Instance.AddCalculationPack(floorPack);
                         }
-
 
                         // Deserialise consumption records.
                         DataMapping mapper = new DataMapping();
@@ -131,25 +125,25 @@ namespace RealPop2
                         }
 
                         // Deserialise default pack lists.
-                        PopData.instance.DeserializeDefaults(configFile.PopDefaults);
-                        FloorData.instance.DeserializeDefaults(configFile.FloorDefaults);
+                        PopData.Instance.DeserializeDefaults(configFile.PopDefaults);
+                        FloorData.Instance.DeserializeDefaults(configFile.FloorDefaults);
 
                         // Deserialise building pack lists.
-                        PopData.instance.DeserializeBuildings(configFile.Buildings);
-                        FloorData.instance.DeserializeBuildings(configFile.Buildings);
-                        SchoolData.instance.DeserializeBuildings(configFile.Buildings);
-                        Multipliers.instance.DeserializeBuildings(configFile.Buildings);
+                        PopData.Instance.DeserializeBuildings(configFile.Buildings);
+                        FloorData.Instance.DeserializeBuildings(configFile.Buildings);
+                        SchoolData.Instance.DeserializeBuildings(configFile.Buildings);
+                        Multipliers.Instance.DeserializeBuildings(configFile.Buildings);
 
                         // Deserialise building population overrides.
-                        PopData.instance.DeserializeOverrides(configFile.PopOverrides);
+                        PopData.Instance.DeserializeOverrides(configFile.PopOverrides);
 
                         // Deserialize floor overrides.
                         foreach (Configuration.FloorCalcOverride floorOverride in configFile.Floors)
                         {
-                            FloorData.instance.SetOverride(floorOverride.Prefab, new FloorDataPack
+                            FloorData.Instance.SetOverride(floorOverride.Prefab, new FloorDataPack(DataPack.DataVersion.OverrideOne)
                             {
-                                firstFloorMin = floorOverride.FirstHeight,
-                                floorHeight = floorOverride.FloorHeight
+                                m_firstFloorMin = floorOverride.FirstHeight,
+                                m_floorHeight = floorOverride.FloorHeight,
                             });
                         }
 
@@ -171,8 +165,8 @@ namespace RealPop2
                     }
                 }
 
-                // Set status flag.
-                configRead = true;
+                // Record configuation as being read.
+                ConfigRead = true;
             }
             catch (Exception e)
             {
@@ -194,36 +188,36 @@ namespace RealPop2
                     Configuration configFile = new Configuration
                     {
                         // Serialise custom packs.
-                        PopPacks = new List<Configuration.PopPackXML>()
+                        PopPacks = new List<Configuration.PopPackXML>(),
                     };
 
                     // Iterate through all calculation packs in our dictionary.
-                    foreach (PopDataPack calcPack in PopData.instance.calcPacks)
+                    foreach (PopDataPack calcPack in PopData.Instance.CalcPacks)
                     {
                         // Look for volumetric packs.
                         if (calcPack is VolumetricPopPack volPack)
                         {
                             // Look for packs marked as custom.
-                            if (volPack.version == DataVersion.customOne)
+                            if (volPack.Version == DataPack.DataVersion.CustomOne)
                             {
                                 // Found one - serialise it.
                                 Configuration.PopPackXML xmlPack = new Configuration.PopPackXML()
                                 {
-                                    Name = volPack.name,
-                                    Service = volPack.service,
-                                    CalculationLevels = new List<Configuration.PopLevel>()
+                                    Name = volPack.Name,
+                                    Service = volPack.Service,
+                                    CalculationLevels = new List<Configuration.PopLevel>(),
                                 };
 
                                 // Iterate through each level and add it to our serialisation.
-                                for (int i = 0; i < volPack.levels.Length; ++i)
+                                for (int i = 0; i < volPack.Levels.Length; ++i)
                                 {
                                     Configuration.PopLevel xmlLevel = new Configuration.PopLevel()
                                     {
                                         Level = i,
-                                        EmptyArea = volPack.levels[i].emptyArea,
-                                        EmptyPercent = volPack.levels[i].emptyPercent,
-                                        AreaPer = volPack.levels[i].areaPer,
-                                        MultiLevel = volPack.levels[i].multiFloorUnits
+                                        EmptyArea = volPack.Levels[i].EmptyArea,
+                                        EmptyPercent = volPack.Levels[i].EmptyPercent,
+                                        AreaPer = volPack.Levels[i].AreaPer,
+                                        MultiLevel = volPack.Levels[i].MultiFloorUnits,
                                     };
 
                                     xmlPack.CalculationLevels.Add(xmlLevel);
@@ -240,22 +234,22 @@ namespace RealPop2
                     configFile.FloorPacks = new List<Configuration.FloorPackXML>();
 
                     // Iterate through all calculation packs in our dictionary.
-                    foreach (DataPack calcPack in FloorData.instance.calcPacks)
+                    foreach (DataPack calcPack in FloorData.Instance.CalcPacks)
                     {
                         // Look for volumetric packs.
                         if (calcPack is FloorDataPack floorPack)
                         {
                             // Look for packs marked as custom.
-                            if (floorPack.version == DataVersion.customOne)
+                            if (floorPack.Version == DataPack.DataVersion.CustomOne)
                             {
                                 // Found one - serialise it.
                                 Configuration.FloorPackXML xmlPack = new Configuration.FloorPackXML()
                                 {
-                                    Name = floorPack.name,
-                                    FloorHeight = floorPack.floorHeight,
-                                    FirstMin = floorPack.firstFloorMin,
-                                    FirstExtra = floorPack.firstFloorExtra,
-                                    FirstEmpty = floorPack.firstFloorEmpty
+                                    Name = floorPack.Name,
+                                    FloorHeight = floorPack.m_floorHeight,
+                                    FirstMin = floorPack.m_firstFloorMin,
+                                    FirstExtra = floorPack.m_firstFloorExtra,
+                                    FirstEmpty = floorPack.m_firstFloorEmpty,
                                 };
 
                                 // Add to file.
@@ -268,30 +262,21 @@ namespace RealPop2
                     configFile.Consumption = GetConsumptionRecords();
 
                     // Serialise default dictionaries.
-                    configFile.PopDefaults = PopData.instance.SerializeDefaults();
-                    configFile.FloorDefaults = FloorData.instance.SerializeDefaults();
+                    configFile.PopDefaults = PopData.Instance.SerializeDefaults();
+                    configFile.FloorDefaults = FloorData.Instance.SerializeDefaults();
 
                     // Serialise building pack dictionaries, in order.
-                    SortedList<string, Configuration.BuildingRecord> buildingList = PopData.instance.SerializeBuildings();
-                    buildingList = FloorData.instance.SerializeBuildings(buildingList);
-                    buildingList = SchoolData.instance.SerializeBuildings(buildingList);
-                    buildingList = Multipliers.instance.SerializeBuildings(buildingList);
+                    SortedList<string, Configuration.BuildingRecord> buildingList = PopData.Instance.SerializeBuildings();
+                    buildingList = FloorData.Instance.SerializeBuildings(buildingList);
+                    buildingList = SchoolData.Instance.SerializeBuildings(buildingList);
+                    buildingList = Multipliers.Instance.SerializeBuildings(buildingList);
                     configFile.Buildings = buildingList.Values.ToList();
 
                     // Serialise building population overrides.
-                    configFile.PopOverrides = PopData.instance.SerializeOverrides();
+                    configFile.PopOverrides = PopData.Instance.SerializeOverrides();
 
                     // Serialise floor overrides.
-                    configFile.Floors = new List<Configuration.FloorCalcOverride>();
-                    foreach (KeyValuePair<string, FloorDataPack> floorOverride in FloorData.instance.overrides)
-                    {
-                        configFile.Floors.Add(new Configuration.FloorCalcOverride
-                        {
-                            Prefab = floorOverride.Key,
-                            FirstHeight = floorOverride.Value.firstFloorMin,
-                            FloorHeight = floorOverride.Value.floorHeight
-                        });
-                    }
+                    configFile.Floors = FloorData.Instance.SerializeOverrides();
 
                     // Serialise visit modes.
                     configFile.VisitorModes = Visitors.SerializeVisits();
@@ -331,19 +316,18 @@ namespace RealPop2
         /// <returns>New list of consumption records.</returns>
         private static List<Configuration.ConsumptionRecord> GetConsumptionRecords()
         {
-            List<Configuration.ConsumptionRecord> list = new List<Configuration.ConsumptionRecord>(DataMapping.numData);
+            List<Configuration.ConsumptionRecord> list = new List<Configuration.ConsumptionRecord>(DataMapping.NumData);
             DataMapping mapper = new DataMapping();
 
-
             // Iterate through each data structure.
-            for (int i = 0; i < DataMapping.numData; ++i)
+            for (int i = 0; i < DataMapping.NumData; ++i)
             {
                 // Create new consumption record with relevant data and add it to our list.
                 Configuration.ConsumptionRecord newRecord = new Configuration.ConsumptionRecord()
                 {
-                    Service = mapper.services[i],
-                    SubService = mapper.subServices[i],
-                    Levels = SerializeConsumption(mapper.dataArrays[i])
+                    Service = mapper.Services[i],
+                    SubService = mapper.SubServices[i],
+                    Levels = SerializeConsumption(mapper.DataArrays[i]),
                 };
                 list.Add(newRecord);
             }

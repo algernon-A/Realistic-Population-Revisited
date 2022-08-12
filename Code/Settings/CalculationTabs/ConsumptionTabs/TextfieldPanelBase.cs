@@ -12,41 +12,132 @@ namespace RealPop2
     /// <summary>
     /// Base class for options panel textfield-based (sub-)tabs.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "Protected fields")]
     internal abstract class TextfieldPanelBase : OptionsPanelTab
     {
-        // Layout constants.
+        /// <summary>
+        /// Layout margin.
+        /// </summary>
         protected const float Margin = 5f;
+
+        /// <summary>
+        /// Panel title height.
+        /// </summary>
         protected const float TitleHeight = 60f;
+
+        /// <summary>
+        /// Row height.
+        /// </summary>
         protected const float RowHeight = 23f;
-        protected const float LeftItem = 75f;
+
+        /// <summary>
+        /// Left column relative X-position.
+        /// </summary>
         protected const float Column1 = 180f;
+
+        /// <summary>
+        /// Footer button width.
+        /// </summary>
         protected const float ButtonWidth = 230f;
+
+        /// <summary>
+        /// Footer button 1 relative X-position.
+        /// </summary>
         protected const float Button1X = Margin;
+
+        /// <summary>
+        /// Footer button 2 relative X-position.
+        /// </summary>
         protected const float Button2X = Button1X + ButtonWidth + (Margin * 2f);
+
+        /// <summary>
+        /// Footer button 3 relative X-position.
+        /// </summary>
         protected const float Button3X = Button2X + ButtonWidth + (Margin * 2f);
 
-        // Textfield arrays.
-        protected UITextField[][] powerFields;
-        protected UITextField[][] waterFields;
-        protected UITextField[][] sewageFields;
-        protected UITextField[][] garbageFields;
-        protected UITextField[][] incomeFields;
+        /// <summary>
+        /// Array of power consumption textfields.
+        /// </summary>
+        protected UITextField[][] m_powerFields;
 
-        // Column tooltips.
-        protected string powerLabel;
-        protected string waterLabel;
-        protected string sewageLabel;
-        protected string garbageLabel;
-        protected string wealthLabel;
+        /// <summary>
+        /// Array of water consumption textfields.
+        /// </summary>
+        protected UITextField[][] m_waterFields;
 
-        // Reference variables.
-        protected float currentY = TitleHeight;
-        protected bool notResidential = true;
+        /// <summary>
+        /// Array of sewage production textfields.
+        /// </summary>
+        protected UITextField[][] m_sewageFields;
 
-        // Event handlers for button events.
-        protected virtual void PopulateFields() { }
-        protected virtual void ApplyFields() { }
-        protected virtual void ResetToDefaults() { }
+        /// <summary>
+        /// Array of garbage production textfields.
+        /// </summary>
+        protected UITextField[][] m_garbageFields;
+
+        /// <summary>
+        /// Array of income generation textfields.
+        /// </summary>
+        protected UITextField[][] m_incomeFields;
+
+        /// <summary>
+        /// Power consumption label tooltip.
+        /// </summary>
+        protected string m_powerLabel;
+
+        /// <summary>
+        /// Water consumption label tooltip.
+        /// </summary>
+        protected string m_waterLabel;
+
+        /// <summary>
+        /// Sewage production label tooltip.
+        /// </summary>
+        protected string m_sewageLabel;
+
+        /// <summary>
+        /// Garbage production label tooltip.
+        /// </summary>
+        protected string m_garbageLabel;
+
+        /// <summary>
+        /// Income generation label tooltip.
+        /// </summary>
+        protected string m_incomeLabel;
+
+        /// <summary>
+        /// Layout current Y-position indicator.
+        /// </summary>
+        protected float m_currentY = TitleHeight;
+
+        /// <summary>
+        /// Indicates whether or not this panel is displaying values for residential buildings.
+        /// </summary>
+        protected bool m_notResidential = true;
+
+        // Layout constants - private.
+        private const float LeftItem = 75f;
+
+        /// <summary>
+        /// Event handler for button events - populate fields with values.
+        /// </summary>
+        protected virtual void PopulateFields()
+        {
+        }
+
+        /// <summary>
+        /// Event handler for button events - apply field values.
+        /// </summary>
+        protected virtual void ApplyFields()
+        {
+        }
+
+        /// <summary>
+        /// Event handler for button events - reset fields to defaults.
+        /// </summary>
+        protected virtual void ResetToDefaults()
+        {
+        }
 
         /// <summary>
         /// Adds a column header icon label.
@@ -91,13 +182,16 @@ namespace RealPop2
 
             // X position: by default it's LeftItem, but we move it further left if the label is too long to fit (e.g. long translation strings).
             float xPos = Mathf.Min(LeftItem, (Column1 - Margin) - lineLabel.width);
+
             // But never further left than the edge of the screen.
             if (xPos < 0)
             {
                 xPos = LeftItem;
+
                 // Too long to fit in the given space, so we'll let this wrap across and just move the textfields down an extra line.
-                currentY += RowHeight;
+                m_currentY += RowHeight;
             }
+
             lineLabel.relativePosition = new Vector2(xPos, yPos + 2);
         }
 
@@ -109,6 +203,7 @@ namespace RealPop2
         /// <param name="posX">Relative X postion.</param>
         /// <param name="posY">Relative Y position.</param>
         /// <param name="tooltip">Tooltip, if any.</param>
+        /// <returns>New input textfield.</returns>
         protected UITextField AddTextField(UIPanel panel, float width, float posX, float posY, string tooltip = null)
         {
             UITextField textField = UITextFields.AddSmallTextField(panel, posX, posY, width);

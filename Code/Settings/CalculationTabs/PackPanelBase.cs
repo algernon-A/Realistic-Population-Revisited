@@ -14,67 +14,102 @@ namespace RealPop2
     /// <summary>
     /// Options panel for creating and editing calculation packs.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "Protected fields")]
     internal abstract class PackPanelBase : OptionsPanelTab
     {
-        // Constants.
+        /// <summary>
+        /// Layout margin.
+        /// </summary>
         protected const float Margin = 5f;
+
+        /// <summary>
+        /// Texfield width.
+        /// </summary>
         protected const float TextFieldWidth = 85f;
+
+        /// <summary>
+        /// Column width.
+        /// </summary>
         protected const float ColumnWidth = TextFieldWidth + (Margin * 2);
-        protected const float LeftItem = 75f;
+
+        /// <summary>
+        /// First item relative X-position.
+        /// </summary>
         protected const float FirstItem = 110f;
+
+        /// <summary>
+        /// First item relative X-position.
+        /// </summary>
         protected const float RowHeight = 27f;
-        protected const float MeasurementLabelY = -20f;
+
+        /// <summary>
+        /// Pack selection dropdown.
+        /// </summary>
+        protected UIDropDown m_packDropDown;
+
+        /// <summary>
+        /// List of calculation packs.
+        /// </summary>
+        protected List<DataPack> m_packList;
+
+        // Layout constants - private.
+        private const float LeftItem = 75f;
 
         // Panel components.
-        protected UIDropDown packDropDown;
-        private UIButton saveButton, deleteButton;
-
-        // List of packs.
-        protected List<DataPack> packList;
-
-        // Tab sprite name and tooltip key.
-        protected abstract string TabSprite { get; }
-        protected abstract string TabTooltipKey { get; }
-
-        // Pack name field.
-        protected UITextField PackNameField { get; private set; }
+        private UIButton _saveButton;
+        private UIButton _deleteButton;
 
         /// <summary>
-        /// 'Add new pack' button event handler.
+        /// Initializes a new instance of the <see cref="PackPanelBase"/> class.
         /// </summary>
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="mouseEvent">Mouse event (unused)</param>
-        protected abstract void AddPack(UIComponent control, UIMouseEventParameter mouseEvent);
-
-        /// <summary>
-        /// 'Delete pack' button event handler.
-        /// </summary>
-        /// <param name="control">Calling component (unused)</param>
-        /// <param name="mouseEvent">Mouse event (unused)</param>
-        protected abstract void DeletePack(UIComponent control, UIMouseEventParameter mouseEvent);
-
-        /// <summary>
-        /// Updates the given calculation pack with data from the panel.
-        /// </summary>
-        /// <param name="pack">Pack to update</param>
-        protected abstract void UpdatePack(DataPack pack);
-
-        /// <summary>
-        /// Constructor - adds editing options tab to tabstrip.
-        /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
+        /// <param name="tabStrip">Tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
         internal PackPanelBase(UITabstrip tabStrip, int tabIndex)
         {
             // Layout constants.
             const float TabWidth = 50f;
 
             // Add tab and helper.
-            panel = PanelUtils.AddIconTab(tabStrip, Translations.Translate(TabTooltipKey), tabIndex, new string[] { TabSprite }, new string[] { "ingame" }, TabWidth);
+            m_panel = PanelUtils.AddIconTab(tabStrip, Translations.Translate(TabTooltipKey), tabIndex, new string[] { TabSprite }, new string[] { "ingame" }, TabWidth);
 
             // Set tab object reference.
             tabStrip.tabs[tabIndex].objectUserData = this;
         }
+
+        /// <summary>
+        /// Gets the icon sprite name for this tab.
+        /// </summary>
+        protected abstract string TabSprite { get; }
+
+        /// <summary>
+        /// Gets the tooltip translation key for this tab.
+        /// </summary>
+        protected abstract string TabTooltipKey { get; }
+
+        /// <summary>
+        /// Gets the pack name field for this tab.
+        /// </summary>
+        protected UITextField PackNameField { get; private set; }
+
+        /// <summary>
+        /// 'Add new pack' button event handler.
+        /// </summary>
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event parameter.</param>
+        protected abstract void AddPack(UIComponent c, UIMouseEventParameter p);
+
+        /// <summary>
+        /// 'Delete pack' button event handler.
+        /// </summary>
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event parameter.</param>
+        protected abstract void DeletePack(UIComponent c, UIMouseEventParameter p);
+
+        /// <summary>
+        /// Updates the given calculation pack with data from the panel.
+        /// </summary>
+        /// <param name="pack">Pack to update.</param>
+        protected abstract void UpdatePack(DataPack pack);
 
         /// <summary>
         /// Adds panel footer controls (pack name textfield and buttons).
@@ -86,7 +121,7 @@ namespace RealPop2
             float currentY = yPos + RowHeight;
 
             // Pack name textfield.
-            PackNameField = UITextFields.AddBigTextField(panel, 200f, currentY);
+            PackNameField = UITextFields.AddBigTextField(m_panel, 200f, currentY);
             UILabel packNameLabel = UILabels.AddLabel(PackNameField, -100f, (PackNameField.height - 18f) / 2, Translations.Translate("RPR_OPT_EDT_NAM"));
 
             // Adjsut pack name textfield position to accomodate longer translation strings.
@@ -102,16 +137,16 @@ namespace RealPop2
             currentY += 50f;
 
             // 'Add new' button.
-            UIButton addNewButton = UIButtons.AddButton(panel, 20f, currentY, Translations.Translate("RPR_OPT_NEW"));
+            UIButton addNewButton = UIButtons.AddButton(m_panel, 20f, currentY, Translations.Translate("RPR_OPT_NEW"));
             addNewButton.eventClicked += AddPack;
 
             // Save pack button.
-            saveButton = UIButtons.AddButton(panel, 250f, currentY, Translations.Translate("RPR_OPT_SAA"));
-            saveButton.eventClicked += Save;
+            _saveButton = UIButtons.AddButton(m_panel, 250f, currentY, Translations.Translate("RPR_OPT_SAA"));
+            _saveButton.eventClicked += Save;
 
             // Delete pack button.
-            deleteButton = UIButtons.AddButton(panel, 480f, currentY, Translations.Translate("RPR_OPT_DEL"));
-            deleteButton.eventClicked += DeletePack;
+            _deleteButton = UIButtons.AddButton(m_panel, 480f, currentY, Translations.Translate("RPR_OPT_DEL"));
+            _deleteButton.eventClicked += DeletePack;
         }
 
         /// <summary>
@@ -121,15 +156,15 @@ namespace RealPop2
         protected void ButtonStates(int index)
         {
             // Enable save and delete buttons and name textfield if this is a custom pack, otherwise disable.
-            if (packList[index].version == DataVersion.customOne)
+            if (m_packList[index].Version == DataPack.DataVersion.CustomOne)
             {
-                saveButton.Enable();
-                deleteButton.Enable();
+                _saveButton.Enable();
+                _deleteButton.Enable();
             }
             else
             {
-                saveButton.Disable();
-                deleteButton.Disable();
+                _saveButton.Disable();
+                _deleteButton.Disable();
             }
         }
 
@@ -139,6 +174,7 @@ namespace RealPop2
         /// <param name="panel">UI panel instance.</param>
         /// <param name="yPos">Reference Y position.</param>
         /// <param name="text">Label text.</param>
+        /// <returns>New row label.</returns>
         protected UILabel RowLabel(UIPanel panel, float yPos, string text)
         {
             // Text label.
@@ -149,37 +185,39 @@ namespace RealPop2
 
             // X position: by default it's LeftItem, but we move it further left if the label is too long to fit (e.g. long translation strings).
             float xPos = Mathf.Min(LeftItem, (FirstItem - Margin) - lineLabel.width);
+
             // But never further left than the edge of the screen.
             if (xPos < 0)
             {
                 xPos = LeftItem;
             }
+
             lineLabel.relativePosition = new Vector2(xPos, yPos + 2);
 
             return lineLabel;
         }
-        
+
         /// <summary>
         /// Save button event handler.
-        /// <param name="c">Calling component (unused.)</param>
-        /// <param name="p">Mouse event (unused).</param>
         /// </summary>
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event parameter.</param>
         protected virtual void Save(UIComponent c, UIMouseEventParameter p)
         {
             // Update currently selected pack with information from the panel.
-            UpdatePack(packList[packDropDown.selectedIndex]);
+            UpdatePack(m_packList[m_packDropDown.selectedIndex]);
 
             // Update selected menu item in case the name has changed.
-            packDropDown.items[packDropDown.selectedIndex] = packList[packDropDown.selectedIndex].DisplayName;
+            m_packDropDown.items[m_packDropDown.selectedIndex] = m_packList[m_packDropDown.selectedIndex].DisplayName;
 
             // Update defaults panel menus.
             CalculationsPanel.Instance.UpdateDefaultMenus();
 
             // Save configuration file.
-            ConfigUtils.SaveSettings();
+            ConfigurationUtils.SaveSettings();
 
             // Apply update.
-            FloorData.instance.CalcPackChanged(packList[packDropDown.selectedIndex]);
+            FloorData.Instance.CalcPackChanged(m_packList[m_packDropDown.selectedIndex]);
         }
     }
 }

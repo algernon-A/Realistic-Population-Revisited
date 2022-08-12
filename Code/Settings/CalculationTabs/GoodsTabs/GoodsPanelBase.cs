@@ -14,40 +14,61 @@ namespace RealPop2
     /// </summary>
     internal abstract class GoodsPanelBase : CalculationsPanelBase
     {
-        // Layout constants.
+        /// <summary>
+        /// Control width.
+        /// </summary>
         protected const float ControlWidth = 250f;
+
+        /// <summary>
+        /// Right column relative X-position.
+        /// </summary>
         protected const float RightColumn = LeftColumn + ControlWidth + (Margin * 2f);
 
         // Tab icons.
-        private readonly string[] tabIconNames =
+        private readonly string[] _tabIconNames =
         {
-            "IconPolicyAutomatedSorting"
+            "IconPolicyAutomatedSorting",
         };
 
-        private readonly string[] tabAtlasNames =
+        private readonly string[] _tabAtlasNames =
         {
-            "Ingame"
+            "Ingame",
         };
-
-        // Tab settings.
-        protected override string TabName => Translations.Translate(TitleKey);
-        protected override string[] TabIconNames => tabIconNames;
-        protected override string[] TabAtlasNames => tabAtlasNames;
-
-        // Tab width.
-        protected override float TabWidth => 40f;
-
-        // Title key.
-        protected abstract string TitleKey { get; }
 
         /// <summary>
-        /// Constructor - adds default options tab to tabstrip.
+        /// Initializes a new instance of the <see cref="GoodsPanelBase"/> class.
         /// </summary>
         /// <param name="tabStrip">Tab strip to add to.</param>
         /// <param name="tabIndex">Index number of tab.</param>
-        internal GoodsPanelBase(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
+        internal GoodsPanelBase(UITabstrip tabStrip, int tabIndex)
+            : base(tabStrip, tabIndex)
         {
         }
+
+        /// <summary>
+        /// Gets the tab width.
+        /// </summary>
+        protected override float TabWidth => 40f;
+
+        /// <summary>
+        /// Gets the tab name.
+        /// </summary>
+        protected override string TabName => Translations.Translate(TitleKey);
+
+        /// <summary>
+        /// Gets the array of icon sprite names for this tab.
+        /// </summary>
+        protected override string[] TabIconNames => _tabIconNames;
+
+        /// <summary>
+        /// Gets the array of icon atlas names for this tab.
+        /// </summary>
+        protected override string[] TabAtlasNames => _tabAtlasNames;
+
+        /// <summary>
+        /// Gets the tab's tile translation key.
+        /// </summary>
+        protected abstract string TitleKey { get; }
 
         /// <summary>
         /// Performs initial setup; called via event when tab is first selected.
@@ -55,17 +76,17 @@ namespace RealPop2
         internal override void Setup()
         {
             // Don't do anything if already set up.
-            if (!isSetup)
+            if (!m_isSetup)
             {
                 // Perform initial setup.
-                isSetup = true;
+                m_isSetup = true;
                 Logging.Message("setting up ", this.GetType());
 
                 // Add title.
-                float currentY = PanelUtils.TitleLabel(panel, TitleKey);
+                float currentY = PanelUtils.TitleLabel(m_panel, TitleKey);
 
                 // Add menus.
-                currentY = SetUpMenus(panel, currentY);
+                currentY = SetUpMenus(m_panel, currentY);
 
                 // Add buttons- add extra space.
                 FooterButtons(currentY + Margin);
@@ -88,7 +109,7 @@ namespace RealPop2
             base.FooterButtons(yPos);
 
             // Save button.
-            UIButton saveButton = AddSaveButton(panel, yPos);
+            UIButton saveButton = AddSaveButton(m_panel, yPos);
             saveButton.eventClicked += Apply;
         }
 
@@ -106,12 +127,12 @@ namespace RealPop2
         /// <summary>
         /// 'Save and apply' button event handler.
         /// </summary>
-        /// <param name="c">Calling component (unused).</param>
-        /// <param name="p">Mouse event (unused).</param>
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event parameter).</param>
         protected virtual void Apply(UIComponent c, UIMouseEventParameter p)
         {
             // Save settings.
-            ConfigUtils.SaveSettings();
+            ConfigurationUtils.SaveSettings();
         }
 
         /// <summary>

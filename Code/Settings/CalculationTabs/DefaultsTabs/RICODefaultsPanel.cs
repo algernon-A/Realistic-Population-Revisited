@@ -15,21 +15,30 @@ namespace RealPop2
     /// </summary>
     internal abstract class RICODefaultsPanel : DefaultsPanelBase
     {
-        // Default mode links.
-        protected abstract DefaultMode NewDefaultMode { get; set; }
-        protected abstract DefaultMode ThisDefaultMode { get; set; }
-
-        // Translation key for legacy settings label.
-        protected abstract string DefaultModeLabel { get; }
-
         /// <summary>
-        /// Constructor - adds default options tab to tabstrip.
+        /// Initializes a new instance of the <see cref="RICODefaultsPanel"/> class.
         /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
-        internal RICODefaultsPanel(UITabstrip tabStrip, int tabIndex) :  base(tabStrip, tabIndex)
+        /// <param name="tabStrip">Tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
+        internal RICODefaultsPanel(UITabstrip tabStrip, int tabIndex)
+            : base(tabStrip, tabIndex)
         {
         }
+
+        /// <summary>
+        /// Gets or sets the default calculation mode for new saves for this tab.
+        /// </summary>
+        protected abstract DefaultMode NewDefaultMode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the default calculation mode for this save for this tab.
+        /// </summary>
+        protected abstract DefaultMode ThisDefaultMode { get; set; }
+
+        /// <summary>
+        /// Gets the translation key for the legacy settings label for this tab.
+        /// </summary>
+        protected abstract string DefaultModeLabel { get; }
 
         /// <summary>
         /// Adds header controls to the panel.
@@ -44,7 +53,7 @@ namespace RealPop2
             // Add 'Use legacy by default' header.
 
             // Label.
-            UILabel legacyLabel = UILabels.AddLabel(panel, Margin, currentY, Translations.Translate(DefaultModeLabel), panel.width - Margin, textScale: 0.9f);
+            UILabel legacyLabel = UILabels.AddLabel(m_panel, Margin, currentY, Translations.Translate(DefaultModeLabel), m_panel.width - Margin, textScale: 0.9f);
             currentY += legacyLabel.height + 5f;
 
             // Mode dropdown items.
@@ -52,10 +61,10 @@ namespace RealPop2
             {
                 "New",
                 "Vanilla",
-                "Legacy"
+                "Legacy",
             };
-            
-            UIDropDown thisSaveModeDrop = UIDropDowns.AddLabelledDropDown(panel, Margin * 2, currentY, Translations.Translate("RPR_DEF_LTS"));
+
+            UIDropDown thisSaveModeDrop = UIDropDowns.AddLabelledDropDown(m_panel, Margin * 2, currentY, Translations.Translate("RPR_DEF_LTS"));
             thisSaveModeDrop.items = modeMenuItems;
             thisSaveModeDrop.selectedIndex = (int)ThisDefaultMode;
             thisSaveModeDrop.eventSelectedIndexChanged += (control, index) =>
@@ -65,7 +74,7 @@ namespace RealPop2
             };
             currentY += 30f;
 
-            UIDropDown newSaveModeDrop = UIDropDowns.AddLabelledDropDown(panel, Margin * 2, currentY, Translations.Translate("RPR_DEF_LAS"));
+            UIDropDown newSaveModeDrop = UIDropDowns.AddLabelledDropDown(m_panel, Margin * 2, currentY, Translations.Translate("RPR_DEF_LAS"));
             newSaveModeDrop.items = modeMenuItems;
             newSaveModeDrop.selectedIndex = (int)NewDefaultMode;
             newSaveModeDrop.eventSelectedIndexChanged += (control, index) =>
@@ -87,7 +96,7 @@ namespace RealPop2
 
             // Spacer bar.
             currentY += 35f;
-            UISpacers.AddOptionsSpacer(panel, Margin, currentY, panel.width - (Margin * 2f));
+            UISpacers.AddOptionsSpacer(m_panel, Margin, currentY, m_panel.width - (Margin * 2f));
 
             return currentY + 10f;
         }

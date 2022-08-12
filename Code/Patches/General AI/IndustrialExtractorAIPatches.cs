@@ -13,21 +13,22 @@ namespace RealPop2
     /// Harmony patches to IndustrialExtractorAI to implement consumption and pollution changes for industrial buildings.
     /// </summary>
     [HarmonyPatch(typeof(IndustrialExtractorAI))]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
     public static class IndustrialExtractorAIPatches
     {
         /// <summary>
         /// Pre-emptive Harmony Prefix patch for IndustrialExtractorAI.GetConsumptionRates, to implement the mod's consumption calculations.
         /// </summary>
-        /// <param name="__instance">AI instance reference</param>
-        /// <param name="r">Randomizer</param>
-        /// <param name="productionRate">Building production rate</param>
-        /// <param name="electricityConsumption">Building electricity consumption</param>
-        /// <param name="waterConsumption">Building water consumption</param>
-        /// <param name="sewageAccumulation">Building sewage accumulation</param>
-        /// <param name="garbageAccumulation">Building garbage accumulation</param>
-        /// <param name="incomeAccumulation">Building income accumulation</param>
-        /// <param name="mailAccumulation">Building mail accumulation</param>
-        /// <returns>Always false (never execute original method)</returns>
+        /// <param name="__instance">IndustrialExtractorAI instance.</param>
+        /// <param name="r">Randomizer.</param>
+        /// <param name="productionRate">Building production rate.</param>
+        /// <param name="electricityConsumption">Building electricity consumption.</param>
+        /// <param name="waterConsumption">Building water consumption.</param>
+        /// <param name="sewageAccumulation">Building sewage accumulation.</param>
+        /// <param name="garbageAccumulation">Building garbage accumulation.</param>
+        /// <param name="incomeAccumulation">Building income accumulation.</param>
+        /// <param name="mailAccumulation">Building mail accumulation.</param>
+        /// <returns>Always false (never execute original method).</returns>
         [HarmonyPatch(nameof(IndustrialExtractorAI.GetConsumptionRates))]
         [HarmonyPrefix]
         public static bool GetConsumptionRates(IndustrialExtractorAI __instance, Randomizer r, int productionRate, out int electricityConsumption, out int waterConsumption, out int sewageAccumulation, out int garbageAccumulation, out int incomeAccumulation, out int mailAccumulation)

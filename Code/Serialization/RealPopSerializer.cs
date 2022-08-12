@@ -1,98 +1,12 @@
-﻿// <copyright file="Serialization.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="RealPopSerializer.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
 namespace RealPop2
 {
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
     using AlgernonCommons;
-    using ColossalFramework;
     using ColossalFramework.IO;
-    using ICities;
-
-    /// <summary>
-    /// Handles savegame data saving and loading.
-    /// </summary>
-    public class Serializer : SerializableDataExtensionBase
-    {
-        // Unique data ID.
-        private readonly string dataID = "RealisticPopulation";
-        internal const int CurrentDataVersion = 7;
-
-
-        /// <summary>
-        /// Serializes data to the savegame.
-        /// Called by the game on save.
-        /// </summary>
-        public override void OnSaveData()
-        {
-            base.OnSaveData();
-
-
-            using (MemoryStream stream = new MemoryStream())
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-
-                // Serialise savegame settings.
-                DataSerializer.Serialize(stream, DataSerializer.Mode.Memory, CurrentDataVersion, new RealPopSerializer());
-
-                // Write to savegame.
-                serializableDataManager.SaveData(dataID, stream.ToArray());
-
-                Logging.Message("wrote ", stream.Length);
-            }
-        }
-
-        /// <summary>
-        /// Deserializes data from a savegame (or initialises new data structures when none available).
-        /// Called by the game on load (including a new game).
-        /// </summary>
-        public override void OnLoadData()
-        {
-            Logging.Message("reading data from save file");
-            base.OnLoadData();
-
-            // Read data from savegame.
-            byte[] data = serializableDataManager.LoadData(dataID);
-
-            // Check to see if anything was read.
-            if (data != null && data.Length != 0)
-            {
-                // Data was read - go ahead and deserialise.
-                using (MemoryStream stream = new MemoryStream(data))
-                {
-                    BinaryFormatter formatter = new BinaryFormatter();
-
-                    // Deserialise savegame settings.
-                    DataSerializer.Deserialize<RealPopSerializer>(stream, DataSerializer.Mode.Memory);
-                }
-            }
-            else
-            {
-                // No data read.
-                Logging.Message("no data read");
-            }
-
-            // Were we able to deserialize data?
-            if (!ModSettings.isRealPop2Save)
-            {
-                // No - we need to work out if this is a new game, or an existing load.
-                if ((LoadMode)Singleton<SimulationManager>.instance.m_metaData.m_updateMode == LoadMode.NewGame)
-                {
-                    Logging.KeyMessage("new game detected");
-
-                    // New game - set this game's legacy save settings to the new game defaults, and set the savegame flag.
-                    ModSettings.ThisSaveDefaultRes = ModSettings.newSaveDefaultRes;
-                    ModSettings.ThisSaveDefaultCom = ModSettings.newSaveDefaultCom;
-                    ModSettings.ThisSaveDefaultInd = ModSettings.newSaveDefaultInd;
-                    ModSettings.ThisSaveDefaultOff = ModSettings.newSaveDefaultOff;
-                    ModSettings.isRealPop2Save = true;
-                }
-            }
-        }
-    }
 
     /// <summary>
     ///  Savegame (de)serialisation for settings.
@@ -102,7 +16,7 @@ namespace RealPop2
         /// <summary>
         /// Serialise to savegame.
         /// </summary>
-        /// <param name="serializer">Data serializer</param>
+        /// <param name="serializer">Data serializer.</param>
         public void Serialize(DataSerializer serializer)
         {
             Logging.Message("writing data to save file");
@@ -120,7 +34,7 @@ namespace RealPop2
         /// <summary>
         /// Deseralise from savegame.
         /// </summary>
-        /// <param name="serializer">Data serializer</param>
+        /// <param name="serializer">Data serializer.</param>
         public void Deserialize(DataSerializer serializer)
         {
             Logging.Message("deserializing data from save file");
@@ -135,14 +49,13 @@ namespace RealPop2
                 if (dataVersion == 7)
                 {
                     // Replaces 'using legacy' bool flags.
-
                     ModSettings.ThisSaveDefaultRes = (DefaultMode)serializer.ReadUInt8();
                     ModSettings.ThisSaveDefaultCom = (DefaultMode)serializer.ReadUInt8();
                     ModSettings.ThisSaveDefaultInd = (DefaultMode)serializer.ReadUInt8();
                     ModSettings.ThisSaveDefaultOff = (DefaultMode)serializer.ReadUInt8();
 
                     // Record that we've successfully deserialized savegame data.
-                    ModSettings.isRealPop2Save = true;
+                    ModSettings.IsRealPop2Save = true;
                 }
 
                 if (dataVersion == 3 || dataVersion == 5 || dataVersion == 6)
@@ -156,7 +69,7 @@ namespace RealPop2
                     ModSettings.ThisSaveLegacyOff = serializer.ReadBool();
 
                     // Record that we've successfully deserialized savegame data.
-                    ModSettings.isRealPop2Save = true;
+                    ModSettings.IsRealPop2Save = true;
                 }
                 else if (dataVersion == 4)
                 {
@@ -170,7 +83,7 @@ namespace RealPop2
                     ModSettings.ThisSaveLegacyOff = serializer.ReadBool();
 
                     // Record that we've successfully deserialized savegame data.
-                    ModSettings.isRealPop2Save = true;
+                    ModSettings.IsRealPop2Save = true;
                 }
                 else if (dataVersion == 2)
                 {
@@ -184,7 +97,7 @@ namespace RealPop2
                     ModSettings.ThisSaveLegacyOff = thisSaveLegacyWrk;
 
                     // Record that we've successfully deserialized savegame data.
-                    ModSettings.isRealPop2Save = true;
+                    ModSettings.IsRealPop2Save = true;
                 }
                 else if (dataVersion == 1)
                 {
@@ -198,7 +111,7 @@ namespace RealPop2
                     ModSettings.ThisSaveLegacyOff = thisSaveLegacy;
 
                     // Record that we've successfully deserialized savegame data.
-                    ModSettings.isRealPop2Save = true;
+                    ModSettings.IsRealPop2Save = true;
                 }
             }
             catch
@@ -211,7 +124,7 @@ namespace RealPop2
         /// <summary>
         /// Performs post-serialization data management.  Nothing to do here (yet).
         /// </summary>
-        /// <param name="serializer">Data serializer</param>
+        /// <param name="serializer">Data serializer.</param>
         public void AfterDeserialize(DataSerializer serializer)
         {
         }

@@ -20,8 +20,8 @@ namespace RealPop2
         /// <summary>
         /// Event handler filter for text fields to ensure only integer values are entered.
         /// </summary>
-        /// <param name="control">Relevant control</param>
-        /// <param name="value">Text value</param>
+        /// <param name="control">Relevant control.</param>
+        /// <param name="value">Text value.</param>
         internal static void IntTextFilter(UITextField control, string value)
         {
             // If it's not blank and isn't an integer, remove the last character and set selection to end.
@@ -133,12 +133,11 @@ namespace RealPop2
             // Layout constants.
             const float TabIconSize = 23f;
 
-
             // Create tab.
             UIPanel rootPanel = AddTextTab(tabStrip, tabName, tabIndex, out UIButton button, width, autoLayout);
 
             // Clear button text.
-            button.text = "";
+            button.text = string.Empty;
 
             // Add tab sprites.
             float spriteBase = (width - 2f) / iconNames.Length;
@@ -174,7 +173,6 @@ namespace RealPop2
             const float Margin = 5f;
             const float SpriteSize = 35f;
             const float LeftTitle = 50f;
-
 
             // Actual icon.
             UISprite thumbSprite = panel.AddUIComponent<UISprite>();

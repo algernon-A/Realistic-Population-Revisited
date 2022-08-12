@@ -5,18 +5,17 @@
 
 namespace RealPop2
 {
-    using System;
     using ColossalFramework.Math;
-    using UnityEngine;
     using HarmonyLib;
+    using UnityEngine;
 
     /// <summary>
     /// Harmony patches to CommercialBuildingAI to implement consumption, production rate, and pollution changes for commercial buildings.
     /// </summary>
     [HarmonyPatch(typeof(CommercialBuildingAI))]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
     public static class CommercialBuildingAIPatches
     {
-
         /// <summary>
         /// Pre-emptive Harmony Prefix patch for CommercialBuildingAI.GetConsumptionRates, to implement the mod's consumption calculations.
         /// </summary>
@@ -69,6 +68,7 @@ namespace RealPop2
         /// <param name="level">Building level.</param>
         /// <param name="width">Building lot width.</param>
         /// <param name="length">Building lot length.</param>
+        /// <returns>Always false (never execute original method).</returns>
         [HarmonyPatch(nameof(CommercialBuildingAI.CalculateProductionCapacity))]
         [HarmonyPrefix]
         public static bool CalculateProductionCapacity(ref int __result, CommercialBuildingAI __instance, ItemClass.Level level, int width, int length)

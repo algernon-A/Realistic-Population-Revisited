@@ -1,4 +1,4 @@
-﻿// <copyright file="UIBuildingRow.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="BuildingRow.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -13,7 +13,7 @@ namespace RealPop2
     /// <summary>
     /// UIListRow for building prefab selection.
     /// </summary>
-    public class UIBuildingRow : UIListRow
+    public class BuildingRow : UIListRow
     {
         // Panel components.
         private UILabel _buildingName;
@@ -43,17 +43,17 @@ namespace RealPop2
                 _buildingName.width = 200;
 
                 // Checkboxes to indicate which items have custom settings.
-                _hasOverride = AddSettingsCheck(UIBuildingFilter.HasOverrideX, "RPR_FTR_OVR");
-                _hasNonDefault = AddSettingsCheck(UIBuildingFilter.HasNonDefaultX, "RPR_FTR_NDC");
+                _hasOverride = AddSettingsCheck(BuildingPanelFilter.HasOverrideX, "RPR_FTR_OVR");
+                _hasNonDefault = AddSettingsCheck(BuildingPanelFilter.HasNonDefaultX, "RPR_FTR_NDC");
             }
 
             // Set selected building.
             _thisBuilding = data as BuildingInfo;
             string thisBuildingName = _thisBuilding.name;
-            _buildingName.text = UIBuildingDetails.GetDisplayName(thisBuildingName);
+            _buildingName.text = BuildingDetailsPanel.GetDisplayName(thisBuildingName);
 
             // Update 'has override' check to correct state.
-            if (PopData.instance.GetOverride(thisBuildingName) != 0 || FloorData.instance.HasOverride(thisBuildingName) != null)
+            if (PopData.Instance.GetOverride(thisBuildingName) != 0 || FloorData.Instance.HasOverride(thisBuildingName) != null)
             {
                 // Override found.
                 _hasOverride.spriteName = "AchievementCheckedTrue";
@@ -65,9 +65,9 @@ namespace RealPop2
             }
 
             // Update 'has non-default calculation pack' check to correct state.
-            if (PopData.instance.HasPackOverride(thisBuildingName) != null
-                || (FloorData.instance.HasPackOverride(thisBuildingName) != null && FloorData.instance.HasOverride(thisBuildingName) == null)
-                || SchoolData.instance.HasPackOverride(thisBuildingName) != null)
+            if (PopData.Instance.HasPackOverride(thisBuildingName) != null
+                || (FloorData.Instance.HasPackOverride(thisBuildingName) != null && FloorData.Instance.HasOverride(thisBuildingName) == null)
+                || SchoolData.Instance.HasPackOverride(thisBuildingName) != null)
             {
                 // Non-default calculation found.
                 _hasNonDefault.spriteName = "AchievementCheckedTrue";
@@ -85,9 +85,9 @@ namespace RealPop2
         /// <summary>
         /// Adds a settings check to the current row.
         /// </summary>
-        /// <param name="xPos">Check relative x-position</param>
-        /// <param name="translationKey">Tooltip translation key</param>
-        /// <returns></returns>
+        /// <param name="xPos">Check relative x-position.</param>
+        /// <param name="translationKey">Tooltip translation key.</param>
+        /// <returns>New settings check sprite.</returns>
         private UISprite AddSettingsCheck(float xPos, string translationKey)
         {
             UISprite newSprite = AddUIComponent<UISprite>();

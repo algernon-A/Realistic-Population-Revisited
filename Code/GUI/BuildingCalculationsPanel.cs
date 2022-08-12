@@ -1,4 +1,4 @@
-﻿// <copyright file="UIModCalcs.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="BuildingCalculationsPanel.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -15,11 +15,11 @@ namespace RealPop2
     /// <summary>
     /// Showd mod calculations to the user.
     /// </summary>
-    public class UIModCalcs : UIPanel
+    public class BuildingCalculationsPanel : UIPanel
     {
         // Layout constants.
         private const float Margin = 5f;
-        private const float ColumnWidth = UIBuildingDetails.RightWidth / 2f;
+        private const float ColumnWidth = BuildingDetailsPanel.RightWidth / 2f;
         private const float ComponentWidth = ColumnWidth - (Margin * 2f);
         private const float RightColumnX = ColumnWidth + Margin;
         private const float LabelHeight = 20f;
@@ -37,28 +37,35 @@ namespace RealPop2
         private const float Row2LabelY = DescriptionY + DescriptionHeight;
 
         // Panel components.
-        private UILabel title;
-        private UIPanel floorPanel, schoolPanel;
-        private UILegacyCalcs legacyPanel;
-        private UIVanillaCalcs vanillaPanel;
-        private UIVolumetricPanel volumetricPanel;
-        private UIDropDown popMenu, floorMenu, schoolMenu;
-        private UICheckBox multCheck;
-        private UISlider multSlider;
-        private UILabel multDefaultLabel;
-        private UILabel popDescription, floorDescription, schoolDescription, floorOverrideLabel;
-        private UIButton applyButton;
+        private UILabel _title;
+        private UIPanel _floorPanel;
+        private UIPanel _schoolPanel;
+        private LegacyCalculationPreview _legacyPanel;
+        private VanillaCalculationPreview _vanillaPanel;
+        private VolumetricCalculationPreview _volumetricPanel;
+        private UIDropDown _popMenu;
+        private UIDropDown _floorMenu;
+        private UIDropDown _schoolMenu;
+        private UICheckBox _multCheck;
+        private UISlider _multSlider;
+        private UILabel _multDefaultLabel;
+        private UILabel _popDescription;
+        private UILabel _floorDescription;
+        private UILabel _schoolDescription;
+        private UILabel _floorOverrideLabel;
+        private UIButton _applyButton;
 
         // Data arrays.
-        private PopDataPack[] popPacks;
-        private DataPack[] floorPacks;
-        private SchoolDataPack[] schoolPacks;
+        private PopDataPack[] _popPacks;
+        private DataPack[] _floorPacks;
+        private SchoolDataPack[] _schoolPacks;
 
         // Current selections.
-        private BuildingInfo currentBuilding;
-        private PopDataPack currentPopPack;
-        private FloorDataPack currentFloorPack, currentFloorOverride;
-        private SchoolDataPack currentSchoolPack;
+        private BuildingInfo _currentBuilding;
+        private PopDataPack _currentPopPack;
+        private FloorDataPack _currentFloorPack;
+        private FloorDataPack _currentFloorOverride;
+        private SchoolDataPack _currentSchoolPack;
 
         // Flags.
         private bool usingLegacyOrVanilla;
@@ -74,7 +81,7 @@ namespace RealPop2
             set
             {
                 // Store override.
-                currentFloorOverride = value;
+                _currentFloorOverride = value;
 
                 // Don't do anything else if we're using legacy or vanilla calculations.
                 if (usingLegacyOrVanilla)
@@ -88,45 +95,46 @@ namespace RealPop2
                 // If value is null (no override), show floor panel and display current floor pack data; otherwise, hide the floor panel and show the provided override data.
                 if (value == null)
                 {
-                    displayPack = currentFloorPack;
-                    floorOverrideLabel.Hide();
-                    floorPanel.Show();
+                    displayPack = _currentFloorPack;
+                    _floorOverrideLabel.Hide();
+                    _floorPanel.Show();
                 }
                 else
                 {
                     // Valid override - hide floor panel.
-                    floorPanel.Hide();
+                    _floorPanel.Hide();
 
                     // Set override text label and show it.
-                    floorOverrideLabel.text = Translations.Translate("RPR_CAL_FOV");
-                    floorOverrideLabel.Show();
+                    _floorOverrideLabel.text = Translations.Translate("RPR_CAL_FOV");
+                    _floorOverrideLabel.Show();
 
                     // Display figures for override, not current floor pack.
                     displayPack = value;
                 }
 
                 // Update panel with new calculations.
-                volumetricPanel.UpdateFloorText(displayPack);
-                volumetricPanel.CalculateVolumetric(currentBuilding, CurrentLevelData, displayPack, currentSchoolPack, currentMult);
+                _volumetricPanel.UpdateFloorText(displayPack);
+                _volumetricPanel.CalculateVolumetric(_currentBuilding, CurrentLevelData, displayPack, _currentSchoolPack, currentMult);
             }
         }
-        
+
         /// <summary>
-        /// /// Returns the level data record from the current floor pack that's relevant to the selected building's level.
-        /// /// </summary>
-        private LevelData CurrentLevelData
+        /// Gets the level data record from the current floor pack that's relevant to the selected building's level.
+        /// </summary>
+        private VolumetricPopPack.LevelData CurrentLevelData
         {
             get
             {
                 // Bounds check on provided level, to handle misconfigured prefabs.
-                LevelData[] levels = ((VolumetricPopPack)currentPopPack).levels;
-                int level = (int)currentBuilding.GetClassLevel();
+                VolumetricPopPack.LevelData[] levels = ((VolumetricPopPack)_currentPopPack).Levels;
+                int level = (int)_currentBuilding.GetClassLevel();
                 int maxLevel = levels.Length - 1;
                 if (level > maxLevel)
                 {
-                    Logging.Error("building ", currentBuilding.name, " has ClassLevel ", level, " but maximum configured level count is ", maxLevel);
+                    Logging.Error("building ", _currentBuilding.name, " has ClassLevel ", level, " but maximum configured level count is ", maxLevel);
                     level = maxLevel;
                 }
+
                 return levels[level];
             }
         }
@@ -140,100 +148,100 @@ namespace RealPop2
             clipChildren = true;
 
             // Title.
-            title = this.AddUIComponent<UILabel>();
-            title.relativePosition = Vector2.zero;
-            title.textAlignment = UIHorizontalAlignment.Center;
-            title.text = Translations.Translate("RPR_CAL_MOD");
-            title.textScale = 1.2f;
-            title.autoSize = false;
-            title.width = this.width;
+            _title = this.AddUIComponent<UILabel>();
+            _title.relativePosition = Vector2.zero;
+            _title.textAlignment = UIHorizontalAlignment.Center;
+            _title.text = Translations.Translate("RPR_CAL_MOD");
+            _title.textScale = 1.2f;
+            _title.autoSize = false;
+            _title.width = this.width;
 
             // Column titles.
             UILabel densityTitle = ColumnLabel(this, Translations.Translate("RPR_CAL_DEN"), Margin, ColumnLabelY);
             UILabel floorTitle = ColumnLabel(this, Translations.Translate("RPR_CAL_BFL"), RightColumnX, ColumnLabelY);
 
             // Volumetric calculations panel.
-            volumetricPanel = this.AddUIComponent<UIVolumetricPanel>();
-            volumetricPanel.relativePosition = new Vector2(0f, BaseCalcY);
-            volumetricPanel.height = this.height - title.height + 80f;
-            volumetricPanel.width = this.width;
-            volumetricPanel.Setup();
+            _volumetricPanel = this.AddUIComponent<VolumetricCalculationPreview>();
+            _volumetricPanel.relativePosition = new Vector2(0f, BaseCalcY);
+            _volumetricPanel.height = this.height - _title.height + 80f;
+            _volumetricPanel.width = this.width;
+            _volumetricPanel.Setup();
 
             // Legacy calculations panel - copy volumetric calculations panel.
-            legacyPanel = this.AddUIComponent<UILegacyCalcs>();
-            legacyPanel.relativePosition = volumetricPanel.relativePosition;
-            legacyPanel.height = volumetricPanel.height;
-            legacyPanel.width = volumetricPanel.width;
-            legacyPanel.Setup();
-            legacyPanel.Hide();
+            _legacyPanel = this.AddUIComponent<LegacyCalculationPreview>();
+            _legacyPanel.relativePosition = _volumetricPanel.relativePosition;
+            _legacyPanel.height = _volumetricPanel.height;
+            _legacyPanel.width = _volumetricPanel.width;
+            _legacyPanel.Setup();
+            _legacyPanel.Hide();
 
             // Vanilla calculations panel - copy volumetric calculations panel.
-            vanillaPanel = this.AddUIComponent<UIVanillaCalcs>();
-            vanillaPanel.relativePosition = volumetricPanel.relativePosition;
-            vanillaPanel.height = volumetricPanel.height;
-            vanillaPanel.width = volumetricPanel.width;
-            vanillaPanel.Setup();
-            vanillaPanel.Hide();
+            _vanillaPanel = this.AddUIComponent<VanillaCalculationPreview>();
+            _vanillaPanel.relativePosition = _volumetricPanel.relativePosition;
+            _vanillaPanel.height = _volumetricPanel.height;
+            _vanillaPanel.width = _volumetricPanel.width;
+            _vanillaPanel.Setup();
+            _vanillaPanel.Hide();
 
             // Floor dropdown panel - set size manually to avoid invisible overlap of calculations panel (preventing e.g. tooltips).
-            floorPanel = this.AddUIComponent<UIPanel>();
-            floorPanel.relativePosition = new Vector2(RightColumnX, MenuY);
-            floorPanel.autoSize = false;
-            floorPanel.width = RightColumnX - this.width;
-            floorPanel.height = BaseCalcY - MenuY;
-            floorPanel.autoLayout = false;
-            floorPanel.clipChildren = false;
-            floorPanel.Show();
+            _floorPanel = this.AddUIComponent<UIPanel>();
+            _floorPanel.relativePosition = new Vector2(RightColumnX, MenuY);
+            _floorPanel.autoSize = false;
+            _floorPanel.width = RightColumnX - this.width;
+            _floorPanel.height = BaseCalcY - MenuY;
+            _floorPanel.autoLayout = false;
+            _floorPanel.clipChildren = false;
+            _floorPanel.Show();
 
             // Floor override label (for when floor dropdown menu is hidden).
-            floorOverrideLabel = UILabels.AddLabel(this, RightColumnX, MenuY, Translations.Translate("RPR_CAL_FOV"), this.width - RightColumnX, 0.7f);
-            floorOverrideLabel.Hide();
+            _floorOverrideLabel = UILabels.AddLabel(this, RightColumnX, MenuY, Translations.Translate("RPR_CAL_FOV"), this.width - RightColumnX, 0.7f);
+            _floorOverrideLabel.Hide();
 
             // Pack dropdowns.
-            popMenu = UIDropDowns.AddDropDown(this, Margin, MenuY, ComponentWidth);
-            floorMenu = UIDropDowns.AddDropDown(floorPanel, 0f, 0f, ComponentWidth);
+            _popMenu = UIDropDowns.AddDropDown(this, Margin, MenuY, ComponentWidth);
+            _floorMenu = UIDropDowns.AddDropDown(_floorPanel, 0f, 0f, ComponentWidth);
 
             // School dropdown panel.
-            schoolPanel = this.AddUIComponent<UIPanel>();
-            schoolPanel.relativePosition = new Vector2(Margin, Row2LabelY);
-            schoolPanel.autoSize = false;
-            schoolPanel.autoLayout = false;
-            schoolPanel.clipChildren = false;
-            schoolPanel.height = ApplyX - Row2LabelY;
-            schoolPanel.width = this.width - (Margin * 2);
+            _schoolPanel = this.AddUIComponent<UIPanel>();
+            _schoolPanel.relativePosition = new Vector2(Margin, Row2LabelY);
+            _schoolPanel.autoSize = false;
+            _schoolPanel.autoLayout = false;
+            _schoolPanel.clipChildren = false;
+            _schoolPanel.height = ApplyX - Row2LabelY;
+            _schoolPanel.width = this.width - (Margin * 2);
 
             // School panel title and dropdown menu.
-            UILabel schoolTitle = ColumnLabel(schoolPanel, Translations.Translate("RPR_CAL_SCH_PRO"), 0, 0);
-            schoolMenu = UIDropDowns.AddDropDown(schoolPanel, 0f, LabelHeight, ComponentWidth);
-            schoolPanel.Hide();
+            UILabel schoolTitle = ColumnLabel(_schoolPanel, Translations.Translate("RPR_CAL_SCH_PRO"), 0, 0);
+            _schoolMenu = UIDropDowns.AddDropDown(_schoolPanel, 0f, LabelHeight, ComponentWidth);
+            _schoolPanel.Hide();
 
             // Pack descriptions.
-            popDescription = Description(this, Margin, DescriptionY);
-            floorDescription = Description(floorPanel, 0f, DescriptionY - MenuY);
-            schoolDescription = Description(schoolPanel, 0f, LabelHeight + DescriptionY - MenuY);
+            _popDescription = Description(this, Margin, DescriptionY);
+            _floorDescription = Description(_floorPanel, 0f, DescriptionY - MenuY);
+            _schoolDescription = Description(_schoolPanel, 0f, LabelHeight + DescriptionY - MenuY);
 
             // Apply button.
-            applyButton = UIButtons.AddButton(this, ApplyX, BaseSaveY, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
-            applyButton.eventClicked += (control, clickEvent) => ApplySettings();
+            _applyButton = UIButtons.AddButton(this, ApplyX, BaseSaveY, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
+            _applyButton.eventClicked += (control, clickEvent) => ApplySettings();
 
             // Dropdown event handlers.
-            popMenu.eventSelectedIndexChanged += (component, index) => UpdatePopSelection(index);
-            floorMenu.eventSelectedIndexChanged += (component, index) => UpdateFloorSelection(index);
-            schoolMenu.eventSelectedIndexChanged += (component, index) => UpdateSchoolSelection(index);
+            _popMenu.eventSelectedIndexChanged += (component, index) => UpdatePopSelection(index);
+            _floorMenu.eventSelectedIndexChanged += (component, index) => UpdateFloorSelection(index);
+            _schoolMenu.eventSelectedIndexChanged += (component, index) => UpdateSchoolSelection(index);
 
             // Add school multiplier slider (starts hidden).
-            multSlider = AddSliderWithMultipler(schoolPanel, string.Empty, 1f, 5f, 0.5f, ModSettings.DefaultSchoolMult, (value) => UpdateMultiplier(value), ComponentWidth);
-            multSlider.parent.relativePosition = new Vector2(RightColumnX, 10f);
-            multSlider.parent.Hide();
+            _multSlider = AddSliderWithMultipler(_schoolPanel, string.Empty, 1f, 5f, 0.5f, ModSettings.DefaultSchoolMult, (value) => UpdateMultiplier(value), ComponentWidth);
+            _multSlider.parent.relativePosition = new Vector2(RightColumnX, 10f);
+            _multSlider.parent.Hide();
 
             // Muliplier checkbox.
-            multCheck = UICheckBoxes.AddLabelledCheckBox(schoolPanel, RightColumnX, 18f, Translations.Translate("RPR_CAL_CAP_OVR"));
+            _multCheck = UICheckBoxes.AddLabelledCheckBox(_schoolPanel, RightColumnX, 18f, Translations.Translate("RPR_CAL_CAP_OVR"));
 
             // Multiplier default label.
-            multDefaultLabel = UILabels.AddLabel(schoolPanel, RightColumnX + 21f, 40f, Translations.Translate("RPR_CAL_CAP_DEF") + " x" + ModSettings.DefaultSchoolMult, textScale: 0.8f);
+            _multDefaultLabel = UILabels.AddLabel(_schoolPanel, RightColumnX + 21f, 40f, Translations.Translate("RPR_CAL_CAP_DEF") + " x" + ModSettings.DefaultSchoolMult, textScale: 0.8f);
 
             // Multplier checkbox event handler.
-            multCheck.eventCheckChanged += (control, isChecked) => MultiplierCheckChanged(isChecked);
+            _multCheck.eventCheckChanged += (control, isChecked) => MultiplierCheckChanged(isChecked);
         }
 
         /// <summary>
@@ -243,66 +251,65 @@ namespace RealPop2
         internal void SelectionChanged(BuildingInfo building)
         {
             // Set current building.
-            currentBuilding = building;
+            _currentBuilding = building;
 
             // Safety first!
-            if (currentBuilding != null)
+            if (_currentBuilding != null)
             {
                 string buildingName = building.name;
 
                 // Get available calculation packs for this building.
-                popPacks = PopData.instance.GetPacks(building);
-                floorPacks = FloorData.instance.Packs;
+                _popPacks = PopData.Instance.GetPacks(building);
+                _floorPacks = FloorData.Instance.Packs;
 
                 // Get current and default packs for this item.
-                currentPopPack = (PopDataPack)PopData.instance.ActivePack(building);
-                currentFloorPack = (FloorDataPack)FloorData.instance.ActivePack(building);
-                PopDataPack defaultPopPack = (PopDataPack)PopData.instance.CurrentDefaultPack(building);
-                FloorDataPack defaultFloorPack = (FloorDataPack)FloorData.instance.CurrentDefaultPack(building);
+                _currentPopPack = (PopDataPack)PopData.Instance.ActivePack(building);
+                _currentFloorPack = (FloorDataPack)FloorData.Instance.ActivePack(building);
+                PopDataPack defaultPopPack = (PopDataPack)PopData.Instance.CurrentDefaultPack(building);
+                FloorDataPack defaultFloorPack = (FloorDataPack)FloorData.Instance.CurrentDefaultPack(building);
 
                 // Update multiplier before we do any other calcs.
-                multCheck.isChecked = Multipliers.instance.HasOverride(buildingName);
-                currentMult = Multipliers.instance.ActiveMultiplier(building);
-
+                _multCheck.isChecked = Multipliers.Instance.HasOverride(buildingName);
+                currentMult = Multipliers.Instance.ActiveMultiplier(building);
 
                 // Build pop pack menu.
-                popMenu.items = new string[popPacks.Length];
-                for (int i = 0; i < popMenu.items.Length; ++i)
+                _popMenu.items = new string[_popPacks.Length];
+                for (int i = 0; i < _popMenu.items.Length; ++i)
                 {
-                    popMenu.items[i] = popPacks[i].DisplayName;
+                    _popMenu.items[i] = _popPacks[i].DisplayName;
 
                     // Check for default name match,
-                    if (popPacks[i].name.Equals(defaultPopPack.name))
+                    if (_popPacks[i].Name.Equals(defaultPopPack.Name))
                     {
-                        popMenu.items[i] += Translations.Translate("RPR_PCK_DEF");
+                        _popMenu.items[i] += Translations.Translate("RPR_PCK_DEF");
                     }
 
                     // Set menu selection to current pack if it matches.
-                    if (popPacks[i].name.Equals(currentPopPack.name))
+                    if (_popPacks[i].Name.Equals(_currentPopPack.Name))
                     {
-                        popMenu.selectedIndex = i;
+                        _popMenu.selectedIndex = i;
                     }
                 }
 
                 // Set population pack to current pack.
-                UpdatePopSelection(currentPopPack);
+                UpdatePopSelection(_currentPopPack);
 
                 // Build floor pack menu.
-                floorMenu.items = new string[floorPacks.Length];
-                for (int i = 0; i < floorPacks.Length; ++i)
+                _floorMenu.items = new string[_floorPacks.Length];
+                for (int i = 0; i < _floorPacks.Length; ++i)
                 {
-                    floorMenu.items[i] = floorPacks[i].DisplayName;
+                    _floorMenu.items[i] = _floorPacks[i].DisplayName;
 
                     // Check for default name match,
-                    if (floorPacks[i].name.Equals(defaultFloorPack.name))
+                    if (_floorPacks[i].Name.Equals(defaultFloorPack.Name))
                     {
-                        floorMenu.items[i] += Translations.Translate("RPR_PCK_DEF");
+                        _floorMenu.items[i] += Translations.Translate("RPR_PCK_DEF");
                     }
 
                     // Set menu selection to current pack if it matches.
-                    if (floorPacks[i].name.Equals(currentFloorPack.name))
+                    if (_floorPacks[i].Name.Equals(_currentFloorPack.Name))
                     {
-                        floorMenu.selectedIndex = i;
+                        _floorMenu.selectedIndex = i;
 
                         // Force pack selection update.
                         UpdateFloorSelection(i);
@@ -312,49 +319,49 @@ namespace RealPop2
                 // Update legacy and vanilla panel for private building AIs (volumetric panel is updated by menu selection change above).
                 if (building.GetAI() is PrivateBuildingAI)
                 {
-                    legacyPanel.SelectionChanged(building);
-                    vanillaPanel.SelectionChanged(building);
+                    _legacyPanel.SelectionChanged(building);
+                    _vanillaPanel.SelectionChanged(building);
                 }
 
                 // Is this a school building (need to do school building after pop and floor packs are updated)?
                 if (building.GetAI() is SchoolAI)
                 {
                     // Yes - school building.  Set current pack.
-                    currentSchoolPack = (SchoolDataPack)SchoolData.instance.ActivePack(building);
+                    _currentSchoolPack = (SchoolDataPack)SchoolData.Instance.ActivePack(building);
 
                     // Hide vanilla panel.
-                    vanillaPanel.Hide();
+                    _vanillaPanel.Hide();
 
                     // Are we using custom school settings?
-                    if (ModSettings.enableSchoolProperties)
+                    if (ModSettings.EnableSchoolProperties)
                     {
                         // Yes - extend panel height and show school panel.
-                        volumetricPanel.relativePosition = new Vector2(0f, SchoolCalcY);
-                        applyButton.relativePosition = new Vector2(ApplyX, SchoolSaveY);
+                        _volumetricPanel.relativePosition = new Vector2(0f, SchoolCalcY);
+                        _applyButton.relativePosition = new Vector2(ApplyX, SchoolSaveY);
 
                         // Get available school packs for this building.
-                        schoolPacks = SchoolData.instance.GetPacks(building);
+                        _schoolPacks = SchoolData.Instance.GetPacks(building);
 
                         // Get current and default packs for this item.
-                        currentSchoolPack = (SchoolDataPack)SchoolData.instance.ActivePack(building);
-                        SchoolDataPack defaultSchoolPack = (SchoolDataPack)SchoolData.instance.CurrentDefaultPack(building);
+                        _currentSchoolPack = (SchoolDataPack)SchoolData.Instance.ActivePack(building);
+                        SchoolDataPack defaultSchoolPack = (SchoolDataPack)SchoolData.Instance.CurrentDefaultPack(building);
 
                         // Build school pack menu.
-                        schoolMenu.items = new string[schoolPacks.Length];
-                        for (int i = 0; i < schoolMenu.items.Length; ++i)
+                        _schoolMenu.items = new string[_schoolPacks.Length];
+                        for (int i = 0; i < _schoolMenu.items.Length; ++i)
                         {
-                            schoolMenu.items[i] = schoolPacks[i].DisplayName;
+                            _schoolMenu.items[i] = _schoolPacks[i].DisplayName;
 
                             // Check for default name match,
-                            if (schoolPacks[i].name.Equals(defaultSchoolPack.name))
+                            if (_schoolPacks[i].Name.Equals(defaultSchoolPack.Name))
                             {
-                                schoolMenu.items[i] += Translations.Translate("RPR_PCK_DEF");
+                                _schoolMenu.items[i] += Translations.Translate("RPR_PCK_DEF");
                             }
 
                             // Set menu selection to current pack if it matches.
-                            if (schoolPacks[i].name.Equals(currentSchoolPack.name))
+                            if (_schoolPacks[i].Name.Equals(_currentSchoolPack.Name))
                             {
-                                schoolMenu.selectedIndex = i;
+                                _schoolMenu.selectedIndex = i;
 
                                 // Force pack selection update.
                                 UpdateSchoolSelection(i);
@@ -362,25 +369,25 @@ namespace RealPop2
                         }
 
                         // Set multiplier value.
-                        multSlider.value = currentMult;
+                        _multSlider.value = currentMult;
 
-                        schoolPanel.Show();
+                        _schoolPanel.Show();
                     }
                     else
                     {
                         // It's a school, but we're not using custom school settings, so use the non-school layout.
-                        volumetricPanel.relativePosition = new Vector2(0f, BaseCalcY);
-                        applyButton.relativePosition = new Vector2(ApplyX, BaseSaveY);
-                        schoolPanel.Hide();
+                        _volumetricPanel.relativePosition = new Vector2(0f, BaseCalcY);
+                        _applyButton.relativePosition = new Vector2(ApplyX, BaseSaveY);
+                        _schoolPanel.Hide();
                     }
                 }
                 else
                 {
                     // Not a school building - use non-school layout.
-                    currentSchoolPack = null;
-                    volumetricPanel.relativePosition = new Vector2(0f, BaseCalcY);
-                    applyButton.relativePosition = new Vector2(ApplyX, BaseSaveY);
-                    schoolPanel.Hide();
+                    _currentSchoolPack = null;
+                    _volumetricPanel.relativePosition = new Vector2(0f, BaseCalcY);
+                    _applyButton.relativePosition = new Vector2(ApplyX, BaseSaveY);
+                    _schoolPanel.Hide();
                 }
             }
         }
@@ -389,7 +396,7 @@ namespace RealPop2
         /// Updates the population calculation pack selection to the selected calculation pack.
         /// </summary>
         /// <param name="index">Index number (from menu) of selection pack.</param>
-        private void UpdatePopSelection(int index) => UpdatePopSelection(popPacks[index]);
+        private void UpdatePopSelection(int index) => UpdatePopSelection(_popPacks[index]);
 
         /// <summary>
         /// Updates the population calculation pack selection to the selected pack.
@@ -398,13 +405,13 @@ namespace RealPop2
         private void UpdatePopSelection(PopDataPack popPack)
         {
             // Update selected pack.
-            currentPopPack = popPack;
+            _currentPopPack = popPack;
 
             // Update description.
-            popDescription.text = currentPopPack.Description;
+            _popDescription.text = _currentPopPack.Description;
 
             // Check if we're using legacy or volumetric data.
-            if (currentPopPack is VolumetricPopPack)
+            if (_currentPopPack is VolumetricPopPack)
             {
                 // Volumetric pack.  Are we coming from a legacy or vanilla setting?
                 if (usingLegacyOrVanilla)
@@ -413,53 +420,53 @@ namespace RealPop2
                     usingLegacyOrVanilla = false;
 
                     // Restore floor rendering.
-                    BuildingDetailsPanel.Panel.HideFloors = false;
+                    BuildingDetailsPanelManager.Panel.HideFloors = false;
 
                     // Update override label text.
-                    floorOverrideLabel.text = Translations.Translate("RPR_CAL_FOV");
+                    _floorOverrideLabel.text = Translations.Translate("RPR_CAL_FOV");
 
                     // Set visibility.
-                    legacyPanel.Hide();
-                    vanillaPanel.Hide();
-                    volumetricPanel.Show();
+                    _legacyPanel.Hide();
+                    _vanillaPanel.Hide();
+                    _volumetricPanel.Show();
                 }
 
                 // Update panel with new calculations.
-                LevelData thisLevel = CurrentLevelData;
-                volumetricPanel.UpdatePopText(thisLevel);
-                volumetricPanel.CalculateVolumetric(currentBuilding, thisLevel, currentFloorOverride ?? currentFloorPack, currentSchoolPack, currentMult);
+                VolumetricPopPack.LevelData thisLevel = CurrentLevelData;
+                _volumetricPanel.UpdatePopText(thisLevel);
+                _volumetricPanel.CalculateVolumetric(_currentBuilding, thisLevel, _currentFloorOverride ?? _currentFloorPack, _currentSchoolPack, currentMult);
 
                 // Set visibility.
-                if (currentFloorOverride == null)
+                if (_currentFloorOverride == null)
                 {
-                    floorOverrideLabel.Hide();
-                    floorMenu.Show();
+                    _floorOverrideLabel.Hide();
+                    _floorMenu.Show();
                 }
                 else
                 {
-                    floorOverrideLabel.Show();
-                    floorMenu.Hide();
+                    _floorOverrideLabel.Show();
+                    _floorMenu.Hide();
                 }
 
-                floorPanel.Show();
+                _floorPanel.Show();
             }
-            else if (currentPopPack is VanillaPack)
+            else if (_currentPopPack is VanillaPack)
             {
                 // Using vanilla calcs.
                 usingLegacyOrVanilla = true;
 
                 // Set visibility.
-                volumetricPanel.Hide();
-                floorPanel.Hide();
-                legacyPanel.Hide();
-                vanillaPanel.isVisible = !(currentBuilding.m_buildingAI is SchoolAI);
+                _volumetricPanel.Hide();
+                _floorPanel.Hide();
+                _legacyPanel.Hide();
+                _vanillaPanel.isVisible = !(_currentBuilding.m_buildingAI is SchoolAI);
 
                 // Set override label and show.
-                floorOverrideLabel.text = Translations.Translate("RPR_CAL_FLG");
-                floorOverrideLabel.Show();
+                _floorOverrideLabel.text = Translations.Translate("RPR_CAL_FLG");
+                _floorOverrideLabel.Show();
 
                 // Cancel any floor rendering.
-                BuildingDetailsPanel.Panel.HideFloors = true;
+                BuildingDetailsPanelManager.Panel.HideFloors = true;
             }
             else
             {
@@ -467,17 +474,17 @@ namespace RealPop2
                 usingLegacyOrVanilla = true;
 
                 // Set visibility.
-                volumetricPanel.Hide();
-                floorPanel.Hide();
-                vanillaPanel.Hide();
-                legacyPanel.Show();
+                _volumetricPanel.Hide();
+                _floorPanel.Hide();
+                _vanillaPanel.Hide();
+                _legacyPanel.Show();
 
                 // Set override label and show.
-                floorOverrideLabel.text = Translations.Translate("RPR_CAL_FLG");
-                floorOverrideLabel.Show();
+                _floorOverrideLabel.text = Translations.Translate("RPR_CAL_FLG");
+                _floorOverrideLabel.Show();
 
                 // Cancel any floor rendering.
-                BuildingDetailsPanel.Panel.HideFloors = true;
+                BuildingDetailsPanelManager.Panel.HideFloors = true;
             }
         }
 
@@ -488,20 +495,20 @@ namespace RealPop2
         private void UpdateFloorSelection(int index)
         {
             // Update selected pack.
-            currentFloorPack = (FloorDataPack)floorPacks[index];
+            _currentFloorPack = (FloorDataPack)_floorPacks[index];
 
             // Update description.
-            floorDescription.text = currentFloorPack.Description;
+            _floorDescription.text = _currentFloorPack.Description;
 
             // Update panel with new calculations, assuming that we're not using legacy or vanilla popultion calcs.
-            volumetricPanel.UpdateFloorText(currentFloorPack);
-            if (currentPopPack.version != DataVersion.legacy && currentPopPack.version != DataVersion.vanilla)
+            _volumetricPanel.UpdateFloorText(_currentFloorPack);
+            if (_currentPopPack.Version != DataPack.DataVersion.Legacy && _currentPopPack.Version != DataPack.DataVersion.Vanilla)
             {
-                volumetricPanel.CalculateVolumetric(currentBuilding, CurrentLevelData, currentFloorPack, currentSchoolPack, currentMult);
+                _volumetricPanel.CalculateVolumetric(_currentBuilding, CurrentLevelData, _currentFloorPack, _currentSchoolPack, currentMult);
             }
 
             // Communicate change with to rest of panel.
-            BuildingDetailsPanel.Panel.FloorDataPack = currentFloorPack;
+            BuildingDetailsPanelManager.Panel.FloorPack = _currentFloorPack;
         }
 
         /// <summary>
@@ -511,15 +518,15 @@ namespace RealPop2
         private void UpdateSchoolSelection(int index)
         {
             // Update selected pack.
-            currentSchoolPack = schoolPacks[index];
+            _currentSchoolPack = _schoolPacks[index];
 
             // Update description.
-            schoolDescription.text = currentSchoolPack.Description;
+            _schoolDescription.text = _currentSchoolPack.Description;
 
             // Update volumetric panel with new calculations.
             if (!usingLegacyOrVanilla)
             {
-                volumetricPanel.CalculateVolumetric(currentBuilding, CurrentLevelData, currentFloorPack, currentSchoolPack, currentMult);
+                _volumetricPanel.CalculateVolumetric(_currentBuilding, CurrentLevelData, _currentFloorPack, _currentSchoolPack, currentMult);
             }
 
             // School selections aren't used anywhere else, so no need to communicate change to rest of panel.
@@ -538,7 +545,7 @@ namespace RealPop2
             // Recalculte values if we're not using legacy or vanilla calcs.
             if (!usingLegacyOrVanilla)
             {
-                volumetricPanel.CalculateVolumetric(currentBuilding, CurrentLevelData, currentFloorPack, currentSchoolPack, currentMult);
+                _volumetricPanel.CalculateVolumetric(_currentBuilding, CurrentLevelData, _currentFloorPack, _currentSchoolPack, currentMult);
             }
         }
 
@@ -552,26 +559,26 @@ namespace RealPop2
             // Toggle slider and default label visibility.
             if (isCustom)
             {
-                multDefaultLabel.Hide();
-                multSlider.parent.Show();
+                _multDefaultLabel.Hide();
+                _multSlider.parent.Show();
 
                 // Set multiplier value to whatever is currently active for that building.
-                currentMult = Multipliers.instance.ActiveMultiplier(currentBuilding);
-                multSlider.value = currentMult;
+                currentMult = Multipliers.Instance.ActiveMultiplier(_currentBuilding);
+                _multSlider.value = currentMult;
             }
             else
             {
                 // Set default multiplier.
                 currentMult = ModSettings.DefaultSchoolMult;
 
-                multSlider.parent.Hide();
-                multDefaultLabel.Show();
+                _multSlider.parent.Hide();
+                _multDefaultLabel.Show();
             }
 
             // In either case, recalculate as necessary.
             if (!usingLegacyOrVanilla)
             {
-                volumetricPanel.CalculateVolumetric(currentBuilding, CurrentLevelData, currentFloorPack, currentSchoolPack, currentMult);
+                _volumetricPanel.CalculateVolumetric(_currentBuilding, CurrentLevelData, _currentFloorPack, _currentSchoolPack, currentMult);
             }
         }
 
@@ -581,34 +588,35 @@ namespace RealPop2
         private void ApplySettings()
         {
             // Update building setting and save - multiplier first!
-            Multipliers.instance.UpdateMultiplier(currentBuilding, currentMult);
-            PopData.instance.UpdateBuildingPack(currentBuilding, currentPopPack);
-            FloorData.instance.UpdateBuildingPack(currentBuilding, currentFloorPack);
+            Multipliers.Instance.UpdateMultiplier(_currentBuilding, currentMult);
+            PopData.Instance.UpdateBuildingPack(_currentBuilding, _currentPopPack);
+            FloorData.Instance.UpdateBuildingPack(_currentBuilding, _currentFloorPack);
 
             // Update multiplier.
-            if (multCheck.isChecked)
+            if (_multCheck.isChecked)
             {
                 // If the multiplier override checkbox is selected, update the multiplier with the slider value.
-                Multipliers.instance.UpdateMultiplier(currentBuilding, currentMult);
+                Multipliers.Instance.UpdateMultiplier(_currentBuilding, currentMult);
             }
             else
             {
                 // Otherwise, delete any multiplier override.
-                Multipliers.instance.DeleteMultiplier(currentBuilding.name);
+                Multipliers.Instance.DeleteMultiplier(_currentBuilding.name);
             }
 
             // Make sure SchoolData is called AFTER student count is settled via Pop and Floor packs, so it can work from updated data.
-            if (currentBuilding.m_buildingAI is SchoolAI)
+            if (_currentBuilding.m_buildingAI is SchoolAI)
             {
-                SchoolData.instance.UpdateBuildingPack(currentBuilding, currentSchoolPack);
+                SchoolData.Instance.UpdateBuildingPack(_currentBuilding, _currentSchoolPack);
             }
-            ConfigUtils.SaveSettings();
+
+            ConfigurationUtils.SaveSettings();
 
             // Update all existing buildings, force-evicting residents as necessary.
-            CitizenUnitUtils.UpdateCitizenUnits(currentBuilding.name, ItemClass.Service.None, currentBuilding.GetSubService(), false);
+            CitizenUnitUtils.UpdateCitizenUnits(_currentBuilding.name, ItemClass.Service.None, _currentBuilding.GetSubService(), false);
 
             // Refresh the selection list (to make sure settings checkboxes reflect new state).
-            BuildingDetailsPanel.Panel.RefreshList();
+            BuildingDetailsPanelManager.Panel.RefreshList();
         }
 
         /// <summary>
@@ -618,7 +626,7 @@ namespace RealPop2
         /// <param name="text">Label text.</param>
         /// <param name="xPos">Label x-position.</param>
         /// <param name="yPos">Label y-position.</param>
-        /// <returns>New column label</returns>
+        /// <returns>New column label.</returns>
         private UILabel ColumnLabel(UIComponent parent, string text, float xPos, float yPos)
         {
             UILabel newLabel = parent.AddUIComponent<UILabel>();
@@ -638,7 +646,7 @@ namespace RealPop2
         /// <param name="parent">Parent component.</param>
         /// <param name="xPos">Label x-position.</param>
         /// <param name="yPos">Label y-position.</param>
-        /// <returns></returns>
+        /// <returns>New description label.</returns>
         private UILabel Description(UIComponent parent, float xPos, float yPos)
         {
             UILabel newLabel = parent.AddUIComponent<UILabel>();

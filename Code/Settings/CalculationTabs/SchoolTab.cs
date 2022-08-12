@@ -14,31 +14,45 @@ namespace RealPop2
     internal class SchoolTab : CalculationsTabBase
     {
         // Tab icons.
-        private readonly string[] tabIconNames =
+        private readonly string[] _tabIconNames =
         {
-            "ToolbarIconEducation"
+            "ToolbarIconEducation",
         };
 
-        private readonly string[] tabAtlasNames =
+        private readonly string[] _tabAtlasNames =
         {
-            "Ingame"
+            "Ingame",
         };
-
-        protected override string[] IconNames => tabIconNames;
-        protected override string[] AtlasNames => tabAtlasNames;
-        protected override string Tooltip => Translations.Translate("RPR_CAT_SCH");
-
-        // Tab width.
-        protected override float TabWidth => 50f;
 
         /// <summary>
-        /// Constructor.
+        /// Initializes a new instance of the <see cref="SchoolTab"/> class.
         /// </summary>
         /// <param name="tabStrip">Tab strip to add to.</param>
         /// <param name="tabIndex">Index number of tab.</param>
-        internal SchoolTab(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
+        internal SchoolTab(UITabstrip tabStrip, int tabIndex)
+            : base(tabStrip, tabIndex)
         {
         }
+
+        /// <summary>
+        /// Gets the tab width.
+        /// </summary>
+        protected override float TabWidth => 50f;
+
+        /// <summary>
+        /// Gets the array of icon sprite names for this tab.
+        /// </summary>
+        protected override string[] IconNames => _tabIconNames;
+
+        /// <summary>
+        /// Gets the array of icon atlas names for this tab.
+        /// </summary>
+        protected override string[] AtlasNames => _tabAtlasNames;
+
+        /// <summary>
+        /// Gets the tooltip for this tab.
+        /// </summary>
+        protected override string Tooltip => Translations.Translate("RPR_CAT_SCH");
 
         /// <summary>
         /// Adds required sub-tabs.
@@ -46,7 +60,7 @@ namespace RealPop2
         /// <param name="tabStrip">Tabstrip reference.</param>
         protected override void AddTabs(UITabstrip tabStrip)
         {
-            defaultsPanel = new SchDefaultsPanel(tabStrip, 0);
+            m_defaultsPanel = new SchDefaultsPanel(tabStrip, 0);
         }
     }
 }

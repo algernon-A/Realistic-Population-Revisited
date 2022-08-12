@@ -3,9 +3,7 @@
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-using RealPop2;
-
-namespace Realistic_Population_Revisited.Code.Patches.Production
+namespace RealPop2
 {
     using System.Collections.Generic;
     using AlgernonCommons;
@@ -17,12 +15,17 @@ namespace Realistic_Population_Revisited.Code.Patches.Production
     /// Harmony patch to implement production changes for office buildings, and supporting methods.
     /// </summary>
     [HarmonyPatch(typeof(OfficeBuildingAI), nameof(OfficeBuildingAI.CalculateProductionCapacity))]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
     public static class OfficeProduction
     {
-        // Default multiplier.
+        /// <summary>
+        /// Default production multiplier.
+        /// </summary>
         internal const int DefaultProdMult = 100;
 
-        // Maximum multiplier.
+        /// <summary>
+        /// Maximum production multiplier.
+        /// </summary>
         internal const int MaxProdMult = 200;
 
         // Settings per subservice.
@@ -50,7 +53,7 @@ namespace Realistic_Population_Revisited.Code.Patches.Production
             int totalWorkers = level0 + level1 + level2 + level3;
 
             // Using legacy settings?
-            if (PopData.instance.ActivePack(info).version == DataVersion.legacy)
+            if (PopData.Instance.ActivePack(info).Version == DataPack.DataVersion.Legacy)
             {
                 // Legacy settings.
                 int[] array = LegacyAIUtils.GetOfficeArray(info, (int)level);
@@ -98,7 +101,6 @@ namespace Realistic_Population_Revisited.Code.Patches.Production
         /// </summary>
         /// <param name="subService">Sub-service to set.</param>
         /// <param name="value">Value to set.</param>
-        /// <returns>Visit mode.</returns>
         internal static void SetProdMult(ItemClass.SubService subService, int value)
         {
             int cleanValue = Mathf.Clamp(0, value, MaxProdMult);
@@ -120,7 +122,7 @@ namespace Realistic_Population_Revisited.Code.Patches.Production
         /// <summary>
         /// Serializes the current office production multiplier settings ready for XML.
         /// </summary>
-        /// <returns>New list of office production multiplier entries ready for serialization</returns>
+        /// <returns>New list of office production multiplier entries ready for serialization.</returns>
         internal static List<Configuration.SubServiceValue> SerializeProdMults()
         {
             return new List<Configuration.SubServiceValue>()
@@ -128,21 +130,20 @@ namespace Realistic_Population_Revisited.Code.Patches.Production
                 new Configuration.SubServiceValue
                 {
                     SubService = ItemClass.SubService.OfficeGeneric,
-                    Value = genericOfficeProdMult
+                    Value = genericOfficeProdMult,
                 },
                 new Configuration.SubServiceValue
                 {
                     SubService = ItemClass.SubService.OfficeHightech,
-                    Value = highTechOfficeProdMult
-                }
+                    Value = highTechOfficeProdMult,
+                },
             };
         }
 
         /// <summary>
         /// Deserializes XML office production multiplier entries.
         /// </summary>
-        /// <param name="entries">List of office production multiplier entries to deserialize</param>
-        /// <returns>New list of voffice production multiplier entries ready for serialization</returns>
+        /// <param name="entries">List of office production multiplier entries to deserialize.</param>
         internal static void DeserializeProdMults(List<Configuration.SubServiceValue> entries)
         {
             foreach (Configuration.SubServiceValue entry in entries)

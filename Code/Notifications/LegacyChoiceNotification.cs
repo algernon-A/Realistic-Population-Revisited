@@ -8,8 +8,6 @@ namespace RealPop2
     using AlgernonCommons.Notifications;
     using AlgernonCommons.Translation;
     using ColossalFramework.UI;
-    using Realistic_Population_Revisited.Code.Patches.Population;
-    using Realistic_Population_Revisited.Code.Patches.Production;
 
     /// <summary>
     /// Message box prompting the user to chose between legacy and new calculations for this save file.
@@ -17,10 +15,12 @@ namespace RealPop2
     internal class LegacyChoiceNotification : ListNotification
     {
         // Button instances.
-        UIButton vanillaButton, legacyButton, newButton;
+        private UIButton _vanillaButton;
+        private UIButton _legacyButton;
+        private UIButton _newButton;
 
         /// <summary>
-        /// Constructor - sets text.
+        /// Initializes a new instance of the <see cref="LegacyChoiceNotification"/> class.
         /// </summary>
         public LegacyChoiceNotification()
         {
@@ -33,12 +33,12 @@ namespace RealPop2
         public override void AddButtons()
         {
             // Add close button.
-            newButton = AddButton(1, 3, Translations.Translate("RPR_OLD_NEW"), ChooseNew);
-            newButton.wordWrap = true;
-            vanillaButton = AddButton(2, 3, Translations.Translate("RPR_OLD_VAN"), ChooseVanilla);
-            vanillaButton.wordWrap = true;
-            legacyButton = AddButton(3, 3, Translations.Translate("RPR_OLD_LEG"), ChooseLegacy);
-            legacyButton.wordWrap = true;
+            _newButton = AddButton(1, 3, Translations.Translate("RPR_OLD_NEW"), ChooseNew);
+            _newButton.wordWrap = true;
+            _vanillaButton = AddButton(2, 3, Translations.Translate("RPR_OLD_VAN"), ChooseVanilla);
+            _vanillaButton.wordWrap = true;
+            _legacyButton = AddButton(3, 3, Translations.Translate("RPR_OLD_LEG"), ChooseLegacy);
+            _legacyButton.wordWrap = true;
         }
 
         /// <summary>
@@ -50,9 +50,9 @@ namespace RealPop2
             ModSettings.ThisSaveDefaultCom = DefaultMode.New;
             ModSettings.ThisSaveDefaultInd = DefaultMode.New;
             ModSettings.ThisSaveDefaultOff = DefaultMode.New;
-            Visitors.SetVisitModes = (int)Visitors.ComVisitModes.popCalcs;
-            IndustrialProduction.SetProdModes = (int)IndustrialProduction.ProdModes.popCalcs;
-            ExtractorProduction.SetProdModes = (int)ExtractorProduction.ProdModes.popCalcs;
+            Visitors.SetVisitModes = (int)Visitors.ComVisitModes.PopCalcs;
+            IndustrialProduction.SetProdModes = (int)IndustrialProduction.ProdModes.PopCalcs;
+            ExtractorProduction.SetProdModes = (int)ExtractorProduction.ProdModes.PopCalcs;
 
             // Update exiting buildings.
             UpdateBuildings();
@@ -69,9 +69,9 @@ namespace RealPop2
             ModSettings.ThisSaveDefaultCom = DefaultMode.Vanilla;
             ModSettings.ThisSaveDefaultInd = DefaultMode.Vanilla;
             ModSettings.ThisSaveDefaultOff = DefaultMode.Vanilla;
-            Visitors.SetVisitModes = (int)Visitors.ComVisitModes.legacy;
-            IndustrialProduction.SetProdModes = (int)IndustrialProduction.ProdModes.legacy;
-            ExtractorProduction.SetProdModes = (int)ExtractorProduction.ProdModes.legacy;
+            Visitors.SetVisitModes = (int)Visitors.ComVisitModes.Legacy;
+            IndustrialProduction.SetProdModes = (int)IndustrialProduction.ProdModes.Legacy;
+            ExtractorProduction.SetProdModes = (int)ExtractorProduction.ProdModes.Legacy;
 
             // Update exiting buildings.
             UpdateBuildings();
@@ -88,9 +88,9 @@ namespace RealPop2
             ModSettings.ThisSaveDefaultCom = DefaultMode.Legacy;
             ModSettings.ThisSaveDefaultInd = DefaultMode.Legacy;
             ModSettings.ThisSaveDefaultOff = DefaultMode.Legacy;
-            Visitors.SetVisitModes = (int)Visitors.ComVisitModes.legacy;
-            IndustrialProduction.SetProdModes = (int)IndustrialProduction.ProdModes.legacy;
-            ExtractorProduction.SetProdModes = (int)ExtractorProduction.ProdModes.legacy;
+            Visitors.SetVisitModes = (int)Visitors.ComVisitModes.Legacy;
+            IndustrialProduction.SetProdModes = (int)IndustrialProduction.ProdModes.Legacy;
+            ExtractorProduction.SetProdModes = (int)ExtractorProduction.ProdModes.Legacy;
 
             // Update exiting buildings.
             UpdateBuildings();

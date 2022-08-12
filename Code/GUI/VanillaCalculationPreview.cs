@@ -1,4 +1,4 @@
-﻿// <copyright file="UIVanillaCalcs.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="VanillaCalculationPreview.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -15,20 +15,8 @@ namespace RealPop2
     /// <summary>
     /// Panel to display the mod's calculations for jobs/workplaces.
     /// </summary>
-    internal class UIVanillaCalcs : UIPanel
+    internal class VanillaCalculationPreview : UIPanel
     {
-        private enum LabelIndex : int
-        {
-            Width = 0,
-            Length,
-            PopCalc,
-            PopCustom,
-            AppliedPop,
-            Visit,
-            Production,
-            NumIndexes
-        }
-
         // Layout constants.
         private const float LeftPadding = 10;
         private const float LineHeight = 25f;
@@ -42,8 +30,21 @@ namespace RealPop2
         private UILabel messageLabel;
 
         // Labels.
-        private UILabel[] titleLabel = new UILabel[(int)LabelIndex.NumIndexes];
-        private UILabel[][] figLabels = new UILabel[NumColumns][];
+        private UILabel[] _titleLabels = new UILabel[(int)LabelIndex.NumIndexes];
+        private UILabel[][] _figLabels = new UILabel[NumColumns][];
+
+        // Label indexes.
+        private enum LabelIndex : int
+        {
+            Width = 0,
+            Length,
+            PopCalc,
+            PopCustom,
+            AppliedPop,
+            Visit,
+            Production,
+            NumIndexes,
+        }
 
         /// <summary>
         /// Create the mod calcs panel; we no longer use Start() as that's not sufficiently reliable (race conditions), and is no longer needed, with the new create/destroy process.
@@ -61,21 +62,20 @@ namespace RealPop2
             builtinKeyNavigation = true;
             clipChildren = true;
 
-
             // Add title labels.
-            titleLabel[(int)LabelIndex.Width] = UILabels.AddLabel(this, LeftPadding, LineHeight * 1f, Translations.Translate("RPR_CAL_LOT_X"));
-            titleLabel[(int)LabelIndex.Length] = UILabels.AddLabel(this, LeftPadding, LineHeight * 2f, Translations.Translate("RPR_CAL_LOT_Z"));
-            titleLabel[(int)LabelIndex.PopCalc] = UILabels.AddLabel(this, LeftPadding, LineHeight * 4f, Translations.Translate("RPR_CAL_JOB_CALC"));
-            titleLabel[(int)LabelIndex.PopCustom] = UILabels.AddLabel(this, LeftPadding, LineHeight * 5f, Translations.Translate("RPR_CAL_JOB_CUST"));
-            titleLabel[(int)LabelIndex.AppliedPop] = UILabels.AddLabel(this, LeftPadding, LineHeight * 6f, Translations.Translate("RPR_CAL_JOB_APPL"));
-            titleLabel[(int)LabelIndex.Visit] = UILabels.AddLabel(this, LeftPadding, LineHeight * 8f, Translations.Translate("RPR_CAL_VOL_VIS"));
-            titleLabel[(int)LabelIndex.Production] = UILabels.AddLabel(this, LeftPadding, LineHeight * 8f, Translations.Translate("RPR_CAL_VOL_PRD"));
+            _titleLabels[(int)LabelIndex.Width] = UILabels.AddLabel(this, LeftPadding, LineHeight * 1f, Translations.Translate("RPR_CAL_LOT_X"));
+            _titleLabels[(int)LabelIndex.Length] = UILabels.AddLabel(this, LeftPadding, LineHeight * 2f, Translations.Translate("RPR_CAL_LOT_Z"));
+            _titleLabels[(int)LabelIndex.PopCalc] = UILabels.AddLabel(this, LeftPadding, LineHeight * 4f, Translations.Translate("RPR_CAL_JOB_CALC"));
+            _titleLabels[(int)LabelIndex.PopCustom] = UILabels.AddLabel(this, LeftPadding, LineHeight * 5f, Translations.Translate("RPR_CAL_JOB_CUST"));
+            _titleLabels[(int)LabelIndex.AppliedPop] = UILabels.AddLabel(this, LeftPadding, LineHeight * 6f, Translations.Translate("RPR_CAL_JOB_APPL"));
+            _titleLabels[(int)LabelIndex.Visit] = UILabels.AddLabel(this, LeftPadding, LineHeight * 8f, Translations.Translate("RPR_CAL_VOL_VIS"));
+            _titleLabels[(int)LabelIndex.Production] = UILabels.AddLabel(this, LeftPadding, LineHeight * 8f, Translations.Translate("RPR_CAL_VOL_PRD"));
 
             // Set up figure columns.
             for (int i = 0; i < NumColumns; ++i)
             {
                 // Initialize array.
-                figLabels[i] = new UILabel[(int)LabelIndex.NumIndexes];
+                _figLabels[i] = new UILabel[(int)LabelIndex.NumIndexes];
 
                 // Relative x-position for this column.
                 float xPos = Column1X + (i * ColumnWidth);
@@ -83,12 +83,12 @@ namespace RealPop2
                 // Set up figures in column
                 for (int j = 0; j < (int)LabelIndex.NumIndexes; ++j)
                 {
-                    figLabels[i][j] = UILabels.AddLabel(titleLabel[j], xPos, 0f, string.Empty);
+                    _figLabels[i][j] = UILabels.AddLabel(_titleLabels[j], xPos, 0f, string.Empty);
                 }
             }
 
             // Hide production label to start.
-            titleLabel[(int)LabelIndex.Production].Hide();
+            _titleLabels[(int)LabelIndex.Production].Hide();
 
             // Message label (initially hidden).
             messageLabel = this.AddUIComponent<UILabel>();
@@ -105,7 +105,7 @@ namespace RealPop2
         /// <summary>
         /// Called whenever the currently selected building is changed to update the panel display.
         /// </summary>
-        /// <param name="building">Newly selected building</param>
+        /// <param name="building">Newly selected building.</param>
         internal void SelectionChanged(BuildingInfo building)
         {
             // Make sure we have a valid selection before proceeding.
@@ -125,27 +125,26 @@ namespace RealPop2
             if (buildingAI is ResidentialBuildingAI)
             {
                 // Residential AI.
-                titleLabel[(int)LabelIndex.PopCalc].text = Translations.Translate("RPR_CAL_HOM_CALC");
-                titleLabel[(int)LabelIndex.PopCustom].text = Translations.Translate("RPR_CAL_HOM_CUST");
-                titleLabel[(int)LabelIndex.AppliedPop].text = Translations.Translate("RPR_CAL_HOM_APPL");
+                _titleLabels[(int)LabelIndex.PopCalc].text = Translations.Translate("RPR_CAL_HOM_CALC");
+                _titleLabels[(int)LabelIndex.PopCustom].text = Translations.Translate("RPR_CAL_HOM_CUST");
+                _titleLabels[(int)LabelIndex.AppliedPop].text = Translations.Translate("RPR_CAL_HOM_APPL");
 
                 // Hide redundant labels.
-                titleLabel[(int)LabelIndex.Visit].Hide();
-                titleLabel[(int)LabelIndex.Production].Hide();
+                _titleLabels[(int)LabelIndex.Visit].Hide();
+                _titleLabels[(int)LabelIndex.Production].Hide();
             }
             else
             {
                 // Workplace AI.
-                titleLabel[(int)LabelIndex.PopCalc].text = Translations.Translate("RPR_CAL_JOB_CALC");
-                titleLabel[(int)LabelIndex.PopCustom].text = Translations.Translate("RPR_CAL_JOB_CUST");
-                titleLabel[(int)LabelIndex.AppliedPop].text = Translations.Translate("RPR_CAL_JOB_APPL");
+                _titleLabels[(int)LabelIndex.PopCalc].text = Translations.Translate("RPR_CAL_JOB_CALC");
+                _titleLabels[(int)LabelIndex.PopCustom].text = Translations.Translate("RPR_CAL_JOB_CUST");
+                _titleLabels[(int)LabelIndex.AppliedPop].text = Translations.Translate("RPR_CAL_JOB_APPL");
 
                 // Set vistor/production label visibility.
                 bool showProduction = buildingAI is OfficeBuildingAI || buildingAI is IndustrialBuildingAI || buildingAI is IndustrialExtractorAI;
-                titleLabel[(int)LabelIndex.Production].isVisible = showProduction;
-                titleLabel[(int)LabelIndex.Visit].isVisible = !showProduction;
+                _titleLabels[(int)LabelIndex.Production].isVisible = showProduction;
+                _titleLabels[(int)LabelIndex.Visit].isVisible = !showProduction;
             }
-
 
             // Iterate through each column to set figures.
             int width = building.GetWidth();
@@ -156,14 +155,14 @@ namespace RealPop2
                 if (length <= NumColumns)
                 {
                     // Valid length increment; set figures and increment length counter by one square.
-                    SetFigures(figLabels[i], building, buildingAI, width, length++);
+                    SetFigures(_figLabels[i], building, buildingAI, width, length++);
                 }
                 else
                 {
                     // Invalid length increment (greater than 4); clear figures for that column.
                     for (int j = 0; j < (int)LabelIndex.NumIndexes; ++j)
                     {
-                        figLabels[i][j].text = string.Empty;
+                        _figLabels[i][j].text = string.Empty;
                     }
                 }
             }
@@ -239,7 +238,7 @@ namespace RealPop2
             labels[(int)LabelIndex.AppliedPop].text = appliedCount.ToString();
 
             // Set customised homes/jobs (leave blank if no custom setting retrieved).
-            int customHomeJobs = PopData.instance.GetOverride(building.name);
+            int customHomeJobs = PopData.Instance.GetOverride(building.name);
             labels[(int)LabelIndex.PopCustom].text = (customHomeJobs > 0) ? customHomeJobs.ToString() : string.Empty;
 
             // Visitor and production values.

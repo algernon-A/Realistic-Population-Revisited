@@ -1,4 +1,4 @@
-﻿// <copyright file="UIBuildingFilter.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="BuildingPanelFilter.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -13,21 +13,24 @@ namespace RealPop2
     /// <summary>
     /// Panel containing filtering mechanisms (category buttons, name search) for the building list.
     /// </summary>
-    internal class UIBuildingFilter : UIPanel
+    internal class BuildingPanelFilter : UIPanel
     {
-        // Layout constants.
-        internal const float FilterSpacing = 25f;
-        internal const float AnyX = 335f;
+        /// <summary>
+        /// Relative X-position for the 'has override' checkbox.
+        /// </summary>
         internal const float HasOverrideX = AnyX + FilterSpacing;
+
+        /// <summary>
+        /// Relative X-position for the 'has non-default' checkbox.
+        /// </summary>
         internal const float HasNonDefaultX = HasOverrideX + FilterSpacing;
 
-        // Panel components.
-        internal UICheckBox[] categoryToggles, settingsFilter;
-        internal UIButton allCategories;
-        internal UITextField nameFilter;
+        // Layout constants - private.
+        private const float FilterSpacing = 25f;
+        private const float AnyX = 335f;
 
         // ItemClass ServiceClass services for each toggle.
-        private static readonly ItemClass.Service[] s_serviceMapping =
+        private readonly ItemClass.Service[] _serviceMapping =
         {
             ItemClass.Service.Residential,
             ItemClass.Service.Residential,
@@ -39,11 +42,11 @@ namespace RealPop2
             ItemClass.Service.Commercial,
             ItemClass.Service.Commercial,
             ItemClass.Service.Residential,
-            ItemClass.Service.Education
+            ItemClass.Service.Education,
         };
 
         // ItemClass ServiceClass services for each toggle.
-        private static readonly ItemClass.SubService[] s_subServiceMapping =
+        private readonly ItemClass.SubService[] _subServiceMapping =
         {
             ItemClass.SubService.ResidentialLow,
             ItemClass.SubService.ResidentialHigh,
@@ -55,14 +58,27 @@ namespace RealPop2
             ItemClass.SubService.CommercialLeisure,
             ItemClass.SubService.CommercialEco,
             ItemClass.SubService.ResidentialLowEco,
-            ItemClass.SubService.None
+            ItemClass.SubService.None,
         };
 
         // Atlas that each icon sprite comes from.
-        private static readonly string[] s_atlases = { "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Thumbnails", "Ingame" };
+        private readonly string[] _atlases =
+        {
+            "Thumbnails",
+            "Thumbnails",
+            "Thumbnails",
+            "Thumbnails",
+            "Thumbnails",
+            "Thumbnails",
+            "Thumbnails",
+            "Thumbnails",
+            "Thumbnails",
+            "Thumbnails",
+            "Ingame",
+        };
 
         // Icon sprite enabled names.
-        private static readonly string[] s_spriteNames =
+        private readonly string[] _spriteNames =
         {
             "ZoningResidentialLow",
             "ZoningResidentialHigh",
@@ -74,11 +90,11 @@ namespace RealPop2
             "DistrictSpecializationLeisure",
             "DistrictSpecializationOrganic",
             "DistrictSpecializationSelfsufficient",
-            "ToolbarIconEducation"
+            "ToolbarIconEducation",
         };
 
         // Icon sprite disabled names.
-        private static readonly string[] s_disabledSpriteNames =
+        private readonly string[] _disabledSpriteNames =
         {
             "ZoningResidentialLowDisabled",
             "ZoningResidentialHighDisabled",
@@ -90,11 +106,11 @@ namespace RealPop2
             "IconPolicyLeisure",
             "IconPolicyOrganic",
             "IconPolicySelfsufficient",
-            "ToolbarIconEducationDisabled"
+            "ToolbarIconEducationDisabled",
         };
 
         // Icon sprite tooltips.
-        private static readonly string[] s_tooltips =
+        private readonly string[] _tooltips =
         {
             "RPR_CAT_RLO",
             "RPR_CAT_RHI",
@@ -106,18 +122,27 @@ namespace RealPop2
             "RPR_CAT_LEI",
             "RPR_CAT_ORG",
             "RPR_CAT_SSH",
-            "RPR_CAT_SCH"
+            "RPR_CAT_SCH",
         };
 
-        // FIlter by settings checkboxes.
-        internal UICheckBox[] SettingsFilter => settingsFilter;
-
-
-        // Basic event handler for filtering changes.
-        public event PropertyChangedEventHandler<int> EventFilteringChanged;
-
         // Filter checkbox tooltips.
-        private readonly string[] FilterTooltipKeys = { "RPR_FTR_ANY", "RPR_FTR_OVR", "RPR_FTR_NDC" };
+        private readonly string[] _filterTooltipKeys =
+        {
+            "RPR_FTR_ANY",
+            "RPR_FTR_OVR",
+            "RPR_FTR_NDC",
+        };
+
+        // Panel components.
+        private UICheckBox[] _categoryToggles;
+        private UICheckBox[] _settingsFilter;
+        private UIButton _allCategories;
+        private UITextField _nameFilter;
+
+        /// <summary>
+        /// Event generated when filter settings change.
+        /// </summary>
+        internal event PropertyChangedEventHandler<int> EventFilteringChanged;
 
         /// <summary>
         /// Index numbers for building category filter buttons.
@@ -187,7 +212,7 @@ namespace RealPop2
             /// <summary>
             /// Number of building categories.
             /// </summary>
-            NumCategories
+            NumCategories,
         }
 
         /// <summary>
@@ -213,8 +238,23 @@ namespace RealPop2
             /// <summary>
             /// Number of filter categories.
             /// </summary>
-            NumCategories
+            NumCategories,
         }
+
+        /// <summary>
+        /// Gets the filter by settings checkbox array.
+        /// </summary>
+        internal UICheckBox[] SettingsFilter => _settingsFilter;
+
+        /// <summary>
+        /// Gets the category toggles checkbox array.
+        /// </summary>
+        internal UICheckBox[] CategoryToggles => _categoryToggles;
+
+        /// <summary>
+        /// Gets or sets the name filter text.
+        /// </summary>
+        internal string NameFilterText { get => _nameFilter.text; set => _nameFilter.text = value; }
 
         /// <summary>
         /// Set up filter bar.
@@ -223,24 +263,24 @@ namespace RealPop2
         internal void Setup()
         {
             // Catgegory buttons.
-            categoryToggles = new UICheckBox[(int)BuildingCategories.NumCategories];
+            _categoryToggles = new UICheckBox[(int)BuildingCategories.NumCategories];
 
             for (int i = 0; i < (int)BuildingCategories.NumCategories; i++)
             {
                 // Basic setup.
-                categoryToggles[i] = UICheckBoxes.AddIconToggle(this, 40 * i, 0f, s_atlases[i], s_spriteNames[i], s_spriteNames[i] + "Disabled", tooltip: Translations.Translate(s_tooltips[i]));
-                categoryToggles[i].isChecked = true;
-                categoryToggles[i].readOnly = true;
+                _categoryToggles[i] = UICheckBoxes.AddIconToggle(this, 40 * i, 0f, _atlases[i], _spriteNames[i], _spriteNames[i] + "Disabled", tooltip: Translations.Translate(_tooltips[i]));
+                _categoryToggles[i].isChecked = true;
+                _categoryToggles[i].readOnly = true;
 
                 // Single click event handler - toggle state of this button.
-                categoryToggles[i].eventClick += (c, p) =>
+                _categoryToggles[i].eventClick += (c, p) =>
                 {
                     // If either shift or control is NOT held down, deselect all other toggles.
                     if (!(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
                     {
                         for (int j = 0; j < (int)BuildingCategories.NumCategories; j++)
                         {
-                            categoryToggles[j].isChecked = false;
+                            _categoryToggles[j].isChecked = false;
                         }
                     }
 
@@ -253,15 +293,15 @@ namespace RealPop2
             }
 
             // 'All categories' button.
-            allCategories = UIButtons.AddButton(this, 445f, 0f, Translations.Translate("RPR_CAT_ALL"), 200f);
+            _allCategories = UIButtons.AddButton(this, 445f, 0f, Translations.Translate("RPR_CAT_ALL"), 200f);
 
             // All categories event handler.
-            allCategories.eventClick += (c, p) =>
+            _allCategories.eventClick += (c, p) =>
             {
                 // Select all category toggles.
                 for (int i = 0; i < (int)BuildingCategories.NumCategories; i++)
                 {
-                    categoryToggles[i].isChecked = true;
+                    _categoryToggles[i].isChecked = true;
                 }
 
                 // Trigger an update.
@@ -269,49 +309,49 @@ namespace RealPop2
             };
 
             // Name filter.
-            nameFilter = UITextFields.AddBigLabelledTextField(this, width - 200f, 0, Translations.Translate("RPR_FIL_NAME"));
+            _nameFilter = UITextFields.AddBigLabelledTextField(this, width - 200f, 0, Translations.Translate("RPR_FIL_NAME"));
 
             // Name filter event handling - update on any change.
-            nameFilter.eventTextChanged += (control, text) => EventFilteringChanged(this, 5);
-            nameFilter.eventTextSubmitted += (control, text) => EventFilteringChanged(this, 5);
+            _nameFilter.eventTextChanged += (control, text) => EventFilteringChanged(this, 5);
+            _nameFilter.eventTextSubmitted += (control, text) => EventFilteringChanged(this, 5);
 
             // Settings filter label.
             UILabel filterLabel = SettingsFilterLabel(55f, Translations.Translate("RPR_FIL_SET"));
 
             // Settings filter checkboxes.
-            settingsFilter = new UICheckBox[(int)FilterCategories.NumCategories];
+            _settingsFilter = new UICheckBox[(int)FilterCategories.NumCategories];
             for (int i = 0; i < (int)FilterCategories.NumCategories; ++i)
             {
-                settingsFilter[i] = this.AddUIComponent<UICheckBox>();
-                settingsFilter[i].width = 20f;
-                settingsFilter[i].height = 20f;
-                settingsFilter[i].clipChildren = true;
-                settingsFilter[i].relativePosition = new Vector2(AnyX + (FilterSpacing * i), 45f);
+                _settingsFilter[i] = this.AddUIComponent<UICheckBox>();
+                _settingsFilter[i].width = 20f;
+                _settingsFilter[i].height = 20f;
+                _settingsFilter[i].clipChildren = true;
+                _settingsFilter[i].relativePosition = new Vector2(AnyX + (FilterSpacing * i), 45f);
 
                 // Checkbox sprites.
-                UISprite sprite = settingsFilter[i].AddUIComponent<UISprite>();
+                UISprite sprite = _settingsFilter[i].AddUIComponent<UISprite>();
                 sprite.spriteName = "ToggleBase";
                 sprite.size = new Vector2(20f, 20f);
                 sprite.relativePosition = Vector2.zero;
 
-                settingsFilter[i].checkedBoxObject = sprite.AddUIComponent<UISprite>();
-                ((UISprite)settingsFilter[i].checkedBoxObject).spriteName = "ToggleBaseFocused";
-                settingsFilter[i].checkedBoxObject.size = new Vector2(20f, 20f);
-                settingsFilter[i].checkedBoxObject.relativePosition = Vector2.zero;
+                _settingsFilter[i].checkedBoxObject = sprite.AddUIComponent<UISprite>();
+                ((UISprite)_settingsFilter[i].checkedBoxObject).spriteName = "ToggleBaseFocused";
+                _settingsFilter[i].checkedBoxObject.size = new Vector2(20f, 20f);
+                _settingsFilter[i].checkedBoxObject.relativePosition = Vector2.zero;
 
                 // Tooltip.
-                settingsFilter[i].tooltip = Translations.Translate(FilterTooltipKeys[i]);
+                _settingsFilter[i].tooltip = Translations.Translate(_filterTooltipKeys[i]);
 
                 // Special event handling for 'any' checkbox.
                 if (i == (int)FilterCategories.Any)
                 {
-                    settingsFilter[i].eventCheckChanged += (control, isChecked) =>
+                    _settingsFilter[i].eventCheckChanged += (control, isChecked) =>
                     {
                         if (isChecked)
                         {
                             // Unselect all other checkboxes if 'any' is checked.
-                            settingsFilter[(int)FilterCategories.HasOverride].isChecked = false;
-                            settingsFilter[(int)FilterCategories.HasNonDefault].isChecked = false;
+                            _settingsFilter[(int)FilterCategories.HasOverride].isChecked = false;
+                            _settingsFilter[(int)FilterCategories.HasNonDefault].isChecked = false;
                         }
                     };
                 }
@@ -319,43 +359,43 @@ namespace RealPop2
                 {
                     // Non-'any' checkboxes.
                     // Unselect 'any' checkbox if any other is checked.
-                    settingsFilter[i].eventCheckChanged += (control, isChecked) =>
+                    _settingsFilter[i].eventCheckChanged += (control, isChecked) =>
                     {
                         if (isChecked)
                         {
-                            settingsFilter[0].isChecked = false;
+                            _settingsFilter[0].isChecked = false;
                         }
                     };
                 }
 
                 // Trigger filtering changed event if any checkbox is changed.
-                settingsFilter[i].eventCheckChanged += (control, isChecked) => { EventFilteringChanged(this, 0); };
+                _settingsFilter[i].eventCheckChanged += (control, isChecked) => { EventFilteringChanged(this, 0); };
             }
         }
 
         /// <summary>
-        /// Sets the category toggles so that the one that includes this building is on, and the rest are off
+        /// Sets the category toggles so that the one that includes this building is on, and the rest are off.
         /// </summary>
-        /// <param name="buildingClass">ItemClass of the building (to match toggle categories)</param>
+        /// <param name="buildingClass">ItemClass of the building (to match toggle categories).</param>
         internal void SelectBuildingCategory(ItemClass buildingClass)
         {
-            for (int i = 0; i < (int)BuildingCategories.NumCategories; i ++)
+            for (int i = 0; i < (int)BuildingCategories.NumCategories; ++i)
             {
-                if (s_subServiceMapping[i] == ItemClass.SubService.None && buildingClass.m_service == s_serviceMapping[i])
+                if (_subServiceMapping[i] == ItemClass.SubService.None && buildingClass.m_service == _serviceMapping[i])
                 {
-                    categoryToggles[i].isChecked = true;
+                    _categoryToggles[i].isChecked = true;
                 }
-                else if (buildingClass.m_subService == s_subServiceMapping[i])
+                else if (buildingClass.m_subService == _subServiceMapping[i])
                 {
-                    categoryToggles[i].isChecked = true;
+                    _categoryToggles[i].isChecked = true;
                 }
-                else if (buildingClass.m_subService == ItemClass.SubService.ResidentialHighEco && s_subServiceMapping[i] == ItemClass.SubService.ResidentialLowEco)
+                else if (buildingClass.m_subService == ItemClass.SubService.ResidentialHighEco && _subServiceMapping[i] == ItemClass.SubService.ResidentialLowEco)
                 {
-                    categoryToggles[i].isChecked = true;
+                    _categoryToggles[i].isChecked = true;
                 }
                 else
                 {
-                    categoryToggles[i].isChecked = false;
+                    _categoryToggles[i].isChecked = false;
                 }
             }
         }
@@ -372,13 +412,13 @@ namespace RealPop2
             // Iterate through all toggle states and add them to return array.
             for (int i = 0; i < (int)BuildingCategories.NumCategories; i++)
             {
-                filterState[i] = categoryToggles[i].isChecked;
+                filterState[i] = _categoryToggles[i].isChecked;
             }
 
             // Iterate through all settings filter states and add them to return array, after the toggle states.
             for (int i = 0; i < (int)FilterCategories.NumCategories; i++)
             {
-                filterState[i + (int)BuildingCategories.NumCategories] = settingsFilter[i].isChecked;
+                filterState[i + (int)BuildingCategories.NumCategories] = _settingsFilter[i].isChecked;
             }
 
             return filterState;
@@ -393,13 +433,13 @@ namespace RealPop2
             // Set toggle states from array.
             for (int i = 0; i < (int)BuildingCategories.NumCategories; i++)
             {
-                categoryToggles[i].isChecked = filterState[i];
+                _categoryToggles[i].isChecked = filterState[i];
             }
 
             // Set settings filter states from array (appended after category toggle states).
             for (int i = 0; i < (int)FilterCategories.NumCategories; i++)
             {
-                settingsFilter[i].isChecked = filterState[i + (int)BuildingCategories.NumCategories];
+                _settingsFilter[i].isChecked = filterState[i + (int)BuildingCategories.NumCategories];
             }
         }
 

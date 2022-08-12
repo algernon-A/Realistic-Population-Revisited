@@ -3,9 +3,7 @@
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-using RealPop2;
-
-namespace Realistic_Population_Revisited.Code.Patches.Production
+namespace RealPop2
 {
     using System.Collections.Generic;
     using AlgernonCommons;
@@ -19,11 +17,59 @@ namespace Realistic_Population_Revisited.Code.Patches.Production
     [HarmonyPatch(typeof(IndustrialBuildingAI), nameof(IndustrialBuildingAI.CalculateProductionCapacity))]
     public static class IndustrialProduction
     {
-        // Industrial production calculation modes.
+        /// <summary>
+        /// Default production multiplier.
+        /// </summary>
+        internal const int DefaultProdMult = 100;
+
+        /// <summary>
+        /// Maximum production multiplier.
+        /// </summary>
+        internal const int MaxProdMult = 200;
+
+        // Sub-service mapping.
+        private static readonly ItemClass.SubService[] SubServices =
+        {
+            ItemClass.SubService.IndustrialGeneric,
+            ItemClass.SubService.IndustrialFarming,
+            ItemClass.SubService.IndustrialForestry,
+            ItemClass.SubService.IndustrialOil,
+            ItemClass.SubService.IndustrialOre,
+        };
+
+        // Arrays for calculation mode and multipliers.
+        private static readonly int[] Modes =
+        {
+            (int)ProdModes.Legacy,
+            (int)ProdModes.Legacy,
+            (int)ProdModes.Legacy,
+            (int)ProdModes.Legacy,
+            (int)ProdModes.Legacy,
+        };
+
+        private static readonly int[] Mults =
+        {
+            DefaultProdMult,
+            DefaultProdMult,
+            DefaultProdMult,
+            DefaultProdMult,
+            DefaultProdMult,
+        };
+
+        /// <summary>
+        /// Industrial production calculation modes.
+        /// </summary>
         internal enum ProdModes
         {
-            popCalcs = 0,
-            legacy
+            /// <summary>
+            /// Producation calculation based on population.
+            /// </summary>
+            PopCalcs = 0,
+
+            /// <summary>
+            /// Production calculation based on legacy method (lot size).Apo
+            /// </summary>
+            Legacy,
         }
 
         // Array indexes.
@@ -34,53 +80,34 @@ namespace Realistic_Population_Revisited.Code.Patches.Production
             IndustrialForestry,
             IndustrialOil,
             IndustrialOre,
-            NumSubServices
+            NumSubServices,
         }
 
-        // Sub-service mapping.
-        private static readonly ItemClass.SubService[] subServices =
+        /// <summary>
+        /// Sets the industrial production mode for all subservices to the specified mode.
+        /// </summary>
+        internal static int SetProdModes
         {
-            ItemClass.SubService.IndustrialGeneric,
-            ItemClass.SubService.IndustrialFarming,
-            ItemClass.SubService.IndustrialForestry,
-            ItemClass.SubService.IndustrialOil,
-            ItemClass.SubService.IndustrialOre
-        };
-
-        // Default multiplier.
-        internal const int DefaultProdMult = 100;
-
-        // Maximum multiplier.
-        internal const int MaxProdMult = 200;
-
-        // Arrays for calculation mode and multipliers.
-        private static readonly int[] prodModes =
-        {
-            (int)ProdModes.legacy,
-            (int)ProdModes.legacy,
-            (int)ProdModes.legacy,
-            (int)ProdModes.legacy,
-            (int)ProdModes.legacy
-        };
-        private static readonly int[] prodMults =
-        {
-            DefaultProdMult,
-            DefaultProdMult,
-            DefaultProdMult,
-            DefaultProdMult,
-            DefaultProdMult
-        };
+            set
+            {
+                for (int i = 0; i < Modes.Length; ++i)
+                {
+                    Modes[i] = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Harmony Prefix patch to IndustrialBuildingAI.CalculateProductionCapacity to implement mod production calculations.
         /// </summary>
         /// <param name="__result">Original method result.</param>
-        /// <param name="__instance">Original AI instance reference.</param>
+        /// <param name="__instance">IndustrialBuildingAI instance.</param>
         /// <param name="level">Building level.</param>
         /// <param name="r">Randomizer.</param>
         /// <param name="width">Building width in cells.</param>
         /// <param name="length">Building length in cells.</param>
         /// <returns>False (don't execute base game method after this).</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
         public static bool Prefix(ref int __result, IndustrialBuildingAI __instance, ItemClass.Level level, Randomizer r, int width, int length)
         {
             // Get builidng info.
@@ -91,7 +118,7 @@ namespace Realistic_Population_Revisited.Code.Patches.Production
             int arrayIndex = GetIndex(subService);
 
             // New or old method?
-            if (prodModes[arrayIndex] == (int)ProdModes.popCalcs)
+            if (Modes[arrayIndex] == (int)ProdModes.PopCalcs)
             {
                 // New settings, based on population.
                 float multiplier;
@@ -113,7 +140,7 @@ namespace Realistic_Population_Revisited.Code.Patches.Production
                 int totalWorkers = level0 + level1 + level2 + level3;
 
                 // Multiply total workers by multipler and overall multiplier (from settings) to get result.
-                __result = (int)(totalWorkers * multiplier * prodMults[arrayIndex] / 100f);
+                __result = (int)(totalWorkers * multiplier * Mults[arrayIndex] / 100f);
             }
             else
             {
@@ -123,7 +150,6 @@ namespace Realistic_Population_Revisited.Code.Patches.Production
                 // Original method return value.
                 __result = Mathf.Max(100, width * length * array[DataStore.PRODUCTION]) / 100;
             }
-
 
             // Always set at least one.
             if (__result < 1)
@@ -136,47 +162,32 @@ namespace Realistic_Population_Revisited.Code.Patches.Production
         }
 
         /// <summary>
-        /// Sets the industrial production mode for all subservices to the specified mode.
-        /// </summary>
-        internal static int SetProdModes
-        {
-            set
-            {
-                for (int i = 0; i < prodModes.Length; ++i)
-                {
-                    prodModes[i] = value;
-                }
-            }
-        }
-
-        /// <summary>
         /// Gets the current industrial production calculation mode.
         /// </summary>
         /// <param name="subService">Sub-service.</param>
         /// <returns>Production calculation mode.</returns>
-        internal static int GetProdMode(ItemClass.SubService subService) => prodModes[GetIndex(subService)];
+        internal static int GetProdMode(ItemClass.SubService subService) => Modes[GetIndex(subService)];
 
         /// <summary>
         /// Sets the current industrial production calculation mode.
         /// </summary>
         /// <param name="subService">Sub-service to set.</param>
         /// <param name="value">Value to set.</param>
-        internal static void SetProdMode(ItemClass.SubService subService, int value) => prodModes[GetIndex(subService)] = value;
+        internal static void SetProdMode(ItemClass.SubService subService, int value) => Modes[GetIndex(subService)] = value;
 
         /// <summary>
         /// Gets the current industrial production multiplier.
         /// </summary>
         /// <param name="subService">Sub-service.</param>
         /// <returns>Production multiplier.</returns>
-        internal static int GetProdMult(ItemClass.SubService subService) => prodMults[GetIndex(subService)];
+        internal static int GetProdMult(ItemClass.SubService subService) => Mults[GetIndex(subService)];
 
         /// <summary>
         /// Sets the current industrial production multipier.
         /// </summary>
         /// <param name="subService">Sub-service to set.</param>
         /// <param name="value">Value to set.</param>
-        /// <returns>Visit mode.</returns>
-        internal static void SetProdMult(ItemClass.SubService subService, int value) => prodMults[GetIndex(subService)] = value;
+        internal static void SetProdMult(ItemClass.SubService subService, int value) => Mults[GetIndex(subService)] = value;
 
         /// <summary>
         /// Serializes the current industrial production mode settings ready for XML.
@@ -186,13 +197,13 @@ namespace Realistic_Population_Revisited.Code.Patches.Production
         {
             List<Configuration.SubServiceMode> entries = new List<Configuration.SubServiceMode>();
 
-            for (int i = 0; i < prodModes.Length; ++i)
+            for (int i = 0; i < Modes.Length; ++i)
             {
                 entries.Add(new Configuration.SubServiceMode
                 {
-                    SubService = subServices[i],
-                    Mode = prodModes[i],
-                    Multiplier = prodMults[i]
+                    SubService = SubServices[i],
+                    Mode = Modes[i],
+                    Multiplier = Mults[i],
                 });
             }
 
@@ -203,7 +214,6 @@ namespace Realistic_Population_Revisited.Code.Patches.Production
         /// Deserializes XML industrial production mode entries.
         /// </summary>
         /// <param name="entries">List of industrial mode entries to deserialize.</param>
-        /// <returns>New list of industrial mode entries ready for serialization.</returns>
         internal static void DeserializeProds(List<Configuration.SubServiceMode> entries)
         {
             foreach (Configuration.SubServiceMode entry in entries)

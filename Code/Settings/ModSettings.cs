@@ -25,7 +25,7 @@ namespace RealPop2
         /// <summary>
         /// Use legacy calcuations by default.
         /// </summary>
-        Legacy = 2
+        Legacy = 2,
     }
 
     /// <summary>
@@ -33,27 +33,44 @@ namespace RealPop2
     /// </summary>
     internal static class ModSettings
     {
-        // Load modes.
-        internal static DefaultMode newSaveDefaultRes = DefaultMode.New;
-        internal static DefaultMode newSaveDefaultCom = DefaultMode.New;
-        internal static DefaultMode newSaveDefaultInd = DefaultMode.New;
-        internal static DefaultMode newSaveDefaultOff = DefaultMode.New;
-
         // Enable additional features.
-        private static bool enableSchoolPop = false;
-        internal static bool enableSchoolProperties = true;
-        internal static float crimeMultiplier = 50f;
-        internal static bool dontRebuildUnits = false;
+        private static bool s_enableSchoolPop = false;
 
-        // Status flags.
-        internal static bool isRealPop2Save = false;
+        // Status flag.
         private static float defaultSchoolMult = 3f;
 
-        // What's new notification version.
-        internal static string whatsNewVersion = "0.0";
+        private static DefaultMode thisSaveDefaultRes = DefaultMode.New;
+        private static DefaultMode thisSaveDefaultCom = DefaultMode.New;
+        private static DefaultMode thisSaveDefaultInd = DefaultMode.New;
+        private static DefaultMode thisSaveDefaultOff = DefaultMode.New;
 
         /// <summary>
-        /// Default calculation mode for residential buildings for this save.
+        /// Gets or sets a value indicating whether this save has been made with the mod active.
+        /// </summary>
+        internal static bool IsRealPop2Save { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets the default calculation mode for residential buildings in new saves.
+        /// </summary>
+        internal static DefaultMode NewSaveDefaultRes { get; set; } = DefaultMode.New;
+
+        /// <summary>
+        /// Gets or sets the default calculation mode for commercial buildings in new saves.
+        /// </summary>
+        internal static DefaultMode NewSaveDefaultCom { get; set; } = DefaultMode.New;
+
+        /// <summary>
+        /// Gets or sets the default calculation mode for industrial buildings in new saves.
+        /// </summary>
+        internal static DefaultMode NewSaveDefaultInd { get; set; } = DefaultMode.New;
+
+        /// <summary>
+        /// Gets or sets the default calculation mode for office buildings in new saves.
+        /// </summary>
+        internal static DefaultMode NewSaveDefaultOff { get; set; } = DefaultMode.New;
+
+        /// <summary>
+        /// Gets or sets the default calculation mode for residential buildings for this save.
         /// </summary>
         internal static DefaultMode ThisSaveDefaultRes
         {
@@ -67,17 +84,16 @@ namespace RealPop2
                 if (value != thisSaveDefaultRes)
                 {
                     // Yes - clear caches.
-                    PopData.instance.householdCache.Clear();
+                    PopData.Instance.ClearHousholdCache();
 
                     // Update value.
                     thisSaveDefaultRes = value;
                 }
             }
         }
-        private static DefaultMode thisSaveDefaultRes = DefaultMode.New;
 
         /// <summary>
-        /// Default calculation mode for commercial buildings for this save.
+        /// Gets or sets the default calculation mode for commercial buildings for this save.
         /// </summary>
         internal static DefaultMode ThisSaveDefaultCom
         {
@@ -98,10 +114,9 @@ namespace RealPop2
                 }
             }
         }
-        private static DefaultMode thisSaveDefaultCom = DefaultMode.New;
 
         /// <summary>
-        /// Default calculation mode for industrial buildings for this save.
+        /// Gets or sets the default calculation mode for industrial buildings for this save.
         /// </summary>
         internal static DefaultMode ThisSaveDefaultInd
         {
@@ -122,10 +137,9 @@ namespace RealPop2
                 }
             }
         }
-        private static DefaultMode thisSaveDefaultInd = DefaultMode.New;
 
         /// <summary>
-        /// Default calculation mode for commercial buildings for this save.
+        /// Gets or sets the default calculation mode for commercial buildings for this save.
         /// </summary>
         internal static DefaultMode ThisSaveDefaultOff
         {
@@ -146,10 +160,9 @@ namespace RealPop2
                 }
             }
         }
-        private static DefaultMode thisSaveDefaultOff = DefaultMode.New;
 
         /// <summary>
-        /// Old 'use legacy by default for residential' option.
+        /// Gets or sets a value indicating whether the old 'use legacy by default for residential' option is in effect.
         /// </summary>
         internal static bool ThisSaveLegacyRes
         {
@@ -161,7 +174,7 @@ namespace RealPop2
         }
 
         /// <summary>
-        /// Old 'use legacy by default for commercial' option.
+        /// Gets or sets a value indicating whether the old 'use legacy by default for commercial' option is in effect.
         /// </summary>
         internal static bool ThisSaveLegacyCom
         {
@@ -173,7 +186,7 @@ namespace RealPop2
         }
 
         /// <summary>
-        /// Old 'use legacy by default for industrial' option.
+        /// Gets or sets a value indicating whether the old 'use legacy by default for industrial' option is in effect.
         /// </summary>
         internal static bool ThisSaveLegacyInd
         {
@@ -185,7 +198,7 @@ namespace RealPop2
         }
 
         /// <summary>
-        /// Old 'use legacy by default for office' option.
+        /// Gets or sets a value indicating whether the old 'use legacy by default for office' option is in effect.
         /// </summary>
         internal static bool ThisSaveLegacyOff
         {
@@ -197,23 +210,28 @@ namespace RealPop2
         }
 
         /// <summary>
-        /// Enables/disables custom school population counts.
+        /// Gets or sets a value indicating whether custom school population counts are enabled.
         /// </summary>
         internal static bool EnableSchoolPop
         {
             // Simple getter.
-            get => enableSchoolPop;
+            get => s_enableSchoolPop;
 
             // Setter needs to update schools if after game load, otherwise don't.
             set
             {
-                enableSchoolPop = value;
+                s_enableSchoolPop = value;
                 UpdateSchools(null);
             }
         }
 
         /// <summary>
-        /// Handles current default multiplier for schools.
+        /// Gets or sets a value indicating whether custom school population properties are enabled.
+        /// </summary>
+        internal static bool EnableSchoolProperties { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current default multiplier for schools.
         /// </summary>
         internal static float DefaultSchoolMult
         {
@@ -231,14 +249,14 @@ namespace RealPop2
         /// <summary>
         /// Triggers an update of existing school buildings to current settings, if loading is complete.
         /// </summary>
-        /// <param name="schoolPrefab">Building prefab to update (null to update all schools)</param>
+        /// <param name="schoolPrefab">Building prefab to update (null to update all schools).</param>
         private static void UpdateSchools(BuildingInfo schoolPrefab)
         {
             // Check for loading complete.
             if (Singleton<LoadingManager>.instance.m_loadingComplete)
             {
                 // Update school buildings via simulation thread.
-                Singleton<SimulationManager>.instance.AddAction(delegate { SchoolData.instance.UpdateSchoolPrefabs(); });
+                Singleton<SimulationManager>.instance.AddAction(() => SchoolData.Instance.UpdateSchoolPrefabs());
             }
         }
 
@@ -248,16 +266,13 @@ namespace RealPop2
         private static void ClearWorkplaceCaches()
         {
             // Clear workplace cache.
-            PopData.instance.workplaceCache.Clear();
+            PopData.Instance.ClearWorkplaceCache();
 
             // Clear visitplace cache.
-            PopData.instance.visitplaceCache.Clear();
+            PopData.Instance.ClearVisitplaceCache();
 
             // Clear RICO cache too.
-            if (ModUtils.ricoClearAllWorkplaces != null)
-            {
-                ModUtils.ricoClearAllWorkplaces.Invoke(null, null);
-            }
+            ModUtils.ClearRICOWorkplaces();
         }
     }
 }

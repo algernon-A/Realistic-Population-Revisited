@@ -1,4 +1,4 @@
-﻿// <copyright file="GoodsPanelBase.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="ResConsumptionPanel.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -23,11 +23,12 @@ namespace RealPop2
         private const int NumLevels = 5;
 
         /// <summary>
-        /// Adds residential options tab to tabstrip.
+        /// Initializes a new instance of the <see cref="ResConsumptionPanel"/> class.
         /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
-        internal ResConsumptionPanel(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
+        /// <param name="tabStrip">Tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
+        internal ResConsumptionPanel(UITabstrip tabStrip, int tabIndex)
+            : base(tabStrip, tabIndex)
         {
         }
 
@@ -37,14 +38,14 @@ namespace RealPop2
         internal override void Setup()
         {
             // Don't do anything if already set up.
-            if (!isSetup)
+            if (!m_isSetup)
             {
                 // Perform initial setup.
-                isSetup = true;
+                m_isSetup = true;
                 Logging.Message("setting up ", this.GetType());
 
                 // Set residential flag.
-                notResidential = false;
+                m_notResidential = false;
 
                 // Initialise textfield arrays (first dimension, sub-services).
                 SubServiceArrays(NumSubServices);
@@ -56,26 +57,26 @@ namespace RealPop2
                 }
 
                 // Headings.
-                AddHeadings(panel);
+                AddHeadings(m_panel);
 
                 // Move currentY up, so we can fit everything.
-                currentY -= 30f;
+                m_currentY -= 30f;
 
                 // Create residential per-person area textfields and labels.
-                PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate("RPR_CAT_RLO"), "ZoningResidentialLow", "Thumbnails", PowerX);
-                AddSubService(panel, LowRes);
-                PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate("RPR_CAT_RHI"), "ZoningResidentialHigh", "Thumbnails");
-                AddSubService(panel, HighRes);
-                PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate("RPR_CAT_ERL"), "IconPolicySelfsufficient", "Ingame");
-                AddSubService(panel, LowEcoRes);
-                PanelUtils.RowHeaderIcon(panel, ref currentY, Translations.Translate("RPR_CAT_ERH"), "IconPolicySelfsufficient", "Ingame");
-                AddSubService(panel, HighEcoRes);
+                PanelUtils.RowHeaderIcon(m_panel, ref m_currentY, Translations.Translate("RPR_CAT_RLO"), "ZoningResidentialLow", "Thumbnails", PowerX);
+                AddSubService(m_panel, LowRes);
+                PanelUtils.RowHeaderIcon(m_panel, ref m_currentY, Translations.Translate("RPR_CAT_RHI"), "ZoningResidentialHigh", "Thumbnails");
+                AddSubService(m_panel, HighRes);
+                PanelUtils.RowHeaderIcon(m_panel, ref m_currentY, Translations.Translate("RPR_CAT_ERL"), "IconPolicySelfsufficient", "Ingame");
+                AddSubService(m_panel, LowEcoRes);
+                PanelUtils.RowHeaderIcon(m_panel, ref m_currentY, Translations.Translate("RPR_CAT_ERH"), "IconPolicySelfsufficient", "Ingame");
+                AddSubService(m_panel, HighEcoRes);
 
                 // Populate initial values.
                 PopulateFields();
 
                 // Add command buttons.
-                AddButtons(panel);
+                AddButtons(m_panel);
             }
         }
 
@@ -91,10 +92,10 @@ namespace RealPop2
             ApplySubService(DataStore.resEcoHigh, HighEcoRes);
 
             // Clear cached values.
-            PopData.instance.householdCache.Clear();
+            PopData.Instance.ClearHousholdCache();
 
             // Save new settings.
-            ConfigUtils.SaveSettings();
+            ConfigurationUtils.SaveSettings();
 
             // Refresh settings.
             PopulateFields();
@@ -119,29 +120,41 @@ namespace RealPop2
         {
             // TODO: same as legacy.
             // Defaults copied from Datastore.
-            int[][] residentialLow = { new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    8, 20, 15, 11, 130,   0, 1,   -1, 35},
-                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    8, 21, 16, 10, 140,   0, 1,   -1, 30},
-                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    9, 22, 17, 10, 150,   0, 1,   -1, 25},
-                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    9, 24, 19,  9, 160,   0, 1,   -1, 20},
-                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   10, 26, 21,  9, 170,   0, 1,   -1, 15} };
+            int[][] residentialLow =
+            {
+                new int[] { 2000, 50, -1, 0, -1,   -1, -1, -1, -1,    8, 20, 15, 11, 130,   0, 1,   -1, 35 },
+                new int[] { 2000, 50, -1, 0, -1,   -1, -1, -1, -1,    8, 21, 16, 10, 140,   0, 1,   -1, 30 },
+                new int[] { 2000, 50, -1, 0, -1,   -1, -1, -1, -1,    9, 22, 17, 10, 150,   0, 1,   -1, 25 },
+                new int[] { 2000, 50, -1, 0, -1,   -1, -1, -1, -1,    9, 24, 19,  9, 160,   0, 1,   -1, 20 },
+                new int[] { 2000, 50, -1, 0, -1,   -1, -1, -1, -1,   10, 26, 21,  9, 170,   0, 1,   -1, 15 },
+            };
 
-            int[][] residentialHigh = { new int [] {140, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 14, 11, 9, 90,   0, 5,   -1, 25},
-                                                  new int [] {145, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 15, 12, 8, 90,   0, 5,   -1, 20},
-                                                  new int [] {150, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 16, 13, 8, 90,   0, 5,   -1, 16},
-                                                  new int [] {160, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 17, 14, 7, 90,   0, 5,   -1, 12},
-                                                  new int [] {170, 5, -1, 0, -1,   -1, -1, -1, -1,    9, 19, 16, 7, 90,   0, 5,   -1,  8} };
+            int[][] residentialHigh =
+            {
+                new int[] { 140, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 14, 11, 9, 90,   0, 5,   -1, 25 },
+                new int[] { 145, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 15, 12, 8, 90,   0, 5,   -1, 20 },
+                new int[] { 150, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 16, 13, 8, 90,   0, 5,   -1, 16 },
+                new int[] { 160, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 17, 14, 7, 90,   0, 5,   -1, 12 },
+                new int[] { 170, 5, -1, 0, -1,   -1, -1, -1, -1,    9, 19, 16, 7, 90,   0, 5,   -1,  8 },
+            };
 
-            int[][] resEcoLow = { new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    6, 19, 15, 8,  91,   0, 1,   -1, 25 },
-                                            new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    6, 21, 17, 8,  98,   0, 1,   -1, 22},
-                                            new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    7, 23, 19, 7, 105,   0, 1,   -1, 18},
-                                            new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    8, 25, 21, 6, 112,   0, 1,   -1, 14},
-                                            new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    8, 28, 24, 6, 119,   0, 1,   -1, 10} };
+            int[][] resEcoLow =
+            {
+                new int[] { 2000, 50, -1, 0, -1,   -1, -1, -1, -1,    6, 19, 15, 8,  91,   0, 1,   -1, 25 },
+                new int[] { 2000, 50, -1, 0, -1,   -1, -1, -1, -1,    6, 21, 17, 8,  98,   0, 1,   -1, 22 },
+                new int[] { 2000, 50, -1, 0, -1,   -1, -1, -1, -1,    7, 23, 19, 7, 105,   0, 1,   -1, 18 },
+                new int[] { 2000, 50, -1, 0, -1,   -1, -1, -1, -1,    8, 25, 21, 6, 112,   0, 1,   -1, 14 },
+                new int[] { 2000, 50, -1, 0, -1,   -1, -1, -1, -1,    8, 28, 24, 6, 119,   0, 1,   -1, 10 },
+            };
 
-            int[][] resEcoHigh = { new int [] {150, 5, -1, 0, -1,   -1, -1, -1, -1,    6, 14, 12, 7, 64,   0, 3,   -1, 20},
-                                             new int [] {155, 5, -1, 0, -1,   -1, -1, -1, -1,    6, 16, 14, 6, 69,   0, 3,   -1, 15},
-                                             new int [] {160, 5, -1, 0, -1,   -1, -1, -1, -1,    6, 18, 16, 6, 73,   0, 3,   -1, 12},
-                                             new int [] {165, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 20, 18, 5, 78,   0, 3,   -1,  9},
-                                             new int [] {170, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 22, 20, 5, 83,   0, 3,   -1,  6} };
+            int[][] resEcoHigh =
+            {
+                new int[] { 150, 5, -1, 0, -1,   -1, -1, -1, -1,    6, 14, 12, 7, 64,   0, 3,   -1, 20 },
+                new int[] { 155, 5, -1, 0, -1,   -1, -1, -1, -1,    6, 16, 14, 6, 69,   0, 3,   -1, 15 },
+                new int[] { 160, 5, -1, 0, -1,   -1, -1, -1, -1,    6, 18, 16, 6, 73,   0, 3,   -1, 12 },
+                new int[] { 165, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 20, 18, 5, 78,   0, 3,   -1,  9 },
+                new int[] { 170, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 22, 20, 5, 83,   0, 3,   -1,  6 },
+            };
 
             // Populate text fields with these.
             PopulateSubService(residentialLow, LowRes);

@@ -1,3 +1,9 @@
+// <copyright file="XML_VersionSix.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard) and Whitefang Greytail. All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace RealPop2
 {
     using System;
@@ -7,6 +13,11 @@ namespace RealPop2
     using System.Xml;
     using AlgernonCommons;
 
+    /// <summary>
+    /// Legacy WG configuration file, version 6 (last).
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1303:Const field names should begin with upper-case letter", Justification = "Legacy code")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Legacy code")]
     public class XML_VersionSix : WG_XMLBaseVersion
     {
         private const string popNodeName = "population";
@@ -22,14 +33,13 @@ namespace RealPop2
         private const string pollutionNodeName = "pollution";
         private const string productionNodeName = "production";
 
-        /// <param name="doc"></param>
         public override void ReadXML(XmlDocument doc)
         {
             XmlElement root = doc.DocumentElement;
             try
             {
-                //DataStore.enableExperimental = Convert.ToBoolean(root.Attributes["experimental"].InnerText);
-                //DataStore.timeBasedRealism = Convert.ToBoolean(root.Attributes["enableTimeVariation"].InnerText);
+                // DataStore.enableExperimental = Convert.ToBoolean(root.Attributes["experimental"].InnerText);
+                // DataStore.timeBasedRealism = Convert.ToBoolean(root.Attributes["enableTimeVariation"].InnerText);
             }
             catch (Exception)
             {
@@ -182,6 +192,7 @@ namespace RealPop2
                 meshNameNode.Attributes.Append(attribute);
                 overrideHouseholdNode.AppendChild(meshNameNode);
             }
+
             rootNode.AppendChild(overrideHouseholdNode); // Append the overrideHousehold to root
 
             // Add mesh names to XML
@@ -199,6 +210,7 @@ namespace RealPop2
                 meshNameNode.Attributes.Append(attribute);
                 printHouseholdNode.AppendChild(meshNameNode);
             }
+
             rootNode.AppendChild(printHouseholdNode); // Append the printHousehold to root
 
             // Add mesh names to XML
@@ -216,6 +228,7 @@ namespace RealPop2
                     meshNameNode.Attributes.Append(attribute);
                     bonusHouseholdNode.AppendChild(meshNameNode);
                 }
+
                 rootNode.AppendChild(bonusHouseholdNode); // Append the bonusHousehold to root
             }
 
@@ -241,6 +254,7 @@ namespace RealPop2
                 meshNameNode.Attributes.Append(attribute);
                 overrideWorkNode.AppendChild(meshNameNode);
             }
+
             rootNode.AppendChild(overrideWorkNode); // Append the overrideWorkers to root
 
             // Add mesh names to dictionary
@@ -261,6 +275,7 @@ namespace RealPop2
                     printWorkNode.AppendChild(meshNameNode);
                 }
             }
+
             rootNode.AppendChild(printWorkNode); // Append the printWorkers to root
 
             // Add mesh names to dictionary
@@ -278,6 +293,7 @@ namespace RealPop2
                     meshNameNode.Attributes.Append(attribute);
                     bonusWorkNode.AppendChild(meshNameNode);
                 }
+
                 rootNode.AppendChild(bonusWorkNode); // Append the bonusWorkers to root
             }
 
@@ -319,7 +335,8 @@ namespace RealPop2
             rootNode.AppendChild(comment);
             comment = xmlDoc.CreateComment("calc = model or plot. To calculate the base using either the building model, or by the land size");
             rootNode.AppendChild(comment);
-            //comment = xmlDoc.CreateComment("visit_mult = The number of visitors as a multiple of workers to 1 decimal place. This is used for commercial only");
+
+            // comment = xmlDoc.CreateComment("visit_mult = The number of visitors as a multiple of workers to 1 decimal place. This is used for commercial only");
             //            rootNode.AppendChild(comment);
             comment = xmlDoc.CreateComment("lvl_0 ... lvl_3 = Proportional values between the education levels (uneducated, educated, well educated, highly educated). Does not need to be percentages.");
             rootNode.AppendChild(comment);
@@ -353,7 +370,7 @@ namespace RealPop2
             rootNode.AppendChild(comment);
         }
 
-        private void MakeNodes(XmlDocument xmlDoc, String buildingType, int[][] array, XmlNode rootPopNode, XmlNode consumNode, XmlNode visitNode, XmlNode pollutionNode, XmlNode productionNode)
+        private void MakeNodes(XmlDocument xmlDoc, string buildingType, int[][] array, XmlNode rootPopNode, XmlNode consumNode, XmlNode visitNode, XmlNode pollutionNode, XmlNode productionNode)
         {
             for (int i = 0; i < array.GetLength(0); i++)
             {
@@ -361,7 +378,7 @@ namespace RealPop2
             }
         }
 
-        private void MakeNodes(XmlDocument xmlDoc, String buildingType, int[] array, int level, XmlNode rootPopNode, XmlNode consumNode, XmlNode visitNode, XmlNode pollutionNode, XmlNode productionNode)
+        private void MakeNodes(XmlDocument xmlDoc, string buildingType, int[] array, int level, XmlNode rootPopNode, XmlNode consumNode, XmlNode visitNode, XmlNode pollutionNode, XmlNode productionNode)
         {
             MakePopNode(rootPopNode, xmlDoc, buildingType, level, array);
             MakeConsumeNode(consumNode, xmlDoc, buildingType, level, array[DataStore.POWER], array[DataStore.WATER], array[DataStore.SEWAGE], array[DataStore.GARBAGE], array[DataStore.INCOME]);
@@ -370,7 +387,7 @@ namespace RealPop2
             MakeProductionNode(productionNode, xmlDoc, buildingType, level, array[DataStore.PRODUCTION]);
         }
 
-        private void MakePopNode(XmlNode root, XmlDocument xmlDoc, String buildingType, int level, int[] array)
+        private void MakePopNode(XmlNode root, XmlDocument xmlDoc, string buildingType, int level, int[] array)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
 
@@ -403,12 +420,7 @@ namespace RealPop2
             root.AppendChild(node);
         }
 
-        /// <param name="root"></param>
-        /// <param name="xmlDoc"></param>
-        /// <param name="buildingType"></param>
-        /// <param name="level"></param>
-        /// <param name="array"></param>
-        private void MakeVisitNode(XmlNode root, XmlDocument xmlDoc, String buildingType, int level, int[] array)
+        private void MakeVisitNode(XmlNode root, XmlDocument xmlDoc, string buildingType, int level, int[] array)
         {
             if (array[DataStore.VISIT] >= 0)
             {
@@ -422,17 +434,7 @@ namespace RealPop2
             }
         }
 
-
-        /// <param name="root"></param>
-        /// <param name="xmlDoc"></param>
-        /// <param name="buildingType"></param>
-        /// <param name="level"></param>
-        /// <param name="power"></param>
-        /// <param name="water"></param>
-        /// <param name="sewage"></param>
-        /// <param name="garbage"></param>
-        /// <param name="wealth"></param>
-        private void MakeConsumeNode(XmlNode root, XmlDocument xmlDoc, String buildingType, int level, int power, int water, int sewage, int garbage, int wealth)
+        private void MakeConsumeNode(XmlNode root, XmlDocument xmlDoc, string buildingType, int level, int power, int water, int sewage, int garbage, int wealth)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
 
@@ -459,7 +461,7 @@ namespace RealPop2
             root.AppendChild(node);
         }
 
-        private void MakePollutionNode(XmlNode root, XmlDocument xmlDoc, String buildingType, int level, int ground, int noise)
+        private void MakePollutionNode(XmlNode root, XmlDocument xmlDoc, string buildingType, int level, int ground, int noise)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
 
@@ -474,12 +476,6 @@ namespace RealPop2
             root.AppendChild(node);
         }
 
-
-        /// <param name="root"></param>
-        /// <param name="xmlDoc"></param>
-        /// <param name="buildingType"></param>
-        /// <param name="level"></param>
-        /// <param name="production"></param>
         private void MakeProductionNode(XmlNode root, XmlDocument xmlDoc, string buildingType, int level, int production)
         {
             if (production >= 0)
@@ -494,8 +490,6 @@ namespace RealPop2
             }
         }
 
-
-        /// <param name="pollutionNode"></param>
         private void ReadPollutionNode(XmlNode pollutionNode)
         {
             foreach (XmlNode node in pollutionNode.ChildNodes)
@@ -593,7 +587,6 @@ namespace RealPop2
             }
         }
 
-        /// <param name="popNode"></param>
         private void ReadPopulationNode(XmlNode popNode)
         {
             try
@@ -622,10 +615,10 @@ namespace RealPop2
                         temp = Convert.ToInt32(node.Attributes["space_pp"].InnerText);
                         if (temp <= 0)
                         {
-                            temp = 100;  // Bad person trying to give negative or div0 error. 
+                            temp = 100;  // Bad person trying to give negative or div0 error.
                         }
-                        array[DataStore.PEOPLE] = TransformPopulationModifier(name, temp, false);
 
+                        array[DataStore.PEOPLE] = TransformPopulationModifier(name, temp, false);
                     }
                     catch (Exception e)
                     {
@@ -645,7 +638,6 @@ namespace RealPop2
                     }
                     catch
                     {
-
                     }
 
                     if (!name.StartsWith("Res"))
@@ -691,11 +683,11 @@ namespace RealPop2
 
             if (toXML)
             {
-                return (value / dividor);
+                return value / dividor;
             }
             else
             {
-                return (value * dividor);
+                return value * dividor;
             }
         }
 
@@ -812,8 +804,8 @@ namespace RealPop2
                     try
                     {
                         string name = node.InnerText;
-                        int BonusValue = 1;
-                        BonusValue = Convert.ToInt32(node.Attributes["value"].InnerText);
+                        int bonusValue = 1;
+                        bonusValue = Convert.ToInt32(node.Attributes["value"].InnerText);
 
                         // Needs a value to be valid
                         if (name.Length > 0)
@@ -821,7 +813,7 @@ namespace RealPop2
                             // Don't do anything if this key is already in the dictionary.
                             if (!DataStore.bonusHouseholdCache.ContainsKey(name))
                             {
-                                DataStore.bonusHouseholdCache.Add(name, BonusValue);
+                                DataStore.bonusHouseholdCache.Add(name, bonusValue);
                             }
                         }
                     }
@@ -842,8 +834,8 @@ namespace RealPop2
                     try
                     {
                         string name = node.InnerText;
-                        int BonusValue = 5;
-                        BonusValue = Convert.ToInt32(node.Attributes["value"].InnerText);
+                        int bonusValue = 5;
+                        bonusValue = Convert.ToInt32(node.Attributes["value"].InnerText);
 
                         // Needs a value to be valid
                         if (name.Length > 0)
@@ -851,7 +843,7 @@ namespace RealPop2
                             // Don't do anything if this key is already in the dictionary.
                             if (!DataStore.bonusWorkerCache.ContainsKey(name))
                             {
-                                DataStore.bonusWorkerCache.Add(name, BonusValue);
+                                DataStore.bonusWorkerCache.Add(name, bonusValue);
                             }
                         }
                     }
@@ -872,8 +864,8 @@ namespace RealPop2
                     try
                     {
                         string name = node.InnerText;
-                        int PrintValue = 1;
-                        PrintValue = Convert.ToInt32(node.Attributes["value"].InnerText);
+                        int printValue = 1;
+                        printValue = Convert.ToInt32(node.Attributes["value"].InnerText);
 
                         // Needs a value to be valid
                         if (name.Length > 0)
@@ -881,7 +873,7 @@ namespace RealPop2
                             // Don't do anything if this key is already in the dictionary.
                             if (!DataStore.housePrintOutCache.ContainsKey(name))
                             {
-                                DataStore.housePrintOutCache.Add(name, PrintValue);
+                                DataStore.housePrintOutCache.Add(name, printValue);
                             }
                         }
                     }
@@ -902,8 +894,8 @@ namespace RealPop2
                     try
                     {
                         string name = node.InnerText;
-                        int PrintValue = 5;
-                        PrintValue = Convert.ToInt32(node.Attributes["value"].InnerText);
+                        int printValue = 5;
+                        printValue = Convert.ToInt32(node.Attributes["value"].InnerText);
 
                         // Needs a value to be valid
                         if (name.Length > 0)
@@ -911,7 +903,7 @@ namespace RealPop2
                             // Don't do anything if this key is already in the dictionary.
                             if (!DataStore.workerPrintOutCache.ContainsKey(name))
                             {
-                                DataStore.workerPrintOutCache.Add(name, PrintValue);
+                                DataStore.workerPrintOutCache.Add(name, printValue);
                             }
                         }
                     }
@@ -923,7 +915,6 @@ namespace RealPop2
             }
         }
 
-        /// <param name="produceNode"></param>
         private void ReadVisitNode(XmlNode produceNode)
         {
             foreach (XmlNode node in produceNode.ChildNodes)
@@ -949,8 +940,6 @@ namespace RealPop2
             }
         }
 
-
-        /// <param name="produceNode"></param>
         private void ReadProductionNode(XmlNode produceNode)
         {
             foreach (XmlNode node in produceNode.ChildNodes)
@@ -976,7 +965,7 @@ namespace RealPop2
             }
         }
 
-        private static int[] GetArray(string name, int level, string callingFunction)
+        private int[] GetArray(string name, int level, string callingFunction)
         {
             int[] array = new int[14];
 
@@ -1050,6 +1039,7 @@ namespace RealPop2
                     Logging.Error("callingFunction ", callingFunction, ". unknown element name: ", name);
                     break;
             }
+
             return array;
         } // end getArray
 
@@ -1069,3 +1059,4 @@ namespace RealPop2
         }
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

@@ -14,7 +14,7 @@ namespace RealPop2
         /// Returns the customised number of households for a given prefab.
         /// Returns 0 if no custom settings exist.
         /// </summary>
-        /// <param name="prefab">The prefab (BuldingInfo) to query</param>
+        /// <param name="prefab">The prefab (BuldingInfo) to query.</param>
         /// <returns>The custom household count (0 if no settings).</returns>
         public static int GetResidential(BuildingInfo prefab)
         {
@@ -22,6 +22,7 @@ namespace RealPop2
             {
                 return returnValue;
             }
+
             return 0;
         }
 
@@ -36,10 +37,10 @@ namespace RealPop2
 
             // Save the updated configuration files.
             XMLUtilsWG.WriteToXML();
-            ConfigUtils.SaveSettings();
+            ConfigurationUtils.SaveSettings();
 
             // Remove current building's record from 'live' dictionary.
-            PopData.instance.householdCache.Remove(prefab);
+            PopData.Instance.ClearHousholdCache(prefab);
         }
 
         /// <summary>
@@ -47,13 +48,14 @@ namespace RealPop2
         /// Returns 0 if no custom settings exist.
         /// </summary>
         /// <param name="prefab">The custom worker count (0 if no settings).</param>
-        /// <returns></returns>
+        /// <returns>Customised number of workers (0 if none).</returns>
         public static int GetWorker(BuildingInfo prefab)
         {
             if (DataStore.workerCache.TryGetValue(prefab.name, out int returnValue))
             {
                 return returnValue;
             }
+
             return 0;
         }
 
@@ -68,13 +70,13 @@ namespace RealPop2
 
             // Save the updated configuration files.
             XMLUtilsWG.WriteToXML();
-            ConfigUtils.SaveSettings();
+            ConfigurationUtils.SaveSettings();
 
             // Remove current building's record from 'live' dictionary.
-            PopData.instance.workplaceCache.Remove(prefab);
+            PopData.Instance.ClearWorkplaceCache(prefab);
 
             // Also remove visitor cache entry, if any.
-            PopData.instance.visitplaceCache.Remove(prefab);
+            PopData.Instance.ClearVisitplaceCache(prefab);
         }
     }
 }

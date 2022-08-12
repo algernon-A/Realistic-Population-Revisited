@@ -17,10 +17,10 @@ namespace RealPop2
     internal class ModOptionsPanel
     {
         /// <summary>
-        /// Adds mod options tab to tabstrip.
+        /// Initializes a new instance of the <see cref="ModOptionsPanel"/> class.
         /// </summary>
-        /// <param name="tabStrip">Tab strip to add to</param>
-        /// <param name="tabIndex">Index number of tab</param>
+        /// <param name="tabStrip">Tab strip to add to.</param>
+        /// <param name="tabIndex">Index number of tab.</param>
         internal ModOptionsPanel(UITabstrip tabStrip, int tabIndex)
         {
             // Add tab and helper.
@@ -39,7 +39,7 @@ namespace RealPop2
             // Hotkey control.
             OptionsKeymapping keyMapping = panel.gameObject.AddComponent<OptionsKeymapping>();
             keyMapping.Label = Translations.Translate("KEY_KEY");
-            keyMapping.Binding = UIThreading.HotKey;
+            keyMapping.Binding = HotkeyThreading.HotKey;
 
             UICheckBox usMeasureCheck = UICheckBoxes.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_MEA"));
             usMeasureCheck.isChecked = !Measures.UsingMetric;

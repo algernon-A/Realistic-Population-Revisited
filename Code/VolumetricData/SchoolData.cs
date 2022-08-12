@@ -17,83 +17,67 @@ namespace RealPop2
     internal class SchoolData : CalcData
     {
         // Instance reference.
-        internal static SchoolData instance;
+        private static SchoolData s_instance;
 
         // Dictionary of original settings.
         private Dictionary<string, OriginalSchoolStats> originalStats;
 
         /// <summary>
-        /// Constructor - initializes inbuilt default calculation packs and performs other setup tasks.
+        /// Initializes a new instance of the <see cref="SchoolData"/> class.
         /// </summary>
-        public SchoolData()
+        private SchoolData()
         {
             // Vanilla elementary.
-            SchoolDataPack newPack = new SchoolDataPack
+            SchoolDataPack newPack = new SchoolDataPack(DataPack.DataVersion.One, ItemClass.Level.Level1, 1000, 30, 100, 3, new int[] { 1, 2, 1, 0 }, new int[] { 20, 50, 300, 0 })
             {
-                name = "vanelem",
-                nameKey = "RPR_PCK_SVE_NAM",
-                descriptionKey = "RPR_PCK_SVE_DES",
-                version = DataVersion.one,
-                level = ItemClass.Level.Level1,
-                baseWorkers = new int[] { 1, 2, 1, 0 },
-                perWorker = new int[] { 20, 50, 300, 0 },
-                baseCost = 1000,
-                costPer = 30,
-                baseMaint = 100,
-                maintPer = 3
+                Name = "vanelem",
+                NameKey = "RPR_PCK_SVE_NAM",
+                DescriptionKey = "RPR_PCK_SVE_DES",
             };
-            calcPacks.Add(newPack);
+            CalcPacks.Add(newPack);
 
             // Vanilla community school.
-            newPack = new SchoolDataPack
+            newPack = new SchoolDataPack(DataPack.DataVersion.One, ItemClass.Level.Level1, 2000, 40, 250, 5, new int[] { 2, 2, 1, 1 }, new int[] { 25, 25, 50, 0 })
             {
-                name = "vancom",
-                nameKey = "RPR_PCK_SVC_NAM",
-                descriptionKey = "RPR_PCK_SVC_DES",
-                version = DataVersion.one,
-                level = ItemClass.Level.Level1,
-                baseWorkers = new int[] { 2, 2, 1, 1 },
-                perWorker = new int[] { 25, 25, 50, 0 },
-                baseCost = 2000,
-                costPer = 40,
-                baseMaint = 250,
-                maintPer = 5
+                Name = "vancom",
+                NameKey = "RPR_PCK_SVC_NAM",
+                DescriptionKey = "RPR_PCK_SVC_DES",
             };
-            calcPacks.Add(newPack);
+            CalcPacks.Add(newPack);
 
             // Vanilla high school.
-            newPack = new SchoolDataPack
+            newPack = new SchoolDataPack(DataPack.DataVersion.One, ItemClass.Level.Level2, 4000, 20, 500, 3, new int[] { 9, 11, 5, 1 }, new int[] { 100, 20, 100, 250 })
             {
-                name = "vanhigh",
-                nameKey = "RPR_PCK_SVH_NAM",
-                descriptionKey = "RPR_PCK_SVH_DES",
-                version = DataVersion.one,
-                level = ItemClass.Level.Level2,
-                baseWorkers = new int[] { 9, 11, 5, 1 },
-                perWorker = new int[] { 100, 20, 100, 250 },
-                baseCost = 4000,
-                costPer = 20,
-                baseMaint = 500,
-                maintPer = 3
+                Name = "vanhigh",
+                NameKey = "RPR_PCK_SVH_NAM",
+                DescriptionKey = "RPR_PCK_SVH_DES",
             };
-            calcPacks.Add(newPack);
+            CalcPacks.Add(newPack);
 
             // Vanilla art school.
-            newPack = new SchoolDataPack
+            newPack = new SchoolDataPack(DataPack.DataVersion.One, ItemClass.Level.Level2, 6000, 30, 500, 5, new int[] { 10, 20, 5, 1 }, new int[] { 80, 20, 80, 200 })
             {
-                name = "vanart",
-                nameKey = "RPR_PCK_SVA_NAM",
-                descriptionKey = "RPR_PCK_SVA_DES",
-                version = DataVersion.one,
-                level = ItemClass.Level.Level2,
-                baseWorkers = new int[] { 10, 20, 5, 1 },
-                perWorker = new int[] { 80, 20, 80, 200 },
-                baseCost = 6000,
-                costPer = 30,
-                baseMaint = 500,
-                maintPer = 5
+                Name = "vanart",
+                NameKey = "RPR_PCK_SVA_NAM",
+                DescriptionKey = "RPR_PCK_SVA_DES",
             };
-            calcPacks.Add(newPack);
+            CalcPacks.Add(newPack);
+        }
+
+        /// <summary>
+        /// Gets the current instance.
+        /// </summary>
+        internal static SchoolData Instance => s_instance;
+
+        /// <summary>
+        /// Ensures that a valid instance is instantiated and ready for use.
+        /// </summary>
+        internal static void EnsureInstance()
+        {
+            if (s_instance == null)
+            {
+                s_instance = new SchoolData();
+            }
         }
 
         /// <summary>
@@ -115,12 +99,13 @@ namespace RealPop2
             else if (originalStats.ContainsKey(prefab.name))
             {
                 // Original stats dictionary initialized - check for any override.
-                ushort value = PopData.instance.GetOverride(prefab.name);
+                ushort value = PopData.Instance.GetOverride(prefab.name);
                 if (value > 0)
                 {
                     // Manual override present - use that value.
                     return value;
                 }
+
                 // No override - retrieve stored value.
                 return originalStats[prefab.name].Students;
             }
@@ -170,7 +155,7 @@ namespace RealPop2
 
             // Update existing school buildings.
             BuildingInfo thisPrefab = prefab;
-            Singleton<SimulationManager>.instance.AddAction(delegate { UpdateSchools(thisPrefab); });
+            Singleton<SimulationManager>.instance.AddAction(() => UpdateSchools(thisPrefab));
         }
 
         /// <summary>
@@ -205,8 +190,8 @@ namespace RealPop2
                 }
             }
             else
-            // If not high school, default to elementary school.
             {
+                // If not high school, default to elementary school.
                 if (prefab?.name != null && prefab.name.Equals("Community School"))
                 {
                     // Community school.
@@ -220,7 +205,7 @@ namespace RealPop2
             }
 
             // Match name to floorpack.
-            return calcPacks.Find(pack => pack.name.Equals(defaultName));
+            return CalcPacks.Find(pack => pack.Name.Equals(defaultName));
         }
 
         /// <summary>
@@ -236,10 +221,10 @@ namespace RealPop2
             ItemClass.Level level = prefab.GetClassLevel();
 
             // Iterate through each floor pack and see if it applies.
-            foreach (SchoolDataPack pack in calcPacks)
+            foreach (SchoolDataPack pack in CalcPacks)
             {
                 // Check for matching service.
-                if (pack.level == level)
+                if (pack.Level == level)
                 {
                     // Service matches; add pack.
                     list.Add(pack);
@@ -260,9 +245,9 @@ namespace RealPop2
             SortedList<string, Configuration.BuildingRecord> returnList = existingList ?? new SortedList<string, Configuration.BuildingRecord>();
 
             // Iterate through each key (BuildingInfo) in our dictionary and serialise it into a BuildingRecord.
-            foreach (string prefabName in buildingDict.Keys)
+            foreach (string prefabName in BuildingDict.Keys)
             {
-                string packName = buildingDict[prefabName]?.name;
+                string packName = BuildingDict[prefabName]?.Name;
 
                 // Check to see if our existing list already contains this building.
                 if (returnList.ContainsKey(prefabName))
@@ -307,13 +292,13 @@ namespace RealPop2
                         Jobs2 = schoolAI.m_workPlaceCount2,
                         Jobs3 = schoolAI.m_workPlaceCount3,
                         Cost = schoolAI.m_constructionCost,
-                        Maintenance = schoolAI.m_maintenanceCost
+                        Maintenance = schoolAI.m_maintenanceCost,
                     });
 
                     Logging.KeyMessage("found school prefab ", building.name, " with student count ", schoolAI.m_studentCount);
 
                     // If setting is set, get currently active pack and apply it.
-                    if (ModSettings.enableSchoolProperties)
+                    if (ModSettings.EnableSchoolProperties)
                     {
                         ApplyPack(building, ActivePack(building) as SchoolDataPack);
 
@@ -366,8 +351,8 @@ namespace RealPop2
             if (schoolPack != null)
             {
                 // Local references.
-                int[] baseWorkers = schoolPack.baseWorkers;
-                int[] perWorker = schoolPack.perWorker;
+                int[] baseWorkers = schoolPack.BaseWorkers;
+                int[] perWorker = schoolPack.PerWorker;
 
                 // Calculate workers: base jobs plus extra jobs for X number of students (ensuring divisor is greater than zero).
                 for (int i = 0; i < WorkerLevels; ++i)
@@ -386,7 +371,7 @@ namespace RealPop2
         /// <param name="schoolPack">School calculation pack to use.</param>
         /// <param name="students">Student count to use.</param>
         /// <returns>Placement cost.</returns>
-        internal int CalcCost(SchoolDataPack schoolPack, int students) => schoolPack.baseCost + (schoolPack.costPer * students);
+        internal int CalcCost(SchoolDataPack schoolPack, int students) => schoolPack.BaseCost + (schoolPack.CostPer * students);
 
         /// <summary>
         /// Calculates school building maintenance cost, given a school calculation pack and a total student count.
@@ -395,7 +380,7 @@ namespace RealPop2
         /// <param name="schoolPack">School calculation pack to use.</param>
         /// <param name="students">Student count to use.</param>
         /// <returns>Maintenance cost.</returns>
-        internal int CalcMaint(SchoolDataPack schoolPack, int students) => schoolPack.baseMaint + (schoolPack.maintPer * students);
+        internal int CalcMaint(SchoolDataPack schoolPack, int students) => schoolPack.BaseMaint + (schoolPack.MaintPer * students);
 
         /// <summary>
         /// Updates a school prefab record (and associated tooltip) with updated population.
@@ -407,14 +392,14 @@ namespace RealPop2
             UpdateSchoolPrefab(prefab, prefab.GetAI() as SchoolAI);
 
             // Update existing school buildings via SimulationManager.
-            Singleton<SimulationManager>.instance.AddAction(delegate { UpdateSchools(prefab); });
+            Singleton<SimulationManager>.instance.AddAction(() => UpdateSchools(prefab));
         }
 
         /// <summary>
         /// Updates all school buildings matching the given prefab, or all school buildings if no prefab is specified, to current settings.
         /// Should only be called via simulation thread.
-        /// <param name="schoolPrefab">Building prefab to update (null to update all schools).</param>
         /// </summary>
+        /// <param name="schoolPrefab">Building prefab to update (null to update all schools).</param>
         internal void UpdateSchools(BuildingInfo schoolPrefab)
         {
             // Iterate through all buildings looking for schools.
@@ -439,16 +424,23 @@ namespace RealPop2
         }
 
         /// <summary>
+        /// Extracts the relevant school pack name from a building line record.
+        /// </summary>
+        /// <param name="buildingRecord">Building record to extract from.</param>
+        /// <returns>School pack name (if any).</returns>
+        protected override string BuildingPack(Configuration.BuildingRecord buildingRecord) => buildingRecord.SchoolPack;
+
+        /// <summary>
         /// Applies a school data pack to a school prefab.
         /// </summary>
-        /// <param name="prefab">School prefab to apply to</param>
-        /// <param name="schoolPack">School data pack to apply</param>
+        /// <param name="prefab">School prefab to apply to.</param>
+        /// <param name="schoolPack">School data pack to apply.</param>
         private void ApplyPack(BuildingInfo prefab, SchoolDataPack schoolPack)
         {
             // Null checks first.
             if (prefab?.name == null)
             {
-                Logging.Error("No prefab found for SchoolPack ", schoolPack.name);
+                Logging.Error("No prefab found for SchoolPack ", schoolPack.Name);
                 return;
             }
 
@@ -493,7 +485,7 @@ namespace RealPop2
             }
 
             Logging.KeyMessage("updating school prefab ", prefab.name, " with studentCount ", schoolAI.m_studentCount);
-            Logging.KeyMessage("applying calculation pack ", PopData.instance.ActivePack(prefab).DisplayName, " with multiplier ", Multipliers.instance.ActiveMultiplier(prefab));
+            Logging.KeyMessage("applying calculation pack ", PopData.Instance.ActivePack(prefab).DisplayName, " with multiplier ", Multipliers.Instance.ActiveMultiplier(prefab));
 
             // Update prefab population record.
             schoolAI.m_studentCount = schoolAI.StudentCount;
@@ -550,13 +542,6 @@ namespace RealPop2
         }
 
         /// <summary>
-        /// Extracts the relevant school pack name from a building line record.
-        /// </summary>
-        /// <param name="buildingRecord">Building record to extract from.</param>
-        /// <returns>School pack name (if any).</returns>
-        protected override string BuildingPack(Configuration.BuildingRecord buildingRecord) => buildingRecord.SchoolPack;
-
-        /// <summary>
         /// Original school stats (for reversion to if needed).
         /// </summary>
         internal struct OriginalSchoolStats
@@ -592,7 +577,7 @@ namespace RealPop2
             public int Cost;
 
             /// <summary>
-            /// Maintenance cos
+            /// Maintenance cost.
             /// </summary>
             public int Maintenance;
         }

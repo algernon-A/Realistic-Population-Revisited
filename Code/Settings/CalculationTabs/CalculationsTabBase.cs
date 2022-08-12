@@ -14,41 +14,51 @@ namespace RealPop2
     /// </summary>
     internal abstract class CalculationsTabBase : OptionsPanelTab
     {
-        // Defaults panel reference.
-        protected DefaultsPanelBase defaultsPanel;
-
-        // Tab icons.
-        protected abstract string[] IconNames { get; }
-        protected abstract string[] AtlasNames { get; }
-        protected abstract string Tooltip { get; }
-
-        // Tab width.
-        protected virtual float TabWidth => 100f;
+        /// <summary>
+        /// Defaults panel instance.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "Protected internal field")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1307:Accessible fields should begin with upper-case letter", Justification = "Protected internal field")]
+        protected internal DefaultsPanelBase m_defaultsPanel;
 
         /// <summary>
-        /// Adds options tab to tabstrip.
+        /// Initializes a new instance of the <see cref="CalculationsTabBase"/> class.
         /// </summary>
         /// <param name="parentTabStrip">Parent tab strip to add to.</param>
         /// <param name="tabIndex">Index number of tab.</param>
         internal CalculationsTabBase(UITabstrip parentTabStrip, int tabIndex)
         {
             // Add tab and helper.
-            panel = PanelUtils.AddIconTab(parentTabStrip, Tooltip, tabIndex, IconNames, AtlasNames, TabWidth);
+            m_panel = PanelUtils.AddIconTab(parentTabStrip, Tooltip, tabIndex, IconNames, AtlasNames, TabWidth);
 
             // Set tab object reference.
             parentTabStrip.tabs[tabIndex].objectUserData = this;
         }
 
         /// <summary>
-        /// Updates control values for relevant defaults panel.
+        /// Gets the tab width.
         /// </summary>
-        internal void UpdateControls() => defaultsPanel?.UpdateControls();
+        protected virtual float TabWidth => 100f;
 
         /// <summary>
-        /// Adds required sub-tabs.
+        /// Gets the array of icon sprite names for this tab.
         /// </summary>
-        /// <param name="tabStrip">Tabstrip reference</param>
-        protected abstract void AddTabs(UITabstrip tabStrip);
+        protected abstract string[] IconNames { get; }
+
+        /// <summary>
+        /// Gets the array of icon atlas names for this tab.
+        /// </summary>
+        protected abstract string[] AtlasNames { get; }
+
+        /// <summary>
+        /// Gets the tooltip for this tab.
+        /// </summary>
+        protected abstract string Tooltip { get; }
+
+        /// <summary>
+        /// Updates control values for relevant defaults panel.
+        /// </summary>
+        internal void UpdateControls() => m_defaultsPanel?.UpdateControls();
 
         /// <summary>
         /// Performs initial setup; called via event when tab is first selected.
@@ -56,19 +66,19 @@ namespace RealPop2
         internal override void Setup()
         {
             // Don't do anything if already set up.
-            if (!isSetup)
+            if (!m_isSetup)
             {
                 // Perform initial setup.
-                isSetup = true;
+                m_isSetup = true;
                 Logging.Message("setting up ", this.GetType());
 
                 // Add tabstrip.
-                UITabstrip childTabStrip = panel.AddUIComponent<UITabstrip>();
+                UITabstrip childTabStrip = m_panel.AddUIComponent<UITabstrip>();
                 childTabStrip.relativePosition = new Vector2(0, 0);
                 childTabStrip.size = new Vector2(744f, 725f);
 
                 // Tab container (the panels underneath each tab).
-                UITabContainer tabContainer = panel.AddUIComponent<UITabContainer>();
+                UITabContainer tabContainer = m_panel.AddUIComponent<UITabContainer>();
                 tabContainer.relativePosition = new Vector2(0, 30f);
                 tabContainer.size = new Vector2(744f, 720);
                 childTabStrip.tabPages = tabContainer;
@@ -89,5 +99,11 @@ namespace RealPop2
                 };
             }
         }
+
+        /// <summary>
+        /// Adds required sub-tabs.
+        /// </summary>
+        /// <param name="tabStrip">Tabstrip reference.</param>
+        protected abstract void AddTabs(UITabstrip tabStrip);
     }
 }

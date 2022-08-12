@@ -6,8 +6,8 @@
 namespace RealPop2
 {
     using System;
-    using System.ComponentModel;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Xml;
     using System.Xml.Serialization;
     using AlgernonCommons;
@@ -19,7 +19,6 @@ namespace RealPop2
     [XmlRoot("Configuration")]
     public class Configuration
     {
-
         /// <summary>
         /// Gets or sets the list of custom population packs.
         /// </summary>
@@ -144,75 +143,6 @@ namespace RealPop2
         }
 
         /// <summary>
-        /// Building setting dictionary record.
-        /// Mutable - so a class, not a struct.
-        /// </summary>
-        public class BuildingRecord
-        {
-            // Building multiplier.
-            [XmlIgnore]
-            private float _multiplier;
-
-            /// <summary>
-            /// Building prefab name.
-            /// </summary>
-            [XmlAttribute("prefab")]
-            public string Prefab { get; set; }
-
-            /// <summary>
-            /// Gets or sets the assigned population pack.
-            /// </summary>
-            [XmlAttribute("pop")]
-            [DefaultValue("")]
-            public string PopPack { get; set; }
-
-            /// <summary>
-            /// Gets or sets the assigned floor calculation pack.
-            /// </summary>
-            [XmlAttribute("floor")]
-            [DefaultValue("")]
-            public string FloorPack { get; set; }
-
-            /// <summary>
-            /// Gets or sets the assigned school properties pack.
-            /// </summary>
-            // School properties pack.
-            [XmlAttribute("school")]
-            [DefaultValue("")]
-            public string SchoolPack { get; set; }
-
-            /// <summary>
-            /// Gets or sets the building multiplier as a string.
-            /// </summary>
-            [XmlAttribute("multiplier")]
-            [DefaultValue("")]
-            public string MultiplierString
-            {
-                // Only serialize if multiplier is at least one.
-                get => _multiplier >= 1 ? _multiplier.ToString() : string.Empty;
-
-                set
-                {
-                    // Attempt to parse value as float.
-                    if (!float.TryParse(value, out _multiplier))
-                    {
-                        Logging.Error("unable to parse multiplier as float; setting to default");
-                        _multiplier = ModSettings.DefaultSchoolMult;
-                    }
-
-                    // Minimum value of 1.
-                    _multiplier = Mathf.Max(1f, _multiplier);
-                }
-            }
-
-            /// <summary>
-            /// Gets or sets the building multiplier.
-            /// </summary>
-            [XmlIgnore]
-            internal float Multiplier { get => _multiplier; set => _multiplier = value; }
-        }
-
-        /// <summary>
         /// Building population count override record.
         /// </summary>
         public struct PopCountOverride
@@ -221,14 +151,14 @@ namespace RealPop2
             /// Building prefab name.
             /// </summary>
             [XmlAttribute("prefab")]
-            public string prefab;
+            public string Prefab;
 
             /// <summary>
             /// Population overrride value.
             /// </summary>
             [XmlAttribute("population")]
             [DefaultValue(0)]
-            public ushort population;
+            public ushort Population;
         }
 
         /// <summary>
@@ -438,7 +368,7 @@ namespace RealPop2
         }
 
         /// <summary>
-        /// Basic serializable KeyValuePair for SubService dictionaries. 
+        /// Basic serializable KeyValuePair for SubService dictionaries.
         /// </summary>
         [Serializable]
         [XmlType(TypeName = "subservice")]
@@ -481,6 +411,75 @@ namespace RealPop2
             /// </summary>
             [XmlAttribute("multiplier")]
             public int Multiplier;
+        }
+
+        /// <summary>
+        /// Building setting dictionary record.
+        /// Mutable - so a class, not a struct.
+        /// </summary>
+        public class BuildingRecord
+        {
+            // Building multiplier.
+            [XmlIgnore]
+            private float _multiplier;
+
+            /// <summary>
+            /// Gets or sets the building prefab name.
+            /// </summary>
+            [XmlAttribute("prefab")]
+            public string Prefab { get; set; }
+
+            /// <summary>
+            /// Gets or sets the assigned population pack.
+            /// </summary>
+            [XmlAttribute("pop")]
+            [DefaultValue("")]
+            public string PopPack { get; set; }
+
+            /// <summary>
+            /// Gets or sets the assigned floor calculation pack.
+            /// </summary>
+            [XmlAttribute("floor")]
+            [DefaultValue("")]
+            public string FloorPack { get; set; }
+
+            /// <summary>
+            /// Gets or sets the assigned school properties pack.
+            /// </summary>
+            // School properties pack.
+            [XmlAttribute("school")]
+            [DefaultValue("")]
+            public string SchoolPack { get; set; }
+
+            /// <summary>
+            /// Gets or sets the building multiplier as a string.
+            /// </summary>
+            [XmlAttribute("multiplier")]
+            [DefaultValue("")]
+            public string MultiplierString
+            {
+                // Only serialize if multiplier is at least one.
+                get => _multiplier >= 1 ? _multiplier.ToString() : string.Empty;
+
+                set
+                {
+                    // Attempt to parse value as float.
+                    if (!float.TryParse(value, out _multiplier))
+                    {
+                        Logging.Error("unable to parse multiplier as float; setting to default");
+                        _multiplier = ModSettings.DefaultSchoolMult;
+                    }
+
+                    // Minimum value of 1.
+                    _multiplier = Mathf.Max(1f, _multiplier);
+                }
+            }
+
+            /// <summary>
+            /// Gets or sets the building multiplier.
+            /// </summary>
+            [XmlIgnore]
+            internal float Multiplier { get => _multiplier; set => _multiplier = value; }
         }
     }
 }

@@ -25,7 +25,7 @@ namespace RealPop2
                 Messages = new string[]
                 {
                     "RPR_201_0",
-                }
+                },
             },
             new WhatsNewMessage
             {
@@ -43,7 +43,7 @@ namespace RealPop2
                     "RPR_200_7",
                     "RPR_200_8",
                     "RPR_200_9",
-                }
+                },
             },
         };
     }

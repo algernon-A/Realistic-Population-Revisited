@@ -14,42 +14,54 @@ namespace RealPop2
     internal class ResidentialTab : CalculationsTabBase
     {
         // Tab icons.
-        private readonly string[] iconNames =
+        private readonly string[] _iconNames =
         {
             "ZoningResidentialLow",
             "ZoningResidentialHigh",
             "IconPolicySelfsufficient",
-            "IconPolicySelfsufficient"
+            "IconPolicySelfsufficient",
         };
 
-        private readonly string[] atlasNames =
+        private readonly string[] _atlasNames =
         {
             "Thumbnails",
             "Thumbnails",
             "Ingame",
-            "Ingame"
+            "Ingame",
         };
 
-        protected override string[] IconNames => iconNames;
-        protected override string[] AtlasNames => atlasNames;
-        protected override string Tooltip => Translations.Translate("RPR_CAT_RES");
-
         /// <summary>
-        /// Constructor.
+        /// Initializes a new instance of the <see cref="ResidentialTab"/> class.
         /// </summary>
         /// <param name="tabStrip">Tab strip to add to.</param>
         /// <param name="tabIndex">Index number of tab.</param>
-        internal ResidentialTab(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
+        internal ResidentialTab(UITabstrip tabStrip, int tabIndex)
+            : base(tabStrip, tabIndex)
         {
         }
 
         /// <summary>
+        /// Gets the array of icon sprite names for this tab.
+        /// </summary>
+        protected override string[] IconNames => _iconNames;
+
+        /// <summary>
+        /// Gets the array of icon atlas names for this tab.
+        /// </summary>
+        protected override string[] AtlasNames => _atlasNames;
+
+        /// <summary>
+        /// Gets the tooltip for this tab.
+        /// </summary>
+        protected override string Tooltip => Translations.Translate("RPR_CAT_RES");
+
+        /// <summary>
         /// Adds required sub-tabs.
         /// </summary>
-        /// <param name="tabStrip">Tabstrip reference</param>
+        /// <param name="tabStrip">Tabstrip reference.</param>
         protected override void AddTabs(UITabstrip tabStrip)
         {
-            defaultsPanel = new ResDefaultsPanel(tabStrip, 0);
+            m_defaultsPanel = new ResDefaultsPanel(tabStrip, 0);
             new ResConsumptionPanel(tabStrip, 1);
         }
     }

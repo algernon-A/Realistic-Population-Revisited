@@ -5,11 +5,10 @@
 
 namespace RealPop2
 {
-    using UnityEngine;
     using AlgernonCommons.Translation;
     using AlgernonCommons.UI;
     using ColossalFramework.UI;
-    using Realistic_Population_Revisited.Code.Patches.Population;
+    using UnityEngine;
 
     /// <summary>
     /// Options panel for setting commercial goods calculations.
@@ -17,43 +16,43 @@ namespace RealPop2
     internal class ComGoodsPanel : GoodsPanelBase
     {
         // Service/subservice arrays.
-        private readonly string[] subServiceNames =
+        private readonly string[] _subServiceNames =
         {
             Translations.Translate("RPR_CAT_CLO"),
             Translations.Translate("RPR_CAT_CHI"),
             Translations.Translate("RPR_CAT_ORG"),
             Translations.Translate("RPR_CAT_LEI"),
-            Translations.Translate("RPR_CAT_TOU")
+            Translations.Translate("RPR_CAT_TOU"),
         };
 
-        private readonly ItemClass.Service[] services =
+        private readonly ItemClass.Service[] _services =
         {
             ItemClass.Service.Commercial,
             ItemClass.Service.Commercial,
             ItemClass.Service.Commercial,
             ItemClass.Service.Commercial,
-            ItemClass.Service.Commercial
+            ItemClass.Service.Commercial,
         };
 
-        private readonly ItemClass.SubService[] subServices =
+        private readonly ItemClass.SubService[] _subServices =
         {
             ItemClass.SubService.CommercialLow,
             ItemClass.SubService.CommercialHigh,
             ItemClass.SubService.CommercialEco,
             ItemClass.SubService.CommercialLeisure,
-            ItemClass.SubService.CommercialTourist
+            ItemClass.SubService.CommercialTourist,
         };
 
-        private readonly string[] iconNames =
+        private readonly string[] _iconNames =
         {
             "ZoningCommercialLow",
             "ZoningCommercialHigh",
             "IconPolicyOrganic",
             "IconPolicyLeisure",
-            "IconPolicyTourist"
+            "IconPolicyTourist",
         };
 
-        private readonly string[] atlasNames =
+        private readonly string[] _atlasNames =
         {
             "Thumbnails",
             "Thumbnails",
@@ -62,32 +61,56 @@ namespace RealPop2
             "Ingame",
         };
 
-        protected override string[] SubServiceNames => subServiceNames;
-        protected override ItemClass.Service[] Services => services;
-        protected override ItemClass.SubService[] SubServices => subServices;
-        protected override string[] IconNames => iconNames;
-        protected override string[] AtlasNames => atlasNames;
-
-        // Title key.
-        protected override string TitleKey => "RPR_TIT_CGO";
-
         // Panel components.
-        private UIDropDown[] visitDefaultMenus;
-        private UISlider[] visitMultSliders, goodsMultSliders, inventorySliders;
+        private UIDropDown[] _visitDefaultMenus;
+        private UISlider[] _visitMultSliders;
+        private UISlider[] _goodsMultSliders;
+        private UISlider[] _inventorySliders;
 
         /// <summary>
-        /// Legacy settings link.
-        /// </summary>
-        protected bool ThisLegacyCategory { get => ModSettings.ThisSaveLegacyCom; set => ModSettings.ThisSaveLegacyCom = value; }
-
-        /// <summary>
-        /// Constructor.
+        /// Initializes a new instance of the <see cref="ComGoodsPanel"/> class.
         /// </summary>
         /// <param name="tabStrip">Tab strip to add to.</param>
         /// <param name="tabIndex">Index number of tab.</param>
-        internal ComGoodsPanel(UITabstrip tabStrip, int tabIndex) : base(tabStrip, tabIndex)
+        internal ComGoodsPanel(UITabstrip tabStrip, int tabIndex)
+            : base(tabStrip, tabIndex)
         {
         }
+
+        /// <summary>
+        /// Gets the array of sub-service display names for this tab.
+        /// </summary>
+        protected override string[] SubServiceNames => _subServiceNames;
+
+        /// <summary>
+        /// Gets the array of relevant building services for this tab.
+        /// </summary>
+        protected override ItemClass.Service[] Services => _services;
+
+        /// <summary>
+        /// Gets the array of relevant building sub-services for this tab.
+        /// </summary>
+        protected override ItemClass.SubService[] SubServices => _subServices;
+
+        /// <summary>
+        /// Gets the array of building type icon sprite names for this tab.
+        /// </summary>
+        protected override string[] IconNames => _iconNames;
+
+        /// <summary>
+        /// Gets the array of building type icon atlas names for this tab.
+        /// </summary>
+        protected override string[] AtlasNames => _atlasNames;
+
+        /// <summary>
+        /// Gets the tab title translation key for this tab.
+        /// </summary>
+        protected override string TitleKey => "RPR_TIT_CGO";
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the legacy 'use legacy by default for this save' setting is in effect.
+        /// </summary>
+        protected bool ThisLegacyCategory { get => ModSettings.ThisSaveLegacyCom; set => ModSettings.ThisSaveLegacyCom = value; }
 
         /// <summary>
         /// Updates pack selection menu items.
@@ -97,16 +120,16 @@ namespace RealPop2
             base.UpdateControls();
 
             // Reset sliders and menus.
-            for (int i = 0; i < visitMultSliders.Length; ++i)
+            for (int i = 0; i < _visitMultSliders.Length; ++i)
             {
                 // Reset visit multiplier slider values.
-                visitMultSliders[i].value = Visitors.GetVisitMult(subServices[i]);
+                _visitMultSliders[i].value = Visitors.GetVisitMult(_subServices[i]);
 
                 // Reset visit mode menu selections.
-                visitDefaultMenus[i].selectedIndex = Visitors.GetVisitMode(subServices[i]);
+                _visitDefaultMenus[i].selectedIndex = Visitors.GetVisitMode(_subServices[i]);
 
                 // Reset inventory cap slider value.
-                inventorySliders[i].value = GoodsUtils.GetInventoryCap(subServices[i]);
+                _inventorySliders[i].value = GoodsUtils.GetInventoryCap(_subServices[i]);
             }
         }
 
@@ -119,64 +142,64 @@ namespace RealPop2
         protected override float SubServiceControls(float yPos, int index)
         {
             // SubServiceControls is called as part of parent constructor, so we need to initialise them here if they aren't already.
-            if (visitDefaultMenus == null)
+            if (_visitDefaultMenus == null)
             {
-                visitDefaultMenus = new UIDropDown[subServices.Length];
-                visitMultSliders = new UISlider[subServices.Length];
-                goodsMultSliders = new UISlider[subServices.Length];
-                inventorySliders = new UISlider[subServices.Length];
+                _visitDefaultMenus = new UIDropDown[_subServices.Length];
+                _visitMultSliders = new UISlider[_subServices.Length];
+                _goodsMultSliders = new UISlider[_subServices.Length];
+                _inventorySliders = new UISlider[_subServices.Length];
             }
 
             // Sales multiplier slider.
             float currentY = yPos;
-            goodsMultSliders[index] = AddSlider(panel, LeftColumn, currentY, ControlWidth, "RPR_DEF_CGM_TIP");
-            goodsMultSliders[index].objectUserData = index;
-            goodsMultSliders[index].value = (int)GoodsUtils.GetComMult(subServices[index]);
-            PercentSliderText(goodsMultSliders[index], goodsMultSliders[index].value);
+            _goodsMultSliders[index] = AddSlider(m_panel, LeftColumn, currentY, ControlWidth, "RPR_DEF_CGM_TIP");
+            _goodsMultSliders[index].objectUserData = index;
+            _goodsMultSliders[index].value = (int)GoodsUtils.GetComMult(_subServices[index]);
+            PercentSliderText(_goodsMultSliders[index], _goodsMultSliders[index].value);
 
             // Sales multiplier label.
-            UILabel goodsLabel = UILabels.AddLabel(panel, 0f, 0f, Translations.Translate("RPR_DEF_CGM"), textScale: 0.8f);
-            goodsLabel.relativePosition = new Vector2(LeftColumn - 10f - goodsLabel.width, currentY + (goodsMultSliders[index].parent.height - goodsLabel.height) / 2f);
+            UILabel goodsLabel = UILabels.AddLabel(m_panel, 0f, 0f, Translations.Translate("RPR_DEF_CGM"), textScale: 0.8f);
+            goodsLabel.relativePosition = new Vector2(LeftColumn - 10f - goodsLabel.width, currentY + ((_goodsMultSliders[index].parent.height - goodsLabel.height) / 2f));
 
             // Vist mode header label.
-            UILabels.AddLabel(panel, RightColumn, currentY - 19f, Translations.Translate("RPR_DEF_VIS"), -1, 0.8f);
+            UILabels.AddLabel(m_panel, RightColumn, currentY - 19f, Translations.Translate("RPR_DEF_VIS"), -1, 0.8f);
 
             // Visit mode menu.
-            visitDefaultMenus[index] = UIDropDowns.AddDropDown(panel, RightColumn, currentY, ControlWidth, height: 20f, itemVertPadding: 6, tooltip: Translations.Translate("RPR_DEF_VIS_TIP"));
-            visitDefaultMenus[index].tooltipBox = UIToolTips.WordWrapToolTip;
-            visitDefaultMenus[index].objectUserData = index;
-            visitDefaultMenus[index].items = new string[]
+            _visitDefaultMenus[index] = UIDropDowns.AddDropDown(m_panel, RightColumn, currentY, ControlWidth, height: 20f, itemVertPadding: 6, tooltip: Translations.Translate("RPR_DEF_VIS_TIP"));
+            _visitDefaultMenus[index].tooltipBox = UIToolTips.WordWrapToolTip;
+            _visitDefaultMenus[index].objectUserData = index;
+            _visitDefaultMenus[index].items = new string[]
             {
                 Translations.Translate("RPR_DEF_VNE"),
-                Translations.Translate("RPR_DEF_VOL")
+                Translations.Translate("RPR_DEF_VOL"),
             };
 
             // Inventory cap slider.
             currentY += RowHeight;
-            inventorySliders[index] = AddSlider(panel, LeftColumn, currentY, ControlWidth, "RPR_DEF_IDC_TIP", false);
-            inventorySliders[index].objectUserData = index;
-            inventorySliders[index].minValue = GoodsUtils.MinInventory;
-            inventorySliders[index].maxValue = GoodsUtils.MaxInventory;
-            inventorySliders[index].stepSize = 1000f;
-            inventorySliders[index].value = GoodsUtils.GetInventoryCap(subServices[index]);
-            AbsSliderText(inventorySliders[index], inventorySliders[index].value);
+            _inventorySliders[index] = AddSlider(m_panel, LeftColumn, currentY, ControlWidth, "RPR_DEF_IDC_TIP", false);
+            _inventorySliders[index].objectUserData = index;
+            _inventorySliders[index].minValue = GoodsUtils.MinInventory;
+            _inventorySliders[index].maxValue = GoodsUtils.MaxInventory;
+            _inventorySliders[index].stepSize = 1000f;
+            _inventorySliders[index].value = GoodsUtils.GetInventoryCap(_subServices[index]);
+            AbsSliderText(_inventorySliders[index], _inventorySliders[index].value);
 
             // Inventory cap label.
-            UILabel invLabel = UILabels.AddLabel(panel, 0f, 0f, Translations.Translate("RPR_DEF_IDC"), textScale: 0.8f);
-            invLabel.relativePosition = new Vector2(LeftColumn - 10f - invLabel.width, currentY + (inventorySliders[index].parent.height - invLabel.height) / 2f);
+            UILabel invLabel = UILabels.AddLabel(m_panel, 0f, 0f, Translations.Translate("RPR_DEF_IDC"), textScale: 0.8f);
+            invLabel.relativePosition = new Vector2(LeftColumn - 10f - invLabel.width, currentY + ((_inventorySliders[index].parent.height - invLabel.height) / 2f));
 
             // Visitor multiplication slider.
-            visitMultSliders[index] = AddSlider(panel, RightColumn, currentY, ControlWidth, "RPR_DEF_VMU_TIP");
-            visitMultSliders[index].maxValue = 200f;
-            visitMultSliders[index].objectUserData = index;
-            visitMultSliders[index].value = Visitors.GetVisitMult(subServices[index]);
-            PercentSliderText(visitMultSliders[index], visitMultSliders[index].value);
+            _visitMultSliders[index] = AddSlider(m_panel, RightColumn, currentY, ControlWidth, "RPR_DEF_VMU_TIP");
+            _visitMultSliders[index].maxValue = 200f;
+            _visitMultSliders[index].objectUserData = index;
+            _visitMultSliders[index].value = Visitors.GetVisitMult(_subServices[index]);
+            PercentSliderText(_visitMultSliders[index], _visitMultSliders[index].value);
 
             // Visit mode default event handler to show/hide multiplier slider.
-            visitDefaultMenus[index].eventSelectedIndexChanged += VisitDefaultIndexChanged;
+            _visitDefaultMenus[index].eventSelectedIndexChanged += VisitDefaultIndexChanged;
 
             // Set visit mode initial selection.
-            visitDefaultMenus[index].selectedIndex = Visitors.GetVisitMode(subServices[index]);
+            _visitDefaultMenus[index].selectedIndex = Visitors.GetVisitMode(_subServices[index]);
 
             return currentY;
         }
@@ -189,22 +212,22 @@ namespace RealPop2
         protected override void Apply(UIComponent c, UIMouseEventParameter p)
         {
             // Iterate through all subservices.
-            for (int i = 0; i < subServices.Length; ++i)
+            for (int i = 0; i < _subServices.Length; ++i)
             {
                 // Record vist calculation modes.
-                Visitors.SetVisitMode(subServices[i], visitDefaultMenus[i].selectedIndex);
+                Visitors.SetVisitMode(_subServices[i], _visitDefaultMenus[i].selectedIndex);
 
                 // Record visitor multiplier.
-                Visitors.SetVisitMult(subServices[i], (int)visitMultSliders[i].value);
+                Visitors.SetVisitMult(_subServices[i], (int)_visitMultSliders[i].value);
 
                 // Record goods multiplier.
-                GoodsUtils.SetComMult(subServices[i], (int)goodsMultSliders[i].value);
+                GoodsUtils.SetComMult(_subServices[i], (int)_goodsMultSliders[i].value);
 
                 // Record inventory cap.
-                GoodsUtils.SetInventoryCap(subServices[i], (int)inventorySliders[i].value);
+                GoodsUtils.SetInventoryCap(_subServices[i], (int)_inventorySliders[i].value);
 
                 // Recalculate citizen units.
-                CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.None, subServices[i], false);
+                CitizenUnitUtils.UpdateCitizenUnits(null, ItemClass.Service.None, _subServices[i], false);
             }
 
             base.Apply(c, p);
@@ -218,29 +241,28 @@ namespace RealPop2
         protected override void ResetDefaults(UIComponent c, UIMouseEventParameter p)
         {
             // Reset sliders and menus.
-            for (int i = 0; i < visitMultSliders.Length; ++i)
+            for (int i = 0; i < _visitMultSliders.Length; ++i)
             {
                 // Reset visit multiplier slider value.s
-                goodsMultSliders[i].value = GoodsUtils.DefaultSalesMult;
+                _goodsMultSliders[i].value = GoodsUtils.DefaultSalesMult;
 
                 // Reset visit mode menu selection.
-                visitDefaultMenus[i].selectedIndex = ThisLegacyCategory ? (int)Visitors.ComVisitModes.legacy : (int)Visitors.ComVisitModes.popCalcs;
+                _visitDefaultMenus[i].selectedIndex = ThisLegacyCategory ? (int)Visitors.ComVisitModes.Legacy : (int)Visitors.ComVisitModes.PopCalcs;
 
                 // Reset goods multiplier slider value.
-                visitMultSliders[i].value = Visitors.DefaultVisitMult(subServices[i]);
+                _visitMultSliders[i].value = Visitors.DefaultVisitMult(_subServices[i]);
 
                 // Reset inventory cap slider value.
-                inventorySliders[i].value = GoodsUtils.DefaultInventory;
+                _inventorySliders[i].value = GoodsUtils.DefaultInventory;
             }
         }
 
         /// <summary>
         /// 'Revert to saved' button event handler.
         /// </summary>
-        /// <param name="c">Calling component (unused)</param>
-        /// <param name="p">Mouse event (unused)</param>
+        /// <param name="c">Calling component.</param>
+        /// <param name="p">Mouse event parameter.</param>
         protected override void ResetSaved(UIComponent c, UIMouseEventParameter p) => UpdateControls();
-
 
         /// <summary>
         /// Visit default menu index changed event handler.
@@ -253,7 +275,7 @@ namespace RealPop2
             if (c.objectUserData is int subServiceIndex)
             {
                 // Toggle multiplier slider visibility based on current state.
-                visitMultSliders[subServiceIndex].parent.isVisible = index == (int)Visitors.ComVisitModes.popCalcs;
+                _visitMultSliders[subServiceIndex].parent.isVisible = index == (int)Visitors.ComVisitModes.PopCalcs;
             }
         }
     }

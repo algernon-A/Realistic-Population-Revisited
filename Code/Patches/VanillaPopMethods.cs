@@ -64,10 +64,11 @@ namespace RealPop2
         /// <param name="level">Building level.</param>
         /// <param name="r">Randomizer.</param>
         /// <param name="width">Building lot width (in cells).</param>
-        /// <param name="length">Building lot depth (in cells)</param>
+        /// <param name="length">Building lot depth (in cells).</param>
+        /// <returns>Residential household count.</returns>
         /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied.</exception>
         [HarmonyReversePatch]
-        [HarmonyPatch((typeof(ResidentialBuildingAI)), nameof(ResidentialBuildingAI.CalculateHomeCount))]
+        [HarmonyPatch(typeof(ResidentialBuildingAI), nameof(ResidentialBuildingAI.CalculateHomeCount))]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static int CalculateHomeCount(object instance, ItemClass.Level level, Randomizer r, int width, int length)
         {
@@ -90,7 +91,7 @@ namespace RealPop2
         /// <param name="level3">Level 3 workplaces.</param>
         /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied.</exception>
         [HarmonyReversePatch]
-        [HarmonyPatch((typeof(CommercialBuildingAI)), nameof(CommercialBuildingAI.CalculateWorkplaceCount))]
+        [HarmonyPatch(typeof(CommercialBuildingAI), nameof(CommercialBuildingAI.CalculateWorkplaceCount))]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void CommercialWorkplaceCount(object instance, ItemClass.Level level, Randomizer r, int width, int length, out int level0, out int level1, out int level2, out int level3)
         {
@@ -117,7 +118,7 @@ namespace RealPop2
         /// <param name="level3">Level 3 workplaces.</param>
         /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied.</exception>
         [HarmonyReversePatch]
-        [HarmonyPatch((typeof(IndustrialBuildingAI)), nameof(IndustrialBuildingAI.CalculateWorkplaceCount))]
+        [HarmonyPatch(typeof(IndustrialBuildingAI), nameof(IndustrialBuildingAI.CalculateWorkplaceCount))]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void IndustrialWorkplaceCount(object instance, ItemClass.Level level, Randomizer r, int width, int length, out int level0, out int level1, out int level2, out int level3)
         {
@@ -144,7 +145,7 @@ namespace RealPop2
         /// <param name="level3">Level 3 workplaces.</param>
         /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied.</exception>
         [HarmonyReversePatch]
-        [HarmonyPatch((typeof(IndustrialExtractorAI)), nameof(IndustrialExtractorAI.CalculateWorkplaceCount))]
+        [HarmonyPatch(typeof(IndustrialExtractorAI), nameof(IndustrialExtractorAI.CalculateWorkplaceCount))]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ExtractorWorkplaceCount(object instance, ItemClass.Level level, Randomizer r, int width, int length, out int level0, out int level1, out int level2, out int level3)
         {
@@ -171,7 +172,7 @@ namespace RealPop2
         /// <param name="level3">Level 3 workplaces.</param>
         /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied.</exception>
         [HarmonyReversePatch]
-        [HarmonyPatch((typeof(OfficeBuildingAI)), nameof(OfficeBuildingAI.CalculateWorkplaceCount))]
+        [HarmonyPatch(typeof(OfficeBuildingAI), nameof(OfficeBuildingAI.CalculateWorkplaceCount))]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void OfficeWorkplaceCount(object instance, ItemClass.Level level, Randomizer r, int width, int length, out int level0, out int level1, out int level2, out int level3)
         {
@@ -188,9 +189,10 @@ namespace RealPop2
         /// Reverse patch for SchoolAI.StudentCount to access original game method without any Harmony patches (including ours).
         /// </summary>
         /// <param name="instance">SchoolAI instance.</param>
+        /// <returns>Student count.</returns>
         /// <exception cref="NotImplementedException">Harmony reverse patch wasn't applied.</exception>
         [HarmonyReversePatch]
-        [HarmonyPatch((typeof(SchoolAI)), nameof(SchoolAI.StudentCount), MethodType.Getter)]
+        [HarmonyPatch(typeof(SchoolAI), nameof(SchoolAI.StudentCount), MethodType.Getter)]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static int StudentCount(object instance)
         {

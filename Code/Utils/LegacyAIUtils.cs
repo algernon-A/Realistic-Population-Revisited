@@ -1,4 +1,4 @@
-﻿// <copyright file="OfficeBuildingAIPatches.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="LegacyAIUtils.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard) and Whitefang Greytail. All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -8,6 +8,9 @@ namespace RealPop2
     using System;
     using UnityEngine;
 
+    /// <summary>
+    /// Utilities for working with legacy AI.
+    /// </summary>
     internal class LegacyAIUtils
     {
         /// <summary>
@@ -18,10 +21,10 @@ namespace RealPop2
         /// <param name="item">Buiding prefab.</param>
         /// <param name="minWorkers">Minimum number of workers to allocate.</param>
         /// <param name="array">Workplace level array.</param>
+        /// <returns>Workplace levels struct with calculated workers by education level.</returns>
         internal static PopData.WorkplaceLevels CalculatePrefabWorkers(int width, int length, ref BuildingInfo item, int minWorkers, ref int[] array)
         {
             // Prefabs are tied to a level
-
             int value;
             int num = array[DataStore.PEOPLE];
             int level0 = array[DataStore.WORK_LVL0];
@@ -36,13 +39,13 @@ namespace RealPop2
                 Level0 = 1,
                 Level1 = 0,
                 Level2 = 0,
-                Level3 = 0
+                Level3 = 0,
             };
 
             if (num > 0 && num2 > 0)
             {
                 // First, check for volumetric population override - that trumps everything else.
-                value = PopData.instance.GetOverride(item.name);
+                value = PopData.Instance.GetOverride(item.name);
                 if (value == 0)
                 {
                     // No volumetric override - use legacy approach.
@@ -51,7 +54,8 @@ namespace RealPop2
                     int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT])) + array[DataStore.DENSIFICATION];
                     value = (floorSpace * floorCount) / array[DataStore.PEOPLE];
 
-                    if ((array[DataStore.CALC_METHOD] == 0)) // Plot only will ignore any over ride or bonus
+                    // Plot only will ignore any over ride or bonus
+                    if (array[DataStore.CALC_METHOD] == 0)
                     {
                         // Check over ride
                         string name = item.gameObject.name;
@@ -85,17 +89,10 @@ namespace RealPop2
                 output.Level2 = (ushort)((num * level2) / num2);
                 output.Level3 = (ushort)((num * level3) / num2);
 
-                output.Level0 = (ushort)(Mathf.Max(0, num - output.Level1 - output.Level2 - output.Level3));  // Whatever is left
+                output.Level0 = (ushort)Mathf.Max(0, num - output.Level1 - output.Level2 - output.Level3);  // Whatever is left
             }
 
             return output;
-
-            // Set the visitors here since we're calculating
-            //if (num != 0)
-            //{
-            //value = Mathf.Max(200, width * length * array[DataStore.VISIT]) / 100;
-            //}
-            //output.visitors = value;
         } // end calculateprefabWorkerVisit
 
         /// <summary>
@@ -105,6 +102,7 @@ namespace RealPop2
         /// <param name="length">Prefab lot length.</param>
         /// <param name="item">Buiding prefab.</param>
         /// <param name="array">Workplace level array.</param>
+        /// <returns>Calculated houshold count.</returns>
         internal static ushort CalculatePrefabHousehold(int width, int length, ref BuildingInfo item, ref int[] array)
         {
             Vector2 v = item.m_size;
@@ -121,7 +119,8 @@ namespace RealPop2
                 returnValue = Mathf.Max(1, returnValue);
             }
 
-            if ((array[DataStore.CALC_METHOD] == 0)) // Plot only will ignore any over ride or bonus
+            // Plot only will ignore any over ride or bonus
+            if (array[DataStore.CALC_METHOD] == 0)
             {
                 // Check over ride
                 string name = item.gameObject.name;
@@ -149,7 +148,7 @@ namespace RealPop2
             }
 
             return (ushort)returnValue;
-        }  // end calculatePrefabHousehold
+        } // end calculatePrefabHousehold
 
         /// <summary>
         /// Gets the land value compinent of income for this building.
@@ -170,51 +169,12 @@ namespace RealPop2
         }
 
         /// <summary>
-        /// Calculates a building's base area in squre metres.
-        /// </summary>
-        /// <param name="width">Building lot width.</param>
-        /// <param name="length">Buiding lot length.</param>
-        /// <param name="array">Building data array.</param>
-        /// <param name="v">Building prefab size.</param>
-        private static int CalcBase(int width, int length, ref int[] array, Vector3 v)
-        {
-            if (array[DataStore.CALC_METHOD] == 0)
-            {
-                // Check x and z just incase they are 0. A few user created assets are.
-                // If they are, then base the calculation of 3/4 of the width and length given
-                if (v.x <= 1)
-                {
-                    width *= 6;
-                }
-                else
-                {
-                    width = (int)v.x;
-                }
-
-                if (v.z <= 1)
-                {
-                    length *= 6;
-                }
-                else
-                {
-                    length = (int)v.z;
-                }
-            }
-            else
-            {
-                width *= 64; // Combine the eights
-            }
-
-            return width * length;
-        }
-
-        /// <summary>
         /// Returns the datastore array for residential buildings.
         /// </summary>
-        /// <param name="item">Building prefab</param>
-        /// <param name="level">Building level</param>
-        /// <returns>Datastore array</returns>
-        public static int[] GetResidentialArray(BuildingInfo item, int level)
+        /// <param name="item">Building prefab.</param>
+        /// <param name="level">Building level.</param>
+        /// <returns>Datastore array.</returns>
+        internal static int[] GetResidentialArray(BuildingInfo item, int level)
         {
             int[][] array = DataStore.residentialLow;
 
@@ -253,7 +213,7 @@ namespace RealPop2
         /// <param name="item">Building prefab.</param>
         /// <param name="level">Building level.</param>
         /// <returns>Datastore array.</returns>
-        public static int[] GetIndustryArray(BuildingInfo item, int level)
+        internal static int[] GetIndustryArray(BuildingInfo item, int level)
         {
             int tempLevel;
             int[][] array = DataStore.industry;
@@ -261,7 +221,6 @@ namespace RealPop2
             try
             {
                 // Adding 1 to specialized industry to capture correct processor level.
-
                 switch (item.m_class.m_subService)
                 {
                     case ItemClass.SubService.IndustrialOre:
@@ -284,7 +243,7 @@ namespace RealPop2
                         tempLevel = level + 1;
                         break;
 
-                    case ItemClass.SubService.IndustrialGeneric:  // Deliberate fall through
+                    case ItemClass.SubService.IndustrialGeneric: // Deliberate fall through
                     default:
                         tempLevel = level;
                         break;
@@ -303,7 +262,7 @@ namespace RealPop2
         /// </summary>
         /// <param name="item">Building prefab.</param>
         /// <returns>Datastore array.</returns>
-        public static int[] GetExtractorArray(BuildingInfo item)
+        internal static int[] GetExtractorArray(BuildingInfo item)
         {
             int[][] array = DataStore.industry;
 
@@ -327,7 +286,7 @@ namespace RealPop2
                         array = DataStore.industry_oil;
                         break;
 
-                    case ItemClass.SubService.IndustrialGeneric:  // Deliberate fall through
+                    case ItemClass.SubService.IndustrialGeneric: // Deliberate fall through
                     default:
                         break;
                 }
@@ -347,7 +306,7 @@ namespace RealPop2
         /// <param name="item">Building prefab.</param>
         /// <param name="level">Building level.</param>
         /// <returns>Datastore array.</returns>
-        public static int[] GetCommercialArray(BuildingInfo item, int level)
+        internal static int[] GetCommercialArray(BuildingInfo item, int level)
         {
             int[][] array = DataStore.commercialLow;
 
@@ -390,7 +349,7 @@ namespace RealPop2
         /// <param name="item">Building prefab.</param>
         /// <param name="level">Building level.</param>
         /// <returns>Datastore array.</returns>
-        public static int[] GetOfficeArray(BuildingInfo item, int level)
+        internal static int[] GetOfficeArray(BuildingInfo item, int level)
         {
             int[][] array = DataStore.office;
 
@@ -413,6 +372,45 @@ namespace RealPop2
             {
                 return array[0];
             }
+        }
+
+        /// <summary>
+        /// Calculates a building's base area in squre metres.
+        /// </summary>
+        /// <param name="width">Building lot width.</param>
+        /// <param name="length">Buiding lot length.</param>
+        /// <param name="array">Building data array.</param>
+        /// <param name="v">Building prefab size.</param>
+        private static int CalcBase(int width, int length, ref int[] array, Vector3 v)
+        {
+            if (array[DataStore.CALC_METHOD] == 0)
+            {
+                // Check x and z just incase they are 0. A few user created assets are.
+                // If they are, then base the calculation of 3/4 of the width and length given
+                if (v.x <= 1)
+                {
+                    width *= 6;
+                }
+                else
+                {
+                    width = (int)v.x;
+                }
+
+                if (v.z <= 1)
+                {
+                    length *= 6;
+                }
+                else
+                {
+                    length = (int)v.z;
+                }
+            }
+            else
+            {
+                width *= 64; // Combine the eights
+            }
+
+            return width * length;
         }
     }
 }

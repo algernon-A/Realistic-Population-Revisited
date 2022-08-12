@@ -13,17 +13,39 @@ namespace RealPop2
     /// </summary>
     public static class GoodsUtils
     {
-        // Defaults.
+        /// <summary>
+        /// Default sales multiplier.
+        /// </summary>
         internal const int DefaultSalesMult = 60;
+
+        /// <summary>
+        /// Default inventory order threshold.
+        /// </summary>
         internal const int DefaultInventory = 48000;
+
+        /// <summary>
+        /// Minimum inventory order threshold.
+        /// </summary>
         internal const int MinInventory = 8000;
+
+        /// <summary>
+        /// Maximum inventory order threshold.
+        /// </summary>
         internal const int MaxInventory = 57000;
 
         // Internal multipliers.
-        private static int lowComMult = DefaultSalesMult, highComMult = DefaultSalesMult, ecoComMult = DefaultSalesMult, touristMult = DefaultSalesMult, leisureMult = DefaultSalesMult;
+        private static int s_lowComMult = DefaultSalesMult;
+        private static int s_highComMult = DefaultSalesMult;
+        private static int s_ecoComMult = DefaultSalesMult;
+        private static int s_touristMult = DefaultSalesMult;
+        private static int s_leisureMult = DefaultSalesMult;
 
         // Internal inventory caps;
-        private static int lowComInv = DefaultInventory, highComInv = DefaultInventory, ecoComInv = DefaultInventory, touristInv = DefaultInventory, leisureInv = DefaultInventory;
+        private static int s_lowComInv = DefaultInventory;
+        private static int s_highComInv = DefaultInventory;
+        private static int s_ecoComInv = DefaultInventory;
+        private static int s_touristInv = DefaultInventory;
+        private static int s_leisureInv = DefaultInventory;
 
         /// <summary>
         /// Gets the current commercial sales multiplier for the given commercial building.
@@ -56,15 +78,15 @@ namespace RealPop2
             switch (subService)
             {
                 case ItemClass.SubService.CommercialHigh:
-                    return highComMult;
+                    return s_highComMult;
                 case ItemClass.SubService.CommercialEco:
-                    return ecoComMult;
+                    return s_ecoComMult;
                 case ItemClass.SubService.CommercialLeisure:
-                    return leisureMult;
+                    return s_leisureMult;
                 case ItemClass.SubService.CommercialTourist:
-                    return touristMult;
+                    return s_touristMult;
                 default:
-                    return lowComMult;
+                    return s_lowComMult;
             }
         }
 
@@ -73,21 +95,20 @@ namespace RealPop2
         /// </summary>
         /// <param name="subService">Specified subservice.</param>
         /// <returns>Current inventory cap.</returns>
-        public static int GetInventoryCap(ItemClass.SubService subService)
+        internal static int GetInventoryCap(ItemClass.SubService subService)
         {
-
             switch (subService)
             {
                 case ItemClass.SubService.CommercialHigh:
-                    return highComInv;
+                    return s_highComInv;
                 case ItemClass.SubService.CommercialEco:
-                    return ecoComInv;
+                    return s_ecoComInv;
                 case ItemClass.SubService.CommercialLeisure:
-                    return leisureInv;
+                    return s_leisureInv;
                 case ItemClass.SubService.CommercialTourist:
-                    return touristInv;
+                    return s_touristInv;
                 default:
-                    return lowComInv;
+                    return s_lowComInv;
             }
         }
 
@@ -103,19 +124,19 @@ namespace RealPop2
             switch (subService)
             {
                 case ItemClass.SubService.CommercialLow:
-                    lowComMult = cleanValue;
+                    s_lowComMult = cleanValue;
                     break;
                 case ItemClass.SubService.CommercialHigh:
-                    highComMult = cleanValue;
+                    s_highComMult = cleanValue;
                     break;
                 case ItemClass.SubService.CommercialEco:
-                    ecoComMult = cleanValue;
+                    s_ecoComMult = cleanValue;
                     break;
                 case ItemClass.SubService.CommercialLeisure:
-                    leisureMult = cleanValue;
+                    s_leisureMult = cleanValue;
                     break;
                 case ItemClass.SubService.CommercialTourist:
-                    touristMult = cleanValue;
+                    s_touristMult = cleanValue;
                     break;
             }
         }
@@ -132,19 +153,19 @@ namespace RealPop2
             switch (subService)
             {
                 case ItemClass.SubService.CommercialLow:
-                    lowComInv = cleanValue;
+                    s_lowComInv = cleanValue;
                     break;
                 case ItemClass.SubService.CommercialHigh:
-                    highComInv = cleanValue;
+                    s_highComInv = cleanValue;
                     break;
                 case ItemClass.SubService.CommercialEco:
-                    ecoComInv = cleanValue;
+                    s_ecoComInv = cleanValue;
                     break;
                 case ItemClass.SubService.CommercialLeisure:
-                    leisureInv = cleanValue;
+                    s_leisureInv = cleanValue;
                     break;
                 case ItemClass.SubService.CommercialTourist:
-                    touristInv = cleanValue;
+                    s_touristInv = cleanValue;
                     break;
             }
         }
@@ -160,28 +181,28 @@ namespace RealPop2
                 new Configuration.SubServiceValue
                 {
                     SubService = ItemClass.SubService.CommercialLow,
-                    Value = lowComMult
+                    Value = s_lowComMult,
                 },
                 new Configuration.SubServiceValue
                 {
                     SubService = ItemClass.SubService.CommercialHigh,
-                    Value = highComMult
+                    Value = s_highComMult,
                 },
                 new Configuration.SubServiceValue
                 {
                     SubService = ItemClass.SubService.CommercialEco,
-                    Value = ecoComMult
+                    Value = s_ecoComMult,
                 },
                 new Configuration.SubServiceValue
                 {
                     SubService = ItemClass.SubService.CommercialLeisure,
-                    Value = leisureMult
+                    Value = s_leisureMult,
                 },
                 new Configuration.SubServiceValue
                 {
                     SubService = ItemClass.SubService.CommercialTourist,
-                    Value = touristMult
-                }
+                    Value = s_touristMult,
+                },
             };
         }
 
@@ -196,28 +217,28 @@ namespace RealPop2
                 new Configuration.SubServiceValue
                 {
                     SubService = ItemClass.SubService.CommercialLow,
-                    Value = lowComInv,
+                    Value = s_lowComInv,
                 },
                 new Configuration.SubServiceValue
                 {
                     SubService = ItemClass.SubService.CommercialHigh,
-                    Value = highComInv,
+                    Value = s_highComInv,
                 },
                 new Configuration.SubServiceValue
                 {
                     SubService = ItemClass.SubService.CommercialEco,
-                    Value = ecoComInv,
+                    Value = s_ecoComInv,
                 },
                 new Configuration.SubServiceValue
                 {
                     SubService = ItemClass.SubService.CommercialLeisure,
-                    Value = leisureInv,
+                    Value = s_leisureInv,
                 },
                 new Configuration.SubServiceValue
                 {
                     SubService = ItemClass.SubService.CommercialTourist,
-                    Value = touristInv,
-                }
+                    Value = s_touristInv,
+                },
             };
         }
 
@@ -225,7 +246,6 @@ namespace RealPop2
         /// Deserializes XML sub-service entries for sales multipliers.
         /// </summary>
         /// <param name="entries">List of sub-service entries to deserialize.</param>
-        /// <returns>New list of sub-service entries ready for serialization.</returns>
         internal static void DeserializeSalesMults(List<Configuration.SubServiceValue> entries)
         {
             foreach (Configuration.SubServiceValue entry in entries)
@@ -238,7 +258,6 @@ namespace RealPop2
         /// Deserializes XML sub-service entries for inventory demand caps.
         /// </summary>
         /// <param name="entries">List of sub-service entries to deserialize.</param>
-        /// <returns>New list of sub-service entries ready for serialization.</returns>
         internal static void DeserializeInvCaps(List<Configuration.SubServiceValue> entries)
         {
             foreach (Configuration.SubServiceValue entry in entries)

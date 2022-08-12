@@ -13,150 +13,158 @@ namespace RealPop2
     internal class FloorData : CalcData
     {
         // Instance reference.
-        internal static FloorData instance;
+        private static FloorData s_instance;
 
         // Custom overrides.
-        protected internal Dictionary<string, FloorDataPack> overrides;
-
-
-        /// <summary>
-        /// Returns a list of available calculation packs.
-        /// </summary>
-        /// <returns>Array of available calculation packs</returns>
-        internal DataPack[] Packs => calcPacks.ToArray();
+        private Dictionary<string, FloorDataPack> _overrides;
 
         /// <summary>
-        /// Constructor - initializes inbuilt default calculation packs and performs other setup tasks.
+        /// Initializes a new instance of the <see cref="FloorData"/> class.
         /// </summary>
-        internal FloorData()
+        private FloorData()
         {
             // Default; standard 3m stories.
-            FloorDataPack newPack = new FloorDataPack
+            FloorDataPack newPack = new FloorDataPack(DataPack.DataVersion.One)
             {
-                name = "generic",
-                nameKey = "RPR_PCK_FDF_NAM",
-                descriptionKey = "RPR_PCK_FDF_DES",
-                version = DataVersion.one,
-                floorHeight = 3f,
-                firstFloorMin = 3f,
-                firstFloorExtra = 0f,
-                firstFloorEmpty = false
+                Name = "generic",
+                NameKey = "RPR_PCK_FDF_NAM",
+                DescriptionKey = "RPR_PCK_FDF_DES",
+                m_floorHeight = 3f,
+                m_firstFloorMin = 3f,
+                m_firstFloorExtra = 0f,
+                m_firstFloorEmpty = false,
             };
-            calcPacks.Add(newPack);
+            CalcPacks.Add(newPack);
 
             // Standalone houses.
-            newPack = new FloorDataPack
+            newPack = new FloorDataPack(DataPack.DataVersion.One)
             {
-                name = "house",
-                nameKey = "RPR_PCK_FHO_NAM",
-                descriptionKey = "RPR_PCK_FHO_DES",
-                version = DataVersion.one,
-                floorHeight = 3f,
-                firstFloorMin = 3f,
-                firstFloorExtra = 0f,
-                firstFloorEmpty = false
+                Name = "house",
+                NameKey = "RPR_PCK_FHO_NAM",
+                DescriptionKey = "RPR_PCK_FHO_DES",
+                m_floorHeight = 3f,
+                m_firstFloorMin = 3f,
+                m_firstFloorExtra = 0f,
+                m_firstFloorEmpty = false,
             };
-            calcPacks.Add(newPack);
+            CalcPacks.Add(newPack);
 
             // Buildings with lobbies.
-            newPack = new FloorDataPack
+            newPack = new FloorDataPack(DataPack.DataVersion.One)
             {
-                name = "lobbies",
-                nameKey = "RPR_PCK_FDL_NAM",
-                descriptionKey = "RPR_PCK_FDL_DES",
-                version = DataVersion.one,
-                floorHeight = 3f,
-                firstFloorMin = 3f,
-                firstFloorExtra = 1f,
-                firstFloorEmpty = true
+                Name = "lobbies",
+                NameKey = "RPR_PCK_FDL_NAM",
+                DescriptionKey = "RPR_PCK_FDL_DES",
+                m_floorHeight = 3f,
+                m_firstFloorMin = 3f,
+                m_firstFloorExtra = 1f,
+                m_firstFloorEmpty = true,
             };
-            calcPacks.Add(newPack);
+            CalcPacks.Add(newPack);
 
             // Commercial buildings
-            newPack = new FloorDataPack
+            newPack = new FloorDataPack(DataPack.DataVersion.One)
             {
-                name = "commercial",
-                nameKey = "RPR_PCK_FCM_NAM",
-                descriptionKey = "RPR_PCK_FCM_DES",
-                version = DataVersion.one,
-                floorHeight = 4f,
-                firstFloorMin = 3f,
-                firstFloorExtra = 3f,
-                firstFloorEmpty = false
+                Name = "commercial",
+                NameKey = "RPR_PCK_FCM_NAM",
+                DescriptionKey = "RPR_PCK_FCM_DES",
+                m_floorHeight = 4f,
+                m_firstFloorMin = 3f,
+                m_firstFloorExtra = 3f,
+                m_firstFloorEmpty = false,
             };
-            calcPacks.Add(newPack);
+            CalcPacks.Add(newPack);
 
             // Warehouses (commercial and industrial)
-            newPack = new FloorDataPack
+            newPack = new FloorDataPack(DataPack.DataVersion.One)
             {
-                name = "warehouse",
-                nameKey = "RPR_PCK_FWH_NAM",
-                descriptionKey = "RPR_PCK_FWH_DES",
-                version = DataVersion.one,
-                floorHeight = 9f,
-                firstFloorMin = 3f,
-                firstFloorExtra = 6f,
-                firstFloorEmpty = false
+                Name = "warehouse",
+                NameKey = "RPR_PCK_FWH_NAM",
+                DescriptionKey = "RPR_PCK_FWH_DES",
+                m_floorHeight = 9f,
+                m_firstFloorMin = 3f,
+                m_firstFloorExtra = 6f,
+                m_firstFloorEmpty = false,
             };
-            calcPacks.Add(newPack);
+            CalcPacks.Add(newPack);
 
             // High-bay warehouses (commercial and industrial)
-            newPack = new FloorDataPack
+            newPack = new FloorDataPack(DataPack.DataVersion.One)
             {
-                name = "highbay",
-                nameKey = "RPR_PCK_FHB_NAM",
-                descriptionKey = "RPR_PCK_FHB_DES",
-                version = DataVersion.one,
-                floorHeight = 12f,
-                firstFloorMin = 3f,
-                firstFloorExtra = 9f,
-                firstFloorEmpty = false
+                Name = "highbay",
+                NameKey = "RPR_PCK_FHB_NAM",
+                DescriptionKey = "RPR_PCK_FHB_DES",
+                m_floorHeight = 12f,
+                m_firstFloorMin = 3f,
+                m_firstFloorExtra = 9f,
+                m_firstFloorEmpty = false,
             };
-            calcPacks.Add(newPack);
+            CalcPacks.Add(newPack);
 
             // Extractors and processors
-            newPack = new FloorDataPack
+            newPack = new FloorDataPack(DataPack.DataVersion.One)
             {
-                name = "extractor",
-                nameKey = "RPR_PCK_FEX_NAM",
-                descriptionKey = "RPR_PCK_FEX_DES",
-                version = DataVersion.one,
-                floorHeight = 99f,
-                firstFloorMin = 3f,
-                firstFloorExtra = 9f,
-                firstFloorEmpty = false
+                Name = "extractor",
+                NameKey = "RPR_PCK_FEX_NAM",
+                DescriptionKey = "RPR_PCK_FEX_DES",
+                m_floorHeight = 99f,
+                m_firstFloorMin = 3f,
+                m_firstFloorExtra = 9f,
+                m_firstFloorEmpty = false,
             };
-            calcPacks.Add(newPack);
+            CalcPacks.Add(newPack);
 
             // Initialise overrides dictionary.
-            overrides = new Dictionary<string, FloorDataPack>();
+            _overrides = new Dictionary<string, FloorDataPack>();
+        }
+
+        /// <summary>
+        /// Gets the current instance.
+        /// </summary>
+        internal static FloorData Instance => s_instance;
+
+        /// <summary>
+        /// Gets the list of available calculation packs.
+        /// </summary>
+        /// <returns>Array of available calculation packs.</returns>
+        internal DataPack[] Packs => CalcPacks.ToArray();
+
+        /// <summary>
+        /// Ensures that a valid instance is instantiated and ready for use.
+        /// </summary>
+        internal static void EnsureInstance()
+        {
+            if (s_instance == null)
+            {
+                s_instance = new FloorData();
+            }
         }
 
         /// <summary>
         /// Checks to see if a builing has a custom floor override, and if so, returns it.
         /// </summary>
-        /// <param name="buildingName">Name of building prefab to check</param>
-        /// <returns>Override floor pack if the building has one, othewise null</returns>
-        internal FloorDataPack HasOverride(string buildingName) => overrides.ContainsKey(buildingName) ? overrides[buildingName] : null;
+        /// <param name="buildingName">Name of building prefab to check.</param>
+        /// <returns>Override floor pack if the building has one, othewise null.</returns>
+        internal FloorDataPack HasOverride(string buildingName) => _overrides.ContainsKey(buildingName) ? _overrides[buildingName] : null;
 
         /// <summary>
         /// Adds a custom floor override to a building prefab, but does NOT update live prefab data or save the configuration file.
         /// Used to populate dictionary when the prefab isn't available (e.g. before loading is complete).
         /// </summary>
-        /// <param name="buildingName">Name of building prefab to add</param>
-        /// <param name="overridePack">Override floor pack to set</param>
+        /// <param name="buildingName">Name of building prefab to add.</param>
+        /// <param name="overridePack">Override floor pack to set.</param>
         internal void SetOverride(string buildingName, FloorDataPack overridePack)
         {
             // Check to see if we already have an entry for this building.
-            if (!overrides.ContainsKey(buildingName))
+            if (!_overrides.ContainsKey(buildingName))
             {
                 // No - create new entry.
-                overrides.Add(buildingName, overridePack);
+                _overrides.Add(buildingName, overridePack);
             }
             else
             {
                 // An entry for this building already exists - update it.
-                overrides[buildingName] = overridePack;
+                _overrides[buildingName] = overridePack;
             }
         }
 
@@ -164,8 +172,8 @@ namespace RealPop2
         /// Sets a custom floor override override for the given building prefab, and saves the updated configuration; and also UPDATES live prefab data.
         /// Used to add an entry in-game after prefabs have loaded.
         /// </summary>
-        /// <param name="prefab">Building prefab</param>
-        /// <param name="overridePack">Override floor pack to set</param>
+        /// <param name="prefab">Building prefab.</param>
+        /// <param name="overridePack">Override floor pack to set.</param>
         internal void SetOverride(BuildingInfo prefab, FloorDataPack overridePack)
         {
             // Apply changes.
@@ -174,11 +182,11 @@ namespace RealPop2
             // Apply school changes if this is a school.
             if (prefab.GetService() == ItemClass.Service.Education)
             {
-                SchoolData.instance.UpdateSchoolPrefab(prefab);
+                SchoolData.Instance.UpdateSchoolPrefab(prefab);
             }
 
             // Save updated configuration file.
-            ConfigUtils.SaveSettings();
+            ConfigurationUtils.SaveSettings();
 
             // Refresh the prefab's population settings to reflect changes.
             RefreshPrefab(prefab);
@@ -187,20 +195,20 @@ namespace RealPop2
         /// <summary>
         /// Removes any manual population override for the given building prefab, and saves the updated configuration if an override was actually removed (i.e. one actually existed).
         /// </summary>
-        /// <param name="prefab">Building prefab</param>
+        /// <param name="prefab">Building prefab.</param>
         internal void DeleteOverride(BuildingInfo prefab)
         {
             // Remove prefab record from dictionary.
-            if (overrides.Remove(prefab.name))
+            if (_overrides.Remove(prefab.name))
             {
                 // An entry was removed (i.e. dictionary contained an entry); apply changes to relevant school.
                 if (prefab.GetService() == ItemClass.Service.Education)
                 {
-                    SchoolData.instance.UpdateSchoolPrefab(prefab);
+                    SchoolData.Instance.UpdateSchoolPrefab(prefab);
                 }
 
                 // Save the updated configuration file.
-                ConfigUtils.SaveSettings();
+                ConfigurationUtils.SaveSettings();
 
                 // Refresh the prefab's population settings to reflect changes.
                 RefreshPrefab(prefab);
@@ -210,16 +218,16 @@ namespace RealPop2
         /// <summary>
         /// Returns the currently active floor pack for a building prefab.
         /// </summary>
-        /// <param name="building">Building prefab to get floor pack for</param>
-        /// <returns></returns>
+        /// <param name="building">Building prefab to get floor pack for.</param>
+        /// <returns>The currently active floor pack.</returns>
         internal override DataPack ActivePack(BuildingInfo building) => HasOverride(building.name) ?? base.ActivePack(building);
 
         /// <summary>
         /// Returns the inbuilt default calculation pack for the given service/subservice combination.
         /// </summary>
-        /// <param name="service">Service</param>
-        /// <param name="subService">Sub-service</param>
-        /// <returns>Default calculation data pack</returns>
+        /// <param name="service">Service.</param>
+        /// <param name="subService">Sub-service.</param>
+        /// <returns>Default calculation data pack.</returns>
         internal override DataPack BaseDefaultPack(ItemClass.Service service, ItemClass.SubService subService)
         {
             string defaultName;
@@ -238,7 +246,9 @@ namespace RealPop2
                             defaultName = "house";
                             break;
                     }
+
                     break;
+
                 case ItemClass.Service.Industrial:
                     switch (subService)
                     {
@@ -252,7 +262,9 @@ namespace RealPop2
                             defaultName = "commercial";
                             break;
                     }
+
                     break;
+
                 default:
                     // Default is commercial.
                     defaultName = "commercial";
@@ -260,23 +272,23 @@ namespace RealPop2
             }
 
             // Match name to floorpack.
-            return calcPacks.Find(pack => pack.name.Equals(defaultName));
+            return CalcPacks.Find(pack => pack.Name.Equals(defaultName));
         }
 
         /// <summary>
         /// Serializes building pack settings to XML.
         /// </summary>
-        /// <param name="existingList">Existing list to modify, from population pack serialization (null if none)</param>
-        /// <returns>New sorted list with building pack settings</returns>
+        /// <param name="existingList">Existing list to modify, from population pack serialization (null if none).</param>
+        /// <returns>New sorted list with building pack settings.</returns>
         internal SortedList<string, Configuration.BuildingRecord> SerializeBuildings(SortedList<string, Configuration.BuildingRecord> existingList)
         {
             // Return list.
             SortedList<string, Configuration.BuildingRecord> returnList = existingList ?? new SortedList<string, Configuration.BuildingRecord>();
 
             // Iterate through each key (BuildingInfo) in our dictionary and serialise it into a BuildingRecord.
-            foreach (string prefabName in buildingDict.Keys)
+            foreach (string prefabName in BuildingDict.Keys)
             {
-                string packName = buildingDict[prefabName].name;
+                string packName = BuildingDict[prefabName].Name;
 
                 // Check to see if our existing list already contains this building.
                 if (returnList.ContainsKey(prefabName))
@@ -296,10 +308,32 @@ namespace RealPop2
         }
 
         /// <summary>
+        /// Serializes current floor overrides to XML.
+        /// </summary>
+        /// <returns>New list of current floor overrides.</returns>
+        internal List<Configuration.FloorCalcOverride> SerializeOverrides()
+        {
+            List<Configuration.FloorCalcOverride> returnList = new List<Configuration.FloorCalcOverride>();
+
+            // Iterate though each entry in dictionary and add to list as a new XML record.
+            foreach (KeyValuePair<string, FloorDataPack> floorOverride in _overrides)
+            {
+                returnList.Add(new Configuration.FloorCalcOverride
+                {
+                    Prefab = floorOverride.Key,
+                    FirstHeight = floorOverride.Value.m_firstFloorMin,
+                    FloorHeight = floorOverride.Value.m_floorHeight,
+                });
+            }
+
+            return returnList;
+        }
+
+        /// <summary>
         /// Extracts the relevant pack name (floor or pop pack) from a building line record.
         /// </summary>
-        /// <param name="buildingRecord">Building record to extract from</param>
-        /// <returns>Floor pack name (if any)</returns>
+        /// <param name="buildingRecord">Building record to extract from.</param>
+        /// <returns>Floor pack name (if any).</returns>
         protected override string BuildingPack(Configuration.BuildingRecord buildingRecord) => buildingRecord.FloorPack;
     }
 }

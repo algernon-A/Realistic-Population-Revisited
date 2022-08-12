@@ -2,7 +2,7 @@
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
-    
+
 namespace RealPop2
 {
     using System.Collections.Generic;
@@ -18,18 +18,13 @@ namespace RealPop2
     [HarmonyPatch(typeof(CommonBuildingAI), "HandleCrime")]
     public static class HandleCrimeTranspiler
     {
-        // Inserting a call to our custom replacement method after these instructions (normally at the start of the method):
-        /* // if (crimeAccumulation != 0)
-         * IL_0000: ldarg.3
-         * IL_0001: brfalse IL_00a3
-         */
+        // Crime accumulation multiplier.
+        private static float s_crimeMultiplier = 50f;
 
-        // The following code is inserted for the call "crimeAccumulation = RealisticCrime();" (crimeAccumulation is argument 3 of HandleCrime)
-        /* 
-         * ldarg.3
-         * call HandleCrimeTranspiler.RealisticCrime
-         * starg.s 3
-        */
+        /// <summary>
+        /// Gets or sets the crime accumulation multiplier.
+        /// </summary>
+        internal static float CrimeMultiplier { get => s_crimeMultiplier; set => s_crimeMultiplier = value; }
 
         /// <summary>
         /// StartConnectionTransferImpl transpiler.
@@ -40,10 +35,22 @@ namespace RealPop2
         /// <returns>Replacement ILCode.</returns>
         public static IEnumerable<CodeInstruction> Transpiler(MethodBase original, IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
+            // Inserting a call to our custom replacement method after these instructions (normally at the start of the method):
+            /* // if (crimeAccumulation != 0)
+             * IL_0000: ldarg.3
+             * IL_0001: brfalse IL_00a3
+             */
+
+            // The following code is inserted for the call "crimeAccumulation = RealisticCrime();" (crimeAccumulation is argument 3 of HandleCrime)
+            /*
+             * ldarg.3
+             * call HandleCrimeTranspiler.RealisticCrime
+             * starg.s 3
+            */
+
             // Transpiler meta.
             IEnumerator<CodeInstruction> instructionsEnumerator = instructions.GetEnumerator();
             bool inserted = false;
-
 
             Logging.Message("transpiling CommonBuildingAI.HandleCrime");
 
@@ -64,7 +71,7 @@ namespace RealPop2
                         instructionsEnumerator.MoveNext();
                         instruction = instructionsEnumerator.Current;
                         yield return instruction;
-                        
+
                         if (instruction.opcode == OpCodes.Brfalse)
                         {
                             // Found our spot! Insert our custom instructions in the output.
@@ -129,7 +136,7 @@ namespace RealPop2
             crimeAccumulation = (int)(crimeAccumulation * reductionPercentage);
 
             // Crime multiplier application.
-            return (int)((crimeAccumulation * ModSettings.crimeMultiplier) / 100f);
+            return (int)(crimeAccumulation * s_crimeMultiplier / 100f);
         }
     }
 }

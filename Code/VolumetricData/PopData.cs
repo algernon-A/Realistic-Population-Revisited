@@ -8,7 +8,6 @@ namespace RealPop2
     using System;
     using System.Collections.Generic;
     using AlgernonCommons;
-    using Realistic_Population_Revisited.Code.Patches.Population;
 
     /// <summary>
     /// Centralised store and management of population calculation data.
@@ -16,15 +15,459 @@ namespace RealPop2
     internal class PopData : CalcData
     {
         // Instance reference.
-        internal static PopData instance;
-
-        // Dictionary of manual population count overrides.
-        private readonly Dictionary<string, ushort> overrides;
+        private static PopData s_instance;
 
         // Household, workplace, and visitplace calculation result caches (so we don't have to do the full calcs every SimulationStep for every building....).
-        internal readonly Dictionary<BuildingInfo, HouseholdCacheEntry> householdCache;
-        internal readonly Dictionary<BuildingInfo, WorkplaceCacheEntry> workplaceCache;
-        internal readonly Dictionary<BuildingInfo, VisitplaceCacheEntry> visitplaceCache;
+        private readonly Dictionary<BuildingInfo, HouseholdCacheEntry> _householdCache;
+        private readonly Dictionary<BuildingInfo, WorkplaceCacheEntry> _workplaceCache;
+        private readonly Dictionary<BuildingInfo, VisitplaceCacheEntry> _visitplaceCache;
+
+        // Dictionary of manual population count overrides.
+        private readonly Dictionary<string, ushort> _overrides;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PopData"/> class.
+        /// </summary>
+        public PopData()
+        {
+            // Create caches.
+            _householdCache = new Dictionary<BuildingInfo, HouseholdCacheEntry>();
+            _workplaceCache = new Dictionary<BuildingInfo, WorkplaceCacheEntry>();
+            _visitplaceCache = new Dictionary<BuildingInfo, VisitplaceCacheEntry>();
+
+            // Legacy residential.
+            CalcPacks.Add(new LegacyResidentialPack()
+            {
+                Name = "resWG",
+                NameKey = "RPR_PCK_LEG_NAM",
+                DescriptionKey = "RPR_PCK_LEG_DES",
+            });
+
+            // Legacy industrial.
+            CalcPacks.Add(new LegacyIndustrialPack()
+            {
+                Name = "indWG",
+                NameKey = "RPR_PCK_LEG_NAM",
+                DescriptionKey = "RPR_PCK_LEG_DES",
+            });
+
+            // Legacy commercial.
+            CalcPacks.Add(new LegacyCommercialPack()
+            {
+                Name = "comWG",
+                NameKey = "RPR_PCK_LEG_NAM",
+                DescriptionKey = "RPR_PCK_LEG_DES",
+            });
+
+            // Legacy office.
+            CalcPacks.Add(new LegacyOfficePack
+            {
+                Name = "offWG",
+                NameKey = "RPR_PCK_LEG_NAM",
+                DescriptionKey = "RPR_PCK_LEG_DES",
+            });
+
+            // Vanilla calcs.
+            CalcPacks.Add(new VanillaPack
+            {
+                Name = "vanilla",
+                NameKey = "RPR_PCK_VAN_NAM",
+                DescriptionKey = "RPR_PCK_VAN_DES",
+            });
+
+            // Low-density residential.
+            VolumetricPopPack newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Residential)
+            {
+                Name = "reslow",
+                NameKey = "RPR_PCK_RLS_NAM",
+                DescriptionKey = "RPR_PCK_RLS_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = -1f, MultiFloorUnits = true };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = -1f, MultiFloorUnits = true };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = -1f, MultiFloorUnits = true };
+            newPack.Levels[3] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = -1f, MultiFloorUnits = true };
+            newPack.Levels[4] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = -1f, MultiFloorUnits = true };
+            CalcPacks.Add(newPack);
+
+            // Duplexes.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Residential)
+            {
+                Name = "duplex",
+                NameKey = "RPR_PCK_RLD_NAM",
+                DescriptionKey = "RPR_PCK_RLD_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = -2f, MultiFloorUnits = true };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = -2f, MultiFloorUnits = true };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = -2f, MultiFloorUnits = true };
+            newPack.Levels[3] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = -2f, MultiFloorUnits = true };
+            newPack.Levels[4] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = -2f, MultiFloorUnits = true };
+            CalcPacks.Add(newPack);
+
+            // European apartments (modern).
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Residential)
+            {
+                Name = "resEUmod",
+                NameKey = "RPR_PCK_REM_NAM",
+                DescriptionKey = "RPR_PCK_REM_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 10, AreaPer = 85f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 12, AreaPer = 90f, MultiFloorUnits = false };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 16, AreaPer = 100f, MultiFloorUnits = false };
+            newPack.Levels[3] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 18, AreaPer = 105f, MultiFloorUnits = false };
+            newPack.Levels[4] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 18, AreaPer = 110f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // European apartments (older).
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Residential)
+            {
+                Name = "resEUold",
+                NameKey = "RPR_PCK_REO_NAM",
+                DescriptionKey = "RPR_PCK_REO_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 75f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 1, AreaPer = 80f, MultiFloorUnits = false };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 2, AreaPer = 85f, MultiFloorUnits = false };
+            newPack.Levels[3] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 3, AreaPer = 90f, MultiFloorUnits = false };
+            newPack.Levels[4] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 4, AreaPer = 95f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // High-density residential US - empty percentages from AssetInsights.net, areas from 2018 RentCafe.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Residential)
+            {
+                Name = "reshighUS",
+                NameKey = "RPR_PCK_RUH_NAM",
+                DescriptionKey = "RPR_PCK_RUH_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 36, AreaPer = 70f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 37, AreaPer = 78f, MultiFloorUnits = false };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 38, AreaPer = 86f, MultiFloorUnits = false };
+            newPack.Levels[3] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 39, AreaPer = 94f, MultiFloorUnits = false };
+            newPack.Levels[4] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 40, AreaPer = 102f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // US commmercial.
+            // Figures are from Montgomery County round 7.0.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Commercial)
+            {
+                Name = "comUS",
+                NameKey = "RPR_PCK_CUS_NAM",
+                DescriptionKey = "RPR_PCK_CUS_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0, EmptyPercent = 0, AreaPer = 37, MultiFloorUnits = true };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0, EmptyPercent = 0, AreaPer = 37, MultiFloorUnits = true };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0, EmptyPercent = 0, AreaPer = 37, MultiFloorUnits = true };
+            CalcPacks.Add(newPack);
+
+            // UK commercial.
+            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
+            // Empty percent is markdown from GEA to NIA.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Commercial)
+            {
+                Name = "comUK",
+                NameKey = "RPR_PCK_CUK_NAM",
+                DescriptionKey = "RPR_PCK_CUK_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 20, AreaPer = 20f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 20, AreaPer = 17.5f, MultiFloorUnits = false };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 20, AreaPer = 15f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // Retail warehouses.
+            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
+            // Empty percent is markdown from GEA to NIA.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Commercial)
+            {
+                Name = "retailware",
+                NameKey = "RPR_PCK_CRW_NAM",
+                DescriptionKey = "RPR_PCK_CRW_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 20, AreaPer = 90f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 20, AreaPer = 90f, MultiFloorUnits = false };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 20, AreaPer = 90f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // Hotels.
+            // Figures are from Montgomery County round 7.0.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Commercial)
+            {
+                Name = "hotel",
+                NameKey = "RPR_PCK_THT_NAM",
+                DescriptionKey = "RPR_PCK_THT_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 120f, MultiFloorUnits = true };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 120f, MultiFloorUnits = true };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 120f, MultiFloorUnits = true };
+            CalcPacks.Add(newPack);
+
+            // Restaurants and cafes.
+            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
+            // Empty percent is markdown from GEA to NIA.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Commercial)
+            {
+                Name = "restaurant",
+                NameKey = "RPR_PCK_LFD_NAM",
+                DescriptionKey = "RPR_PCK_LFD_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 15, AreaPer = 20f, MultiFloorUnits = true };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 15, AreaPer = 17.5f, MultiFloorUnits = true };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 15, AreaPer = 15, MultiFloorUnits = true };
+            CalcPacks.Add(newPack);
+
+            // Entertainment centres.
+            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
+            // Empty percent is markdown from GEA to NIA.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Commercial)
+            {
+                Name = "entertainment",
+                NameKey = "RPR_PCK_LEN_NAM",
+                DescriptionKey = "RPR_PCK_LEN_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 20f, EmptyPercent = 20, AreaPer = 70f, MultiFloorUnits = true };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 20f, EmptyPercent = 20, AreaPer = 65f, MultiFloorUnits = true };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 20f, EmptyPercent = 20, AreaPer = 60f, MultiFloorUnits = true };
+            CalcPacks.Add(newPack);
+
+            // Cinemas.
+            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
+            // Empty percent is markdown from GIA to NIA.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Commercial)
+            {
+                Name = "cinema",
+                NameKey = "RPR_PCK_LCN_NAM",
+                DescriptionKey = "RPR_PCK_LCN_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 5, AreaPer = 200f, MultiFloorUnits = true };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 5, AreaPer = 200f, MultiFloorUnits = true };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 5, AreaPer = 200f, MultiFloorUnits = true };
+            CalcPacks.Add(newPack);
+
+            // Light industry.
+            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
+            // Empty percent is markdown from GEA to NIA.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Industrial)
+            {
+                Name = "lightind",
+                NameKey = "RPR_PCK_ILG_NAM",
+                DescriptionKey = "RPR_PCK_ILG_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 15, AreaPer = 47f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 15, AreaPer = 47f, MultiFloorUnits = false };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 15, AreaPer = 47f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // Manufacturing.
+            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
+            // Empty percent is markdown from GEA to GIA.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Industrial)
+            {
+                Name = "factory",
+                NameKey = "RPR_PCK_IMN_NAM",
+                DescriptionKey = "RPR_PCK_IMN_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 5, AreaPer = 36f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 5, AreaPer = 36f, MultiFloorUnits = false };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 5, AreaPer = 36f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // Industry warehouses (local distribution).
+            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Industrial)
+            {
+                Name = "localware",
+                NameKey = "RPR_PCK_IWL_NAM",
+                DescriptionKey = "RPR_PCK_IWL_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 70f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 70f, MultiFloorUnits = false };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 70f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // Industry warehouses (national distribution).
+            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Industrial)
+            {
+                Name = "natware",
+                NameKey = "RPR_PCK_IWN_NAM",
+                DescriptionKey = "RPR_PCK_IWN_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 95f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 95f, MultiFloorUnits = false };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 95f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // Corporate offices.
+            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
+            // Empty percent is markdown from GEA to GIA.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Office)
+            {
+                Name = "offcorp",
+                NameKey = "RPR_PCK_OCP_NAM",
+                DescriptionKey = "RPR_PCK_OCP_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 20, AreaPer = 13f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 20, AreaPer = 13f, MultiFloorUnits = false };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 20, AreaPer = 13f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // Financial offices.
+            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
+            // Empty percent is markdown from GEA to GIA.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Office)
+            {
+                Name = "offfin",
+                NameKey = "RPR_PCK_OFN_NAM",
+                DescriptionKey = "RPR_PCK_OFN_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 17, AreaPer = 10f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 17, AreaPer = 10f, MultiFloorUnits = false };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 17, AreaPer = 10f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // Call centres.
+            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
+            // Empty percent is markdown from GEA to GIA.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Office)
+            {
+                Name = "offcall",
+                NameKey = "RPR_PCK_OCS_NAM",
+                DescriptionKey = "RPR_PCK_OCS_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 15, AreaPer = 8f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 15, AreaPer = 8f, MultiFloorUnits = false };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 15, AreaPer = 8f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // Data centres.
+            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
+            // Empty percent is markdown from GEA to GIA.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Office)
+            {
+                Name = "datacent",
+                NameKey = "RPR_PCK_ODT_NAM",
+                DescriptionKey = "RPR_PCK_ODT_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 200f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 200f, MultiFloorUnits = false };
+            newPack.Levels[2] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 200f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // Suburban schools.
+            // Level 1 is elementary, level 2 is high school.
+            // Figures are from NSW Department of Education 2013 targets.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Education)
+            {
+                Name = "schoolsub",
+                NameKey = "RPR_PCK_SSB_NAM",
+                DescriptionKey = "RPR_PCK_SSB_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 8f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 8f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // Suburban schools.
+            // Figures are from MN Department of Education Guide for Planning School Construction Projects (lowest density).
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Education)
+            {
+                Name = "schoolmnlow",
+                NameKey = "RPR_PCK_SML_NAM",
+                DescriptionKey = "RPR_PCK_SML_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 14f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 30f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // Suburban schools.
+            // Figures are from MN Department of Education Guide for Planning School Construction Projects (middle density).
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Education)
+            {
+                Name = "schoolmnmed",
+                NameKey = "RPR_PCK_SMM_NAM",
+                DescriptionKey = "RPR_PCK_SMM_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 12f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 23f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // Suburban schools.
+            // Figures are from MN Department of Education Guide for Planning School Construction Projects (highest density).
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Education)
+            {
+                Name = "schoolmnhigh",
+                NameKey = "RPR_PCK_SMH_NAM",
+                DescriptionKey = "RPR_PCK_SMH_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 9f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 0f, EmptyPercent = 0, AreaPer = 14f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // UK schools.
+            // Figures are from Planning Statement - Warwickshire County Council.
+            newPack = new VolumetricPopPack(DataPack.DataVersion.One, ItemClass.Service.Education)
+            {
+                Name = "schoolukhigh",
+                NameKey = "RPR_PCK_SUK_NAM",
+                DescriptionKey = "RPR_PCK_SUK_DES",
+            };
+            newPack.Levels[0] = new VolumetricPopPack.LevelData { EmptyArea = 350f, EmptyPercent = 0, AreaPer = 4.1f, MultiFloorUnits = false };
+            newPack.Levels[1] = new VolumetricPopPack.LevelData { EmptyArea = 1400f, EmptyPercent = 0, AreaPer = 6.3f, MultiFloorUnits = false };
+            CalcPacks.Add(newPack);
+
+            // Initialise student overrides dictionary.
+            _overrides = new Dictionary<string, ushort>();
+
+            // Convert legacy overrides (if any).
+            ConvertOverrides(DataStore.householdCache);
+            ConvertOverrides(DataStore.workerCache);
+        }
+
+        /// <summary>
+        /// Gets the current instance.
+        /// </summary>
+        internal static PopData Instance => s_instance;
+
+        /// <summary>
+        /// Ensures that a valid instance is instantiated and ready for use.
+        /// </summary>
+        internal static void EnsureInstance()
+        {
+            if (s_instance == null)
+            {
+                s_instance = new PopData();
+            }
+        }
+
+        /// <summary>
+        /// Clears all cached houshold counts.
+        /// </summary>
+        internal void ClearHousholdCache() => _householdCache.Clear();
+
+        /// <summary>
+        /// Clears cached houshold counts for the specified prefab.
+        /// </summary>
+        /// <param name="prefab">Prefab whose entries should be removed from cache.</param>
+        internal void ClearHousholdCache(BuildingInfo prefab) => _householdCache.Remove(prefab);
+
+        /// <summary>
+        /// Clears all cached workplace counts.
+        /// </summary>
+        internal void ClearWorkplaceCache() => _workplaceCache.Clear();
+
+        /// <summary>
+        /// Clears cached houshold counts for the specified prefab.
+        /// </summary>
+        /// <param name="prefab">Prefab whose entries should be removed from cache.</param>
+        internal void ClearWorkplaceCache(BuildingInfo prefab) => _workplaceCache.Remove(prefab);
+
+        /// <summary>
+        /// Clears all cached visitplace counts.
+        /// </summary>
+        internal void ClearVisitplaceCache() => _visitplaceCache.Clear();
+
+        /// <summary>
+        /// Clears cached houshold counts for the specified prefab.
+        /// </summary>
+        /// <param name="prefab">Prefab whose entries should be removed from cache.</param>
+        internal void ClearVisitplaceCache(BuildingInfo prefab) => _visitplaceCache.Remove(prefab);
 
         /// <summary>
         /// Returns the workplace breakdowns and visitor count for the given building prefab and level.
@@ -38,7 +481,7 @@ namespace RealPop2
         /// Returns the student count for the given building prefab.
         /// </summary>
         /// <param name="buildingPrefab">Building prefab.</param>
-        /// <returns>Student count</returns>
+        /// <returns>Student count.</returns>
         internal int Students(BuildingInfo buildingPrefab) => ((PopDataPack)ActivePack(buildingPrefab)).Students(buildingPrefab);
 
         /// <summary>
@@ -50,7 +493,7 @@ namespace RealPop2
         internal int HouseholdCache(BuildingInfo info, int level)
         {
             // Check if key is already in cache.
-            if (!householdCache.TryGetValue(info, out HouseholdCacheEntry cacheEntry))
+            if (!_householdCache.TryGetValue(info, out HouseholdCacheEntry cacheEntry))
             {
                 // No - create new record.
                 cacheEntry = new HouseholdCacheEntry
@@ -60,11 +503,11 @@ namespace RealPop2
                     Level1 = Math.Max((ushort)1, Population(info, 1)),
                     Level2 = Math.Max((ushort)1, Population(info, 2)),
                     Level3 = Math.Max((ushort)1, Population(info, 3)),
-                    Level4 = Math.Max((ushort)1, Population(info, 4))
+                    Level4 = Math.Max((ushort)1, Population(info, 4)),
                 };
 
                 // Add new key to cache
-                householdCache.Add(info, cacheEntry);
+                _householdCache.Add(info, cacheEntry);
             }
 
             // Return record relevant to level.
@@ -92,7 +535,7 @@ namespace RealPop2
         internal WorkplaceLevels WorkplaceCache(BuildingInfo info, int level)
         {
             // Check if key is already in cache.
-            if (!workplaceCache.TryGetValue(info, out WorkplaceCacheEntry cacheEntry))
+            if (!_workplaceCache.TryGetValue(info, out WorkplaceCacheEntry cacheEntry))
             {
                 // No - create new record.
                 cacheEntry = new WorkplaceCacheEntry
@@ -104,7 +547,7 @@ namespace RealPop2
                 };
 
                 // Add new key to cache
-                workplaceCache.Add(info, cacheEntry);
+                _workplaceCache.Add(info, cacheEntry);
             }
 
             // Return record relevant to level.
@@ -128,10 +571,10 @@ namespace RealPop2
         internal ushort VisitplaceCache(BuildingInfo info, int level)
         {
             // Check if key is already in cache.
-            if (!visitplaceCache.TryGetValue(info, out VisitplaceCacheEntry cacheEntry))
+            if (!_visitplaceCache.TryGetValue(info, out VisitplaceCacheEntry cacheEntry))
             {
                 // No - create new record.
-                cacheEntry = new VisitplaceCacheEntry();
+                cacheEntry = default;
 
                 // Check for vanilla calcs.
                 WorkplaceLevels workplaces = WorkplaceCache(info, 0);
@@ -153,7 +596,7 @@ namespace RealPop2
                 }
 
                 // Add new key to cache
-                visitplaceCache.Add(info, cacheEntry);
+                _visitplaceCache.Add(info, cacheEntry);
             }
 
             // Return record relevant to level.
@@ -174,7 +617,7 @@ namespace RealPop2
         /// <param name="buildingPrefab">Building prefab record.</param>
         /// <param name="level">Building level.</param>
         /// <param name="multiplier">Optional population multiplier (default 1.0).</param>
-        /// <returns>Population</returns>
+        /// <returns>Population.</returns>
         internal ushort Population(BuildingInfo buildingPrefab, int level, float multiplier = 1.0f)
         {
             // First, check for population override.
@@ -199,19 +642,26 @@ namespace RealPop2
         /// <param name="floorList">Optional precalculated list of calculated floors (to save time; will be generated if not provided).</param>
         /// <param name="totalArea">Optional precalculated total building area  (to save time; will be generated if not provided).</param>
         /// <param name="perFloor">Ccalculated per-floor population values will be added to this list if provided (null to ignore).</param>
-        /// <returns>Calculated population</returns>
-        internal ushort VolumetricPopulation(BuildingInfoGen buildingInfoGen, LevelData levelData, FloorDataPack floorData, float multiplier, SortedList<int, float> floorList = null, float totalArea = 0, List<KeyValuePair<ushort, ushort>> perFloor = null)
+        /// <returns>Calculated population.</returns>
+        internal ushort VolumetricPopulation(
+            BuildingInfoGen buildingInfoGen,
+            VolumetricPopPack.LevelData levelData,
+            FloorDataPack floorData,
+            float multiplier,
+            SortedList<int, float> floorList = null,
+            float totalArea = 0,
+            List<KeyValuePair<ushort,
+                ushort>> perFloor = null)
         {
             // Return value.
             ushort totalUnits = 0;
 
-
             // See if we're using area calculations for numbers of units, i.e. areaPer is at least one.
-            if (levelData.areaPer > 0)
+            if (levelData.AreaPer > 0)
             {
                 // Get local references.
                 float floorArea = totalArea;
-                float emptyArea = levelData.emptyArea;
+                float emptyArea = levelData.EmptyArea;
                 SortedList<int, float> floors = floorList;
 
                 // Get list of floors and total building area, if one hasn't already been provided.
@@ -221,13 +671,14 @@ namespace RealPop2
                 }
 
                 // Determine area percentage to use for calculations (inverse of empty area percentage).
-                float areaPercent = 1 - (levelData.emptyPercent / 100f);
+                float areaPercent = 1 - (levelData.EmptyPercent / 100f);
 
                 // See if we're calculating based on total building floor area, not per floor.
-                if (levelData.multiFloorUnits)
+                if (levelData.MultiFloorUnits)
                 {
                     // Units based on total floor area: calculate number of units in total building (always rounded down), after subtracting empty space.
-                    totalUnits = (ushort)(((floorArea - emptyArea) * areaPercent) / levelData.areaPer);
+                    totalUnits = (ushort)(((floorArea - emptyArea) * areaPercent) / levelData.AreaPer);
+
                     // Adjust by multiplier (after rounded calculation above).
                     totalUnits = (ushort)(totalUnits * multiplier);
                 }
@@ -249,7 +700,8 @@ namespace RealPop2
                         }
 
                         // Number of units on this floor - always rounded down.
-                        ushort floorUnits = (ushort)((floors[i] * areaPercent) / levelData.areaPer);
+                        ushort floorUnits = (ushort)((floors[i] * areaPercent) / levelData.AreaPer);
+
                         // Adjust by multiplier (after rounded calculation above).
                         floorUnits = (ushort)(floorUnits * multiplier);
                         totalUnits += floorUnits;
@@ -265,7 +717,7 @@ namespace RealPop2
             else
             {
                 // areaPer is 0 or less; use a fixed number of units.
-                totalUnits = (ushort)-levelData.areaPer;
+                totalUnits = (ushort)-levelData.AreaPer;
             }
 
             // Always have at least one unit, regardless of size.
@@ -303,19 +755,19 @@ namespace RealPop2
                 float thisHeight = heights[i];
 
                 // Check to see if we have at least one floor in this segment.
-                if (thisHeight > floorData.firstFloorMin)
+                if (thisHeight > floorData.m_firstFloorMin)
                 {
                     // Starting number of floors is either 1 or zero, depending on setting of 'ignore first floor' checkbox.
-                    int numFloors = floorData.firstFloorEmpty ? 0 : 1;
+                    int numFloors = floorData.m_firstFloorEmpty ? 0 : 1;
 
                     // Calculate any height left over from the maximum (minimum plus extra) first floor height.
-                    float surplusHeight = thisHeight - floorData.firstFloorMin - floorData.firstFloorExtra;
+                    float surplusHeight = thisHeight - floorData.m_firstFloorMin - floorData.m_firstFloorExtra;
 
                     // See if we have more than one floor, i.e. our height is greater than the first floor maximum height.
                     if (surplusHeight > 0)
                     {
                         // Number of floors for this grid segment is the truncated division (rounded down); no partial floors here!
-                        numFloors += (int)(surplusHeight / floorData.floorHeight);
+                        numFloors += (int)(surplusHeight / floorData.m_floorHeight);
                     }
 
                     // Total incremental floor area is simply the number of floors multipled by the area of this grid segment.
@@ -341,486 +793,6 @@ namespace RealPop2
 
             totalArea = floorArea;
             return floors;
-        }
-
-        /// <summary>
-        /// Constructor - initializes inbuilt default calculation packs and performs other setup tasks.
-        /// </summary>
-        public PopData()
-        {
-            // Create caches.
-            householdCache = new Dictionary<BuildingInfo, HouseholdCacheEntry>();
-            workplaceCache = new Dictionary<BuildingInfo, WorkplaceCacheEntry>();
-            visitplaceCache = new Dictionary<BuildingInfo, VisitplaceCacheEntry>();
-
-            // Legacy residential.
-            calcPacks.Add(new LegacyResPack
-            {
-                name = "resWG",
-                nameKey = "RPR_PCK_LEG_NAM",
-                descriptionKey = "RPR_PCK_LEG_DES",
-                version = DataVersion.legacy,
-                service = ItemClass.Service.Residential
-            });
-
-            // Legacy industrial.
-            calcPacks.Add(new LegacyIndPack()
-            {
-                name = "indWG",
-                nameKey = "RPR_PCK_LEG_NAM",
-                descriptionKey = "RPR_PCK_LEG_DES",
-                version = DataVersion.legacy,
-                service = ItemClass.Service.Industrial
-            });
-
-            // Legacy commercial.
-            calcPacks.Add(new LegacyComPack()
-            {
-                name = "comWG",
-                nameKey = "RPR_PCK_LEG_NAM",
-                descriptionKey = "RPR_PCK_LEG_DES",
-                version = DataVersion.legacy,
-                service = ItemClass.Service.Commercial
-            });
-
-            // Legacy office.
-            calcPacks.Add(new LegacyOffPack
-            {
-                name = "offWG",
-                nameKey = "RPR_PCK_LEG_NAM",
-                descriptionKey = "RPR_PCK_LEG_DES",
-                version = DataVersion.legacy,
-                service = ItemClass.Service.Office
-            });
-
-            // Vanilla calcs.
-            calcPacks.Add(new VanillaPack
-            {
-                name = "vanilla",
-                nameKey = "RPR_PCK_VAN_NAM",
-                descriptionKey = "RPR_PCK_VAN_DES",
-                version = DataVersion.vanilla,
-                service = ItemClass.Service.None
-            });
-
-            // Low-density residential.
-            VolumetricPopPack newPack = new VolumetricPopPack
-            {
-                name = "reslow",
-                nameKey = "RPR_PCK_RLS_NAM",
-                descriptionKey = "RPR_PCK_RLS_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Residential,
-                levels = new LevelData[5]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = -1f, multiFloorUnits = true };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = -1f, multiFloorUnits = true };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = -1f, multiFloorUnits = true };
-            newPack.levels[3] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = -1f, multiFloorUnits = true };
-            newPack.levels[4] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = -1f, multiFloorUnits = true };
-            calcPacks.Add(newPack);
-
-            // Duplexes.
-            newPack = new VolumetricPopPack
-            {
-                name = "duplex",
-                nameKey = "RPR_PCK_RLD_NAM",
-                descriptionKey = "RPR_PCK_RLD_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Residential,
-                levels = new LevelData[5]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = -2f, multiFloorUnits = true };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = -2f, multiFloorUnits = true };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = -2f, multiFloorUnits = true };
-            newPack.levels[3] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = -2f, multiFloorUnits = true };
-            newPack.levels[4] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = -2f, multiFloorUnits = true };
-            calcPacks.Add(newPack);
-
-            // European apartments (modern).
-            newPack = new VolumetricPopPack
-            {
-                name = "resEUmod",
-                nameKey = "RPR_PCK_REM_NAM",
-                descriptionKey = "RPR_PCK_REM_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Residential,
-                levels = new LevelData[5]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 10, areaPer = 85f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 12, areaPer = 90f, multiFloorUnits = false };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 16, areaPer = 100f, multiFloorUnits = false };
-            newPack.levels[3] = new LevelData { emptyArea = 0f, emptyPercent = 18, areaPer = 105f, multiFloorUnits = false };
-            newPack.levels[4] = new LevelData { emptyArea = 0f, emptyPercent = 18, areaPer = 110f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // European apartments (older).
-            newPack = new VolumetricPopPack()
-            {
-                name = "resEUold",
-                nameKey = "RPR_PCK_REO_NAM",
-                descriptionKey = "RPR_PCK_REO_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Residential,
-                levels = new LevelData[5],
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 75f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 1, areaPer = 80f, multiFloorUnits = false };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 2, areaPer = 85f, multiFloorUnits = false };
-            newPack.levels[3] = new LevelData { emptyArea = 0f, emptyPercent = 3, areaPer = 90f, multiFloorUnits = false };
-            newPack.levels[4] = new LevelData { emptyArea = 0f, emptyPercent = 4, areaPer = 95f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // High-density residential US - empty percentages from AssetInsights.net, areas from 2018 RentCafe.
-            newPack = new VolumetricPopPack()
-            {
-                name = "reshighUS",
-                nameKey = "RPR_PCK_RUH_NAM",
-                descriptionKey = "RPR_PCK_RUH_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Residential,
-                levels = new LevelData[5]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 36, areaPer = 70f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 37, areaPer = 78f, multiFloorUnits = false };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 38, areaPer = 86f, multiFloorUnits = false };
-            newPack.levels[3] = new LevelData { emptyArea = 0f, emptyPercent = 39, areaPer = 94f, multiFloorUnits = false };
-            newPack.levels[4] = new LevelData { emptyArea = 0f, emptyPercent = 40, areaPer = 102f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // US commmercial.
-            // Figures are from Montgomery County round 7.0.
-            newPack = new VolumetricPopPack()
-            {
-                name = "comUS",
-                nameKey = "RPR_PCK_CUS_NAM",
-                descriptionKey = "RPR_PCK_CUS_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Commercial,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0, emptyPercent = 0, areaPer = 37, multiFloorUnits = true };
-            newPack.levels[1] = new LevelData { emptyArea = 0, emptyPercent = 0, areaPer = 37, multiFloorUnits = true };
-            newPack.levels[2] = new LevelData { emptyArea = 0, emptyPercent = 0, areaPer = 37, multiFloorUnits = true };
-            calcPacks.Add(newPack);
-
-            // UK commercial.
-            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
-            // Empty percent is markdown from GEA to NIA.
-            newPack = new VolumetricPopPack()
-            {
-                name = "comUK",
-                nameKey = "RPR_PCK_CUK_NAM",
-                descriptionKey = "RPR_PCK_CUK_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Commercial,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 20, areaPer = 20f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 20, areaPer = 17.5f, multiFloorUnits = false };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 20, areaPer = 15f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // Retail warehouses.
-            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
-            // Empty percent is markdown from GEA to NIA.
-            newPack = new VolumetricPopPack()
-            {
-                name = "retailware",
-                nameKey = "RPR_PCK_CRW_NAM",
-                descriptionKey = "RPR_PCK_CRW_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Commercial,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 20, areaPer = 90f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 20, areaPer = 90f, multiFloorUnits = false };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 20, areaPer = 90f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // Hotels.
-            // Figures are from Montgomery County round 7.0.
-            newPack = new VolumetricPopPack()
-            {
-                name = "hotel",
-                nameKey = "RPR_PCK_THT_NAM",
-                descriptionKey = "RPR_PCK_THT_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Commercial,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 120f, multiFloorUnits = true };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 120f, multiFloorUnits = true };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 120f, multiFloorUnits = true };
-            calcPacks.Add(newPack);
-
-            // Restaurants and cafes.
-            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
-            // Empty percent is markdown from GEA to NIA.
-            newPack = new VolumetricPopPack()
-            {
-                name = "restaurant",
-                nameKey = "RPR_PCK_LFD_NAM",
-                descriptionKey = "RPR_PCK_LFD_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Commercial,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 15, areaPer = 20f, multiFloorUnits = true };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 15, areaPer = 17.5f, multiFloorUnits = true };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 15, areaPer = 15, multiFloorUnits = true };
-            calcPacks.Add(newPack);
-
-            // Entertainment centres.
-            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
-            // Empty percent is markdown from GEA to NIA.
-            newPack = new VolumetricPopPack()
-            {
-                name = "entertainment",
-                nameKey = "RPR_PCK_LEN_NAM",
-                descriptionKey = "RPR_PCK_LEN_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Commercial,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 20f, emptyPercent = 20, areaPer = 70f, multiFloorUnits = true };
-            newPack.levels[1] = new LevelData { emptyArea = 20f, emptyPercent = 20, areaPer = 65f, multiFloorUnits = true };
-            newPack.levels[2] = new LevelData { emptyArea = 20f, emptyPercent = 20, areaPer = 60f, multiFloorUnits = true };
-            calcPacks.Add(newPack);
-
-            // Cinemas.
-            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
-            // Empty percent is markdown from GIA to NIA.
-            newPack = new VolumetricPopPack()
-            {
-                name = "cinema",
-                nameKey = "RPR_PCK_LCN_NAM",
-                descriptionKey = "RPR_PCK_LCN_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Commercial,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 5, areaPer = 200f, multiFloorUnits = true };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 5, areaPer = 200f, multiFloorUnits = true };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 5, areaPer = 200f, multiFloorUnits = true };
-            calcPacks.Add(newPack);
-
-            // Light industry.
-            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
-            // Empty percent is markdown from GEA to NIA.
-            newPack = new VolumetricPopPack()
-            {
-                name = "lightind",
-                nameKey = "RPR_PCK_ILG_NAM",
-                descriptionKey = "RPR_PCK_ILG_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Industrial,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 15, areaPer = 47f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 15, areaPer = 47f, multiFloorUnits = false };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 15, areaPer = 47f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // Manufacturing.
-            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
-            // Empty percent is markdown from GEA to GIA.
-            newPack = new VolumetricPopPack()
-            {
-                name = "factory",
-                nameKey = "RPR_PCK_IMN_NAM",
-                descriptionKey = "RPR_PCK_IMN_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Industrial,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 5, areaPer = 36f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 5, areaPer = 36f, multiFloorUnits = false };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 5, areaPer = 36f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // Industry warehouses (local distribution).
-            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
-            newPack = new VolumetricPopPack()
-            {
-                name = "localware",
-                nameKey = "RPR_PCK_IWL_NAM",
-                descriptionKey = "RPR_PCK_IWL_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Industrial,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 70f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 70f, multiFloorUnits = false };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 70f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // Industry warehouses (national distribution).
-            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
-            newPack = new VolumetricPopPack()
-            {
-                name = "natware",
-                nameKey = "RPR_PCK_IWN_NAM",
-                descriptionKey = "RPR_PCK_IWN_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Industrial,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 95f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 95f, multiFloorUnits = false };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 95f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // Corporate offices.
-            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
-            // Empty percent is markdown from GEA to GIA.
-            newPack = new VolumetricPopPack()
-            {
-                name = "offcorp",
-                nameKey = "RPR_PCK_OCP_NAM",
-                descriptionKey = "RPR_PCK_OCP_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Office,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 20, areaPer = 13f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 20, areaPer = 13f, multiFloorUnits = false };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 20, areaPer = 13f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // Financial offices.
-            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
-            // Empty percent is markdown from GEA to GIA.
-            newPack = new VolumetricPopPack()
-            {
-                name = "offfin",
-                nameKey = "RPR_PCK_OFN_NAM",
-                descriptionKey = "RPR_PCK_OFN_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Office,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 17, areaPer = 10f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 17, areaPer = 10f, multiFloorUnits = false };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 17, areaPer = 10f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // Call centres.
-            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
-            // Empty percent is markdown from GEA to GIA.
-            newPack = new VolumetricPopPack()
-            {
-                name = "offcall",
-                nameKey = "RPR_PCK_OCS_NAM",
-                descriptionKey = "RPR_PCK_OCS_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Office,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 15, areaPer = 8f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 15, areaPer = 8f, multiFloorUnits = false };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 15, areaPer = 8f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // Data centres.
-            // Densities from 2015 Homes & Communities Agenct 'Employment Densities Guide' 3rd Edition.
-            // Empty percent is markdown from GEA to GIA.
-            newPack = new VolumetricPopPack()
-            {
-                name = "datacent",
-                nameKey = "RPR_PCK_ODT_NAM",
-                descriptionKey = "RPR_PCK_ODT_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Office,
-                levels = new LevelData[3]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 200f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 200f, multiFloorUnits = false };
-            newPack.levels[2] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 200f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // Suburban schools.
-            // Level 1 is elementary, level 2 is high school.
-            // Figures are from NSW Department of Education 2013 targets.
-            newPack = new VolumetricPopPack()
-            {
-                name = "schoolsub",
-                nameKey = "RPR_PCK_SSB_NAM",
-                descriptionKey = "RPR_PCK_SSB_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Education,
-                levels = new LevelData[2]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 8f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 8f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // Suburban schools.
-            // Figures are from MN Department of Education Guide for Planning School Construction Projects (lowest density).
-            newPack = new VolumetricPopPack()
-            {
-                name = "schoolmnlow",
-                nameKey = "RPR_PCK_SML_NAM",
-                descriptionKey = "RPR_PCK_SML_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Education,
-                levels = new LevelData[2]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 14f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 30f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // Suburban schools.
-            // Figures are from MN Department of Education Guide for Planning School Construction Projects (middle density).
-            newPack = new VolumetricPopPack()
-            {
-                name = "schoolmnmed",
-                nameKey = "RPR_PCK_SMM_NAM",
-                descriptionKey = "RPR_PCK_SMM_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Education,
-                levels = new LevelData[2]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 12f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 23f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // Suburban schools.
-            // Figures are from MN Department of Education Guide for Planning School Construction Projects (highest density).
-            newPack = new VolumetricPopPack()
-            {
-                name = "schoolmnhigh",
-                nameKey = "RPR_PCK_SMH_NAM",
-                descriptionKey = "RPR_PCK_SMH_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Education,
-                levels = new LevelData[2]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 9f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 0f, emptyPercent = 0, areaPer = 14f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // UK schools.
-            // Figures are from Planning Statement - Warwickshire County Council.
-            newPack = new VolumetricPopPack()
-            {
-                name = "schoolukhigh",
-                nameKey = "RPR_PCK_SUK_NAM",
-                descriptionKey = "RPR_PCK_SUK_DES",
-                version = DataVersion.one,
-                service = ItemClass.Service.Education,
-                levels = new LevelData[2]
-            };
-            newPack.levels[0] = new LevelData { emptyArea = 350f, emptyPercent = 0, areaPer = 4.1f, multiFloorUnits = false };
-            newPack.levels[1] = new LevelData { emptyArea = 1400f, emptyPercent = 0, areaPer = 6.3f, multiFloorUnits = false };
-            calcPacks.Add(newPack);
-
-            // Initialise student overrides dictionary.
-            overrides = new Dictionary<string, ushort>();
-
-            // Convert legacy overrides (if any).
-            ConvertOverrides(DataStore.householdCache);
-            ConvertOverrides(DataStore.workerCache);
         }
 
         /// <summary>
@@ -858,8 +830,10 @@ namespace RealPop2
                                     defaultName = "reslow";
                                     break;
                             }
+
                             break;
                     }
+
                     break;
 
                 case ItemClass.Service.Industrial:
@@ -876,6 +850,7 @@ namespace RealPop2
                             defaultName = "factory";
                             break;
                     }
+
                     break;
 
                 case ItemClass.Service.Office:
@@ -892,6 +867,7 @@ namespace RealPop2
                             defaultName = "offcorp";
                             break;
                     }
+
                     break;
 
                 case ItemClass.Service.Education:
@@ -926,13 +902,15 @@ namespace RealPop2
                                     defaultName = "comUS";
                                     break;
                             }
+
                             break;
                     }
+
                     break;
             }
 
             // Match name to floorpack.
-            return calcPacks.Find(pack => pack.name.Equals(defaultName));
+            return CalcPacks.Find(pack => pack.Name.Equals(defaultName));
         }
 
         /// <summary>
@@ -945,18 +923,18 @@ namespace RealPop2
         /// <summary>
         /// Returns a list of calculation packs available for the given service/subservice combination.
         /// </summary>
-        /// <param name="service">Service</param>
-        /// <returns>Array of available calculation packs</returns>
+        /// <param name="service">Service.</param>
+        /// <returns>Array of available calculation packs.</returns>
         internal PopDataPack[] GetPacks(ItemClass.Service service)
         {
             // Return list.
             List<PopDataPack> list = new List<PopDataPack>();
 
             // Iterate through each floor pack and see if it applies.
-            foreach (PopDataPack pack in calcPacks)
+            foreach (PopDataPack pack in CalcPacks)
             {
                 // Check for matching service.
-                if (pack.service == service || pack.service == ItemClass.Service.None)
+                if (pack.Service == service || pack.Service == ItemClass.Service.None)
                 {
                     // Service matches; add pack.
                     list.Add(pack);
@@ -978,15 +956,15 @@ namespace RealPop2
             if (popOverride > 1)
             {
                 // Check for existing entry.
-                if (overrides.ContainsKey(prefabName))
+                if (_overrides.ContainsKey(prefabName))
                 {
                     // Existing entry found; update it.
-                    overrides[prefabName] = popOverride;
+                    _overrides[prefabName] = popOverride;
                 }
                 else
                 {
                     // No existing entry found; add one.
-                    overrides.Add(prefabName, popOverride);
+                    _overrides.Add(prefabName, popOverride);
                 }
             }
             else
@@ -1012,11 +990,11 @@ namespace RealPop2
                 // Apply school changes if this is a school.
                 if (prefab.GetService() == ItemClass.Service.Education)
                 {
-                    SchoolData.instance.UpdateSchoolPrefab(prefab);
+                    SchoolData.Instance.UpdateSchoolPrefab(prefab);
                 }
 
                 // Save updated configuration file.
-                ConfigUtils.SaveSettings();
+                ConfigurationUtils.SaveSettings();
 
                 // Refresh the prefab's population settings to reflect changes.
                 RefreshPrefab(prefab);
@@ -1034,16 +1012,16 @@ namespace RealPop2
         internal void DeleteOverride(BuildingInfo prefab)
         {
             // Remove prefab record from dictionary.
-            if (overrides.Remove(prefab.name))
+            if (_overrides.Remove(prefab.name))
             {
                 // An entry was removed (i.e. dictionary contained an entry); apply changes to relevant school.
                 if (prefab.GetService() == ItemClass.Service.Education)
                 {
-                    SchoolData.instance.UpdateSchoolPrefab(prefab);
+                    SchoolData.Instance.UpdateSchoolPrefab(prefab);
                 }
 
                 // Save the updated configuration file.
-                ConfigUtils.SaveSettings();
+                ConfigurationUtils.SaveSettings();
 
                 // Refresh the prefab's population settings to reflect changes.
                 RefreshPrefab(prefab);
@@ -1058,10 +1036,10 @@ namespace RealPop2
         internal ushort GetOverride(string prefabName)
         {
             // Check for entry.
-            if (overrides.ContainsKey(prefabName))
+            if (_overrides.ContainsKey(prefabName))
             {
                 // Found entry; return the override.
-                return overrides[prefabName];
+                return _overrides[prefabName];
             }
 
             // If we got here, no override was found; return zero.
@@ -1078,12 +1056,12 @@ namespace RealPop2
             List<Configuration.PopCountOverride> returnList = new List<Configuration.PopCountOverride>();
 
             // Iterate through each entry in population override dictionary, converting into PopCountOverride XML record and adding to list.
-            foreach (KeyValuePair<string, ushort> popOverride in overrides)
+            foreach (KeyValuePair<string, ushort> popOverride in _overrides)
             {
                 returnList.Add(new Configuration.PopCountOverride
                 {
-                    prefab = popOverride.Key,
-                    population = popOverride.Value
+                    Prefab = popOverride.Key,
+                    Population = popOverride.Value,
                 });
             }
 
@@ -1100,11 +1078,11 @@ namespace RealPop2
             {
                 try
                 {
-                    SetOverride(popOverride.prefab, popOverride.population);
+                    SetOverride(popOverride.Prefab, popOverride.Population);
                 }
                 catch (Exception e)
                 {
-                    Logging.LogException(e, " exception deserializing pop override for prefab ", popOverride.prefab ?? "null");
+                    Logging.LogException(e, " exception deserializing pop override for prefab ", popOverride.Prefab ?? "null");
                 }
             }
         }
@@ -1119,10 +1097,10 @@ namespace RealPop2
             SortedList<string, Configuration.BuildingRecord> returnList = new SortedList<string, Configuration.BuildingRecord>();
 
             // Iterate through each key (BuildingInfo) in our dictionary.
-            foreach (string prefabName in buildingDict.Keys)
+            foreach (string prefabName in BuildingDict.Keys)
             {
                 // Serialise it into a BuildingRecord and add it to the list.
-                Configuration.BuildingRecord newRecord = new Configuration.BuildingRecord { Prefab = prefabName, PopPack = buildingDict[prefabName].name };
+                Configuration.BuildingRecord newRecord = new Configuration.BuildingRecord { Prefab = prefabName, PopPack = BuildingDict[prefabName].Name };
                 returnList.Add(prefabName, newRecord);
             }
 
@@ -1133,7 +1111,7 @@ namespace RealPop2
         /// Extracts the relevant pack name (floor or pop) from a building line record.
         /// </summary>
         /// <param name="buildingRecord">Building record to extract from.</param>
-        /// <returns>Floor pack name (if any)</returns>
+        /// <returns>Floor pack name (if any).</returns>
         protected override string BuildingPack(Configuration.BuildingRecord buildingRecord) => buildingRecord.PopPack;
 
         /// <summary>
@@ -1248,4 +1226,3 @@ namespace RealPop2
         }
     }
 }
- 

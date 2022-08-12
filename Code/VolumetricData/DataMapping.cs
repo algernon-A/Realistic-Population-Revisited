@@ -1,26 +1,43 @@
-﻿namespace RealPop2
+﻿// <copyright file="DataMapping.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the Apache license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
+
+namespace RealPop2
 {
     /// <summary>
     /// Class for mapping serives to DataStore structures.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "Internal reference arrays")]
     internal class DataMapping
     {
-        // Number of data structures (service/subservice combinations) to map.
-        internal const int numData = 16;
-
-        // Mapping arrays.
-        internal ItemClass.Service[] services;
-        internal ItemClass.SubService[] subServices;
-        internal int[][][] dataArrays;
-
+        /// <summary>
+        /// Number of data structures (service/subservice combinations) to map.
+        /// </summary>
+        internal const int NumData = 16;
 
         /// <summary>
-        /// Constructor - initialises arrays.
+        /// Service reference array.
+        /// </summary>
+        internal readonly ItemClass.Service[] Services;
+
+        /// <summary>
+        /// Subservice reference array.
+        /// </summary>
+        internal readonly ItemClass.SubService[] SubServices;
+
+        /// <summary>
+        /// Data arrays.
+        /// </summary>
+        internal readonly int[][][] DataArrays;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataMapping"/> class.
         /// </summary>
         internal DataMapping()
         {
             // Services.
-            services = new ItemClass.Service[numData]
+            Services = new ItemClass.Service[NumData]
             {
                 ItemClass.Service.Residential,
                 ItemClass.Service.Residential,
@@ -37,11 +54,11 @@
                 ItemClass.Service.Industrial,
                 ItemClass.Service.Industrial,
                 ItemClass.Service.Industrial,
-                ItemClass.Service.Industrial
+                ItemClass.Service.Industrial,
             };
 
             // Sub-services.
-            subServices = new ItemClass.SubService[numData]
+            SubServices = new ItemClass.SubService[NumData]
             {
                 ItemClass.SubService.ResidentialLow,
                 ItemClass.SubService.ResidentialHigh,
@@ -58,11 +75,11 @@
                 ItemClass.SubService.IndustrialFarming,
                 ItemClass.SubService.IndustrialForestry,
                 ItemClass.SubService.IndustrialOil,
-                ItemClass.SubService.IndustrialOre
+                ItemClass.SubService.IndustrialOre,
             };
 
             // Data arrays.
-            dataArrays = new int[numData][][]
+            DataArrays = new int[NumData][][]
             {
                 DataStore.residentialLow,
                 DataStore.residentialHigh,
@@ -79,27 +96,26 @@
                 DataStore.industry_farm,
                 DataStore.industry_forest,
                 DataStore.industry_oil,
-                DataStore.industry_ore
+                DataStore.industry_ore,
             };
         }
 
-        
         /// <summary>
         /// Returns the DataStore array for the given service/subservice combination.
         /// </summary>
-        /// <param name="service">Service</param>
-        /// <param name="subService">Sub-service</param>
-        /// <returns>DataStore array (null if no match)</returns>
+        /// <param name="service">Service.</param>
+        /// <param name="subService">Sub-service.</param>
+        /// <returns>DataStore array (null if no match).</returns>
         internal int[][] GetArray(ItemClass.Service service, ItemClass.SubService subService)
         {
             // Iterate through each data structure.
-            for (int i = 0; i < numData; ++i)
+            for (int i = 0; i < NumData; ++i)
             {
                 // Look for a service and sub-service match.
-                if (service == services[i] && subService == subServices[i])
+                if (service == Services[i] && subService == SubServices[i])
                 {
                     // Matched - return the relevant DataStore array.
-                    return dataArrays[i];
+                    return DataArrays[i];
                 }
             }
 
