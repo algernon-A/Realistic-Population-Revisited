@@ -22,7 +22,6 @@ namespace RealPop2
         private const float FirstMinX = FloorHeightX + ColumnWidth;
         private const float FirstMaxX = FirstMinX + ColumnWidth;
         private const float FirstEmptyX = FirstMaxX + ColumnWidth;
-        private const float MultiFloorX = FirstEmptyX + ColumnWidth;
 
         // Panel components.
         private UITextField _floorHeightField;
@@ -85,14 +84,14 @@ namespace RealPop2
 
                 // Add level textfields.
                 _floorHeightField = UITextFields.AddTextField(m_panel, FloorHeightX + Margin, currentY, width: TextFieldWidth, tooltip: Translations.Translate("RPR_CAL_VOL_FLH_TIP"));
-                _floorHeightField.eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
+                _floorHeightField.eventTextChanged += (c, value) => PanelUtils.FloatTextFilter((UITextField)c, value);
 
                 _firstMinField = UITextFields.AddTextField(m_panel, FirstMinX + Margin, currentY, width: TextFieldWidth, tooltip: Translations.Translate("RPR_CAL_VOL_FMN_TIP"));
-                _firstMinField.eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
+                _firstMinField.eventTextChanged += (c, value) => PanelUtils.FloatTextFilter((UITextField)c, value);
                 _firstMinField.tooltipBox = UIToolTips.WordWrapToolTip;
 
                 _firstExtraField = UITextFields.AddTextField(m_panel, FirstMaxX + Margin, currentY, width: TextFieldWidth, tooltip: Translations.Translate("RPR_CAL_VOL_FMX_TIP"));
-                _firstExtraField.eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
+                _firstExtraField.eventTextChanged += (c, value) => PanelUtils.FloatTextFilter((UITextField)c, value);
                 _firstExtraField.tooltipBox = UIToolTips.WordWrapToolTip;
                 _firstEmptyCheck = UICheckBoxes.AddCheckBox(m_panel, FirstEmptyX + (ColumnWidth / 2), currentY, tooltip: Translations.Translate("RPR_CAL_VOL_IGF_TIP"));
                 _firstEmptyCheck.tooltipBox = UIToolTips.WordWrapToolTip;

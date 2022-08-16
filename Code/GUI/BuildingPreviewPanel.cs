@@ -60,7 +60,7 @@ namespace RealPop2
 
             // 'Show floors' checkbox.
             _showFloorsCheck = UICheckBoxes.AddLabelledCheckBox(this, 20f, height - 30f, Translations.Translate("RPR_PRV_SFL"));
-            _showFloorsCheck.eventCheckChanged += (control, isChecked) =>
+            _showFloorsCheck.eventCheckChanged += (c, isChecked) =>
             {
                 _preview.RenderFloors = isChecked;
                 s_lastFloorCheckState = isChecked;

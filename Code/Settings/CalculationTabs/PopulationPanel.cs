@@ -127,11 +127,11 @@ namespace RealPop2
                     rowLabels[i] = RowLabel(m_panel, currentY, Translations.Translate("RPR_OPT_LVL") + " " + (i + 1).ToString());
 
                     _emptyPercentFields[i] = UITextFields.AddTextField(m_panel, EmptyPercentX + Margin, currentY, width: TextFieldWidth, tooltip: emptyPercentTip);
-                    _emptyPercentFields[i].eventTextChanged += (control, value) => PanelUtils.IntTextFilter((UITextField)control, value);
+                    _emptyPercentFields[i].eventTextChanged += (c, value) => PanelUtils.IntTextFilter((UITextField)c, value);
                     _emptyPercentFields[i].tooltipBox = UIToolTips.WordWrapToolTip;
 
                     _emptyAreaFields[i] = UITextFields.AddTextField(m_panel, EmptyAreaX + Margin, currentY, width: TextFieldWidth, tooltip: emptyAreaTip);
-                    _emptyAreaFields[i].eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
+                    _emptyAreaFields[i].eventTextChanged += (c, value) => PanelUtils.FloatTextFilter((UITextField)c, value);
                     _emptyAreaFields[i].tooltipBox = UIToolTips.WordWrapToolTip;
 
                     // Fixed pop checkboxes - ensure i is saved as objectUserData for use by event handler.  Starts unchecked by default.
@@ -142,12 +142,12 @@ namespace RealPop2
 
                     // Fixed population fields start hidden by default.
                     _fixedPopFields[i] = UITextFields.AddTextField(m_panel, FixedPopX + Margin, currentY, width: TextFieldWidth, tooltip: fixedPopTip);
-                    _fixedPopFields[i].eventTextChanged += (control, value) => PanelUtils.IntTextFilter((UITextField)control, value);
+                    _fixedPopFields[i].eventTextChanged += (c, value) => PanelUtils.IntTextFilter((UITextField)c, value);
                     _fixedPopFields[i].tooltipBox = UIToolTips.WordWrapToolTip;
                     _fixedPopFields[i].Hide();
 
                     _areaPerFields[i] = UITextFields.AddTextField(m_panel, AreaPerX + Margin, currentY, width: TextFieldWidth, tooltip: areaPerTip);
-                    _areaPerFields[i].eventTextChanged += (control, value) => PanelUtils.FloatTextFilter((UITextField)control, value);
+                    _areaPerFields[i].eventTextChanged += (c, value) => PanelUtils.FloatTextFilter((UITextField)c, value);
                     _areaPerFields[i].tooltipBox = UIToolTips.WordWrapToolTip;
 
                     _multiFloorChecks[i] = UICheckBoxes.AddCheckBox(m_panel, MultiFloorX + (ColumnWidth / 2), currentY, tooltip: multiFloorTip);

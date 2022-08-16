@@ -312,8 +312,8 @@ namespace RealPop2
             _nameFilter = UITextFields.AddBigLabelledTextField(this, width - 200f, 0, Translations.Translate("RPR_FIL_NAME"));
 
             // Name filter event handling - update on any change.
-            _nameFilter.eventTextChanged += (control, text) => EventFilteringChanged(this, 5);
-            _nameFilter.eventTextSubmitted += (control, text) => EventFilteringChanged(this, 5);
+            _nameFilter.eventTextChanged += (c, text) => EventFilteringChanged(this, 5);
+            _nameFilter.eventTextSubmitted += (c, text) => EventFilteringChanged(this, 5);
 
             // Settings filter label.
             UILabel filterLabel = SettingsFilterLabel(55f, Translations.Translate("RPR_FIL_SET"));
@@ -345,7 +345,7 @@ namespace RealPop2
                 // Special event handling for 'any' checkbox.
                 if (i == (int)FilterCategories.Any)
                 {
-                    _settingsFilter[i].eventCheckChanged += (control, isChecked) =>
+                    _settingsFilter[i].eventCheckChanged += (c, isChecked) =>
                     {
                         if (isChecked)
                         {
@@ -359,7 +359,7 @@ namespace RealPop2
                 {
                     // Non-'any' checkboxes.
                     // Unselect 'any' checkbox if any other is checked.
-                    _settingsFilter[i].eventCheckChanged += (control, isChecked) =>
+                    _settingsFilter[i].eventCheckChanged += (c, isChecked) =>
                     {
                         if (isChecked)
                         {
@@ -369,7 +369,7 @@ namespace RealPop2
                 }
 
                 // Trigger filtering changed event if any checkbox is changed.
-                _settingsFilter[i].eventCheckChanged += (control, isChecked) => { EventFilteringChanged(this, 0); };
+                _settingsFilter[i].eventCheckChanged += (c, isChecked) => { EventFilteringChanged(this, 0); };
             }
         }
 

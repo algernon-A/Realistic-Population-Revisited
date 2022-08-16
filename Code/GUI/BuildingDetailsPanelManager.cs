@@ -116,7 +116,7 @@ namespace RealPop2
             s_zonedButton.Enable();
 
             // Event handler.
-            s_zonedButton.eventClick += (control, clickEvent) =>
+            s_zonedButton.eventClick += (c, p) =>
             {
                 // Select current building in the building details panel and show.
                 Open(InstanceManager.GetPrefabInfo(WorldInfoPanel.GetCurrentInstanceID()) as BuildingInfo);
@@ -128,7 +128,7 @@ namespace RealPop2
             s_serviceButton.textPadding = new RectOffset(2, 2, 4, 0);
 
             // Event handler.
-            s_serviceButton.eventClick += (control, clickEvent) =>
+            s_serviceButton.eventClick += (c, p) =>
             {
                 // Select current building in the building details panel and show.
                 Open(InstanceManager.GetPrefabInfo(WorldInfoPanel.GetCurrentInstanceID()) as BuildingInfo);

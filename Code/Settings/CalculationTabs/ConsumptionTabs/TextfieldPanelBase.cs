@@ -207,7 +207,7 @@ namespace RealPop2
         protected UITextField AddTextField(UIPanel panel, float width, float posX, float posY, string tooltip = null)
         {
             UITextField textField = UITextFields.AddSmallTextField(panel, posX, posY, width);
-            textField.eventTextChanged += (control, value) => PanelUtils.IntTextFilter((UITextField)control, value);
+            textField.eventTextChanged += (c, value) => PanelUtils.IntTextFilter((UITextField)c, value);
 
             // Add tooltip.
             if (tooltip != null)

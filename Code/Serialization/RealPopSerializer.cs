@@ -14,7 +14,7 @@ namespace RealPop2
     public class RealPopSerializer : IDataContainer
     {
         /// <summary>
-        /// Serialise to savegame.
+        /// Serialize to savegame.
         /// </summary>
         /// <param name="serializer">Data serializer.</param>
         public void Serialize(DataSerializer serializer)
@@ -32,7 +32,7 @@ namespace RealPop2
         }
 
         /// <summary>
-        /// Deseralise from savegame.
+        /// Deseralize from savegame.
         /// </summary>
         /// <param name="serializer">Data serializer.</param>
         public void Deserialize(DataSerializer serializer)

@@ -92,7 +92,7 @@ namespace RealPop2
                 new LegacyPanel(childTabStrip, tab);
 
                 // Event handler for tab index change; setup the selected tab.
-                childTabStrip.eventSelectedIndexChanged += (control, index) =>
+                childTabStrip.eventSelectedIndexChanged += (c, index) =>
                 {
                     if (childTabStrip.tabs[index].objectUserData is OptionsPanelTab childTab)
                     {

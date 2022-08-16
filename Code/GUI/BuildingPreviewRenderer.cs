@@ -88,12 +88,10 @@ namespace RealPop2
         }
 
         /// <summary>
-        /// Gets or sets the mesh to be rendered.
+        /// Sets the mesh to be rendered.
         /// </summary>
         internal Mesh Mesh
         {
-            get => _mesh;
-
             set => _mesh = value;
         }
 
@@ -106,7 +104,7 @@ namespace RealPop2
         }
 
         /// <summary>
-        /// Gets or sets the preview camera rotation (degrees).
+        /// Gets or sets the preveiew camera rotation (in degrees).
         /// </summary>
         internal float CameraRotation
         {

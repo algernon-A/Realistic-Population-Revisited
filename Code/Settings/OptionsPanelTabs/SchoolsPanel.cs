@@ -46,12 +46,12 @@ namespace RealPop2
                 // Enable realistic schools checkbox.
                 UICheckBox schoolCapacityCheck = UICheckBoxes.AddPlainCheckBox(m_panel, Translations.Translate("RPR_OPT_SEN"));
                 schoolCapacityCheck.isChecked = ModSettings.EnableSchoolPop;
-                schoolCapacityCheck.eventCheckChanged += (control, isChecked) => ModSettings.EnableSchoolPop = isChecked;
+                schoolCapacityCheck.eventCheckChanged += (c, isChecked) => ModSettings.EnableSchoolPop = isChecked;
 
                 // Enable realistic schools checkbox.
                 UICheckBox schoolPropertyCheck = UICheckBoxes.AddPlainCheckBox(m_panel, Translations.Translate("RPR_OPT_SEJ"));
                 schoolPropertyCheck.isChecked = ModSettings.EnableSchoolProperties;
-                schoolPropertyCheck.eventCheckChanged += (control, isChecked) => ModSettings.EnableSchoolProperties = isChecked;
+                schoolPropertyCheck.eventCheckChanged += (c, isChecked) => ModSettings.EnableSchoolProperties = isChecked;
 
                 // School default multiplier.  Simple integer.
                 UISlider schoolMult = UISliders.AddPlainSliderWithValue(m_panel, 0f, 0f, Translations.Translate("RPR_OPT_SDM"), 1f, 5f, 0.5f, ModSettings.DefaultSchoolMult);

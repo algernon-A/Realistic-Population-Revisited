@@ -239,13 +239,6 @@ namespace RealPop2
                     _buildingSelection.Data = GenerateFastList();
                 };
 
-                // Set up panels.
-                // Left panel - list of buildings.
-                UIPanel leftPanel = AddUIComponent<UIPanel>();
-                leftPanel.width = LeftWidth;
-                leftPanel.height = PanelHeight - CheckFilterHeight;
-                leftPanel.relativePosition = new Vector2(Spacing, TitleHeight + FilterHeight + CheckFilterHeight + Spacing);
-
                 // Middle panel - building preview and edit panels.
                 UIPanel middlePanel = AddUIComponent<UIPanel>();
                 middlePanel.width = MiddleWidth;
@@ -272,14 +265,7 @@ namespace RealPop2
                 _calcsPanel.Setup();
 
                 // Building selection list.
-                _buildingSelection = UIList.AddUIList<BuildingRow>(leftPanel);
-                _buildingSelection.width = leftPanel.width;
-                _buildingSelection.height = leftPanel.height;
-                _buildingSelection.RowHeight = 30f;
-                _buildingSelection.relativePosition = Vector2.zero;
-                _buildingSelection.Data = new FastList<object>();
-                _buildingSelection.SelectedIndex = -1;
-
+                _buildingSelection = UIList.AddUIList<BuildingRow>(this, Spacing, TitleHeight + FilterHeight + CheckFilterHeight + Spacing, LeftWidth, PanelHeight - CheckFilterHeight);
                 _buildingSelection.EventSelectionChanged += (c, item) => UpdateSelectedBuilding(item as BuildingInfo);
 
                 // Set up filterBar to make sure selection filters are properly initialised before calling GenerateFastList.

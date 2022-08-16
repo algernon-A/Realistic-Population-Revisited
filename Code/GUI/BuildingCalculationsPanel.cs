@@ -222,7 +222,7 @@ namespace RealPop2
 
             // Apply button.
             _applyButton = UIButtons.AddButton(this, ApplyX, BaseSaveY, Translations.Translate("RPR_OPT_SAA"), ButtonWidth);
-            _applyButton.eventClicked += (control, clickEvent) => ApplySettings();
+            _applyButton.eventClicked += (c, p) => ApplySettings();
 
             // Dropdown event handlers.
             _popMenu.eventSelectedIndexChanged += (component, index) => UpdatePopSelection(index);
@@ -241,7 +241,7 @@ namespace RealPop2
             _multDefaultLabel = UILabels.AddLabel(_schoolPanel, RightColumnX + 21f, 40f, Translations.Translate("RPR_CAL_CAP_DEF") + " x" + ModSettings.DefaultSchoolMult, textScale: 0.8f);
 
             // Multplier checkbox event handler.
-            _multCheck.eventCheckChanged += (control, isChecked) => MultiplierCheckChanged(isChecked);
+            _multCheck.eventCheckChanged += (c, isChecked) => MultiplierCheckChanged(isChecked);
         }
 
         /// <summary>

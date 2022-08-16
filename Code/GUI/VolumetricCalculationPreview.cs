@@ -124,12 +124,7 @@ namespace RealPop2
             _messageLabel = UILabels.AddLabel(this, Margin, MessageY, string.Empty);
 
             // Floor list - attached to root panel as scrolling and interactivity can be unreliable otherwise.
-            _floorsList = UIList.AddUIList<FloorRow>(BuildingDetailsPanelManager.Panel);
-
-            // Size, appearance and behaviour.
-            _floorsList.width = this.width;
-            _floorsList.isInteractive = true;
-            _floorsList.RowHeight = 20;
+            _floorsList = UIList.AddUIList<FloorRow>(BuildingDetailsPanelManager.Panel, 0f, 0f, this.width, 20f);
             ResetFloorListPosition();
 
             // Data.
@@ -137,7 +132,7 @@ namespace RealPop2
             _floorsList.SelectedIndex = -1;
 
             // Toggle floorsList visibility on this panel's visibility change (because floorsList is attached to root panel).
-            this.eventVisibilityChanged += (control, isVisible) => _floorsList.isVisible = isVisible;
+            this.eventVisibilityChanged += (c, isVisible) => _floorsList.isVisible = isVisible;
         }
 
         /// <summary>

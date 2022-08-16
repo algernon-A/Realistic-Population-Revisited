@@ -67,7 +67,7 @@ namespace RealPop2
             UIDropDown thisSaveModeDrop = UIDropDowns.AddLabelledDropDown(m_panel, Margin * 2, currentY, Translations.Translate("RPR_DEF_LTS"));
             thisSaveModeDrop.items = modeMenuItems;
             thisSaveModeDrop.selectedIndex = (int)ThisDefaultMode;
-            thisSaveModeDrop.eventSelectedIndexChanged += (control, index) =>
+            thisSaveModeDrop.eventSelectedIndexChanged += (c, index) =>
             {
                 ThisDefaultMode = (DefaultMode)index;
                 UpdateControls();
@@ -77,7 +77,7 @@ namespace RealPop2
             UIDropDown newSaveModeDrop = UIDropDowns.AddLabelledDropDown(m_panel, Margin * 2, currentY, Translations.Translate("RPR_DEF_LAS"));
             newSaveModeDrop.items = modeMenuItems;
             newSaveModeDrop.selectedIndex = (int)NewDefaultMode;
-            newSaveModeDrop.eventSelectedIndexChanged += (control, index) =>
+            newSaveModeDrop.eventSelectedIndexChanged += (c, index) =>
             {
                 NewDefaultMode = (DefaultMode)index;
                 UpdateControls();

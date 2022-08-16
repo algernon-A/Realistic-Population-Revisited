@@ -26,12 +26,12 @@ namespace RealPop2
         // Number of columns.
         private const int NumColumns = 4;
 
+        // Labels.
+        private readonly UILabel[] _titleLabels = new UILabel[(int)LabelIndex.NumIndexes];
+        private readonly UILabel[][] _figLabels = new UILabel[NumColumns][];
+
         // Panel components.
         private UILabel messageLabel;
-
-        // Labels.
-        private UILabel[] _titleLabels = new UILabel[(int)LabelIndex.NumIndexes];
-        private UILabel[][] _figLabels = new UILabel[NumColumns][];
 
         // Label indexes.
         private enum LabelIndex : int
@@ -226,6 +226,7 @@ namespace RealPop2
                 {
                     VanillaPopMethods.ExtractorWorkplaceCount(privateAI, building.GetClassLevel(), randomizer, width, length, out jobs0, out jobs1, out jobs2, out jobs3);
                 }
+
                 calculatedCount = jobs0 + jobs1 + jobs2 + jobs3;
 
                 // Get actual applied jobs.

@@ -60,10 +60,10 @@ namespace RealPop2
                 PercentSliderText(newSlider, newSlider.value);
 
                 // Slider change event.
-                newSlider.eventValueChanged += (control, value) =>
+                newSlider.eventValueChanged += (c, value) =>
                 {
                     // Update value label.
-                    PercentSliderText(control, value);
+                    PercentSliderText(c, value);
 
                     // Update setting.
                     HandleCrimeTranspiler.CrimeMultiplier = value;
@@ -74,11 +74,11 @@ namespace RealPop2
         /// <summary>
         /// Updates the displayed percentage value on a multiplier slider.
         /// </summary>
-        /// <param name="control">Calling component.</param>
+        /// <param name="c">Calling component.</param>
         /// <param name="value">New value.</param>
-        private void PercentSliderText(UIComponent control, float value)
+        private void PercentSliderText(UIComponent c, float value)
         {
-            if (control?.parent?.Find<UILabel>("ValueLabel") is UILabel valueLabel)
+            if (c?.parent?.Find<UILabel>("ValueLabel") is UILabel valueLabel)
             {
                 decimal decimalNumber = new decimal(Mathf.RoundToInt(value));
                 valueLabel.text = "x" + decimal.Divide(decimalNumber, 100).ToString("0.00");

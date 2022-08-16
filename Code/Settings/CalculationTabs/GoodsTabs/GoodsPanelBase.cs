@@ -148,7 +148,6 @@ namespace RealPop2
 
             for (int i = 0; i < SubServiceNames.Length; ++i)
             {
-
                 // Row icon and label.
                 PanelUtils.RowHeaderIcon(panel, ref currentY, SubServiceNames[i], IconNames[i], AtlasNames[i]);
 
