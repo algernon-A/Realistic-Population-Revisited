@@ -180,20 +180,12 @@ namespace RealPop2
                 relativePosition = new Vector2(Mathf.Floor((GetUIView().fixedWidth - width) / 2), Mathf.Floor((GetUIView().fixedHeight - height) / 2));
                 backgroundSprite = "UnlockingPanel2";
 
-                // Titlebar.
-                width = parent.width;
-                height = BuildingDetailsPanel.TitleHeight;
-                isVisible = true;
-                canFocus = true;
-                isInteractive = true;
-                relativePosition = Vector2.zero;
-
                 // Make it draggable.
                 UIDragHandle dragHandle = AddUIComponent<UIDragHandle>();
                 dragHandle.width = width - 50;
                 dragHandle.height = height;
                 dragHandle.relativePosition = Vector2.zero;
-                dragHandle.target = parent;
+                dragHandle.target = this;
 
                 // Decorative icon (top-left).
                 UISprite iconSprite = AddUIComponent<UISprite>();
@@ -224,21 +216,6 @@ namespace RealPop2
                 _filterBar.height = FilterHeight;
                 _filterBar.relativePosition = new Vector2(Spacing, TitleHeight);
 
-                _filterBar.EventFilteringChanged += (c, i) =>
-                {
-                    if (i == -1)
-                    {
-                        return;
-                    }
-
-                    int listCount = _buildingSelection.Data.m_size;
-                    float position = _buildingSelection.CurrentPosition;
-
-                    _buildingSelection.SelectedIndex = -1;
-
-                    _buildingSelection.Data = GenerateFastList();
-                };
-
                 // Middle panel - building preview and edit panels.
                 UIPanel middlePanel = AddUIComponent<UIPanel>();
                 middlePanel.width = MiddleWidth;
@@ -265,11 +242,26 @@ namespace RealPop2
                 _calcsPanel.Setup();
 
                 // Building selection list.
-                _buildingSelection = UIList.AddUIList<BuildingRow>(this, Spacing, TitleHeight + FilterHeight + CheckFilterHeight + Spacing, LeftWidth, PanelHeight - CheckFilterHeight);
+                _buildingSelection = UIList.AddUIList<BuildingRow>(this, Spacing, TitleHeight + FilterHeight + CheckFilterHeight + Spacing, LeftWidth, PanelHeight - CheckFilterHeight, BuildingRow.CustomRowHeight);
                 _buildingSelection.EventSelectionChanged += (c, item) => UpdateSelectedBuilding(item as BuildingInfo);
 
                 // Set up filterBar to make sure selection filters are properly initialised before calling GenerateFastList.
                 _filterBar.Setup();
+
+                _filterBar.EventFilteringChanged += (c, i) =>
+                {
+                    if (i == -1)
+                    {
+                        return;
+                    }
+
+                    int listCount = _buildingSelection.Data.m_size;
+                    float position = _buildingSelection.CurrentPosition;
+
+                    _buildingSelection.SelectedIndex = -1;
+
+                    _buildingSelection.Data = GenerateFastList();
+                };
 
                 // Populate the list.
                 _buildingSelection.Data = GenerateFastList();

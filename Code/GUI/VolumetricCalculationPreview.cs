@@ -127,10 +127,6 @@ namespace RealPop2
             _floorsList = UIList.AddUIList<FloorRow>(BuildingDetailsPanelManager.Panel, 0f, 0f, this.width, 20f);
             ResetFloorListPosition();
 
-            // Data.
-            _floorsList.Data = new FastList<object>();
-            _floorsList.SelectedIndex = -1;
-
             // Toggle floorsList visibility on this panel's visibility change (because floorsList is attached to root panel).
             this.eventVisibilityChanged += (c, isVisible) => _floorsList.isVisible = isVisible;
         }
@@ -184,7 +180,7 @@ namespace RealPop2
         internal void CalculateVolumetric(BuildingInfo building, VolumetricPopPack.LevelData levelData, FloorDataPack floorData, SchoolDataPack schoolData, float multiplier)
         {
             // Safety first!
-            if (building == null)
+            if (building == null || floorData == null)
             {
                 return;
             }
@@ -485,8 +481,8 @@ namespace RealPop2
         /// <returns>New 'overridden' UILabel..</returns>
         private UILabel OverrideLabel(UIComponent parentLabel)
         {
-            UILabel thisLabel = UILabels.AddLabel(this, 0f - Margin, 0f, Translations.Translate("RPR_CAL_OVR"), textScale: 0.6f);
-            thisLabel.relativePosition = new Vector2(parentLabel.relativePosition.x - thisLabel.width - Margin, parentLabel.relativePosition.y + ((parentLabel.height - thisLabel.height) / 2f));
+            UILabel thisLabel = UILabels.AddLabel(parentLabel, 0f, 0f, Translations.Translate("RPR_CAL_OVR"), textScale: 0.6f);
+            thisLabel.relativePosition = new Vector2(-thisLabel.width - Margin, (parentLabel.height - thisLabel.height) / 2f);
             thisLabel.Hide();
             return thisLabel;
         }

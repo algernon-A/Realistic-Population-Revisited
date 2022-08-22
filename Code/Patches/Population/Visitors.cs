@@ -206,6 +206,17 @@ namespace RealPop2
 
                     break;
 
+                case ItemClass.SubService.CommercialLeisure:
+                case ItemClass.SubService.CommercialTourist:
+                    multiplier = 2.5f;
+                    break;
+
+                case ItemClass.SubService.CommercialEco:
+                    multiplier = 1f;
+                    break;
+
+                // Default is commercial high.
+                default:
                 case ItemClass.SubService.CommercialHigh:
                     switch (level)
                     {
@@ -220,16 +231,6 @@ namespace RealPop2
                             break;
                     }
 
-                    break;
-
-                case ItemClass.SubService.CommercialLeisure:
-                case ItemClass.SubService.CommercialTourist:
-                    multiplier = 2.5f;
-                    break;
-
-                default:
-                    // Commercial eco.
-                    multiplier = 1f;
                     break;
             }
 
@@ -385,17 +386,20 @@ namespace RealPop2
             {
                 case ItemClass.SubService.CommercialLow:
                     return (int)SubServiceIndex.CommercialLow;
-                case ItemClass.SubService.CommercialHigh:
-                    return (int)SubServiceIndex.CommercialHigh;
+
                 case ItemClass.SubService.CommercialLeisure:
                     return (int)SubServiceIndex.CommercialLeisure;
+
                 case ItemClass.SubService.CommercialTourist:
                     return (int)SubServiceIndex.CommercialTourist;
+
                 case ItemClass.SubService.CommercialEco:
                     return (int)SubServiceIndex.CommercialEco;
+
+                // Default is commercial high.
                 default:
-                    Logging.Error("invalid subservice ", subService, " passed to RealisticVisitplaceCount.GetIndex");
-                    return (int)SubServiceIndex.CommercialLow;
+                case ItemClass.SubService.CommercialHigh:
+                    return (int)SubServiceIndex.CommercialHigh;
             }
         }
     }

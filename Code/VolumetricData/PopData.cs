@@ -820,14 +820,16 @@ namespace RealPop2
                             // Default is volumetric.
                             switch (subService)
                             {
-                                case ItemClass.SubService.ResidentialHigh:
-                                    defaultName = "reshighUS";
+                                // Default is high residential.
+                                case ItemClass.SubService.ResidentialLow:
+                                case ItemClass.SubService.ResidentialLowEco:
+                                    defaultName = "reslow";
                                     break;
                                 case ItemClass.SubService.ResidentialHighEco:
                                     defaultName = "resEUmod";
                                     break;
                                 default:
-                                    defaultName = "reslow";
+                                    defaultName = "reshighUS";
                                     break;
                             }
 
@@ -888,17 +890,22 @@ namespace RealPop2
                             // Default is volumetric.
                             switch (subService)
                             {
-                                case ItemClass.SubService.CommercialHigh:
+                                case ItemClass.SubService.CommercialLow:
+                                case ItemClass.SubService.CommercialEco:
                                     defaultName = "comUS";
                                     break;
+
                                 case ItemClass.SubService.CommercialTourist:
                                     defaultName = "hotel";
                                     break;
+
                                 case ItemClass.SubService.CommercialLeisure:
                                     defaultName = "restaurant";
                                     break;
+
                                 default:
-                                    // Default is low-density commercial.
+                                case ItemClass.SubService.CommercialHigh:
+                                    // Default is high-density commercial.
                                     defaultName = "comUS";
                                     break;
                             }
@@ -931,13 +938,16 @@ namespace RealPop2
             List<PopDataPack> list = new List<PopDataPack>();
 
             // Iterate through each floor pack and see if it applies.
-            foreach (PopDataPack pack in CalcPacks)
+            for (int i = 0; i < CalcPacks.Count; i++)
             {
-                // Check for matching service.
-                if (pack.Service == service || pack.Service == ItemClass.Service.None)
+                if (CalcPacks[i] is PopDataPack pack)
                 {
-                    // Service matches; add pack.
-                    list.Add(pack);
+                    // Check for matching service.
+                    if (pack.Service == service || pack.Service == ItemClass.Service.None)
+                    {
+                        // Service matches; add pack.
+                        list.Add(pack);
+                    }
                 }
             }
 

@@ -176,12 +176,17 @@ namespace RealPop2
         /// <returns>Datastore array.</returns>
         internal static int[] GetResidentialArray(BuildingInfo item, int level)
         {
-            int[][] array = DataStore.residentialLow;
+            // Default is high-density residential.
+            int[][] array = DataStore.residentialHigh;
 
             try
             {
                 switch (item.m_class.m_subService)
                 {
+                    case ItemClass.SubService.ResidentialLow:
+                        array = DataStore.residentialLow;
+                        break;
+
                     case ItemClass.SubService.ResidentialHighEco:
                         array = DataStore.resEcoHigh;
                         break;
@@ -190,12 +195,8 @@ namespace RealPop2
                         array = DataStore.resEcoLow;
                         break;
 
-                    case ItemClass.SubService.ResidentialHigh:
-                        array = DataStore.residentialHigh;
-                        break;
-
-                    case ItemClass.SubService.ResidentialLow:
                     default:
+                    case ItemClass.SubService.ResidentialHigh:
                         break;
                 }
 
@@ -215,6 +216,7 @@ namespace RealPop2
         /// <returns>Datastore array.</returns>
         internal static int[] GetIndustryArray(BuildingInfo item, int level)
         {
+            // Default is generic industry.
             int tempLevel;
             int[][] array = DataStore.industry;
 
@@ -264,6 +266,7 @@ namespace RealPop2
         /// <returns>Datastore array.</returns>
         internal static int[] GetExtractorArray(BuildingInfo item)
         {
+            // Default is extraction.
             int[][] array = DataStore.industry;
 
             try
@@ -308,12 +311,17 @@ namespace RealPop2
         /// <returns>Datastore array.</returns>
         internal static int[] GetCommercialArray(BuildingInfo item, int level)
         {
-            int[][] array = DataStore.commercialLow;
+            // Default is high-density commercial.
+            int[][] array = DataStore.commercialHigh;
 
             try
             {
                 switch (item.m_class.m_subService)
                 {
+                    case ItemClass.SubService.CommercialLow:
+                        array = DataStore.commercialLow;
+                        break;
+
                     case ItemClass.SubService.CommercialLeisure:
                         array = DataStore.commercialLeisure;
                         break;
@@ -326,12 +334,8 @@ namespace RealPop2
                         array = DataStore.commercialEco;
                         break;
 
-                    case ItemClass.SubService.CommercialHigh:
-                        array = DataStore.commercialHigh;
-                        break;
-
-                    case ItemClass.SubService.CommercialLow:
                     default:
+                    case ItemClass.SubService.CommercialHigh:
                         break;
                 }
 
@@ -351,6 +355,7 @@ namespace RealPop2
         /// <returns>Datastore array.</returns>
         internal static int[] GetOfficeArray(BuildingInfo item, int level)
         {
+            // Default is generic office.
             int[][] array = DataStore.office;
 
             try

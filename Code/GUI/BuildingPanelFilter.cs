@@ -262,6 +262,8 @@ namespace RealPop2
         /// </summary>
         internal void Setup()
         {
+            m_AutoLayout = false;
+
             // Catgegory buttons.
             _categoryToggles = new UICheckBox[(int)BuildingCategories.NumCategories];
 

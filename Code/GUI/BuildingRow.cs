@@ -15,11 +15,21 @@ namespace RealPop2
     /// </summary>
     public class BuildingRow : UIListRow
     {
+        /// <summary>
+        /// Row height.
+        /// </summary>
+        internal const float CustomRowHeight = 30f;
+
         // Panel components.
         private UILabel _buildingName;
         private BuildingInfo _thisBuilding;
         private UISprite _hasOverride;
         private UISprite _hasNonDefault;
+
+        /// <summary>
+        /// Gets the height for this row.
+        /// </summary>
+        public override float RowHeight => CustomRowHeight;
 
         /// <summary>
         /// Generates and displays a list row.
@@ -31,16 +41,7 @@ namespace RealPop2
             // Perform initial setup for new rows.
             if (_buildingName == null)
             {
-                isVisible = true;
-                canFocus = true;
-                isInteractive = true;
-                width = parent.width;
-                height = RowHeight;
-
-                _buildingName = AddUIComponent<UILabel>();
-                _buildingName.anchor = UIAnchorStyle.Left | UIAnchorStyle.CenterVertical;
-                _buildingName.relativePosition = new Vector2(RowHeight / 2f, 5f);
-                _buildingName.width = 200;
+                _buildingName = AddLabel(Margin, 350f, 1.0f);
 
                 // Checkboxes to indicate which items have custom settings.
                 _hasOverride = AddSettingsCheck(BuildingPanelFilter.HasOverrideX, "RPR_FTR_OVR");

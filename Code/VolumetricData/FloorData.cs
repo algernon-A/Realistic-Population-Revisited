@@ -16,7 +16,7 @@ namespace RealPop2
         private static FloorData s_instance;
 
         // Custom overrides.
-        private Dictionary<string, FloorDataPack> _overrides;
+        private readonly Dictionary<string, FloorDataPack> _overrides;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FloorData"/> class.
@@ -238,12 +238,14 @@ namespace RealPop2
                 case ItemClass.Service.Residential:
                     switch (subService)
                     {
+                        case ItemClass.SubService.ResidentialLow:
+                        case ItemClass.SubService.ResidentialLowEco:
+                            defaultName = "house";
+                            break;
+                        default:
                         case ItemClass.SubService.ResidentialHigh:
                         case ItemClass.SubService.ResidentialHighEco:
                             defaultName = "generic";
-                            break;
-                        default:
-                            defaultName = "house";
                             break;
                     }
 

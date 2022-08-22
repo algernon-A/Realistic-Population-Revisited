@@ -144,8 +144,6 @@ namespace RealPop2
         /// <param name="building">New building prefab selection.</param>
         public void SelectionChanged(BuildingInfo building)
         {
-            string buildingName = building.name;
-
             // Hide message.
             _messageLabel.isVisible = false;
 
@@ -159,7 +157,7 @@ namespace RealPop2
             _floorCheck.isChecked = false;
 
             // Disable buttons and exit if no valid building is selected.
-            if (building == null || building.name == null)
+            if (building?.name == null)
             {
                 _saveButton.Disable();
                 _deleteButton.Disable();
@@ -184,7 +182,7 @@ namespace RealPop2
             }
 
             // Get any population override.
-            int homesJobs = PopData.Instance.GetOverride(buildingName);
+            int homesJobs = PopData.Instance.GetOverride(building.name);
 
             // If custom settings were found (return value was non-zero), then display the result, rename the save button, and enable the delete button.
             if (homesJobs != 0)
@@ -200,7 +198,7 @@ namespace RealPop2
             else
             {
                 // No population override - check for custom floor override.
-                FloorDataPack overridePack = FloorData.Instance.HasOverride(buildingName);
+                FloorDataPack overridePack = FloorData.Instance.HasOverride(building.name);
                 if (overridePack != null)
                 {
                     // Valid custom settings found; display the result, rename the save button, and enable the delete button.

@@ -38,7 +38,7 @@ namespace RealPop2
 
             // Hotkey control.
             OptionsKeymapping keyMapping = panel.gameObject.AddComponent<OptionsKeymapping>();
-            keyMapping.Label = Translations.Translate("KEY_KEY");
+            keyMapping.Label = Translations.Translate("RPR_OPT_KEY");
             keyMapping.Binding = HotkeyThreading.HotKey;
 
             UICheckBox usMeasureCheck = UICheckBoxes.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_MEA"));

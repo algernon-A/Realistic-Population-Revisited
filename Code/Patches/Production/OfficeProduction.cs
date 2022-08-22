@@ -86,13 +86,13 @@ namespace RealPop2
         {
             switch (subService)
             {
-                case ItemClass.SubService.OfficeGeneric:
-                    return genericOfficeProdMult;
                 case ItemClass.SubService.OfficeHightech:
                     return highTechOfficeProdMult;
+
+                // Default is generic office.
                 default:
-                    Logging.Error("invalid subservice ", subService, " passed to office GetProdMult");
-                    return 0;
+                case ItemClass.SubService.OfficeGeneric:
+                    return genericOfficeProdMult;
             }
         }
 

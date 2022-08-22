@@ -7,7 +7,6 @@ namespace RealPop2
 {
     using AlgernonCommons.UI;
     using ColossalFramework.UI;
-    using UnityEngine;
 
     /// <summary>
     /// UIListRow for building calculated floor display.
@@ -16,7 +15,6 @@ namespace RealPop2
     {
         // Panel components.
         private UILabel _floorName;
-        private string _floorText;
 
         /// <summary>
         /// Generates and displays a list row.
@@ -28,22 +26,14 @@ namespace RealPop2
             // Perform initial setup for new rows.
             if (_floorName == null)
             {
-                isVisible = true;
-                canFocus = true;
-                isInteractive = true;
-                width = parent.width;
-                height = RowHeight;
-
-                _floorName = AddUIComponent<UILabel>();
-                _floorName.relativePosition = new Vector2(10f, 5f);
-                _floorName.width = 200;
-                _floorName.textScale = 0.9f;
+                _floorName = AddLabel(Margin, 200f, 0.9f);
             }
 
-            // Set selected building.
-            _floorText = data as string;
-            _floorName.text = _floorText;
-
+            if (data is string text)
+            {
+                _floorName.text = text;
+            }
+            
             // Set initial background as deselected state.
             Deselect(rowIndex);
         }
