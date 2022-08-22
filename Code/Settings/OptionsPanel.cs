@@ -9,9 +9,9 @@ namespace RealPop2
     using ColossalFramework.UI;
 
     /// <summary>
-    /// Class to handle the mod settings options panel.
+    /// The mod's settings options panel.
     /// </summary>
-    internal class OptionsPanel : UIPanel
+    public class OptionsPanel : UIPanel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OptionsPanel"/> class.
