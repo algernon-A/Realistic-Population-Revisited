@@ -54,8 +54,8 @@ namespace RealPop2
 
                     s_panel = s_uiGameObject.AddComponent<BuildingDetailsPanel>();
 
-                    // Set up panel.
-                    Panel.Setup();
+                    // Create panel close event handler.
+                    s_panel.EventClose += DestroyPanel;
                 }
 
                 // Select appropriate building if there's a preselection.
@@ -72,8 +72,8 @@ namespace RealPop2
                     }
 
                     // Restore previous building selection list postion and selected item (specifically in that order to ensure correct item is selected).
-                    Panel.SetListPosition(s_lastIndex, s_lastPostion);
-                    Panel.SelectBuilding(s_lastSelection);
+                    s_panel.SetListPosition(s_lastIndex, s_lastPostion);
+                    s_panel.SelectBuilding(s_lastSelection);
                 }
 
                 Panel.Show();
@@ -88,11 +88,11 @@ namespace RealPop2
         /// <summary>
         /// Closes the panel by destroying the object (removing any ongoing UI overhead).
         /// </summary>
-        internal static void Close()
+        internal static void DestroyPanel()
         {
             // Save current selection for next time.
-            s_lastSelection = Panel?.CurrentSelection;
-            s_lastFilter = Panel?.GetFilter();
+            s_lastSelection = s_panel?.CurrentSelection;
+            s_lastFilter = s_panel?.GetFilter();
             Panel?.GetListPosition(out s_lastIndex, out s_lastPostion);
 
             // Destroy objects and nullify for GC.

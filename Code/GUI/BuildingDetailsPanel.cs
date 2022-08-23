@@ -5,10 +5,8 @@
 
 namespace RealPop2
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using AlgernonCommons;
     using AlgernonCommons.UI;
     using ColossalFramework;
     using ColossalFramework.UI;
@@ -17,7 +15,7 @@ namespace RealPop2
     /// <summary>
     /// Base class of the building details screen.  Based (via AJ3D's Ploppable RICO) ultimately on SamsamTS's Building Themes panel; many thanks to him for his work.
     /// </summary>
-    public class BuildingDetailsPanel : UIPanel
+    public class BuildingDetailsPanel : StandalonePanel
     {
         /// <summary>
         /// Title height.
@@ -39,22 +37,103 @@ namespace RealPop2
         /// </summary>
         internal const float BottomMargin = 10f;
 
+        /// <summary>
+        /// Panel width.
+        /// </summary>
+        internal const float CalculatedWidth = Margin + FilterWidth + Margin;
+
+        /// <summary>
+        /// Filter bar width.
+        /// </summary>
+        internal const float FilterWidth = LeftWidth + Margin + MiddleWidth + Margin + RightWidth;
+
+        /// <summary>
+        /// Middle sub-panel height.
+        /// </summary>
+        internal const float MiddlePanelHeight = InternalPanelHeight / 2;
+
+        /// <summary>
+        /// Filter bar height.
+        /// </summary>
+        internal const float FilterHeight = 40f;
+
+        /// <summary>
+        /// Component panel height.
+        /// </summary>
+        internal const float InternalPanelHeight = ListHeight + CheckFilterHeight;
+
         // Layout constants - private.
         private const float LeftWidth = 430f;
-        private const float FilterHeight = 40f;
-        private const float PanelHeight = 550f;
-        private const float Spacing = 5f;
+        private const float InternalPanelY = TitleHeight + FilterHeight + Margin;
+        private const float MiddlePanelX = Margin + LeftWidth + Margin;
         private const float CheckFilterHeight = 30f;
+        private const float ListHeight = BuildingRow.CustomRowHeight * 18f;
 
         // Panel components.
-        private BuildingPanelFilter _filterBar;
-        private UIList _buildingSelection;
-        private BuildingPreviewPanel _previewPanel;
-        private BuildingEditPanel _editPanel;
-        private BuildingCalculationsPanel _calcsPanel;
+        private readonly BuildingPanelFilter _filterBar;
+        private readonly UIList _buildingSelection;
+        private readonly BuildingPreviewPanel _previewPanel;
+        private readonly BuildingEditPanel _editPanel;
+        private readonly BuildingCalculationsPanel _calcsPanel;
 
         // Current selections.
         private BuildingInfo _currentSelection;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BuildingDetailsPanel"/> class.
+        /// </summary>
+        internal BuildingDetailsPanel()
+        {
+            // Decorative icon (top-left).
+            SetIcon(UITextures.InGameAtlas, "ToolbarIconZoomOutCity");
+
+            // Filter.
+            _filterBar = AddUIComponent<BuildingPanelFilter>();
+            _filterBar.relativePosition = new Vector2(Margin, TitleHeight);
+
+            // Building preview.
+            _previewPanel = this.AddUIComponent<BuildingPreviewPanel>();
+            _previewPanel.relativePosition = new Vector2(MiddlePanelX, InternalPanelY);
+
+            _editPanel = this.AddUIComponent<BuildingEditPanel>();
+            _editPanel.relativePosition = new Vector2(MiddlePanelX, InternalPanelY + MiddlePanelHeight);
+
+            // Right panel - mod calculations.
+            _calcsPanel = this.AddUIComponent<BuildingCalculationsPanel>();
+            _calcsPanel.relativePosition = new Vector2(LeftWidth + MiddleWidth + (Margin * 3), TitleHeight + FilterHeight + Margin);
+
+            // Building selection list.
+            _buildingSelection = UIList.AddUIList<BuildingRow>(this, Margin, TitleHeight + FilterHeight + CheckFilterHeight + Margin, LeftWidth, InternalPanelHeight - CheckFilterHeight, BuildingRow.CustomRowHeight);
+            _buildingSelection.EventSelectionChanged += (c, item) => UpdateSelectedBuilding(item as BuildingInfo);
+
+            _filterBar.EventFilteringChanged += (c, i) =>
+            {
+                if (i == -1)
+                {
+                    return;
+                }
+
+                int listCount = _buildingSelection.Data.m_size;
+                float position = _buildingSelection.CurrentPosition;
+
+                _buildingSelection.SelectedIndex = -1;
+
+                _buildingSelection.Data = GenerateFastList();
+            };
+
+            // Populate the list.
+            _buildingSelection.Data = GenerateFastList();
+        }
+
+        /// <summary>
+        /// Gets the panel width.
+        /// </summary>
+        public override float PanelWidth => CalculatedWidth;
+
+        /// <summary>
+        /// Gets the panel height.
+        /// </summary>
+        public override float PanelHeight => InternalPanelY + InternalPanelHeight + BottomMargin;
 
         /// <summary>
         /// Gets the current building selection.
@@ -82,6 +161,11 @@ namespace RealPop2
                 _calcsPanel.OverrideFloors = value;
             }
         }
+
+        /// <summary>
+        /// Gets the panel's title.
+        /// </summary>
+        protected override string PanelTitle => Mod.Instance.BaseName;
 
         /// <summary>
         /// Returns the name of the building prefab cleaned up for display.
@@ -162,114 +246,6 @@ namespace RealPop2
 
             // Update mod calculations and edit panels.
             UpdateSelectedBuilding(_currentSelection);
-        }
-
-        /// <summary>
-        /// Create the building editor panel; we no longer use Start() as that's not sufficiently reliable (race conditions), and is no longer needed, with the new create/destroy process.
-        /// </summary>
-        internal void Setup()
-        {
-            try
-            {
-                // Basic setup.
-                isVisible = false;
-                canFocus = true;
-                isInteractive = true;
-                width = LeftWidth + MiddleWidth + RightWidth + (Spacing * 4) + Spacing;
-                height = PanelHeight + TitleHeight + FilterHeight + (Spacing * 2) + BottomMargin;
-                relativePosition = new Vector2(Mathf.Floor((GetUIView().fixedWidth - width) / 2), Mathf.Floor((GetUIView().fixedHeight - height) / 2));
-                backgroundSprite = "UnlockingPanel2";
-
-                // Make it draggable.
-                UIDragHandle dragHandle = AddUIComponent<UIDragHandle>();
-                dragHandle.width = width - 50;
-                dragHandle.height = height;
-                dragHandle.relativePosition = Vector2.zero;
-                dragHandle.target = this;
-
-                // Decorative icon (top-left).
-                UISprite iconSprite = AddUIComponent<UISprite>();
-                iconSprite.relativePosition = new Vector2(10, 5);
-                iconSprite.spriteName = "ToolbarIconZoomOutCity";
-                UISprites.ResizeSprite(iconSprite, 30f, 30f);
-                iconSprite.relativePosition = new Vector2(10, 5);
-
-                // Titlebar label.
-                UILabel titleLabel = AddUIComponent<UILabel>();
-                titleLabel.relativePosition = new Vector2(50, 13);
-                titleLabel.text = Mod.Instance.BaseName;
-
-                // Close button.
-                UIButton closeButton = AddUIComponent<UIButton>();
-                closeButton.relativePosition = new Vector2(width - 35, 2);
-                closeButton.normalBgSprite = "buttonclose";
-                closeButton.hoveredBgSprite = "buttonclosehover";
-                closeButton.pressedBgSprite = "buttonclosepressed";
-                closeButton.eventClick += (component, param) =>
-                {
-                    BuildingDetailsPanelManager.Close();
-                };
-
-                // Filter.
-                _filterBar = AddUIComponent<BuildingPanelFilter>();
-                _filterBar.width = width - (Spacing * 2);
-                _filterBar.height = FilterHeight;
-                _filterBar.relativePosition = new Vector2(Spacing, TitleHeight);
-
-                // Middle panel - building preview and edit panels.
-                UIPanel middlePanel = AddUIComponent<UIPanel>();
-                middlePanel.width = MiddleWidth;
-                middlePanel.height = PanelHeight;
-                middlePanel.relativePosition = new Vector2(LeftWidth + (Spacing * 2), TitleHeight + FilterHeight + Spacing);
-
-                _previewPanel = middlePanel.AddUIComponent<BuildingPreviewPanel>();
-                _previewPanel.width = middlePanel.width;
-                _previewPanel.height = (PanelHeight - Spacing) / 2;
-                _previewPanel.relativePosition = Vector2.zero;
-                _previewPanel.Setup();
-
-                _editPanel = middlePanel.AddUIComponent<BuildingEditPanel>();
-                _editPanel.width = middlePanel.width;
-                _editPanel.height = (PanelHeight - Spacing) / 2;
-                _editPanel.relativePosition = new Vector2(0, _previewPanel.height + Spacing);
-                _editPanel.Setup();
-
-                // Right panel - mod calculations.
-                _calcsPanel = this.AddUIComponent<BuildingCalculationsPanel>();
-                _calcsPanel.width = RightWidth;
-                _calcsPanel.height = PanelHeight;
-                _calcsPanel.relativePosition = new Vector2(LeftWidth + MiddleWidth + (Spacing * 3), TitleHeight + FilterHeight + Spacing);
-                _calcsPanel.Setup();
-
-                // Building selection list.
-                _buildingSelection = UIList.AddUIList<BuildingRow>(this, Spacing, TitleHeight + FilterHeight + CheckFilterHeight + Spacing, LeftWidth, PanelHeight - CheckFilterHeight, BuildingRow.CustomRowHeight);
-                _buildingSelection.EventSelectionChanged += (c, item) => UpdateSelectedBuilding(item as BuildingInfo);
-
-                // Set up filterBar to make sure selection filters are properly initialised before calling GenerateFastList.
-                _filterBar.Setup();
-
-                _filterBar.EventFilteringChanged += (c, i) =>
-                {
-                    if (i == -1)
-                    {
-                        return;
-                    }
-
-                    int listCount = _buildingSelection.Data.m_size;
-                    float position = _buildingSelection.CurrentPosition;
-
-                    _buildingSelection.SelectedIndex = -1;
-
-                    _buildingSelection.Data = GenerateFastList();
-                };
-
-                // Populate the list.
-                _buildingSelection.Data = GenerateFastList();
-            }
-            catch (Exception e)
-            {
-                Logging.LogException(e, "exception setting up building panel");
-            }
         }
 
         /// <summary>

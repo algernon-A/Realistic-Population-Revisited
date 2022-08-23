@@ -93,22 +93,6 @@ namespace RealPop2
             "ToolbarIconEducation",
         };
 
-        // Icon sprite disabled names.
-        private readonly string[] _disabledSpriteNames =
-        {
-            "ZoningResidentialLowDisabled",
-            "ZoningResidentialHighDisabled",
-            "ZoningCommercialLowDisabled",
-            "ZoningCommercialHighDisabled",
-            "ZoningOfficeDisabled",
-            "ZoningIndustrialDisabled",
-            "IconPolicyTourist",
-            "IconPolicyLeisure",
-            "IconPolicyOrganic",
-            "IconPolicySelfsufficient",
-            "ToolbarIconEducationDisabled",
-        };
-
         // Icon sprite tooltips.
         private readonly string[] _tooltips =
         {
@@ -134,10 +118,130 @@ namespace RealPop2
         };
 
         // Panel components.
-        private UICheckBox[] _categoryToggles;
-        private UICheckBox[] _settingsFilter;
-        private UIButton _allCategories;
-        private UITextField _nameFilter;
+        private readonly UICheckBox[] _categoryToggles;
+        private readonly UICheckBox[] _settingsFilter;
+        private readonly UIButton _allCategories;
+        private readonly UITextField _nameFilter;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BuildingPanelFilter"/> class.
+        /// </summary>
+        internal BuildingPanelFilter()
+        {
+            m_AutoLayout = false;
+            width = BuildingDetailsPanel.FilterWidth;
+            height = BuildingDetailsPanel.FilterHeight;
+
+            // Catgegory buttons.
+            _categoryToggles = new UICheckBox[(int)BuildingCategories.NumCategories];
+
+            for (int i = 0; i < (int)BuildingCategories.NumCategories; i++)
+            {
+                // Basic setup.
+                _categoryToggles[i] = UICheckBoxes.AddIconToggle(this, 40 * i, 0f, _atlases[i], _spriteNames[i], _spriteNames[i] + "Disabled", tooltip: Translations.Translate(_tooltips[i]));
+                _categoryToggles[i].isChecked = true;
+                _categoryToggles[i].readOnly = true;
+
+                // Single click event handler - toggle state of this button.
+                _categoryToggles[i].eventClick += (c, p) =>
+                {
+                    // If either shift or control is NOT held down, deselect all other toggles.
+                    if (!(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
+                    {
+                        for (int j = 0; j < (int)BuildingCategories.NumCategories; j++)
+                        {
+                            _categoryToggles[j].isChecked = false;
+                        }
+                    }
+
+                    // Select this toggle.
+                    ((UICheckBox)c).isChecked = true;
+
+                    // Trigger an update.
+                    EventFilteringChanged(this, 0);
+                };
+            }
+
+            // 'All categories' button.
+            _allCategories = UIButtons.AddButton(this, 445f, 0f, Translations.Translate("RPR_CAT_ALL"), 200f);
+
+            // All categories event handler.
+            _allCategories.eventClick += (c, p) =>
+            {
+                // Select all category toggles.
+                for (int i = 0; i < (int)BuildingCategories.NumCategories; i++)
+                {
+                    _categoryToggles[i].isChecked = true;
+                }
+
+                // Trigger an update.
+                EventFilteringChanged(this, 0);
+            };
+
+            // Name filter.
+            _nameFilter = UITextFields.AddBigLabelledTextField(this, width - 200f, 0, Translations.Translate("RPR_FIL_NAME"));
+
+            // Name filter event handling - update on any change.
+            _nameFilter.eventTextChanged += (c, text) => EventFilteringChanged(this, 5);
+            _nameFilter.eventTextSubmitted += (c, text) => EventFilteringChanged(this, 5);
+
+            // Settings filter label.
+            UILabel filterLabel = SettingsFilterLabel(55f, Translations.Translate("RPR_FIL_SET"));
+
+            // Settings filter checkboxes.
+            _settingsFilter = new UICheckBox[(int)FilterCategories.NumCategories];
+            for (int i = 0; i < (int)FilterCategories.NumCategories; ++i)
+            {
+                _settingsFilter[i] = this.AddUIComponent<UICheckBox>();
+                _settingsFilter[i].width = 20f;
+                _settingsFilter[i].height = 20f;
+                _settingsFilter[i].clipChildren = true;
+                _settingsFilter[i].relativePosition = new Vector2(AnyX + (FilterSpacing * i), 45f);
+
+                // Checkbox sprites.
+                UISprite sprite = _settingsFilter[i].AddUIComponent<UISprite>();
+                sprite.spriteName = "ToggleBase";
+                sprite.size = new Vector2(20f, 20f);
+                sprite.relativePosition = Vector2.zero;
+
+                _settingsFilter[i].checkedBoxObject = sprite.AddUIComponent<UISprite>();
+                ((UISprite)_settingsFilter[i].checkedBoxObject).spriteName = "ToggleBaseFocused";
+                _settingsFilter[i].checkedBoxObject.size = new Vector2(20f, 20f);
+                _settingsFilter[i].checkedBoxObject.relativePosition = Vector2.zero;
+
+                // Tooltip.
+                _settingsFilter[i].tooltip = Translations.Translate(_filterTooltipKeys[i]);
+
+                // Special event handling for 'any' checkbox.
+                if (i == (int)FilterCategories.Any)
+                {
+                    _settingsFilter[i].eventCheckChanged += (c, isChecked) =>
+                    {
+                        if (isChecked)
+                        {
+                            // Unselect all other checkboxes if 'any' is checked.
+                            _settingsFilter[(int)FilterCategories.HasOverride].isChecked = false;
+                            _settingsFilter[(int)FilterCategories.HasNonDefault].isChecked = false;
+                        }
+                    };
+                }
+                else
+                {
+                    // Non-'any' checkboxes.
+                    // Unselect 'any' checkbox if any other is checked.
+                    _settingsFilter[i].eventCheckChanged += (c, isChecked) =>
+                    {
+                        if (isChecked)
+                        {
+                            _settingsFilter[0].isChecked = false;
+                        }
+                    };
+                }
+
+                // Trigger filtering changed event if any checkbox is changed.
+                _settingsFilter[i].eventCheckChanged += (c, isChecked) => { EventFilteringChanged(this, 0); };
+            }
+        }
 
         /// <summary>
         /// Event generated when filter settings change.
@@ -255,125 +359,6 @@ namespace RealPop2
         /// Gets or sets the name filter text.
         /// </summary>
         internal string NameFilterText { get => _nameFilter.text; set => _nameFilter.text = value; }
-
-        /// <summary>
-        /// Set up filter bar.
-        /// We don't use Start() here as we need to access the category toggle states to set up the initial filtering list before Start() is called by UnityEngine.
-        /// </summary>
-        internal void Setup()
-        {
-            m_AutoLayout = false;
-
-            // Catgegory buttons.
-            _categoryToggles = new UICheckBox[(int)BuildingCategories.NumCategories];
-
-            for (int i = 0; i < (int)BuildingCategories.NumCategories; i++)
-            {
-                // Basic setup.
-                _categoryToggles[i] = UICheckBoxes.AddIconToggle(this, 40 * i, 0f, _atlases[i], _spriteNames[i], _spriteNames[i] + "Disabled", tooltip: Translations.Translate(_tooltips[i]));
-                _categoryToggles[i].isChecked = true;
-                _categoryToggles[i].readOnly = true;
-
-                // Single click event handler - toggle state of this button.
-                _categoryToggles[i].eventClick += (c, p) =>
-                {
-                    // If either shift or control is NOT held down, deselect all other toggles.
-                    if (!(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
-                    {
-                        for (int j = 0; j < (int)BuildingCategories.NumCategories; j++)
-                        {
-                            _categoryToggles[j].isChecked = false;
-                        }
-                    }
-
-                    // Select this toggle.
-                    ((UICheckBox)c).isChecked = true;
-
-                    // Trigger an update.
-                    EventFilteringChanged(this, 0);
-                };
-            }
-
-            // 'All categories' button.
-            _allCategories = UIButtons.AddButton(this, 445f, 0f, Translations.Translate("RPR_CAT_ALL"), 200f);
-
-            // All categories event handler.
-            _allCategories.eventClick += (c, p) =>
-            {
-                // Select all category toggles.
-                for (int i = 0; i < (int)BuildingCategories.NumCategories; i++)
-                {
-                    _categoryToggles[i].isChecked = true;
-                }
-
-                // Trigger an update.
-                EventFilteringChanged(this, 0);
-            };
-
-            // Name filter.
-            _nameFilter = UITextFields.AddBigLabelledTextField(this, width - 200f, 0, Translations.Translate("RPR_FIL_NAME"));
-
-            // Name filter event handling - update on any change.
-            _nameFilter.eventTextChanged += (c, text) => EventFilteringChanged(this, 5);
-            _nameFilter.eventTextSubmitted += (c, text) => EventFilteringChanged(this, 5);
-
-            // Settings filter label.
-            UILabel filterLabel = SettingsFilterLabel(55f, Translations.Translate("RPR_FIL_SET"));
-
-            // Settings filter checkboxes.
-            _settingsFilter = new UICheckBox[(int)FilterCategories.NumCategories];
-            for (int i = 0; i < (int)FilterCategories.NumCategories; ++i)
-            {
-                _settingsFilter[i] = this.AddUIComponent<UICheckBox>();
-                _settingsFilter[i].width = 20f;
-                _settingsFilter[i].height = 20f;
-                _settingsFilter[i].clipChildren = true;
-                _settingsFilter[i].relativePosition = new Vector2(AnyX + (FilterSpacing * i), 45f);
-
-                // Checkbox sprites.
-                UISprite sprite = _settingsFilter[i].AddUIComponent<UISprite>();
-                sprite.spriteName = "ToggleBase";
-                sprite.size = new Vector2(20f, 20f);
-                sprite.relativePosition = Vector2.zero;
-
-                _settingsFilter[i].checkedBoxObject = sprite.AddUIComponent<UISprite>();
-                ((UISprite)_settingsFilter[i].checkedBoxObject).spriteName = "ToggleBaseFocused";
-                _settingsFilter[i].checkedBoxObject.size = new Vector2(20f, 20f);
-                _settingsFilter[i].checkedBoxObject.relativePosition = Vector2.zero;
-
-                // Tooltip.
-                _settingsFilter[i].tooltip = Translations.Translate(_filterTooltipKeys[i]);
-
-                // Special event handling for 'any' checkbox.
-                if (i == (int)FilterCategories.Any)
-                {
-                    _settingsFilter[i].eventCheckChanged += (c, isChecked) =>
-                    {
-                        if (isChecked)
-                        {
-                            // Unselect all other checkboxes if 'any' is checked.
-                            _settingsFilter[(int)FilterCategories.HasOverride].isChecked = false;
-                            _settingsFilter[(int)FilterCategories.HasNonDefault].isChecked = false;
-                        }
-                    };
-                }
-                else
-                {
-                    // Non-'any' checkboxes.
-                    // Unselect 'any' checkbox if any other is checked.
-                    _settingsFilter[i].eventCheckChanged += (c, isChecked) =>
-                    {
-                        if (isChecked)
-                        {
-                            _settingsFilter[0].isChecked = false;
-                        }
-                    };
-                }
-
-                // Trigger filtering changed event if any checkbox is changed.
-                _settingsFilter[i].eventCheckChanged += (c, isChecked) => { EventFilteringChanged(this, 0); };
-            }
-        }
 
         /// <summary>
         /// Sets the category toggles so that the one that includes this building is on, and the rest are off.

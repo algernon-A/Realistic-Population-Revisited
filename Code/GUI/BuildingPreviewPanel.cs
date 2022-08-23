@@ -19,8 +19,34 @@ namespace RealPop2
         private static bool s_lastFloorCheckState;
 
         // UI components.
-        private BuildingPreview _preview;
-        private UICheckBox _showFloorsCheck;
+        private readonly BuildingPreview _preview;
+        private readonly UICheckBox _showFloorsCheck;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BuildingPreviewPanel"/> class.
+        /// </summary>
+        internal BuildingPreviewPanel()
+        {
+            // Basic setup.
+            width = BuildingDetailsPanel.MiddleWidth;
+            height = BuildingDetailsPanel.MiddlePanelHeight;
+
+            // Preview component.
+            _preview = AddUIComponent<BuildingPreview>();
+            _preview.width = BuildingDetailsPanel.MiddleWidth;
+            _preview.height = BuildingDetailsPanel.MiddlePanelHeight - 40f;
+            _preview.relativePosition = Vector2.zero;
+
+            // 'Show floors' checkbox.
+            _showFloorsCheck = UICheckBoxes.AddLabelledCheckBox(this, 20f, height - 30f, Translations.Translate("RPR_PRV_SFL"));
+            _showFloorsCheck.eventCheckChanged += (c, isChecked) =>
+            {
+                _preview.RenderFloors = isChecked;
+                s_lastFloorCheckState = isChecked;
+            };
+
+            _showFloorsCheck.isChecked = s_lastFloorCheckState;
+        }
 
         /// <summary>
         /// Sets the floor data pack for previewing.
@@ -41,32 +67,9 @@ namespace RealPop2
         /// Render and show a preview of a building.
         /// </summary>
         /// <param name="building">The building to render.</param>
-        public void Show(BuildingInfo building)
+        internal void Show(BuildingInfo building)
         {
             _preview.Show(building);
-        }
-
-        /// <summary>
-        /// Performs initial setup for the panel.
-        /// </summary>
-        public void Setup()
-        {
-            // Basic setup.
-            _preview = AddUIComponent<BuildingPreview>();
-            _preview.width = width;
-            _preview.height = height - 40f;
-            _preview.relativePosition = Vector2.zero;
-            _preview.Setup();
-
-            // 'Show floors' checkbox.
-            _showFloorsCheck = UICheckBoxes.AddLabelledCheckBox(this, 20f, height - 30f, Translations.Translate("RPR_PRV_SFL"));
-            _showFloorsCheck.eventCheckChanged += (c, isChecked) =>
-            {
-                _preview.RenderFloors = isChecked;
-                s_lastFloorCheckState = isChecked;
-            };
-
-            _showFloorsCheck.isChecked = s_lastFloorCheckState;
         }
     }
 }

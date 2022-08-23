@@ -21,6 +21,8 @@ namespace RealPop2
     {
         // Layout constants.
         private const float Margin = 5f;
+        private const float PanelWidth = BuildingDetailsPanel.RightWidth;
+        private const float PanelHeight = 395f;
         private const float ColumnWidth = BuildingDetailsPanel.RightWidth / 2f;
         private const float LabelOffset = 240f;
         private const float LeftColumn = LabelOffset;
@@ -39,34 +41,34 @@ namespace RealPop2
         private const float FloorListY = MessageY + RowHeight;
 
         // Panel components.
-        private UIList _floorsList;
-        private UILabel _numFloorsLabel;
-        private UILabel _floorAreaLabel;
-        private UILabel _visitCountLabel;
-        private UILabel _productionLabel;
-        private UILabel _firstMinLabel;
-        private UILabel _firstExtraLabel;
-        private UILabel _floorHeightLabel;
-        private UILabel _emptyAreaLabel;
-        private UILabel _emptyPercentLabel;
-        private UILabel _perLabel;
-        private UILabel _unitsLabel;
-        private UILabel _totalHomesLabel;
-        private UILabel _totalJobsLabel;
-        private UILabel _totalStudentsLabel;
-        private UILabel _schoolWorkerLabel;
-        private UILabel _costLabel;
-        private UILabel _overrideFloorsLabel;
-        private UILabel _overridePopLabel;
-        private UILabel _messageLabel;
-        private UICheckBox fixedPopCheckBox;
-        private UICheckBox _multiFloorCheckBox;
-        private UICheckBox _ignoreFirstCheckBox;
+        private readonly UIList _floorsList;
+        private readonly UILabel _numFloorsLabel;
+        private readonly UILabel _floorAreaLabel;
+        private readonly UILabel _visitCountLabel;
+        private readonly UILabel _productionLabel;
+        private readonly UILabel _firstMinLabel;
+        private readonly UILabel _firstExtraLabel;
+        private readonly UILabel _floorHeightLabel;
+        private readonly UILabel _emptyAreaLabel;
+        private readonly UILabel _emptyPercentLabel;
+        private readonly UILabel _perLabel;
+        private readonly UILabel _unitsLabel;
+        private readonly UILabel _totalHomesLabel;
+        private readonly UILabel _totalJobsLabel;
+        private readonly UILabel _totalStudentsLabel;
+        private readonly UILabel _schoolWorkerLabel;
+        private readonly UILabel _costLabel;
+        private readonly UILabel _overrideFloorsLabel;
+        private readonly UILabel _overridePopLabel;
+        private readonly UILabel _messageLabel;
+        private readonly UICheckBox fixedPopCheckBox;
+        private readonly UICheckBox _multiFloorCheckBox;
+        private readonly UICheckBox _ignoreFirstCheckBox;
 
         /// <summary>
-        /// Create the panel; we no longer use Start() as that's not sufficiently reliable (race conditions), and is no longer needed, with the new create/destroy process.
+        /// Initializes a new instance of the <see cref="VolumetricCalculationPreview"/> class.
         /// </summary>
-        internal void Setup()
+        internal VolumetricCalculationPreview()
         {
             // Generic setup.
             isVisible = true;
@@ -75,8 +77,7 @@ namespace RealPop2
             backgroundSprite = "UnlockingPanel";
             autoLayout = false;
             autoSize = false;
-            width = parent.width;
-            height = 395f;
+            width = PanelWidth;
             builtinKeyNavigation = true;
             clipChildren = true;
 
@@ -123,12 +124,8 @@ namespace RealPop2
             // Message label.
             _messageLabel = UILabels.AddLabel(this, Margin, MessageY, string.Empty);
 
-            // Floor list - attached to root panel as scrolling and interactivity can be unreliable otherwise.
-            _floorsList = UIList.AddUIList<FloorRow>(BuildingDetailsPanelManager.Panel, 0f, 0f, this.width, 20f);
-            ResetFloorListPosition();
-
-            // Toggle floorsList visibility on this panel's visibility change (because floorsList is attached to root panel).
-            this.eventVisibilityChanged += (c, isVisible) => _floorsList.isVisible = isVisible;
+            // Floor list.
+            _floorsList = UIList.AddUIList<FloorRow>(this, 0f, FloorListY, PanelWidth, PanelHeight - FloorListY);
         }
 
         /// <summary>
@@ -267,18 +264,12 @@ namespace RealPop2
                 // And display school cost breakdown.
                 _costLabel.Show();
                 _costLabel.text = cost.ToString((!(displayMaint >= 10f)) ? Settings.moneyFormat : Settings.moneyFormatNoCents, LocaleManager.cultureInfo) + " / " + displayMaint.ToString((!(displayMaint >= 10f)) ? Settings.moneyFormat : Settings.moneyFormatNoCents, LocaleManager.cultureInfo);
-
-                // Enforce school floors list position.
-                ResetFloorListPosition();
             }
             else
             {
                 // No - hide school worker breakdown and cost labels.
                 _schoolWorkerLabel.Hide();
                 _costLabel.Hide();
-
-                // Enforce default floors list position.
-                ResetFloorListPosition();
             }
 
             // Allocate our new list of labels to the floors list (via an interim fastlist to avoid race conditions if we 'build' manually directly into floorsList).
@@ -332,7 +323,7 @@ namespace RealPop2
             if (building.GetAI() is PrivateBuildingAI privateAI && (privateAI is OfficeBuildingAI || privateAI is IndustrialBuildingAI || privateAI is IndustrialExtractorAI))
             {
                 _productionLabel.Show();
-                _productionLabel.text = privateAI.CalculateProductionCapacity(building.GetClassLevel(), default(Randomizer), building.GetWidth(), building.GetLength()).ToString();
+                _productionLabel.text = privateAI.CalculateProductionCapacity(building.GetClassLevel(), default, building.GetWidth(), building.GetLength()).ToString();
             }
             else
             {
@@ -371,18 +362,14 @@ namespace RealPop2
         }
 
         /// <summary>
-        /// Resets the floor list position relative to the volumetic calculations panel.
-        /// Needed when the volumetric calculations panel shifts its relative position (e.g. with schoolds), as the floor list is attached directly to the parent panel.
+        /// Called by game when panel size changes.
         /// </summary>
-        private void ResetFloorListPosition()
+        protected override void OnSizeChanged()
         {
-            // Enforce floors list position.
-            float xPos = this.relativePosition.x + parent.relativePosition.x;
-            float yPos = this.relativePosition.y + parent.relativePosition.y + FloorListY;
-            _floorsList.relativePosition = new Vector2(xPos, yPos);
-
-            // Enforce height to match position within panel.
-            _floorsList.height = _floorsList.parent.height - yPos - BuildingDetailsPanel.BottomMargin;
+            if (_floorsList != null)
+            {
+                _floorsList.height = height - FloorListY;
+            }
         }
 
         /// <summary>

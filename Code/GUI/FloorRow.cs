@@ -26,14 +26,14 @@ namespace RealPop2
             // Perform initial setup for new rows.
             if (_floorName == null)
             {
-                _floorName = AddLabel(Margin, 200f, 0.9f);
+                _floorName = AddLabel(Margin, 200f);
             }
 
             if (data is string text)
             {
                 _floorName.text = text;
             }
-            
+
             // Set initial background as deselected state.
             Deselect(rowIndex);
         }
