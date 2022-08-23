@@ -40,7 +40,7 @@ namespace RealPop2
             };
 
             // Ensure initial selected tab (doing a 'quickstep' to ensure proper events are triggered).
-            tabstrip.selectedIndex = 1;
+            tabstrip.selectedIndex = -1;
             tabstrip.selectedIndex = 0;
         }
     }

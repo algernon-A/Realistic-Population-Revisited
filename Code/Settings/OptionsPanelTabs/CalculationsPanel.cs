@@ -101,7 +101,7 @@ namespace RealPop2
                 };
 
                 // Perform setup of residential tab (default selection) and make sure first one is selected (doing a 'quickstep' to ensure proper events are triggered).
-                childTabStrip.selectedIndex = -1;
+                childTabStrip.selectedIndex = 1;
                 childTabStrip.selectedIndex = 0;
             }
         }
