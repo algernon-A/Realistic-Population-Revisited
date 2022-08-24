@@ -27,9 +27,6 @@
 		<_Translations Include="$(ProjectDir)/Translations/*.csv" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Remove="stylecop.json" />
-	</ItemGroup>
-	<ItemGroup>
 	  <AdditionalFiles Include="stylecop.json" />
 	</ItemGroup>
 	<Target Name="DeployToModDirectory" AfterTargets="Build">
@@ -41,10 +38,4 @@
 		<Copy SourceFiles="@(_Translations)" DestinationFolder="$(DeployDir)/Translations" />
 	</Target>
 	<Import Project="..\AlgernonCommons\AlgernonCommonsPatchingShared.projitems" Label="Shared" />
-	<ItemGroup>
-	  <Content Remove="LICENSE.txt" />
-	</ItemGroup>
-	<ItemGroup>
-	  <_Translations Remove="Translations\en-EN.csv" />
-	</ItemGroup>
 </Project>
