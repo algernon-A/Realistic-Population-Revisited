@@ -44,4 +44,7 @@
 	<ItemGroup>
 	  <Content Remove="LICENSE.txt" />
 	</ItemGroup>
+	<ItemGroup>
+	  <_Translations Remove="Translations\en-EN.csv" />
+	</ItemGroup>
 </Project>
