@@ -15,23 +15,15 @@ namespace RealPop2
     /// </summary>
     internal static class ConflictDetection
     {
-        // List of conflcting mod names.
-        private static List<string> s_conflictingModNames;
-
-        /// <summary>
-        /// Gets the recorded list of conflicting mod names.
-        /// </summary>
-        internal static List<string> ConflictingModNames => s_conflictingModNames;
-
         /// <summary>
         /// Checks for any known fatal mod conflicts.
         /// </summary>
-        /// <returns>True if a mod conflict was detected, false otherwise.</returns>
-        internal static bool IsModConflict()
+        /// <returns>A list of conflicting mod names if a mod conflict was detected, false otherwise.</returns>
+        internal static List<string> CheckConflictingMods()
         {
             // Initialise flag and list of conflicting mods.
             bool conflictDetected = false;
-            s_conflictingModNames = new List<string>();
+            List<string> conflictingModNames = new List<string>();
 
             // Duplicate real pop mod detection.
             bool realPopModFound = false;
@@ -49,7 +41,7 @@ namespace RealPop2
                             {
                                 // Yes - flag as duplicate.
                                 conflictDetected = true;
-                                s_conflictingModNames.Add("Realistic Population Revisited");
+                                conflictingModNames.Add("Realistic Population Revisited");
                             }
 
                             // Flag instance as found.
@@ -59,19 +51,19 @@ namespace RealPop2
                         case "WG_BalancedPopMod":
                             // Original WG mod.
                             conflictDetected = true;
-                            s_conflictingModNames.Add("Realistic Population and Consumption Mod");
+                            conflictingModNames.Add("Realistic Population and Consumption Mod");
                             break;
 
                         case "EnhancedBuildingCapacity":
                             // Enhanced building capacity.
                             conflictDetected = true;
-                            s_conflictingModNames.Add("Enhanced Building Capacity");
+                            conflictingModNames.Add("Enhanced Building Capacity");
                             break;
 
                         case "VanillaGarbageBinBlocker":
                             // Garbage Bin Controller
                             conflictDetected = true;
-                            s_conflictingModNames.Add("Garbage Bin Controller");
+                            conflictingModNames.Add("Garbage Bin Controller");
                             break;
 
                         case "Painter":
@@ -79,7 +71,7 @@ namespace RealPop2
                             if (plugin.userModInstance.GetType().ToString().Equals("Painter.UserMod"))
                             {
                                 conflictDetected = true;
-                                s_conflictingModNames.Add("Painter");
+                                conflictingModNames.Add("Painter");
                             }
 
                             break;
@@ -91,15 +83,16 @@ namespace RealPop2
             if (conflictDetected)
             {
                 // Yes - log each conflict.
-                foreach (string conflictingMod in s_conflictingModNames)
+                foreach (string conflictingMod in conflictingModNames)
                 {
                     Logging.Error("Conflicting mod found: ", conflictingMod);
                 }
 
-                Logging.Error("exiting due to mod conflict");
+                return conflictingModNames;
             }
 
-            return conflictDetected;
+            // If we got here, no conflict was detected; return null.
+            return null;
         }
     }
 }

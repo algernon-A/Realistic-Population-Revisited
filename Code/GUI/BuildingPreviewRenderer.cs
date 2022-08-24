@@ -48,7 +48,7 @@ namespace RealPop2
             _renderCamera.nearClipPlane = 1f;
             _renderCamera.farClipPlane = 1000f;
 
-            // Create foor preview texture.
+            // Create flor preview texture.
 
             // Create a new 2x2 texture ARGB32 (32 bit with alpha) and no mipmaps
             _floorTexture = new Texture2D(2, 2, TextureFormat.ARGB32, false);
