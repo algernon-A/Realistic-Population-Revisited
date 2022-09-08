@@ -2,7 +2,12 @@
 	<PropertyGroup>
 		<TargetFramework>net35</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Title>Realistic Population 2</Title>
+		<AssemblyTitle>$(Title)</AssemblyTitle>
 		<Description>A Cities: Skylines mod.</Description>
+		<Authors>algernon,Whitefang Greytail</Authors>
+		<Copyright>Copyright © 2015-2022 algernon, Whitefang Greytail</Copyright>
+		<Product>$(Title)</Product>
 		<Version>2.0.5</Version>
 		<ManagedDLLPath>$(MSBuildProgramFiles32)/Steam/steamapps/common/Cities_Skylines/Cities_Data/Managed</ManagedDLLPath>
 		<AssemblySearchPaths>
