@@ -192,7 +192,7 @@ namespace RealPop2
                     };
 
                     // Iterate through all calculation packs in our dictionary.
-                    foreach (PopDataPack calcPack in PopData.Instance.CalcPacks)
+                    foreach (DataPack calcPack in PopData.Instance.CalcPacks)
                     {
                         // Look for volumetric packs.
                         if (calcPack is VolumetricPopPack volPack)

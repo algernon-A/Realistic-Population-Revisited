@@ -7,8 +7,6 @@ namespace RealPop2
 {
     using AlgernonCommons.Patching;
     using AlgernonCommons.Translation;
-    using AlgernonCommons.UI;
-    using ColossalFramework.UI;
     using ICities;
 
     /// <summary>

@@ -92,7 +92,7 @@ namespace RealPop2
         private UISprite AddSettingsCheck(float xPos, string translationKey)
         {
             UISprite newSprite = AddUIComponent<UISprite>();
-            newSprite.size = new Vector2(20, 20);
+            newSprite.size = new Vector2(20f, 20f);
             newSprite.relativePosition = new Vector2(xPos, 5f);
             newSprite.tooltip = Translations.Translate(translationKey);
 
