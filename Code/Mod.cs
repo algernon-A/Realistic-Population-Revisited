@@ -5,6 +5,7 @@
 
 namespace RealPop2
 {
+    using AlgernonCommons.Notifications;
     using AlgernonCommons.Patching;
     using AlgernonCommons.Translation;
     using ICities;
@@ -28,6 +29,11 @@ namespace RealPop2
         /// Gets the mod's description for display in the content manager.
         /// </summary>
         public string Description => Translations.Translate("RPR_DESC");
+
+        /// <summary>
+        /// Gets the mod's what's new message array.
+        /// </summary>
+        public override WhatsNewMessage[] WhatsNewMessages => new WhatsNewMessageListing().Messages;
 
         /// <summary>
         /// Called by the game when the mod is enabled.

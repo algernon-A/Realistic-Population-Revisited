@@ -6,6 +6,7 @@
 namespace RealPop2
 {
     using AlgernonCommons;
+    using AlgernonCommons.XML;
     using ColossalFramework.IO;
 
     /// <summary>
@@ -29,6 +30,9 @@ namespace RealPop2
             serializer.WriteUInt8((byte)ModSettings.ThisSaveDefaultCom);
             serializer.WriteUInt8((byte)ModSettings.ThisSaveDefaultInd);
             serializer.WriteUInt8((byte)ModSettings.ThisSaveDefaultOff);
+
+            // Write embedded config file.
+            // serializer.WriteByteArray(XMLFileUtils.SerializeBinary<XMLSettingsFile>());
         }
 
         /// <summary>
@@ -46,7 +50,7 @@ namespace RealPop2
                 Logging.Message("read data version ", dataVersion);
 
                 // Make sure we have a matching data version.
-                if (dataVersion == 7)
+                if (dataVersion >= 7)
                 {
                     // Replaces 'using legacy' bool flags.
                     ModSettings.ThisSaveDefaultRes = (DefaultMode)serializer.ReadUInt8();
@@ -113,6 +117,14 @@ namespace RealPop2
                     // Record that we've successfully deserialized savegame data.
                     ModSettings.IsRealPop2Save = true;
                 }
+
+                /*
+                if (dataVersion == 8)
+                {
+                    // Read embedded config file.
+                    XMLFileUtils.DeserializeBinary<XMLSettingsFile>(serializer.ReadByteArray());
+                }
+                */
             }
             catch
             {

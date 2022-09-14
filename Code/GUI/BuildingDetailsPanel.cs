@@ -294,44 +294,153 @@ namespace RealPop2
                 ItemClass.Service service = item.GetService();
                 ItemClass.SubService subService = item.GetSubService();
 
-                // Laid out this way for clear visibility.
-                if (subService == ItemClass.SubService.ResidentialLow && _filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.ResidentialLow].isChecked)
+                switch (service)
                 {
-                }
-                else if (subService == ItemClass.SubService.ResidentialHigh && _filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.ResidentialHigh].isChecked)
-                {
-                }
-                else if (subService == ItemClass.SubService.CommercialLow && _filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.CommercialLow].isChecked)
-                {
-                }
-                else if (subService == ItemClass.SubService.CommercialHigh && _filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.CommercialHigh].isChecked)
-                {
-                }
-                else if (service == ItemClass.Service.Office && _filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.Office].isChecked)
-                {
-                }
-                else if (service == ItemClass.Service.Industrial && _filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.Industrial].isChecked)
-                {
-                }
-                else if (subService == ItemClass.SubService.CommercialTourist && _filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.Tourism].isChecked)
-                {
-                }
-                else if (subService == ItemClass.SubService.CommercialLeisure && _filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.Leisure].isChecked)
-                {
-                }
-                else if (subService == ItemClass.SubService.CommercialEco && _filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.Organic].isChecked)
-                {
-                }
-                else if ((subService == ItemClass.SubService.ResidentialLowEco || subService == ItemClass.SubService.ResidentialHighEco) && _filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.Selfsufficient].isChecked)
-                {
-                }
-                else if (service == ItemClass.Service.Education && _filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.Education].isChecked && item.GetClassLevel() < ItemClass.Level.Level3)
-                {
-                }
-                else
-                {
-                    // If we've gotten here, then we've matched no categories; move on to next item.
-                    continue;
+                    case ItemClass.Service.Residential:
+                        switch (subService)
+                        {
+                            case ItemClass.SubService.ResidentialLow:
+                                if (!_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.ResidentialLow].isChecked)
+                                {
+                                    continue;
+                                }
+
+                                break;
+
+                            default:
+                            case ItemClass.SubService.ResidentialHigh:
+                                if (!_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.ResidentialHigh].isChecked)
+                                {
+                                    continue;
+                                }
+
+                                break;
+
+                            case ItemClass.SubService.ResidentialWallToWall:
+                                if (!_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.ResidentialWallToWall].isChecked)
+                                {
+                                    continue;
+                                }
+
+                                break;
+
+                            case ItemClass.SubService.ResidentialLowEco:
+                            case ItemClass.SubService.ResidentialHighEco:
+                                if (!_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.Selfsufficient].isChecked)
+                                {
+                                    continue;
+                                }
+
+                                break;
+                        }
+
+                        break;
+
+                    case ItemClass.Service.Commercial:
+                        switch (subService)
+                        {
+                            case ItemClass.SubService.CommercialLow:
+                                if (!_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.CommercialLow].isChecked)
+                                {
+                                    continue;
+                                }
+
+                                break;
+
+                            default:
+                            case ItemClass.SubService.CommercialHigh:
+                                if (!_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.CommercialHigh].isChecked)
+                                {
+                                    continue;
+                                }
+
+                                break;
+
+                            case ItemClass.SubService.CommercialWallToWall:
+                                if (!_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.CommercialWallToWall].isChecked)
+                                {
+                                    continue;
+                                }
+
+                                break;
+
+                            case ItemClass.SubService.CommercialTourist:
+                                if (!_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.Tourism].isChecked)
+                                {
+                                    continue;
+                                }
+
+                                break;
+
+                            case ItemClass.SubService.CommercialLeisure:
+                                if (!_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.Leisure].isChecked)
+                                {
+                                    continue;
+                                }
+
+                                break;
+
+                            case ItemClass.SubService.CommercialEco:
+                                if (!_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.Organic].isChecked)
+                                {
+                                    continue;
+                                }
+
+                                break;
+                        }
+
+                        break;
+
+                    case ItemClass.Service.Office:
+                        switch (subService)
+                        {
+                            default:
+                            case ItemClass.SubService.OfficeGeneric:
+                                if (!_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.OfficeGeneric].isChecked)
+                                {
+                                    continue;
+                                }
+
+                                break;
+
+                            case ItemClass.SubService.OfficeWallToWall:
+                                if (!_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.OfficeWallToWall].isChecked)
+                                {
+                                    continue;
+                                }
+
+                                break;
+
+                            case ItemClass.SubService.OfficeHightech:
+                                if (!_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.OfficeHighTech].isChecked)
+                                {
+                                    continue;
+                                }
+
+                                break;
+                        }
+
+                        break;
+
+                    case ItemClass.Service.Industrial:
+                        if (!_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.Industrial].isChecked)
+                        {
+                            continue;
+                        }
+
+                        break;
+
+                    case ItemClass.Service.Education:
+                        if (!(_filterBar.CategoryToggles[(int)BuildingPanelFilter.BuildingCategories.Education].isChecked && item.GetClassLevel() < ItemClass.Level.Level3))
+                        {
+                            continue;
+                        }
+
+                        break;
+
+                    default:
+                        // No service match - move on to next item.
+                        continue;
                 }
 
                 // Filter by name.

@@ -34,8 +34,12 @@ namespace RealPop2
         {
             ItemClass.Service.Residential,
             ItemClass.Service.Residential,
+            ItemClass.Service.Residential,
             ItemClass.Service.Commercial,
             ItemClass.Service.Commercial,
+            ItemClass.Service.Commercial,
+            ItemClass.Service.Office,
+            ItemClass.Service.Office,
             ItemClass.Service.Office,
             ItemClass.Service.Industrial,
             ItemClass.Service.Commercial,
@@ -50,9 +54,13 @@ namespace RealPop2
         {
             ItemClass.SubService.ResidentialLow,
             ItemClass.SubService.ResidentialHigh,
+            ItemClass.SubService.ResidentialWallToWall,
             ItemClass.SubService.CommercialLow,
             ItemClass.SubService.CommercialHigh,
-            ItemClass.SubService.None,
+            ItemClass.SubService.CommercialWallToWall,
+            ItemClass.SubService.OfficeGeneric,
+            ItemClass.SubService.OfficeWallToWall,
+            ItemClass.SubService.OfficeHightech,
             ItemClass.SubService.None,
             ItemClass.SubService.CommercialTourist,
             ItemClass.SubService.CommercialLeisure,
@@ -74,6 +82,10 @@ namespace RealPop2
             "Thumbnails",
             "Thumbnails",
             "Thumbnails",
+            "Thumbnails",
+            "Thumbnails",
+            "Thumbnails",
+            "Thumbnails",
             "Ingame",
         };
 
@@ -82,9 +94,13 @@ namespace RealPop2
         {
             "ZoningResidentialLow",
             "ZoningResidentialHigh",
+            "DistrictSpecializationResidentialWallToWall",
             "ZoningCommercialLow",
             "ZoningCommercialHigh",
+            "DistrictSpecializationCommercialWallToWall",
             "ZoningOffice",
+            "DistrictSpecializationOfficeWallToWall",
+            "DistrictSpecializationHightech",
             "ZoningIndustrial",
             "DistrictSpecializationTourist",
             "DistrictSpecializationLeisure",
@@ -98,9 +114,13 @@ namespace RealPop2
         {
             "RPR_CAT_RLO",
             "RPR_CAT_RHI",
+            "RPR_CAT_RW2",
             "RPR_CAT_CLO",
             "RPR_CAT_CHI",
+            "RPR_CAT_CW2",
             "RPR_CAT_OFF",
+            "RPR_CAT_OW2",
+            "RPR_CAT_ITC",
             "RPR_CAT_IND",
             "RPR_CAT_TOU",
             "RPR_CAT_LEI",
@@ -135,7 +155,7 @@ namespace RealPop2
             // Catgegory buttons.
             _categoryToggles = new UICheckBox[(int)BuildingCategories.NumCategories];
 
-            for (int i = 0; i < (int)BuildingCategories.NumCategories; i++)
+            for (int i = 0; i < (int)BuildingCategories.NumCategories; ++i)
             {
                 // Basic setup.
                 _categoryToggles[i] = UICheckBoxes.AddIconToggle(this, 40 * i, 0f, _atlases[i], _spriteNames[i], _spriteNames[i] + "Disabled", tooltip: Translations.Translate(_tooltips[i]));
@@ -163,7 +183,7 @@ namespace RealPop2
             }
 
             // 'All categories' button.
-            _allCategories = UIButtons.AddButton(this, 445f, 0f, Translations.Translate("RPR_CAT_ALL"), 200f);
+            _allCategories = UIButtons.AddButton(this, (40 * (int)BuildingCategories.NumCategories) + 10f, 0f, Translations.Translate("RPR_CAT_ALL"), 200f);
 
             // All categories event handler.
             _allCategories.eventClick += (c, p) =>
@@ -269,6 +289,11 @@ namespace RealPop2
             ResidentialHigh,
 
             /// <summary>
+            /// Wall-to-wall residential buildings.
+            /// </summary>
+            ResidentialWallToWall,
+
+            /// <summary>
             /// Low-density commercial buildings.
             /// </summary>
             CommercialLow,
@@ -279,9 +304,24 @@ namespace RealPop2
             CommercialHigh,
 
             /// <summary>
-            /// Office  buildings.
+            /// Wall-to-wall commercial buildings.
             /// </summary>
-            Office,
+            CommercialWallToWall,
+
+            /// <summary>
+            /// Generic office  buildings.
+            /// </summary>
+            OfficeGeneric,
+
+            /// <summary>
+            /// Wall-to-wall office buildings.
+            /// </summary>
+            OfficeWallToWall,
+
+            /// <summary>
+            /// IT cluster (hightech office)  buildings.
+            /// </summary>
+            OfficeHighTech,
 
             /// <summary>
             /// Industrial buildings.

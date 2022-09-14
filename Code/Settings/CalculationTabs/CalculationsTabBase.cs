@@ -85,14 +85,14 @@ namespace RealPop2
 
                 // Set up child tabs and make sure first one is selected (doing a 'quickstep' via the second tab to ensure proper events are triggered).
                 AddTabs(childTabStrip);
-                childTabStrip.selectedIndex = 1;
+                childTabStrip.selectedIndex = -1;
                 childTabStrip.selectedIndex = 0;
                 (childTabStrip.tabs[0].objectUserData as OptionsPanelTab)?.Setup();
 
                 // Event handler for tab index change; setup the selected tab.
                 childTabStrip.eventSelectedIndexChanged += (c, index) =>
                 {
-                    if (childTabStrip.tabs[index].objectUserData is OptionsPanelTab tab)
+                    if (index >= 0 && childTabStrip.tabs[index].objectUserData is OptionsPanelTab tab)
                     {
                         tab.Setup();
                     }

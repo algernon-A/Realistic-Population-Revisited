@@ -30,18 +30,19 @@ namespace RealPop2
             new SchoolsPanel(tabstrip, 2);
             new CrimePanel(tabstrip, 3);
 
+            // Ensure initial selected tab (doing a 'quickstep' to ensure proper events are triggered).
+            tabstrip.selectedIndex = -1;
+            tabstrip.selectedIndex = 0;
+            (tabstrip.tabs[0].objectUserData as OptionsPanelTab)?.Setup();
+
             // Event handler for tab index change; setup the selected tab.
             tabstrip.eventSelectedIndexChanged += (c, index) =>
             {
-                if (tabstrip.tabs[index].objectUserData is OptionsPanelTab tab)
+                if (index >= 0 && tabstrip.tabs[index].objectUserData is OptionsPanelTab tab)
                 {
                     tab.Setup();
                 }
             };
-
-            // Ensure initial selected tab (doing a 'quickstep' to ensure proper events are triggered).
-            tabstrip.selectedIndex = -1;
-            tabstrip.selectedIndex = 0;
         }
     }
 }

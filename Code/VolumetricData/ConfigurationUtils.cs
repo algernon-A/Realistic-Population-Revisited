@@ -101,7 +101,6 @@ namespace RealPop2
             }
         }
 
-
         /// <summary>
         /// Serializes current settings into a new configuration.
         /// </summary>
