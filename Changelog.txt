@@ -1,6 +1,7 @@
 Version 2.1.0.1 -
 
-- Disable ModifyMaterialBuffer check (sometimes caused industry area revenue to be reported as negative in city budget panel).
+- Disable ModifyMaterialBuffer check (sometimes caused industry area revenue to be reported as negative in city budget panel)
+- Add additional null checks when attempting to add info panel buttons
 
 
 Version 2.1 -
