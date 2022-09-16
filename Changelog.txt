@@ -1,3 +1,8 @@
+Version 2.1.0.1 -
+
+- Disable ModifyMaterialBuffer check (sometimes caused industry area revenue to be reported as negative in city budget panel).
+
+
 Version 2.1 -
 
 - Compatibility updates for game version 1.15

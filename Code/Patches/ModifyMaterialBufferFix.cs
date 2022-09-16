@@ -15,7 +15,7 @@ namespace RealPop2
     /// <summary>
     /// Harmony patch to fix a game bug whereby incoming goods amounts (uint16) can overflow and wrap-around.
     /// </summary>
-    [HarmonyPatch(typeof(CommercialBuildingAI), nameof(CommercialBuildingAI.ModifyMaterialBuffer))]
+    // [HarmonyPatch(typeof(CommercialBuildingAI), nameof(CommercialBuildingAI.ModifyMaterialBuffer))]
     public static class ModifyMaterialBufferFix
     {
         /// <summary>
