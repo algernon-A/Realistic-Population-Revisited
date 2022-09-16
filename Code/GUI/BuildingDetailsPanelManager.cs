@@ -109,6 +109,12 @@ namespace RealPop2
         {
             // Zoned building panel - get parent panel and add button.
             ZonedBuildingWorldInfoPanel infoPanel = UIView.library.Get<ZonedBuildingWorldInfoPanel>(typeof(ZonedBuildingWorldInfoPanel).Name);
+            if (infoPanel == null)
+            {
+                Logging.Error("unable to find zoned building info panel");
+                return;
+            }
+
             s_zonedButton = UIButtons.AddButton(infoPanel.component, infoPanel.component.width - 133f - 10, 120, Translations.Translate("RPR_REALPOP"), 133f, 19.5f, 0.65f);
             s_zonedButton.textPadding = new RectOffset(2, 2, 4, 0);
 
@@ -124,7 +130,14 @@ namespace RealPop2
 
             // Service building panel - get parent panel and add button.
             CityServiceWorldInfoPanel servicePanel = UIView.library.Get<CityServiceWorldInfoPanel>(typeof(CityServiceWorldInfoPanel).Name);
+            if (servicePanel == null)
+            {
+                Logging.Error("unable to find service building info panel");
+                return;
+            }
+
             s_serviceButton = UIButtons.AddButton(servicePanel.component, servicePanel.component.width - 133f - 10, 120, Translations.Translate("RPR_REALPOP"), 133f, 19.5f, 0.65f);
+
             s_serviceButton.textPadding = new RectOffset(2, 2, 4, 0);
 
             // Event handler.
