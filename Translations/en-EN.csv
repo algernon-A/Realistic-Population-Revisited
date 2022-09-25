@@ -270,7 +270,7 @@
 "RPR_DEF_VIS_TIP","The basis for calculating the number of customers this building can handle at once. The old method was to use the size of the building's lot, and the new method is to use the number of workplaces in the building."
 "RPR_DEF_VNE","New method (population)"
 "RPR_DEF_VOL","Old method (lot size)"
-"RPR_DEF_VMU","Customer count multiplier"
+"RPR_DEF_VMU","Customer capacity multiplier"
 "RPR_DEF_VMU_TIP","The calculated customer capacity will be multiplied by this amount"
 "RPR_DEF_CGM","Sales multiplier"
 "RPR_DEF_CGM_TIP","The amount of goods sold by this building per customer will be multiplied by this amount; reduced rates will mean fewer goods are required, but tax revenue will also be reduced"
