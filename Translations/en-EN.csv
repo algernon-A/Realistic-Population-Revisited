@@ -152,7 +152,7 @@
 "RPR_CAL_VOL_FLH","Floor height"
 "RPR_CAL_VOL_FLH_TIP","The typical floor-to-floor height, in meters, of each story in this building (the first floor has additional options below)."
 "RPR_CAL_VOL_FMN","First floor height min"
-"RPR_CAL_VOL_FMN_TIP","The minimum building height required for an area of the building to count as having at least one story."
+"RPR_CAL_VOL_FMN_TIP","The minimum building height required for a section of the building to count as having at least one story."
 "RPR_CAL_VOL_FMX","First floor extra height"
 "RPR_CAL_VOL_FMX_TIP","The first floor height will be extended upwards by this many meters (on top of the typical floor height above) before additional floors are added above."
 "RPR_CAL_VOL_IGF","Ignore first floor"
