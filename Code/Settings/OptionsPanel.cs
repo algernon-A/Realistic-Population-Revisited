@@ -19,7 +19,7 @@ namespace RealPop2
         internal OptionsPanel()
         {
             // Add tabstrip.
-            UITabstrip tabstrip = UITabstrips.AddTabStrip(this, 0f, 0f, OptionsPanelManager<OptionsPanel>.PanelWidth, OptionsPanelManager<OptionsPanel>.PanelHeight, out _);
+            UITabstrip tabstrip = UITabstrips.AddTabstrip(this, 0f, 0f, OptionsPanelManager<OptionsPanel>.PanelWidth, OptionsPanelManager<OptionsPanel>.PanelHeight, out _);
 
             // Initialize data.
             CalcData.Setup();
