@@ -11,7 +11,7 @@ namespace RealPop2
     internal class PopDataPack : DataPack
     {
         // Service restrictions.
-        private ItemClass.Service _service;
+        private readonly ItemClass.Service _service;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PopDataPack"/> class.

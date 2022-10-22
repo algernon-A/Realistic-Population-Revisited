@@ -13,7 +13,7 @@ namespace RealPop2
     internal class VolumetricPopPack : PopDataPack
     {
         // Building level records.
-        private LevelData[] _levels;
+        private readonly LevelData[] _levels;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VolumetricPopPack"/> class.

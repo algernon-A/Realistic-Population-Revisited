@@ -24,7 +24,7 @@ namespace RealPop2
         private readonly Dictionary<ItemClass.Service, Dictionary<ItemClass.SubService, DataPack>> _defaultsDict;
 
         // List of data definition packs.
-        private List<DataPack> _calcPacks;
+        private readonly List<DataPack> _calcPacks;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CalcData"/> class.

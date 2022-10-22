@@ -11,17 +11,17 @@ namespace RealPop2
     internal class SchoolDataPack : DataPack
     {
         // School level.
-        private ItemClass.Level _level;
+        private readonly ItemClass.Level _level;
 
         // Employment calculation arrays.
-        private int[] _baseWorkers;
-        private int[] _perWorker;
+        private readonly int[] _baseWorkers;
+        private readonly int[] _perWorker;
 
         // Cost and maintenance fields.
-        private int _baseCost;
-        private int _costPer;
-        private int _baseMaint;
-        private int _maintPer;
+        private readonly int _baseCost;
+        private readonly int _costPer;
+        private readonly int _baseMaint;
+        private readonly int _maintPer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SchoolDataPack"/> class.
