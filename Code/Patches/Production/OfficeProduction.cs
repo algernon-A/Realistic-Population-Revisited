@@ -30,6 +30,7 @@ namespace RealPop2
 
         // Settings per subservice.
         private static int genericOfficeProdMult = DefaultProdMult;
+        private static int w2wOfficeProdMult = DefaultProdMult;
         private static int highTechOfficeProdMult = DefaultProdMult;
 
         /// <summary>
@@ -89,6 +90,9 @@ namespace RealPop2
                 case ItemClass.SubService.OfficeHightech:
                     return highTechOfficeProdMult;
 
+                case ItemClass.SubService.OfficeWallToWall:
+                    return w2wOfficeProdMult;
+
                 // Default is generic office.
                 default:
                 case ItemClass.SubService.OfficeGeneric:
@@ -110,9 +114,15 @@ namespace RealPop2
                 case ItemClass.SubService.OfficeGeneric:
                     genericOfficeProdMult = cleanValue;
                     break;
+
+                case ItemClass.SubService.OfficeWallToWall:
+                    w2wOfficeProdMult = cleanValue;
+                    break;
+
                 case ItemClass.SubService.OfficeHightech:
                     highTechOfficeProdMult = cleanValue;
                     break;
+
                 default:
                     Logging.Error("invalid subservice ", subService, " passed to office SetProdMult");
                     break;
@@ -131,6 +141,11 @@ namespace RealPop2
                 {
                     SubService = ItemClass.SubService.OfficeGeneric,
                     Value = genericOfficeProdMult,
+                },
+                new Configuration.SubServiceValue
+                {
+                    SubService = ItemClass.SubService.OfficeWallToWall,
+                    Value = w2wOfficeProdMult,
                 },
                 new Configuration.SubServiceValue
                 {

@@ -18,6 +18,7 @@ namespace RealPop2
         private readonly string[] _subServiceNames =
         {
             Translations.Translate("RPR_CAT_OFF"),
+            Translations.Translate("RPR_CAT_OW2"),
             Translations.Translate("RPR_CAT_ITC"),
         };
 
@@ -25,22 +26,26 @@ namespace RealPop2
         {
             ItemClass.Service.Office,
             ItemClass.Service.Office,
+            ItemClass.Service.Office,
         };
 
         private readonly ItemClass.SubService[] _subServices =
         {
             ItemClass.SubService.OfficeGeneric,
+            ItemClass.SubService.OfficeWallToWall,
             ItemClass.SubService.OfficeHightech,
         };
 
         private readonly string[] _iconNames =
         {
             "ZoningOffice",
+            "DistrictSpecializationOfficeWallToWall",
             "IconPolicyHightech",
         };
 
         private readonly string[] _atlasNames =
         {
+            "Thumbnails",
             "Thumbnails",
             "Ingame",
         };
@@ -120,7 +125,7 @@ namespace RealPop2
             float currentY = yPos;
 
             // Header label.
-            UILabels.AddLabel(m_panel, LeftColumn, currentY - 19f, Translations.Translate("RPR_DEF_PRD"), -1, 0.8f);
+            UILabels.AddLabel(m_panel, LeftColumn, currentY, Translations.Translate("RPR_DEF_PRD"), -1, 0.8f);
 
             // SubServiceControls is called as part of parent constructor, so we need to initialise them here if they aren't already.
             if (_prodMultSliders == null)
@@ -129,13 +134,14 @@ namespace RealPop2
             }
 
             // Production multiplication slider.
+            currentY += 15f;
             _prodMultSliders[index] = AddSlider(m_panel, LeftColumn, currentY, ControlWidth, "RPR_DEF_PRD_TIP");
             _prodMultSliders[index].objectUserData = index;
             _prodMultSliders[index].maxValue = OfficeProduction.MaxProdMult;
             _prodMultSliders[index].value = OfficeProduction.GetProdMult(_subServices[index]);
             PercentSliderText(_prodMultSliders[index], _prodMultSliders[index].value);
 
-            return yPos;
+            return currentY;
         }
 
         /// <summary>

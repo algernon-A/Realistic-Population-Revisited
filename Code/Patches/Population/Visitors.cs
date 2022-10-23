@@ -41,6 +41,7 @@ namespace RealPop2
         {
             ItemClass.SubService.CommercialLow,
             ItemClass.SubService.CommercialHigh,
+            ItemClass.SubService.CommercialWallToWall,
             ItemClass.SubService.CommercialLeisure,
             ItemClass.SubService.CommercialTourist,
             ItemClass.SubService.CommercialEco,
@@ -54,11 +55,13 @@ namespace RealPop2
             (int)ComVisitModes.PopCalcs,
             (int)ComVisitModes.PopCalcs,
             (int)ComVisitModes.PopCalcs,
+            (int)ComVisitModes.PopCalcs,
         };
 
         private static readonly int[] Mults =
         {
             DefaultVisitMultLow,
+            DefaultVisitMultHigh,
             DefaultVisitMultHigh,
             DefaultVisitMultLow,
             DefaultVisitMultLow,
@@ -86,6 +89,7 @@ namespace RealPop2
         {
             CommercialLow = 0,
             CommercialHigh,
+            CommercialWallToWall,
             CommercialLeisure,
             CommercialTourist,
             CommercialEco,
