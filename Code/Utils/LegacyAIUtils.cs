@@ -195,6 +195,10 @@ namespace RealPop2
                         array = DataStore.resEcoLow;
                         break;
 
+                    case ItemClass.SubService.ResidentialWallToWall:
+                        array = DataStore.residentialW2W;
+                        break;
+
                     default:
                     case ItemClass.SubService.ResidentialHigh:
                         break;

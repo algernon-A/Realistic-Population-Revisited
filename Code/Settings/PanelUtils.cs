@@ -84,7 +84,7 @@ namespace RealPop2
         /// <param name="icon">Icon name.</param>
         /// <param name="atlas">Icon atlas.</param>
         /// <param name="maxX">Maximum label X-position (wrap text to fit); 0 (default) to ignore.</param>
-        internal static void RowHeaderIcon(UIPanel panel, ref float yPos, string text, string icon, string atlas, float maxX = 0f)
+        internal static void RowHeaderIcon(UIComponent panel, ref float yPos, string text, string icon, string atlas, float maxX = 0f)
         {
             // UI layout constants.
             const float Margin = 5f;

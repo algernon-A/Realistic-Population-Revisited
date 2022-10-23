@@ -106,6 +106,7 @@ namespace RealPop2
 
                         case "ResidentialHigh":
                             SetPollutionRates(DataStore.residentialHigh[level], ground, noise);
+                            SetPollutionRates(DataStore.residentialW2W[level], ground, noise);
                             break;
 
                         case "CommercialLow":

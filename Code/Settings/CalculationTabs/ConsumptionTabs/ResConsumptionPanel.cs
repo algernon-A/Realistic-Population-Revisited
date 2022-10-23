@@ -7,7 +7,9 @@ namespace RealPop2
 {
     using AlgernonCommons;
     using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
     using ColossalFramework.UI;
+    using UnityEngine;
 
     /// <summary>
     /// Options panel (sub)-tab for residential building consumption configuration.
@@ -17,9 +19,10 @@ namespace RealPop2
         // Array reference constants.
         private const int LowRes = 0;
         private const int HighRes = 1;
-        private const int LowEcoRes = 2;
-        private const int HighEcoRes = 3;
-        private const int NumSubServices = 4;
+        private const int W2WRes = 2;
+        private const int LowEcoRes = 3;
+        private const int HighEcoRes = 4;
+        private const int NumSubServices = 5;
         private const int NumLevels = 5;
 
         /// <summary>
@@ -59,21 +62,38 @@ namespace RealPop2
                 // Headings.
                 AddHeadings(m_panel);
 
-                // Move currentY up, so we can fit everything.
-                m_currentY -= 30f;
+                UIScrollablePanel scrollPanel = m_panel.AddUIComponent<UIScrollablePanel>();
+                scrollPanel.relativePosition = new Vector2(0, m_currentY);
+                scrollPanel.autoSize = false;
+                scrollPanel.autoLayout = false;
+                scrollPanel.width = m_panel.width - 10f;
+                scrollPanel.height = m_panel.height - m_currentY - 100f;
+                scrollPanel.clipChildren = true;
+                scrollPanel.builtinKeyNavigation = true;
+                scrollPanel.scrollWheelDirection = UIOrientation.Vertical;
+                UIScrollbars.AddScrollbar(m_panel, scrollPanel);
+
+
+                // Reset currentY to reflect only the scrollable panel.
+                m_currentY = Margin;
 
                 // Create residential per-person area textfields and labels.
-                PanelUtils.RowHeaderIcon(m_panel, ref m_currentY, Translations.Translate("RPR_CAT_RLO"), "ZoningResidentialLow", "Thumbnails", PowerX);
-                AddSubService(m_panel, LowRes);
-                PanelUtils.RowHeaderIcon(m_panel, ref m_currentY, Translations.Translate("RPR_CAT_RHI"), "ZoningResidentialHigh", "Thumbnails");
-                AddSubService(m_panel, HighRes);
-                PanelUtils.RowHeaderIcon(m_panel, ref m_currentY, Translations.Translate("RPR_CAT_ERL"), "IconPolicySelfsufficient", "Ingame");
-                AddSubService(m_panel, LowEcoRes);
-                PanelUtils.RowHeaderIcon(m_panel, ref m_currentY, Translations.Translate("RPR_CAT_ERH"), "IconPolicySelfsufficient", "Ingame");
-                AddSubService(m_panel, HighEcoRes);
+                PanelUtils.RowHeaderIcon(scrollPanel, ref m_currentY, Translations.Translate("RPR_CAT_RLO"), "ZoningResidentialLow", "Thumbnails", PowerX);
+                AddSubService(scrollPanel, LowRes);
+                PanelUtils.RowHeaderIcon(scrollPanel, ref m_currentY, Translations.Translate("RPR_CAT_RHI"), "ZoningResidentialHigh", "Thumbnails");
+                AddSubService(scrollPanel, HighRes);
+                PanelUtils.RowHeaderIcon(scrollPanel, ref m_currentY, Translations.Translate("RPR_CAT_RW2"), "DistrictSpecializationResidentialWallToWall", "Thumbnails");
+                AddSubService(scrollPanel, W2WRes);
+                PanelUtils.RowHeaderIcon(scrollPanel, ref m_currentY, Translations.Translate("RPR_CAT_ERL"), "IconPolicySelfsufficient", "Ingame");
+                AddSubService(scrollPanel, LowEcoRes);
+                PanelUtils.RowHeaderIcon(scrollPanel, ref m_currentY, Translations.Translate("RPR_CAT_ERH"), "IconPolicySelfsufficient", "Ingame");
+                AddSubService(scrollPanel, HighEcoRes);
 
                 // Populate initial values.
                 PopulateFields();
+
+                // Restore current Y to the bottom of the scrollable panel.
+                m_currentY = scrollPanel.relativePosition.y + scrollPanel.height + Margin;
 
                 // Add command buttons.
                 AddButtons(m_panel);
@@ -88,6 +108,7 @@ namespace RealPop2
             // Apply each subservice.
             ApplySubService(DataStore.residentialLow, LowRes);
             ApplySubService(DataStore.residentialHigh, HighRes);
+            ApplySubService(DataStore.residentialW2W, W2WRes);
             ApplySubService(DataStore.resEcoLow, LowEcoRes);
             ApplySubService(DataStore.resEcoHigh, HighEcoRes);
 
@@ -109,6 +130,7 @@ namespace RealPop2
             // Populate each subservice.
             PopulateSubService(DataStore.residentialLow, LowRes);
             PopulateSubService(DataStore.residentialHigh, HighRes);
+            PopulateSubService(DataStore.residentialW2W, W2WRes);
             PopulateSubService(DataStore.resEcoLow, LowEcoRes);
             PopulateSubService(DataStore.resEcoHigh, HighEcoRes);
         }
@@ -138,6 +160,15 @@ namespace RealPop2
                 new int[] { 170, 5, -1, 0, -1,   -1, -1, -1, -1,    9, 19, 16, 7, 90,   0, 5,   -1,  8 },
             };
 
+            int[][] residentialW2W =
+            {
+                new int[] { 140, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 14, 11, 9, 90,   0, 5,   -1, 25 },
+                new int[] { 145, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 15, 12, 8, 90,   0, 5,   -1, 20 },
+                new int[] { 150, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 16, 13, 8, 90,   0, 5,   -1, 16 },
+                new int[] { 160, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 17, 14, 7, 90,   0, 5,   -1, 12 },
+                new int[] { 170, 5, -1, 0, -1,   -1, -1, -1, -1,    9, 19, 16, 7, 90,   0, 5,   -1,  8 },
+            };
+
             int[][] resEcoLow =
             {
                 new int[] { 2000, 50, -1, 0, -1,   -1, -1, -1, -1,    6, 19, 15, 8,  91,   0, 1,   -1, 25 },
@@ -159,6 +190,7 @@ namespace RealPop2
             // Populate text fields with these.
             PopulateSubService(residentialLow, LowRes);
             PopulateSubService(residentialHigh, HighRes);
+            PopulateSubService(residentialW2W, W2WRes);
             PopulateSubService(resEcoLow, LowEcoRes);
             PopulateSubService(resEcoHigh, HighEcoRes);
         }

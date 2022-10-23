@@ -172,7 +172,7 @@ namespace RealPop2
         /// <param name="panel">UI panel instance.</param>
         /// <param name="yPos">Reference Y position.</param>
         /// <param name="text">Label text.</param>
-        protected void RowLabel(UIPanel panel, float yPos, string text)
+        protected void RowLabel(UIComponent panel, float yPos, string text)
         {
             // Text label.
             UILabel lineLabel = panel.AddUIComponent<UILabel>();
@@ -204,7 +204,7 @@ namespace RealPop2
         /// <param name="posY">Relative Y position.</param>
         /// <param name="tooltip">Tooltip, if any.</param>
         /// <returns>New input textfield.</returns>
-        protected UITextField AddTextField(UIPanel panel, float width, float posX, float posY, string tooltip = null)
+        protected UITextField AddTextField(UIComponent panel, float width, float posX, float posY, string tooltip = null)
         {
             UITextField textField = UITextFields.AddSmallTextField(panel, posX, posY, width);
             textField.eventTextChanged += (c, value) => PanelUtils.IntTextFilter((UITextField)c, value);

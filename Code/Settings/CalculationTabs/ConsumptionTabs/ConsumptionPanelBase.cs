@@ -169,7 +169,7 @@ namespace RealPop2
         /// <param name="subService">Subservice reference number.</param>
         /// <param name="isExtract">Set this to true (and label to null) to add extractor/processor labels (default false, which is plain level labels).</param>
         /// <param name="label">Text label base for each row; null (default) to use level numbers or extractor/prcessor.</param>
-        protected void AddSubService(UIPanel panel, int subService, bool isExtract = false, string label = null)
+        protected void AddSubService(UIComponent panel, int subService, bool isExtract = false, string label = null)
         {
             // Add a row for each level within this subservice.
             for (int i = 0; i < m_powerFields[subService].Length; ++i)
