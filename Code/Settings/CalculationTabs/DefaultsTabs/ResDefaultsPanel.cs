@@ -24,6 +24,7 @@ namespace RealPop2
         {
             Translations.Translate("RPR_CAT_RLO"),
             Translations.Translate("RPR_CAT_RHI"),
+            Translations.Translate("RPR_CAT_RW2"),
             Translations.Translate("RPR_CAT_ERL"),
             Translations.Translate("RPR_CAT_ERH"),
         };
@@ -34,12 +35,14 @@ namespace RealPop2
             ItemClass.Service.Residential,
             ItemClass.Service.Residential,
             ItemClass.Service.Residential,
+            ItemClass.Service.Residential,
         };
 
         private readonly ItemClass.SubService[] _subServices =
         {
             ItemClass.SubService.ResidentialLow,
             ItemClass.SubService.ResidentialHigh,
+            ItemClass.SubService.ResidentialWallToWall,
             ItemClass.SubService.ResidentialLowEco,
             ItemClass.SubService.ResidentialHighEco,
         };
@@ -48,12 +51,14 @@ namespace RealPop2
         {
             "ZoningResidentialLow",
             "ZoningResidentialHigh",
+            "DistrictSpecializationResidentialWallToWall",
             "IconPolicySelfsufficient",
             "IconPolicySelfsufficient",
         };
 
         private readonly string[] _atlasNames =
         {
+            "Thumbnails",
             "Thumbnails",
             "Thumbnails",
             "Ingame",

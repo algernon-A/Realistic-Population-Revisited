@@ -826,9 +826,11 @@ namespace RealPop2
                                     defaultName = "reslow";
                                     break;
                                 case ItemClass.SubService.ResidentialHighEco:
+                                case ItemClass.SubService.ResidentialWallToWall:
                                     defaultName = "resEUmod";
                                     break;
                                 default:
+                                case ItemClass.SubService.ResidentialHigh:
                                     defaultName = "reshighUS";
                                     break;
                             }
@@ -905,6 +907,7 @@ namespace RealPop2
 
                                 default:
                                 case ItemClass.SubService.CommercialHigh:
+                                case ItemClass.SubService.CommercialWallToWall:
                                     // Default is high-density commercial.
                                     defaultName = "comUS";
                                     break;

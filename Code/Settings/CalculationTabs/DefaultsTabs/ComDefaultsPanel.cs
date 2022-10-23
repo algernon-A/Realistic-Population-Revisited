@@ -18,6 +18,7 @@ namespace RealPop2
         {
             Translations.Translate("RPR_CAT_CLO"),
             Translations.Translate("RPR_CAT_CHI"),
+            Translations.Translate("RPR_CAT_CW2"),
             Translations.Translate("RPR_CAT_ORG"),
             Translations.Translate("RPR_CAT_LEI"),
             Translations.Translate("RPR_CAT_TOU"),
@@ -30,12 +31,14 @@ namespace RealPop2
             ItemClass.Service.Commercial,
             ItemClass.Service.Commercial,
             ItemClass.Service.Commercial,
+            ItemClass.Service.Commercial,
         };
 
         private readonly ItemClass.SubService[] _subServices =
         {
             ItemClass.SubService.CommercialLow,
             ItemClass.SubService.CommercialHigh,
+            ItemClass.SubService.CommercialWallToWall,
             ItemClass.SubService.CommercialEco,
             ItemClass.SubService.CommercialLeisure,
             ItemClass.SubService.CommercialTourist,
@@ -45,6 +48,7 @@ namespace RealPop2
         {
             "ZoningCommercialLow",
             "ZoningCommercialHigh",
+            "DistrictSpecializationCommercialWallToWall",
             "IconPolicyOrganic",
             "IconPolicyLeisure",
             "IconPolicyTourist",
@@ -52,6 +56,7 @@ namespace RealPop2
 
         private readonly string[] _atlasNames =
         {
+            "Thumbnails",
             "Thumbnails",
             "Thumbnails",
             "Ingame",

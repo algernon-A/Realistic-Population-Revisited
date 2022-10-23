@@ -69,7 +69,7 @@ namespace RealPop2
         internal ConsumptionPanelBase(UITabstrip tabStrip, int tabIndex)
         {
             // Add tab.
-            m_panel = PanelUtils.AddIconTab(tabStrip, Translations.Translate("RPR_OPT_CON"), tabIndex, _tabIconNames, _tabAtlasNames);
+            m_panel = UITabstrips.AddIconTab(tabStrip, Translations.Translate("RPR_OPT_CON"), tabIndex, _tabIconNames, _tabAtlasNames);
 
             // Set tab object reference.
             tabStrip.tabs[tabIndex].objectUserData = this;

@@ -25,7 +25,7 @@ namespace RealPop2
         internal CrimePanel(UITabstrip tabStrip, int tabIndex)
         {
             // Add tab and helper.
-            m_panel = PanelUtils.AddTextTab(tabStrip, Translations.Translate("RPR_OPT_CRI"), tabIndex, out UIButton _, autoLayout: true);
+            m_panel = UITabstrips.AddTextTab(tabStrip, Translations.Translate("RPR_OPT_CRI"), tabIndex, out UIButton _, autoLayout: true);
 
             // Set tab object reference.
             tabStrip.tabs[tabIndex].objectUserData = this;

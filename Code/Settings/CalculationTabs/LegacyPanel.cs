@@ -6,6 +6,7 @@
 namespace RealPop2
 {
     using AlgernonCommons;
+    using AlgernonCommons.UI;
     using AlgernonCommons.Translation;
     using ColossalFramework.UI;
     using UnityEngine;
@@ -23,7 +24,7 @@ namespace RealPop2
         internal LegacyPanel(UITabstrip parentTabStrip, int tabIndex)
         {
             // Add tab and helper.
-            m_panel = PanelUtils.AddTextTab(parentTabStrip, Translations.Translate("RPR_OPT_LEG"), tabIndex, out UIButton tabButton, 100f);
+            m_panel = UITabstrips.AddTextTab(parentTabStrip, Translations.Translate("RPR_OPT_LEG"), tabIndex, out UIButton tabButton, 100f);
 
             // Button size and text scale.
             tabButton.textScale = 0.7f;

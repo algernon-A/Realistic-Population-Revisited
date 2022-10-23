@@ -17,6 +17,7 @@ namespace RealPop2
         private readonly string[] _subServiceNames =
         {
             Translations.Translate("RPR_CAT_OFF"),
+            Translations.Translate("RPR_CAT_OW2"),
             Translations.Translate("RPR_CAT_ITC"),
         };
 
@@ -24,22 +25,26 @@ namespace RealPop2
         {
             ItemClass.Service.Office,
             ItemClass.Service.Office,
+            ItemClass.Service.Office,
         };
 
         private readonly ItemClass.SubService[] _subServices =
         {
             ItemClass.SubService.OfficeGeneric,
+            ItemClass.SubService.OfficeWallToWall,
             ItemClass.SubService.OfficeHightech,
         };
 
         private readonly string[] _iconNames =
         {
             "ZoningOffice",
+            "DistrictSpecializationOfficeWallToWall",
             "IconPolicyHightech",
         };
 
         private readonly string[] _atlasNames =
         {
+            "Thumbnails",
             "Thumbnails",
             "Ingame",
         };

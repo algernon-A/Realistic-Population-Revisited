@@ -343,7 +343,7 @@ namespace RealPop2
                 currentY = RowAdditions(currentY, i);
 
                 // Next row.
-                currentY += RowHeight + Margin;
+                currentY += RowHeight;
             }
 
             // Return finishing Y position.

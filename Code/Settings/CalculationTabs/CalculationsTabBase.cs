@@ -6,6 +6,7 @@
 namespace RealPop2
 {
     using AlgernonCommons;
+    using AlgernonCommons.UI;
     using ColossalFramework.UI;
     using UnityEngine;
 
@@ -29,7 +30,7 @@ namespace RealPop2
         internal CalculationsTabBase(UITabstrip parentTabStrip, int tabIndex)
         {
             // Add tab and helper.
-            m_panel = PanelUtils.AddIconTab(parentTabStrip, Tooltip, tabIndex, IconNames, AtlasNames, TabWidth);
+            m_panel = UITabstrips.AddIconTab(parentTabStrip, Tooltip, tabIndex, IconNames, AtlasNames, TabWidth);
 
             // Set tab object reference.
             parentTabStrip.tabs[tabIndex].objectUserData = this;

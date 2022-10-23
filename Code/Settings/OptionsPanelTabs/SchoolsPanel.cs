@@ -23,7 +23,7 @@ namespace RealPop2
         internal SchoolsPanel(UITabstrip tabStrip, int tabIndex)
         {
             // Add tab and helper.
-            m_panel = PanelUtils.AddTextTab(tabStrip, Translations.Translate("RPR_OPT_SCH"), tabIndex, out UIButton _, autoLayout: true);
+            m_panel = UITabstrips.AddTextTab(tabStrip, Translations.Translate("RPR_OPT_SCH"), tabIndex, out UIButton _, autoLayout: true);
 
             // Set tab object reference.
             tabStrip.tabs[tabIndex].objectUserData = this;

@@ -7,6 +7,7 @@ namespace RealPop2
 {
     using AlgernonCommons;
     using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
     using ColossalFramework.UI;
     using UnityEngine;
 
@@ -33,7 +34,7 @@ namespace RealPop2
             Instance = this;
 
             // Add tab and helper.
-            m_panel = PanelUtils.AddTextTab(parentTabStrip, Translations.Translate("RPR_PCK_NAM"), tabIndex, out UIButton _);
+            m_panel = UITabstrips.AddTextTab(parentTabStrip, Translations.Translate("RPR_PCK_NAM"), tabIndex, out UIButton _);
 
             // Set tab object reference.
             parentTabStrip.tabs[tabIndex].objectUserData = this;

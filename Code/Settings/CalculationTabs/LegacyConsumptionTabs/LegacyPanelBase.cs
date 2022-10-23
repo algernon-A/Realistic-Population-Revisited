@@ -63,7 +63,7 @@ namespace RealPop2
         internal LegacyPanelBase(UITabstrip tabStrip, int tabIndex)
         {
             // Add tab.
-            m_panel = PanelUtils.AddTextTab(tabStrip, Translations.Translate(TabNameKey), tabIndex, out UIButton _);
+            m_panel = UITabstrips.AddTextTab(tabStrip, Translations.Translate(TabNameKey), tabIndex, out UIButton _);
 
             // Set tab object reference.
             tabStrip.tabs[tabIndex].objectUserData = this;

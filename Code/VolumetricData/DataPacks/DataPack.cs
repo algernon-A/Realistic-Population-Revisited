@@ -13,7 +13,7 @@ namespace RealPop2
     internal class DataPack
     {
         // Data version.
-        private DataVersion _version;
+        private readonly DataVersion _version;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DataPack"/> class.
