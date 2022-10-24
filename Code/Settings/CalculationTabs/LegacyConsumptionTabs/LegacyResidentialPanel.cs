@@ -111,6 +111,7 @@ namespace RealPop2
             // Apply each subservice.
             ApplySubService(DataStore.residentialLow, LowRes);
             ApplySubService(DataStore.residentialHigh, HighRes);
+            ApplySubService(DataStore.residentialW2W, HighRes);
             ApplySubService(DataStore.resEcoLow, LowEcoRes);
             ApplySubService(DataStore.resEcoHigh, HighEcoRes);
 

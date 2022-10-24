@@ -96,6 +96,7 @@ namespace RealPop2
         {
             // Populate each subservice.
             PopulateSubService(DataStore.office, Office);
+            PopulateSubService(DataStore.officeW2W, Office);
             PopulateSubService(DataStore.officeHighTech, HighTech);
         }
 
@@ -106,6 +107,7 @@ namespace RealPop2
         {
             // Apply each subservice.
             ApplySubService(DataStore.office, Office);
+            ApplySubService(DataStore.officeW2W, Office);
             ApplySubService(DataStore.officeHighTech, HighTech);
 
             // Clear cached values.

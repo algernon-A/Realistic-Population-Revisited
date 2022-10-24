@@ -17,10 +17,11 @@ namespace RealPop2
         // Array reference constants.
         private const int LowCom = 0;
         private const int HighCom = 1;
-        private const int EcoCom = 2;
-        private const int Leisure = 3;
-        private const int Tourist = 4;
-        private const int NumSubServices = 5;
+        private const int Wall2Wall = 2;
+        private const int EcoCom = 3;
+        private const int Leisure = 4;
+        private const int Tourist = 5;
+        private const int NumSubServices = 7;
         private const int NumLevels = 3;
 
         // Label constants.
@@ -28,6 +29,7 @@ namespace RealPop2
         {
             "RPR_CAT_CLO",
             "RPR_CAT_CHI",
+            "RPR_CAT_CW2",
             "RPR_CAT_ORG",
             "RPR_CAT_LEI",
             "RPR_CAT_TOU",
@@ -61,8 +63,8 @@ namespace RealPop2
                 // Initialise textfield arrays (second dimension, levels).
                 for (int i = 0; i < NumSubServices; i++)
                 {
-                    // Number of levels is either 3 (for the first two categories, low and high com), or 1 for the remainder.
-                    int levels = i < 2 ? NumLevels : 1;
+                    // Number of levels is either 3 (for the first three categories, low, high, and W2W), or 1 for the remainder.
+                    int levels = i < 3 ? NumLevels : 1;
 
                     LevelArrays(i, levels);
                 }
@@ -75,6 +77,8 @@ namespace RealPop2
                 AddSubService(m_panel, LowCom);
                 PanelUtils.RowHeaderIcon(m_panel, ref m_currentY, Translations.Translate(_subServiceLables[HighCom]), "ZoningCommercialHigh", "Thumbnails");
                 AddSubService(m_panel, HighCom);
+                PanelUtils.RowHeaderIcon(m_panel, ref m_currentY, Translations.Translate(_subServiceLables[Wall2Wall]), "DistrictSpecializationCommercialWallToWall", "Thumbnails");
+                AddSubService(m_panel, Wall2Wall);
                 PanelUtils.RowHeaderIcon(m_panel, ref m_currentY, Translations.Translate(_subServiceLables[EcoCom]), "IconPolicyOrganic", "Ingame");
                 AddSubService(m_panel, EcoCom, label: Translations.Translate("RPR_CAT_ECO"));
                 PanelUtils.RowHeaderIcon(m_panel, ref m_currentY, Translations.Translate(_subServiceLables[Leisure]), "IconPolicyLeisure", "Ingame");
@@ -98,6 +102,7 @@ namespace RealPop2
             // Populate each subservice.
             PopulateSubService(DataStore.commercialLow, LowCom);
             PopulateSubService(DataStore.commercialHigh, HighCom);
+            PopulateSubService(DataStore.commercialW2W, Wall2Wall);
             PopulateSubService(DataStore.commercialEco, EcoCom);
             PopulateSubService(DataStore.commercialLeisure, Leisure);
             PopulateSubService(DataStore.commercialTourist, Tourist);
@@ -111,6 +116,7 @@ namespace RealPop2
             // Apply each subservice.
             ApplySubService(DataStore.commercialLow, LowCom);
             ApplySubService(DataStore.commercialHigh, HighCom);
+            ApplySubService(DataStore.commercialW2W, Wall2Wall);
             ApplySubService(DataStore.commercialEco, EcoCom);
             ApplySubService(DataStore.commercialLeisure, Leisure);
             ApplySubService(DataStore.commercialTourist, Tourist);
@@ -145,6 +151,13 @@ namespace RealPop2
                 new int[] { 125, 5, 1, 0, 400,    5, 25, 45, 25,   13, 36, 36, 7, 850,   0, 60,   -1,  8 },
             };
 
+            int[][] commercialWall2Wall =
+            {
+                new int[] { 115, 5, 1, 0, 220,   10, 45, 40,  5,   10, 28, 28, 9, 750,   0, 80,   -1, 20 },
+                new int[] { 120, 5, 1, 0, 310,    7, 32, 43, 18,   11, 32, 32, 8, 800,   0, 70,   -1, 14 },
+                new int[] { 125, 5, 1, 0, 400,    5, 25, 45, 25,   13, 36, 36, 7, 850,   0, 60,   -1,  8 },
+            };
+
             int[][] commercialEco = { new int[] { 120, 6, 1, 0, 100, 50, 40, 10, 0, 11, 30, 30, 7, 800, 0, 2, 50, 20 } };
 
             int[][] commercialTourist = { new int[] { 1000, 10, 50, 0, 250, 15, 35, 35, 15, 30, 50, 55, 30, 900, 0, 150, -1, 50 } };
@@ -154,6 +167,7 @@ namespace RealPop2
             // Populate text fields with these.
             PopulateSubService(commercialLow, LowCom);
             PopulateSubService(commercialHigh, HighCom);
+            PopulateSubService(commercialWall2Wall, Wall2Wall);
             PopulateSubService(commercialEco, EcoCom);
             PopulateSubService(commercialLeisure, Leisure);
             PopulateSubService(commercialTourist, Tourist);

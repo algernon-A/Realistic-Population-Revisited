@@ -14,7 +14,7 @@ namespace RealPop2
         /// <summary>
         /// Number of data structures (service/subservice combinations) to map.
         /// </summary>
-        internal const int NumData = 17;
+        internal const int NumData = 19;
 
         /// <summary>
         /// Service reference array.
@@ -49,6 +49,8 @@ namespace RealPop2
                 ItemClass.Service.Commercial,
                 ItemClass.Service.Commercial,
                 ItemClass.Service.Commercial,
+                ItemClass.Service.Commercial,
+                ItemClass.Service.Office,
                 ItemClass.Service.Office,
                 ItemClass.Service.Office,
                 ItemClass.Service.Industrial,
@@ -68,10 +70,12 @@ namespace RealPop2
                 ItemClass.SubService.ResidentialHighEco,
                 ItemClass.SubService.CommercialLow,
                 ItemClass.SubService.CommercialHigh,
+                ItemClass.SubService.CommercialWallToWall,
                 ItemClass.SubService.CommercialEco,
                 ItemClass.SubService.CommercialLeisure,
                 ItemClass.SubService.CommercialTourist,
                 ItemClass.SubService.OfficeGeneric,
+                ItemClass.SubService.OfficeWallToWall,
                 ItemClass.SubService.OfficeHightech,
                 ItemClass.SubService.IndustrialGeneric,
                 ItemClass.SubService.IndustrialFarming,
@@ -90,10 +94,12 @@ namespace RealPop2
                 DataStore.resEcoHigh,
                 DataStore.commercialLow,
                 DataStore.commercialHigh,
+                DataStore.commercialW2W,
                 DataStore.commercialEco,
                 DataStore.commercialLeisure,
                 DataStore.commercialTourist,
                 DataStore.office,
+                DataStore.officeW2W,
                 DataStore.officeHighTech,
                 DataStore.industry,
                 DataStore.industry_farm,

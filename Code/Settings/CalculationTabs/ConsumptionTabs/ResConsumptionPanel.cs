@@ -19,7 +19,7 @@ namespace RealPop2
         // Array reference constants.
         private const int LowRes = 0;
         private const int HighRes = 1;
-        private const int W2WRes = 2;
+        private const int Wall2Wall = 2;
         private const int LowEcoRes = 3;
         private const int HighEcoRes = 4;
         private const int NumSubServices = 5;
@@ -83,7 +83,7 @@ namespace RealPop2
                 PanelUtils.RowHeaderIcon(scrollPanel, ref m_currentY, Translations.Translate("RPR_CAT_RHI"), "ZoningResidentialHigh", "Thumbnails");
                 AddSubService(scrollPanel, HighRes);
                 PanelUtils.RowHeaderIcon(scrollPanel, ref m_currentY, Translations.Translate("RPR_CAT_RW2"), "DistrictSpecializationResidentialWallToWall", "Thumbnails");
-                AddSubService(scrollPanel, W2WRes);
+                AddSubService(scrollPanel, Wall2Wall);
                 PanelUtils.RowHeaderIcon(scrollPanel, ref m_currentY, Translations.Translate("RPR_CAT_ERL"), "IconPolicySelfsufficient", "Ingame");
                 AddSubService(scrollPanel, LowEcoRes);
                 PanelUtils.RowHeaderIcon(scrollPanel, ref m_currentY, Translations.Translate("RPR_CAT_ERH"), "IconPolicySelfsufficient", "Ingame");
@@ -108,7 +108,7 @@ namespace RealPop2
             // Apply each subservice.
             ApplySubService(DataStore.residentialLow, LowRes);
             ApplySubService(DataStore.residentialHigh, HighRes);
-            ApplySubService(DataStore.residentialW2W, W2WRes);
+            ApplySubService(DataStore.residentialW2W, Wall2Wall);
             ApplySubService(DataStore.resEcoLow, LowEcoRes);
             ApplySubService(DataStore.resEcoHigh, HighEcoRes);
 
@@ -130,7 +130,7 @@ namespace RealPop2
             // Populate each subservice.
             PopulateSubService(DataStore.residentialLow, LowRes);
             PopulateSubService(DataStore.residentialHigh, HighRes);
-            PopulateSubService(DataStore.residentialW2W, W2WRes);
+            PopulateSubService(DataStore.residentialW2W, Wall2Wall);
             PopulateSubService(DataStore.resEcoLow, LowEcoRes);
             PopulateSubService(DataStore.resEcoHigh, HighEcoRes);
         }
@@ -190,7 +190,7 @@ namespace RealPop2
             // Populate text fields with these.
             PopulateSubService(residentialLow, LowRes);
             PopulateSubService(residentialHigh, HighRes);
-            PopulateSubService(residentialW2W, W2WRes);
+            PopulateSubService(residentialW2W, Wall2Wall);
             PopulateSubService(resEcoLow, LowEcoRes);
             PopulateSubService(resEcoHigh, HighEcoRes);
         }

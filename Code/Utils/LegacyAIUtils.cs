@@ -326,6 +326,10 @@ namespace RealPop2
                         array = DataStore.commercialLow;
                         break;
 
+                    case ItemClass.SubService.CommercialWallToWall:
+                        array = DataStore.commercialW2W;
+                        break;
+
                     case ItemClass.SubService.CommercialLeisure:
                         array = DataStore.commercialLeisure;
                         break;
@@ -368,6 +372,10 @@ namespace RealPop2
                 {
                     case ItemClass.SubService.OfficeHightech:
                         array = DataStore.officeHighTech;
+                        break;
+
+                    case ItemClass.SubService.OfficeWallToWall:
+                        array = DataStore.officeW2W;
                         break;
 
                     case ItemClass.SubService.OfficeGeneric:

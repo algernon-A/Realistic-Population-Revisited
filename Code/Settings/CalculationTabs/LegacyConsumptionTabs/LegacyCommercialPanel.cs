@@ -122,6 +122,7 @@ namespace RealPop2
             // Apply each subservice.
             ApplySubService(DataStore.commercialLow, LowCom);
             ApplySubService(DataStore.commercialHigh, HighCom);
+            ApplySubService(DataStore.commercialW2W, HighCom);
             ApplySubService(DataStore.commercialEco, EcoCom);
             ApplySubService(DataStore.commercialLeisure, Leisure);
             ApplySubService(DataStore.commercialTourist, Tourist);

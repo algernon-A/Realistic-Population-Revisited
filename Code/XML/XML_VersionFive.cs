@@ -115,6 +115,7 @@ namespace RealPop2
 
                         case "CommercialHigh":
                             SetPollutionRates(DataStore.commercialHigh[level], ground, noise);
+                            SetPollutionRates(DataStore.commercialW2W[level], ground, noise);
                             break;
 
                         case "CommercialTourist":
@@ -127,6 +128,7 @@ namespace RealPop2
 
                         case "Office":
                             SetPollutionRates(DataStore.office[level], ground, noise);
+                            SetPollutionRates(DataStore.officeW2W[level], ground, noise);
                             break;
 
                         case "Industry":

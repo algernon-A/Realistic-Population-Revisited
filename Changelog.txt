@@ -1,3 +1,4 @@
+- Add separate calculations for Wall-to-Wall buildings
 - Update AlgernonCommons
 
 
