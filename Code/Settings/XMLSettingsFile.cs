@@ -184,6 +184,12 @@ namespace RealPop2
         public bool UsingMetric { get => Measures.UsingMetric; set => Measures.UsingMetric = value; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether zoning milestone progression logging is in effect.
+        /// </summary>
+        [XmlElement("UnlockZoning")]
+        public bool UnlockZoning { get => UnlockedZonePatch.UnlockZoning; set => UnlockedZonePatch.UnlockZoning = value; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether detailed logging is in effect.
         /// </summary>
         [XmlElement("DetailedLogging")]

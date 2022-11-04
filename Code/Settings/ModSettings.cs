@@ -37,12 +37,13 @@ namespace RealPop2
         private static bool s_enableSchoolPop = false;
 
         // Status flag.
-        private static float defaultSchoolMult = 3f;
+        private static float s_defaultSchoolMult = 3f;
 
-        private static DefaultMode thisSaveDefaultRes = DefaultMode.New;
-        private static DefaultMode thisSaveDefaultCom = DefaultMode.New;
-        private static DefaultMode thisSaveDefaultInd = DefaultMode.New;
-        private static DefaultMode thisSaveDefaultOff = DefaultMode.New;
+        // Default mode settings.
+        private static DefaultMode s_thisSaveDefaultRes = DefaultMode.New;
+        private static DefaultMode s_thisSaveDefaultCom = DefaultMode.New;
+        private static DefaultMode s_thisSaveDefaultInd = DefaultMode.New;
+        private static DefaultMode s_thisSaveDefaultOff = DefaultMode.New;
 
         /// <summary>
         /// Gets or sets a value indicating whether this save has been made with the mod active.
@@ -75,19 +76,19 @@ namespace RealPop2
         internal static DefaultMode ThisSaveDefaultRes
         {
             // Simple getter.
-            get => thisSaveDefaultRes;
+            get => s_thisSaveDefaultRes;
 
             // Setter needs to clear out DataStore cache if the setting has changed (to force calculation of new values).
             set
             {
                 // Has setting changed?
-                if (value != thisSaveDefaultRes)
+                if (value != s_thisSaveDefaultRes)
                 {
                     // Yes - clear caches.
                     PopData.Instance.ClearHousholdCache();
 
                     // Update value.
-                    thisSaveDefaultRes = value;
+                    s_thisSaveDefaultRes = value;
                 }
             }
         }
@@ -98,19 +99,19 @@ namespace RealPop2
         internal static DefaultMode ThisSaveDefaultCom
         {
             // Simple getter.
-            get => thisSaveDefaultCom;
+            get => s_thisSaveDefaultCom;
 
             // Setter needs to clear out DataStore cache if the setting has changed (to force calculation of new values).
             set
             {
                 // Has setting changed?
-                if (value != thisSaveDefaultCom)
+                if (value != s_thisSaveDefaultCom)
                 {
                     // Yes - clear caches.
                     ClearWorkplaceCaches();
 
                     // Update value.
-                    thisSaveDefaultCom = value;
+                    s_thisSaveDefaultCom = value;
                 }
             }
         }
@@ -121,19 +122,19 @@ namespace RealPop2
         internal static DefaultMode ThisSaveDefaultInd
         {
             // Simple getter.
-            get => thisSaveDefaultInd;
+            get => s_thisSaveDefaultInd;
 
             // Setter needs to clear out DataStore cache if the setting has changed (to force calculation of new values).
             set
             {
                 // Has setting changed?
-                if (value != thisSaveDefaultInd)
+                if (value != s_thisSaveDefaultInd)
                 {
                     // Yes - clear caches.
                     ClearWorkplaceCaches();
 
                     // Update value.
-                    thisSaveDefaultInd = value;
+                    s_thisSaveDefaultInd = value;
                 }
             }
         }
@@ -144,19 +145,19 @@ namespace RealPop2
         internal static DefaultMode ThisSaveDefaultOff
         {
             // Simple getter.
-            get => thisSaveDefaultOff;
+            get => s_thisSaveDefaultOff;
 
             // Setter needs to clear out DataStore cache if the setting has changed (to force calculation of new values).
             set
             {
                 // Has setting changed?
-                if (value != thisSaveDefaultOff)
+                if (value != s_thisSaveDefaultOff)
                 {
                     // Yes - clear caches.
                     ClearWorkplaceCaches();
 
                     // Update value.
-                    thisSaveDefaultOff = value;
+                    s_thisSaveDefaultOff = value;
                 }
             }
         }
@@ -221,7 +222,7 @@ namespace RealPop2
             set
             {
                 s_enableSchoolPop = value;
-                UpdateSchools(null);
+                UpdateSchools();
             }
         }
 
@@ -236,21 +237,20 @@ namespace RealPop2
         internal static float DefaultSchoolMult
         {
             // Simple getter.
-            get => defaultSchoolMult;
+            get => s_defaultSchoolMult;
 
             // Setter needs to update schools if after game load, otherwise don't.
             set
             {
-                defaultSchoolMult = value;
-                UpdateSchools(null);
+                s_defaultSchoolMult = value;
+                UpdateSchools();
             }
         }
 
         /// <summary>
         /// Triggers an update of existing school buildings to current settings, if loading is complete.
         /// </summary>
-        /// <param name="schoolPrefab">Building prefab to update (null to update all schools).</param>
-        private static void UpdateSchools(BuildingInfo schoolPrefab)
+        private static void UpdateSchools()
         {
             // Check for loading complete.
             if (Singleton<LoadingManager>.instance.m_loadingComplete)

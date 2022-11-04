@@ -49,6 +49,11 @@ namespace RealPop2
                 OptionsPanelManager<OptionsPanel>.LocaleChanged();
             };
 
+            // Unlock zoning.
+            UICheckBox unlockZonesCheck = UICheckBoxes.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_ZON"));
+            unlockZonesCheck.isChecked = UnlockedZonePatch.UnlockZoning;
+            unlockZonesCheck.eventCheckChanged += (c, isChecked) => UnlockedZonePatch.UnlockZoning = isChecked;
+
             // Detail logging option.
             UICheckBox logCheckBox = UICheckBoxes.AddPlainCheckBox(panel, Translations.Translate("RPR_OPT_LDT"));
             logCheckBox.isChecked = Logging.DetailLogging;
