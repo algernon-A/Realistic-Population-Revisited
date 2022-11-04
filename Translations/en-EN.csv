@@ -316,3 +316,5 @@
 "RPR_200_9","Significant overhaul, cleanup and restructure of the mod's codebase"
 "RPR_201_0","Add option to use US customary measures (feet and square feet) in place of metric measurements"
 "RPR_21_0","Compatiblility with game version 1.15 (Plazas & Promenades)"
+"RPR_22_0","Plazas & Promenades wall-to-wall building types now have separate settings"
+"RPR_22_1","Add option unlock all zoning types from game start"
