@@ -1,4 +1,5 @@
 - Add separate calculations for Wall-to-Wall buildings
+- Add option to enable all zoning types from game start
 - Update AlgernonCommons
 
 
