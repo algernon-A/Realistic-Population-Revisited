@@ -94,22 +94,6 @@ namespace RealPop2
                                 // Success!
                                 Logging.Message("found IsRICOPopManaged");
                             }
-
-                            // Try to get ClearWorkplaceCache method.
-                            s_ricoClearWorkplace = ricoModUtils.GetMethod("ClearWorkplaceCache", BindingFlags.Public | BindingFlags.Static);
-                            if (s_ricoClearWorkplace != null)
-                            {
-                                // Success!
-                                Logging.Message("found RICO ClearWorkplaceCache");
-                            }
-
-                            // Try to get ClearAllWorkplaceCache method.
-                            s_ricoClearAllWorkplaces = ricoModUtils.GetMethod("ClearAllWorkplaceCache", BindingFlags.Public | BindingFlags.Static);
-                            if (s_ricoClearAllWorkplaces != null)
-                            {
-                                // Success!
-                                Logging.Message("found RICO ClearAllWorkplaceCache");
-                            }
                         }
 
                         // At this point, we're done; return.
