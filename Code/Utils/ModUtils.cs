@@ -6,7 +6,6 @@
 namespace RealPop2
 {
     using System;
-    using System.Collections.Generic;
     using System.Reflection;
     using AlgernonCommons;
     using ColossalFramework.Plugins;
@@ -18,31 +17,6 @@ namespace RealPop2
     {
         // RICO methods.
         private static MethodInfo s_ricoPopManaged;
-        private static MethodInfo s_ricoClearWorkplace;
-        private static MethodInfo s_ricoClearAllWorkplaces;
-
-        /// <summary>
-        /// Clears Ploppable RICO's workplace cache.
-        /// </summary>
-        internal static void ClearRICOWorkplaces()
-        {
-            if (s_ricoClearAllWorkplaces != null)
-            {
-                s_ricoClearAllWorkplaces.Invoke(null, null);
-            }
-        }
-
-        /// <summary>
-        /// Clears Ploppable RICO's workplace cache for the specified prefab.
-        /// </summary>
-        /// <param name="prefab">Prefab record to clear.</param>
-        internal static void ClearRICOWorkplaces(BuildingInfo prefab)
-        {
-            if (s_ricoClearWorkplace != null)
-            {
-                s_ricoClearWorkplace.Invoke(null, new object[] { prefab });
-            }
-        }
 
         /// <summary>
         /// Checks to see whether the given prefab is currently having its population controlled by Ploppable RICO Revisited.

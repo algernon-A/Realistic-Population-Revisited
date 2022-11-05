@@ -385,9 +385,6 @@ namespace RealPop2
 
                 // Remove from visitplace cache.
                 PopData.Instance.ClearVisitplaceCache(prefab);
-
-                // Force RICO refresh, if we're using Ploppable RICO Revisited.
-                ModUtils.ClearRICOWorkplaces(prefab);
             }
 
             // Update CitizenUnits for existing instances of this building.
