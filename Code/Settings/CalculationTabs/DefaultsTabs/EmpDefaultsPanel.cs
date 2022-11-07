@@ -47,9 +47,6 @@ namespace RealPop2
             // Clear population caches.
             PopData.Instance.ClearWorkplaceCache();
             PopData.Instance.ClearVisitplaceCache();
-
-            // Clear RICO cache.
-            ModUtils.ClearRICOWorkplaces();
         }
     }
 }
