@@ -73,7 +73,6 @@ namespace RealPop2
                 scrollPanel.scrollWheelDirection = UIOrientation.Vertical;
                 UIScrollbars.AddScrollbar(m_panel, scrollPanel);
 
-
                 // Reset currentY to reflect only the scrollable panel.
                 m_currentY = Margin;
 

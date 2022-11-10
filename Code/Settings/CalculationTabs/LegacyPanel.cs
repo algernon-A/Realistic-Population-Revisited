@@ -5,9 +5,10 @@
 
 namespace RealPop2
 {
+    using System.Linq;
     using AlgernonCommons;
-    using AlgernonCommons.UI;
     using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
     using ColossalFramework.UI;
     using UnityEngine;
 
@@ -63,10 +64,13 @@ namespace RealPop2
                 new LegacyOfficePanel(childTabStrip, 3);
 
                 // Change tab size and text scale (to differentiate from 'main' tabstrip).
-                foreach (UIButton button in childTabStrip.components)
+                foreach (UIComponent component in childTabStrip.components)
                 {
-                    button.textScale = 0.8f;
-                    button.width = 100f;
+                    if (component is UIButton button)
+                    {
+                        button.textScale = 0.8f;
+                        button.width = 100f;
+                    }
                 }
 
                 // Event handler for tab index change; setup the selected tab.
