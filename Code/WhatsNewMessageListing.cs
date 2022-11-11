@@ -27,8 +27,8 @@ namespace RealPop2
                     "RPR_22_0",
                     "RPR_22_1",
                 },
-            }
-            ,new WhatsNewMessage
+            },
+            new WhatsNewMessage
             {
                 Version = new Version("2.1.0.0"),
                 MessagesAreKeys = true,
