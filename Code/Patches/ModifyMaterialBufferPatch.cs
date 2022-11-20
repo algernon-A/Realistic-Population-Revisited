@@ -12,13 +12,13 @@ namespace RealPop2
     using HarmonyLib;
 
     /// <summary>
-    /// Harmony patch to fix a game bug whereby incoming goods amounts (uint16) can overflow and wrap-around.
+    /// Harmony patch to implement commercial sales multipliers.
     /// </summary>
     [HarmonyPatch(typeof(CommercialBuildingAI), nameof(CommercialBuildingAI.ModifyMaterialBuffer))]
     public static class ModifyMaterialBufferPatch
     {
         /// <summary>
-        /// Harmony transpiler for CommercialBuildingAI.ModifyMaterialBuffer, to insert a goods consumed multiplier and a custom call to fix a game bug (no bounds check on uint16).
+        /// Harmony transpiler for CommercialBuildingAI.ModifyMaterialBuffer to insert a goods consumed multiplier.
         /// </summary>
         /// <param name="original">Original method.</param>
         /// <param name="instructions">Original ILCode.</param>
@@ -35,7 +35,7 @@ namespace RealPop2
              * Just after:
              * int customBuffer = data.m_customBuffer2;
              *
-             * To implement custom consumer consumption multiplier.
+             * To implement custom commercial sales (goods) multiplier.
              */
 
             // Status flag.
