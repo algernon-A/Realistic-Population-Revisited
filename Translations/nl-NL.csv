@@ -92,6 +92,7 @@
 "RPR_CAT_CW2","Muur tegen muur (Commercieel)"
 "RPR_CAT_OFF","Kantoor"
 "RPR_CAT_OW2","Muur tegen muur (Kantoren)"
+"RPR_CAT_FIN","Financial offices"
 "RPR_CAT_GEN","Algemeen"
 "RPR_CAT_ITC","IT bedrijventerrein"
 "RPR_CAT_IND","Industrieel"
@@ -319,3 +320,4 @@
 "RPR_22_0","Plazas & Promenades muur tegen muur gebouwen hebben nu aparte instellingen"
 "RPR_22_1","Optie toegevoegd om alle zonetypes aan het begin van het spel te activeren"
 "RPR_221_0","De code van de verkoopmultiplicator voor commerciële goederen is bijgewerkt"
+"RPR_222_0","Add support for financial offices"

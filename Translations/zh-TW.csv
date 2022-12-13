@@ -92,6 +92,7 @@
 "RPR_CAT_CW2","Commercial wall-to-wall"
 "RPR_CAT_OFF","辦公室"
 "RPR_CAT_OW2","Office wall-to-wall"
+"RPR_CAT_FIN","Financial offices"
 "RPR_CAT_GEN","一般建築"
 "RPR_CAT_ITC","專業化IT產業行政專區建築"
 "RPR_CAT_IND","工業建築"
@@ -319,3 +320,4 @@
 "RPR_22_0","Plazas & Promenades wall-to-wall building types now have separate settings"
 "RPR_22_1","Add option unlock all zoning types from game start"
 "RPR_221_0","Update commercial goods sales multiplier code"
+"RPR_222_0","Add support for financial offices"

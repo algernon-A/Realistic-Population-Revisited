@@ -378,6 +378,10 @@ namespace RealPop2
                         array = DataStore.officeW2W;
                         break;
 
+                    case ItemClass.SubService.OfficeFinancial:
+                        array = DataStore.officeFinancial;
+                        break;
+
                     case ItemClass.SubService.OfficeGeneric:
                     default:
                         break;

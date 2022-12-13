@@ -534,6 +534,7 @@ namespace RealPop2
                         case "Office":
                             SetPollutionRates(DataStore.office[level], ground, noise);
                             SetPollutionRates(DataStore.officeW2W[level], ground, noise);
+                            SetPollutionRates(DataStore.officeFinancial[level], ground, noise);
                             break;
 
                         case "Industry":

@@ -41,6 +41,7 @@ namespace RealPop2
             ItemClass.Service.Office,
             ItemClass.Service.Office,
             ItemClass.Service.Office,
+            ItemClass.Service.Office,
             ItemClass.Service.Industrial,
             ItemClass.Service.Commercial,
             ItemClass.Service.Commercial,
@@ -60,6 +61,7 @@ namespace RealPop2
             ItemClass.SubService.CommercialWallToWall,
             ItemClass.SubService.OfficeGeneric,
             ItemClass.SubService.OfficeWallToWall,
+            ItemClass.SubService.OfficeFinancial,
             ItemClass.SubService.OfficeHightech,
             ItemClass.SubService.None,
             ItemClass.SubService.CommercialTourist,
@@ -72,6 +74,7 @@ namespace RealPop2
         // Atlas that each icon sprite comes from.
         private readonly string[] _atlases =
         {
+            "Thumbnails",
             "Thumbnails",
             "Thumbnails",
             "Thumbnails",
@@ -100,6 +103,7 @@ namespace RealPop2
             "DistrictSpecializationCommercialWallToWall",
             "ZoningOffice",
             "DistrictSpecializationOfficeWallToWall",
+            "DistrictSpecializationOfficeFinancial",
             "DistrictSpecializationHightech",
             "ZoningIndustrial",
             "DistrictSpecializationTourist",
@@ -120,6 +124,7 @@ namespace RealPop2
             "RPR_CAT_CW2",
             "RPR_CAT_OFF",
             "RPR_CAT_OW2",
+            "RPR_CAT_FIN",
             "RPR_CAT_ITC",
             "RPR_CAT_IND",
             "RPR_CAT_TOU",
@@ -317,6 +322,11 @@ namespace RealPop2
             /// Wall-to-wall office buildings.
             /// </summary>
             OfficeWallToWall,
+
+            /// <summary>
+            /// Financial office buildings.
+            /// </summary>
+            OfficeFinancial,
 
             /// <summary>
             /// IT cluster (hightech office)  buildings.

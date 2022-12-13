@@ -31,6 +31,7 @@ namespace RealPop2
         // Settings per subservice.
         private static int genericOfficeProdMult = DefaultProdMult;
         private static int w2wOfficeProdMult = DefaultProdMult;
+        private static int financialOfficeProdMult = DefaultProdMult;
         private static int highTechOfficeProdMult = DefaultProdMult;
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace RealPop2
             }
             else
             {
-                // Hew settings - multiply total workers by overall multiplier (from settings) to get result; divisor is 1,000 to match original mod 1/10th when at 100% production.
+                // New settings - multiply total workers by overall multiplier (from settings) to get result; divisor is 1,000 to match original mod 1/10th when at 100% production.
                 __result = totalWorkers * (subService == ItemClass.SubService.OfficeHightech ? highTechOfficeProdMult : genericOfficeProdMult) / 1000;
             }
 
@@ -93,6 +94,9 @@ namespace RealPop2
                 case ItemClass.SubService.OfficeWallToWall:
                     return w2wOfficeProdMult;
 
+                case ItemClass.SubService.OfficeFinancial:
+                    return financialOfficeProdMult;
+
                 // Default is generic office.
                 default:
                 case ItemClass.SubService.OfficeGeneric:
@@ -117,6 +121,10 @@ namespace RealPop2
 
                 case ItemClass.SubService.OfficeWallToWall:
                     w2wOfficeProdMult = cleanValue;
+                    break;
+
+                case ItemClass.SubService.OfficeFinancial:
+                    financialOfficeProdMult = cleanValue;
                     break;
 
                 case ItemClass.SubService.OfficeHightech:
@@ -146,6 +154,11 @@ namespace RealPop2
                 {
                     SubService = ItemClass.SubService.OfficeWallToWall,
                     Value = w2wOfficeProdMult,
+                },
+                new Configuration.SubServiceValue
+                {
+                    SubService = ItemClass.SubService.OfficeFinancial,
+                    Value = financialOfficeProdMult,
                 },
                 new Configuration.SubServiceValue
                 {

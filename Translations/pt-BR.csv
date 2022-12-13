@@ -92,6 +92,7 @@
 "RPR_CAT_CW2","Comercial de parede a parede"
 "RPR_CAT_OFF","Escritório"
 "RPR_CAT_OW2","Escritório de parede a parede"
+"RPR_CAT_FIN","Escritórios financeiros"
 "RPR_CAT_GEN","Genérico"
 "RPR_CAT_ITC","Escritórios de TI"
 "RPR_CAT_IND","Industrial"
@@ -319,3 +320,4 @@
 "RPR_22_0","Os tipos de construção de parede a parede de praças e passeios agora têm configurações separadas"
 "RPR_22_1","Adicionar opção desbloquear todos os tipos de zonamento no início do jogo"
 "RPR_221_0","Atualizar o código do multiplicador de vendas de bens comerciais"
+"RPR_222_0","Adicione suporte para escritórios financeiros"

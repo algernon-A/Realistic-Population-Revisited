@@ -868,7 +868,14 @@ namespace RealPop2
                             break;
                         default:
                             // Default is volumetric.
-                            defaultName = "offcorp";
+                            if (subService == ItemClass.SubService.OfficeFinancial)
+                            {
+                                defaultName = "offfin";
+                            }
+                            else
+                            {
+                                defaultName = "offcorp";
+                            }
                             break;
                     }
 

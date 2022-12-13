@@ -119,6 +119,10 @@ namespace RealPop2
                                          new int[] { 36, 5, 0, 0, -1,   1,  5, 14, 80,   13, 5, 5, 3, 1125,   0, 1,   10, 37 },
                                          new int[] { 38, 5, 0, 0, -1,   1,  3,  6, 90,   14, 5, 5, 2, 1250,   0, 1,   10, 50 }, };
 
+        public static int[][] officeFinancial = { new int[] { 34, 5, 0, 0, -1,   2,  8, 20, 70,   12, 4, 4, 3, 1000,   0, 1,   10, 25 },
+                                         new int[] { 36, 5, 0, 0, -1,   1,  5, 14, 80,   13, 5, 5, 3, 1125,   0, 1,   10, 37 },
+                                         new int[] { 38, 5, 0, 0, -1,   1,  3,  6, 90,   14, 5, 5, 2, 1250,   0, 1,   10, 50 }, };
+
         public static int[][] officeHighTech = { new int[] { 74, 5, 0, 0, -1,   1,  2,  3, 94,   22, 5, 5, 3, 4000,   0, 1,   10, 10 } };
 
         // Very high floor level because chimney stacks count to height level

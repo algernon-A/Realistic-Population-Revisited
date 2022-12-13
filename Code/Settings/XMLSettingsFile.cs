@@ -190,10 +190,10 @@ namespace RealPop2
         public bool UnlockZoning { get => UnlockedZonePatch.UnlockZoning; set => UnlockedZonePatch.UnlockZoning = value; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether detailed logging is in effect.
+        /// Sets a value indicating whether detailed logging is in effect (legacy option).
         /// </summary>
-        [XmlElement("DetailedLogging")]
-        public bool DetailLogging { get => Logging.DetailLogging; set => Logging.DetailLogging = value; }
+        [XmlElement("DetailLogging")]
+        public bool DetailLogging { set => Logging.DetailLogging = value; }
 
         /// <summary>
         /// Load settings from XML file.

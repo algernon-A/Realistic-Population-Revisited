@@ -92,6 +92,7 @@
 "RPR_CAT_CW2","Comercial muro a muro"
 "RPR_CAT_OFF","Oficina"
 "RPR_CAT_OW2","Oficinas muro a muro"
+"RPR_CAT_FIN","Financial offices"
 "RPR_CAT_GEN","Genérico"
 "RPR_CAT_ITC","Conglomerado TI"
 "RPR_CAT_IND","Industrial"
@@ -319,3 +320,4 @@
 "RPR_22_0","Los tipos de edificios pared a pared de Plazas & Promenades ahora tienen configuraciones separadas"
 "RPR_22_1","Añade la opción para desbloquear todos los tipos de zonificación desde el inicio del juego"
 "RPR_221_0","Update commercial goods sales multiplier code"
+"RPR_222_0","Add support for financial offices"

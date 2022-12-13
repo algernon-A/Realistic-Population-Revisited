@@ -92,6 +92,7 @@
 "RPR_CAT_CW2","Gewerbegebiet Wand-an-Wand"
 "RPR_CAT_OFF","Bürogebiet"
 "RPR_CAT_OW2","Bürogebiet Wand-an-Wand"
+"RPR_CAT_FIN","Financial offices"
 "RPR_CAT_GEN","Allgemein"
 "RPR_CAT_ITC","IT-Cluster"
 "RPR_CAT_IND","Industrie"
@@ -319,3 +320,4 @@
 "RPR_22_0","Plazas & Promenades Wand-an-Wand-Gebäude haben nun separate Einstellungen"
 "RPR_22_1","Option hinzugefügt, um alle Zonentypen beim Spielstart zu aktivieren"
 "RPR_221_0","Verkaufs-Multiplikator-Code für kommerzielle Waren aktualisiert"
+"RPR_222_0","Add support for financial offices"
