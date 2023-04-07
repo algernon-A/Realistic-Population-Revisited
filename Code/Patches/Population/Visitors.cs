@@ -391,6 +391,9 @@ namespace RealPop2
                 case ItemClass.SubService.CommercialLow:
                     return (int)SubServiceIndex.CommercialLow;
 
+                case ItemClass.SubService.CommercialWallToWall:
+                    return (int)SubServiceIndex.CommercialWallToWall;
+
                 case ItemClass.SubService.CommercialLeisure:
                     return (int)SubServiceIndex.CommercialLeisure;
 
