@@ -39,23 +39,23 @@ namespace RealPop2
         private const float SchoolCalcPanelHeight = BuildingDetailsPanel.InternalPanelHeight - SchoolCalcY;
 
         // Panel components.
-        private readonly UILabel _title;
-        private readonly UIPanel _floorPanel;
-        private readonly UIPanel _schoolPanel;
-        private readonly LegacyCalculationPreview _legacyPanel;
-        private readonly VanillaCalculationPreview _vanillaPanel;
-        private readonly VolumetricCalculationPreview _volumetricPanel;
-        private readonly UIDropDown _popMenu;
-        private readonly UIDropDown _floorMenu;
-        private readonly UIDropDown _schoolMenu;
-        private readonly UICheckBox _multCheck;
-        private readonly UISlider _multSlider;
-        private readonly UILabel _multDefaultLabel;
-        private readonly UILabel _popDescription;
-        private readonly UILabel _floorDescription;
-        private readonly UILabel _schoolDescription;
-        private readonly UILabel _floorOverrideLabel;
-        private readonly UIButton _applyButton;
+        private UILabel _title;
+        private UIPanel _floorPanel;
+        private UIPanel _schoolPanel;
+        private LegacyCalculationPreview _legacyPanel;
+        private VanillaCalculationPreview _vanillaPanel;
+        private VolumetricCalculationPreview _volumetricPanel;
+        private UIDropDown _popMenu;
+        private UIDropDown _floorMenu;
+        private UIDropDown _schoolMenu;
+        private UICheckBox _multCheck;
+        private UISlider _multSlider;
+        private UILabel _multDefaultLabel;
+        private UILabel _popDescription;
+        private UILabel _floorDescription;
+        private UILabel _schoolDescription;
+        private UILabel _floorOverrideLabel;
+        private UIButton _applyButton;
 
         // Data arrays.
         private PopDataPack[] _popPacks;
@@ -76,10 +76,79 @@ namespace RealPop2
         private float currentMult;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BuildingCalculationsPanel"/> class.
+        /// Sets the a floor data manual override for previewing.
         /// </summary>
-        internal BuildingCalculationsPanel()
+        internal FloorDataPack OverrideFloors
         {
+            set
+            {
+                // Store override.
+                _currentFloorOverride = value;
+
+                // Don't do anything else if we're using legacy or vanilla calculations.
+                if (usingLegacyOrVanilla)
+                {
+                    return;
+                }
+
+                // Floor data pack to display.
+                FloorDataPack displayPack;
+
+                // If value is null (no override), show floor panel and display current floor pack data; otherwise, hide the floor panel and show the provided override data.
+                if (value == null)
+                {
+                    displayPack = _currentFloorPack;
+                    _floorOverrideLabel.Hide();
+                    _floorPanel.Show();
+                }
+                else
+                {
+                    // Valid override - hide floor panel.
+                    _floorPanel.Hide();
+
+                    // Set override text label and show it.
+                    _floorOverrideLabel.text = Translations.Translate("RPR_CAL_FOV");
+                    _floorOverrideLabel.Show();
+
+                    // Display figures for override, not current floor pack.
+                    displayPack = value;
+                }
+
+                // Update panel with new calculations.
+                _volumetricPanel.UpdateFloorText(displayPack);
+                _volumetricPanel.CalculateVolumetric(_currentBuilding, CurrentLevelData, displayPack, _currentSchoolPack, currentMult);
+            }
+        }
+
+        /// <summary>
+        /// Gets the level data record from the current floor pack that's relevant to the selected building's level.
+        /// </summary>
+        private VolumetricPopPack.LevelData CurrentLevelData
+        {
+            get
+            {
+                // Bounds check on provided level, to handle misconfigured prefabs.
+                VolumetricPopPack.LevelData[] levels = ((VolumetricPopPack)_currentPopPack).Levels;
+                int level = (int)_currentBuilding.GetClassLevel();
+                int maxLevel = levels.Length - 1;
+                if (level > maxLevel)
+                {
+                    Logging.Error("building ", _currentBuilding.name, " has ClassLevel ", level, " but maximum configured level count is ", maxLevel);
+                    level = maxLevel;
+                }
+
+                return levels[level];
+            }
+        }
+
+        /// <summary>
+        /// Called by Unity when the object is created.
+        /// Used to perform setup.
+        /// </summary>
+        public override void Awake()
+        {
+            base.Awake();
+
             // Basic setup.
             clipChildren = true;
             width = BuildingDetailsPanel.RightWidth;
@@ -178,72 +247,6 @@ namespace RealPop2
 
             // Multplier checkbox event handler.
             _multCheck.eventCheckChanged += (c, isChecked) => MultiplierCheckChanged(isChecked);
-        }
-
-        /// <summary>
-        /// Sets the a floor data manual override for previewing.
-        /// </summary>
-        internal FloorDataPack OverrideFloors
-        {
-            set
-            {
-                // Store override.
-                _currentFloorOverride = value;
-
-                // Don't do anything else if we're using legacy or vanilla calculations.
-                if (usingLegacyOrVanilla)
-                {
-                    return;
-                }
-
-                // Floor data pack to display.
-                FloorDataPack displayPack;
-
-                // If value is null (no override), show floor panel and display current floor pack data; otherwise, hide the floor panel and show the provided override data.
-                if (value == null)
-                {
-                    displayPack = _currentFloorPack;
-                    _floorOverrideLabel.Hide();
-                    _floorPanel.Show();
-                }
-                else
-                {
-                    // Valid override - hide floor panel.
-                    _floorPanel.Hide();
-
-                    // Set override text label and show it.
-                    _floorOverrideLabel.text = Translations.Translate("RPR_CAL_FOV");
-                    _floorOverrideLabel.Show();
-
-                    // Display figures for override, not current floor pack.
-                    displayPack = value;
-                }
-
-                // Update panel with new calculations.
-                _volumetricPanel.UpdateFloorText(displayPack);
-                _volumetricPanel.CalculateVolumetric(_currentBuilding, CurrentLevelData, displayPack, _currentSchoolPack, currentMult);
-            }
-        }
-
-        /// <summary>
-        /// Gets the level data record from the current floor pack that's relevant to the selected building's level.
-        /// </summary>
-        private VolumetricPopPack.LevelData CurrentLevelData
-        {
-            get
-            {
-                // Bounds check on provided level, to handle misconfigured prefabs.
-                VolumetricPopPack.LevelData[] levels = ((VolumetricPopPack)_currentPopPack).Levels;
-                int level = (int)_currentBuilding.GetClassLevel();
-                int maxLevel = levels.Length - 1;
-                if (level > maxLevel)
-                {
-                    Logging.Error("building ", _currentBuilding.name, " has ClassLevel ", level, " but maximum configured level count is ", maxLevel);
-                    level = maxLevel;
-                }
-
-                return levels[level];
-            }
         }
 
         /// <summary>

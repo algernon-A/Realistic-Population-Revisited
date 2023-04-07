@@ -70,60 +70,14 @@ namespace RealPop2
         private const float ListHeight = BuildingRow.CustomRowHeight * 18f;
 
         // Panel components.
-        private readonly BuildingPanelFilter _filterBar;
-        private readonly UIList _buildingSelection;
-        private readonly BuildingPreviewPanel _previewPanel;
-        private readonly BuildingEditPanel _editPanel;
-        private readonly BuildingCalculationsPanel _calcsPanel;
+        private BuildingPanelFilter _filterBar;
+        private UIList _buildingSelection;
+        private BuildingPreviewPanel _previewPanel;
+        private BuildingEditPanel _editPanel;
+        private BuildingCalculationsPanel _calcsPanel;
 
         // Current selections.
         private BuildingInfo _currentSelection;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BuildingDetailsPanel"/> class.
-        /// </summary>
-        internal BuildingDetailsPanel()
-        {
-            // Decorative icon (top-left).
-            SetIcon(UITextures.InGameAtlas, "ToolbarIconZoomOutCity");
-
-            // Filter.
-            _filterBar = AddUIComponent<BuildingPanelFilter>();
-            _filterBar.relativePosition = new Vector2(Margin, TitleHeight);
-
-            // Building preview.
-            _previewPanel = this.AddUIComponent<BuildingPreviewPanel>();
-            _previewPanel.relativePosition = new Vector2(MiddlePanelX, InternalPanelY);
-
-            _editPanel = this.AddUIComponent<BuildingEditPanel>();
-            _editPanel.relativePosition = new Vector2(MiddlePanelX, InternalPanelY + MiddlePanelHeight);
-
-            // Right panel - mod calculations.
-            _calcsPanel = this.AddUIComponent<BuildingCalculationsPanel>();
-            _calcsPanel.relativePosition = new Vector2(LeftWidth + MiddleWidth + (Margin * 3), TitleHeight + FilterHeight + Margin);
-
-            // Building selection list.
-            _buildingSelection = UIList.AddUIList<BuildingRow>(this, Margin, TitleHeight + FilterHeight + CheckFilterHeight + Margin, LeftWidth, InternalPanelHeight - CheckFilterHeight, BuildingRow.CustomRowHeight);
-            _buildingSelection.EventSelectionChanged += (c, item) => UpdateSelectedBuilding(item as BuildingInfo);
-
-            _filterBar.EventFilteringChanged += (c, i) =>
-            {
-                if (i == -1)
-                {
-                    return;
-                }
-
-                int listCount = _buildingSelection.Data.m_size;
-                float position = _buildingSelection.CurrentPosition;
-
-                _buildingSelection.SelectedIndex = -1;
-
-                _buildingSelection.Data = GenerateFastList();
-            };
-
-            // Populate the list.
-            _buildingSelection.Data = GenerateFastList();
-        }
 
         /// <summary>
         /// Gets the panel width.
@@ -166,6 +120,55 @@ namespace RealPop2
         /// Gets the panel's title.
         /// </summary>
         protected override string PanelTitle => Mod.Instance.BaseName;
+
+        /// <summary>
+        /// Called by Unity when the object is created.
+        /// Used to perform setup.
+        /// </summary>
+        public override void Awake()
+        {
+            base.Awake();
+
+            // Decorative icon (top-left).
+            SetIcon(UITextures.InGameAtlas, "ToolbarIconZoomOutCity");
+
+            // Filter.
+            _filterBar = AddUIComponent<BuildingPanelFilter>();
+            _filterBar.relativePosition = new Vector2(Margin, TitleHeight);
+
+            // Building preview.
+            _previewPanel = AddUIComponent<BuildingPreviewPanel>();
+            _previewPanel.relativePosition = new Vector2(MiddlePanelX, InternalPanelY);
+
+            _editPanel = AddUIComponent<BuildingEditPanel>();
+            _editPanel.relativePosition = new Vector2(MiddlePanelX, InternalPanelY + MiddlePanelHeight);
+
+            // Right panel - mod calculations.
+            _calcsPanel = AddUIComponent<BuildingCalculationsPanel>();
+            _calcsPanel.relativePosition = new Vector2(LeftWidth + MiddleWidth + (Margin * 3), TitleHeight + FilterHeight + Margin);
+
+            // Building selection list.
+            _buildingSelection = UIList.AddUIList<BuildingRow>(this, Margin, TitleHeight + FilterHeight + CheckFilterHeight + Margin, LeftWidth, InternalPanelHeight - CheckFilterHeight, BuildingRow.CustomRowHeight);
+            _buildingSelection.EventSelectionChanged += (c, item) => UpdateSelectedBuilding(item as BuildingInfo);
+
+            _filterBar.EventFilteringChanged += (c, i) =>
+            {
+                if (i == -1)
+                {
+                    return;
+                }
+
+                int listCount = _buildingSelection.Data.m_size;
+                float position = _buildingSelection.CurrentPosition;
+
+                _buildingSelection.SelectedIndex = -1;
+
+                _buildingSelection.Data = GenerateFastList();
+            };
+
+            // Populate the list.
+            _buildingSelection.Data = GenerateFastList();
+        }
 
         /// <summary>
         /// Returns the name of the building prefab cleaned up for display.

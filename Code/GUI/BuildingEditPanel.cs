@@ -32,24 +32,27 @@ namespace RealPop2
         private const float ButtonWidth = BuildingDetailsPanel.MiddleWidth - (Margin * 2f);
 
         // Panel components
-        private readonly UITextField _homeJobsCount;
-        private readonly UITextField _firstFloorField;
-        private readonly UITextField _floorHeightField;
-        private readonly UICheckBox _popCheck;
-        private readonly UICheckBox _floorCheck;
-        private readonly UILabel _homeJobLabel;
-        private readonly UIButton _saveButton;
-        private readonly UIButton _deleteButton;
-        private readonly UILabel _messageLabel;
+        private UITextField _homeJobsCount;
+        private UITextField _firstFloorField;
+        private UITextField _floorHeightField;
+        private UICheckBox _popCheck;
+        private UICheckBox _floorCheck;
+        private UILabel _homeJobLabel;
+        private UIButton _saveButton;
+        private UIButton _deleteButton;
+        private UILabel _messageLabel;
 
         // Currently selected building.
         private BuildingInfo currentSelection;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BuildingEditPanel"/> class.
+        /// Called by Unity when the object is created.
+        /// Used to perform setup.
         /// </summary>
-        public BuildingEditPanel()
+        public override void Awake()
         {
+            base.Awake();
+
             // Generic setup.
             width = BuildingDetailsPanel.MiddleWidth;
             height = BuildingDetailsPanel.MiddlePanelHeight;

@@ -16,12 +16,12 @@ namespace RealPop2
     public class BuildingPreview : UIPanel
     {
         // Panel components.
-        private readonly UITextureSprite previewSprite;
-        private readonly UISprite noPreviewSprite;
-        private readonly BuildingPreviewRenderer previewRender;
-        private readonly UILabel buildingName;
-        private readonly UILabel buildingLevel;
-        private readonly UILabel buildingSize;
+        private UITextureSprite previewSprite;
+        private UISprite noPreviewSprite;
+        private BuildingPreviewRenderer previewRender;
+        private UILabel buildingName;
+        private UILabel buildingLevel;
+        private UILabel buildingSize;
 
         // Currently selected building and floor calculation pack.
         private BuildingInfo _currentSelection;
@@ -31,10 +31,61 @@ namespace RealPop2
         private bool _hideFloors;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BuildingPreview"/> class.
+        /// Sets the floor data pack for previewing.
         /// </summary>
-        internal BuildingPreview()
+        internal FloorDataPack FloorPack
         {
+            set
+            {
+                _floorPack = value;
+                RenderPreview();
+            }
+        }
+
+        /// <summary>
+        /// Sets a value indicating whether floor floor preview rendering should be suppressed regardless of user setting (e.g. when legacy calculations have been selected).
+        /// </summary>
+        internal bool HideFloors
+        {
+            set
+            {
+                _hideFloors = value;
+                RenderPreview();
+            }
+        }
+
+        /// <summary>
+        /// Sets a manual floor override for previewing.
+        /// </summary>
+        internal FloorDataPack OverrideFloors
+        {
+            set
+            {
+                _overrideFloors = value;
+                RenderPreview();
+            }
+        }
+
+        /// <summary>
+        /// Sets a value indicating whether floor previewing is on (true) or off (false).
+        /// </summary>
+        internal bool RenderFloors
+        {
+            set
+            {
+                _renderFloors = value;
+                RenderPreview();
+            }
+        }
+
+        /// <summary>
+        /// Called by Unity when the object is created.
+        /// Used to perform setup.
+        /// </summary>
+        public override void Awake()
+        {
+            base.Awake();
+
             // Set size.
             width = BuildingDetailsPanel.MiddleWidth;
             height = BuildingDetailsPanel.MiddlePanelHeight - 40f;
@@ -103,54 +154,6 @@ namespace RealPop2
             buildingSize.text = "Size";
             buildingSize.isVisible = false;
             buildingSize.relativePosition = new Vector2(width - 50, height - 20);
-        }
-
-        /// <summary>
-        /// Sets the floor data pack for previewing.
-        /// </summary>
-        internal FloorDataPack FloorPack
-        {
-            set
-            {
-                _floorPack = value;
-                RenderPreview();
-            }
-        }
-
-        /// <summary>
-        /// Sets a value indicating whether floor floor preview rendering should be suppressed regardless of user setting (e.g. when legacy calculations have been selected).
-        /// </summary>
-        internal bool HideFloors
-        {
-            set
-            {
-                _hideFloors = value;
-                RenderPreview();
-            }
-        }
-
-        /// <summary>
-        /// Sets a manual floor override for previewing.
-        /// </summary>
-        internal FloorDataPack OverrideFloors
-        {
-            set
-            {
-                _overrideFloors = value;
-                RenderPreview();
-            }
-        }
-
-        /// <summary>
-        /// Sets a value indicating whether floor previewing is on (true) or off (false).
-        /// </summary>
-        internal bool RenderFloors
-        {
-            set
-            {
-                _renderFloors = value;
-                RenderPreview();
-            }
         }
 
         /// <summary>

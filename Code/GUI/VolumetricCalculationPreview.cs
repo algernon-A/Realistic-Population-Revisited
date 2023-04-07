@@ -41,35 +41,38 @@ namespace RealPop2
         private const float FloorListY = MessageY + RowHeight;
 
         // Panel components.
-        private readonly UIList _floorsList;
-        private readonly UILabel _numFloorsLabel;
-        private readonly UILabel _floorAreaLabel;
-        private readonly UILabel _visitCountLabel;
-        private readonly UILabel _productionLabel;
-        private readonly UILabel _firstMinLabel;
-        private readonly UILabel _firstExtraLabel;
-        private readonly UILabel _floorHeightLabel;
-        private readonly UILabel _emptyAreaLabel;
-        private readonly UILabel _emptyPercentLabel;
-        private readonly UILabel _perLabel;
-        private readonly UILabel _unitsLabel;
-        private readonly UILabel _totalHomesLabel;
-        private readonly UILabel _totalJobsLabel;
-        private readonly UILabel _totalStudentsLabel;
-        private readonly UILabel _schoolWorkerLabel;
-        private readonly UILabel _costLabel;
-        private readonly UILabel _overrideFloorsLabel;
-        private readonly UILabel _overridePopLabel;
-        private readonly UILabel _messageLabel;
-        private readonly UICheckBox fixedPopCheckBox;
-        private readonly UICheckBox _multiFloorCheckBox;
-        private readonly UICheckBox _ignoreFirstCheckBox;
+        private UIList _floorsList;
+        private UILabel _numFloorsLabel;
+        private UILabel _floorAreaLabel;
+        private UILabel _visitCountLabel;
+        private UILabel _productionLabel;
+        private UILabel _firstMinLabel;
+        private UILabel _firstExtraLabel;
+        private UILabel _floorHeightLabel;
+        private UILabel _emptyAreaLabel;
+        private UILabel _emptyPercentLabel;
+        private UILabel _perLabel;
+        private UILabel _unitsLabel;
+        private UILabel _totalHomesLabel;
+        private UILabel _totalJobsLabel;
+        private UILabel _totalStudentsLabel;
+        private UILabel _schoolWorkerLabel;
+        private UILabel _costLabel;
+        private UILabel _overrideFloorsLabel;
+        private UILabel _overridePopLabel;
+        private UILabel _messageLabel;
+        private UICheckBox fixedPopCheckBox;
+        private UICheckBox _multiFloorCheckBox;
+        private UICheckBox _ignoreFirstCheckBox;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VolumetricCalculationPreview"/> class.
+        /// Called by Unity when the object is created.
+        /// Used to perform setup.
         /// </summary>
-        internal VolumetricCalculationPreview()
+        public override void Awake()
         {
+            base.Awake();
+
             // Generic setup.
             isVisible = true;
             canFocus = true;

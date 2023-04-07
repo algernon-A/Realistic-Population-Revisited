@@ -19,14 +19,32 @@ namespace RealPop2
         private static bool s_lastFloorCheckState;
 
         // UI components.
-        private readonly BuildingPreview _preview;
-        private readonly UICheckBox _showFloorsCheck;
+        private BuildingPreview _preview;
+        private UICheckBox _showFloorsCheck;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BuildingPreviewPanel"/> class.
+        /// Sets the floor data pack for previewing.
         /// </summary>
-        internal BuildingPreviewPanel()
+        internal FloorDataPack FloorPack { set => _preview.FloorPack = value; }
+
+        /// <summary>
+        /// Sets a value indicating whether floor floor preview rendering should be suppressed regardless of user setting (e.g. when legacy calculations have been selected).
+        /// </summary>
+        internal bool HideFloors { set => _preview.HideFloors = value; }
+
+        /// <summary>
+        /// Sets a manual floor override for previewing.
+        /// </summary>
+        internal FloorDataPack OverrideFloors { set => _preview.OverrideFloors = value; }
+
+        /// <summary>
+        /// Called by Unity when the object is created.
+        /// Used to perform setup.
+        /// </summary>
+        public override void Awake()
         {
+            base.Awake();
+
             // Basic setup.
             width = BuildingDetailsPanel.MiddleWidth;
             height = BuildingDetailsPanel.MiddlePanelHeight;
@@ -47,21 +65,6 @@ namespace RealPop2
 
             _showFloorsCheck.isChecked = s_lastFloorCheckState;
         }
-
-        /// <summary>
-        /// Sets the floor data pack for previewing.
-        /// </summary>
-        internal FloorDataPack FloorPack { set => _preview.FloorPack = value; }
-
-        /// <summary>
-        /// Sets a value indicating whether floor floor preview rendering should be suppressed regardless of user setting (e.g. when legacy calculations have been selected).
-        /// </summary>
-        internal bool HideFloors { set => _preview.HideFloors = value; }
-
-        /// <summary>
-        /// Sets a manual floor override for previewing.
-        /// </summary>
-        internal FloorDataPack OverrideFloors { set => _preview.OverrideFloors = value; }
 
         /// <summary>
         /// Render and show a preview of a building.
