@@ -1,3 +1,5 @@
+Version 2.2.2.1 -
+
 - Fix high-density and wall-to-wall slider value crossovers for commercial visitor multipliers
 - Update AlgernonCommons
 
