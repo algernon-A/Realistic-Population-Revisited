@@ -27,14 +27,15 @@ namespace RealPop2
         /// <param name="homeCount">Building residential household count.</param>
         /// <param name="workCount">Building workplace count.</param>
         /// <param name="visitCount">Building vistor count.</param>
-        /// <param name="studentCount">Building studetn count.</param>
+        /// <param name="studentCount">Building student count.</param>
+        /// <param name="hotelCount">Building hotel capacity count.</param>
         [HarmonyReversePatch]
         [HarmonyPatch(typeof(BuildingAI), "EnsureCitizenUnits")]
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void EnsureCitizenUnits(object instance, ushort buildingID, ref Building data, int homeCount, int workCount, int visitCount, int studentCount)
+        public static void EnsureCitizenUnits(object instance, ushort buildingID, ref Building data, int homeCount, int workCount, int visitCount, int studentCount, int hotelCount)
         {
             string message = "EnsureCitizenUnits reverse Harmony patch wasn't applied";
-            Logging.Error(message, instance, buildingID.ToString(), data, homeCount, workCount, visitCount, studentCount);
+            Logging.Error(message, instance, buildingID.ToString(), data, homeCount, workCount, visitCount, studentCount, hotelCount);
             throw new NotImplementedException(message);
         }
 
@@ -250,7 +251,7 @@ namespace RealPop2
                             int visitCount = privateAI.CalculateVisitplaceCount(buildingLevel, new Randomizer(i), buildingWidth, buildingLength);
 
                             // Add CitizenUnits via EnsureCitizenUnits reverse patch..
-                            EnsureCitizenUnits(privateAI, i, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[i], homeCount, workCount, visitCount, 0);
+                            EnsureCitizenUnits(privateAI, i, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[i], homeCount, workCount, visitCount, 0, 0);
 
                             // Remove any extra CitizenUnits.
                             RemoveCitizenUnits(ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[i], homeCount, workCount, visitCount, 0, preserveOccupied);

@@ -416,7 +416,7 @@ namespace RealPop2
                         // Found a school - apply changes to citizen units.
                         int workCount = schoolAI.m_workPlaceCount0 + schoolAI.m_workPlaceCount1 + schoolAI.m_workPlaceCount2 + schoolAI.m_workPlaceCount3;
                         int studentCount = schoolAI.StudentCount * 5 / 4; // Game ratio.
-                        CitizenUnitUtils.EnsureCitizenUnits(schoolAI, (ushort)i, ref buildingBuffer[i], 0, workCount, 0, studentCount);
+                        CitizenUnitUtils.EnsureCitizenUnits(schoolAI, (ushort)i, ref buildingBuffer[i], 0, workCount, 0, studentCount, 0);
                         CitizenUnitUtils.RemoveCitizenUnits(ref buildingBuffer[i], 0, workCount, 0, studentCount, false);
                     }
                 }
