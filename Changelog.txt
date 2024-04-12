@@ -1,3 +1,8 @@
+Version 2.2.4 -
+
+- Update translations
+
+
 Version 2.2.3 -
 
 - Compatibility with game version 1.17
